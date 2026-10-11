@@ -1,0 +1,35 @@
+# Load balancing, 10 servers (paper App. J/K; Fig. 5 left).  Provenance of every key: sources.yaml (load_balance:)
+env: load_balance
+service_rates: [0.15, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 0.85, 0.95, 1.05]  # paper App. J linspace(0.15,1.05,10)
+jobs_per_episode: 500        # paper App. J
+mean_interarrival: 55.0      # paper App. J "lambda=55" read as mean inter-arrival
+pareto_shape: 1.5            # paper App. J
+pareto_scale: 100.0          # paper App. J
+obs_mode: work_queued        # official code (queued work, in-service excluded); a Park-style in-service variant is the sensitivity obs_mode: work
+reward_scale: 1.0e-4         # official code reward_scale=1e4
+gamma: 0.995                 # paper App. K
+hidden: [64, 32]             # paper App. K
+activation: relu             # paper App. K
+lr_actor: 1.0e-3             # paper App. K
+lr_critic: 1.0e-3            # official code lr_rate
+adam_eps: 1.0e-8             # ASSUMED
+n_envs: 16                   # paper App. K (16 synchronous agents)
+iterations: 2500             # ASSUMED: 2e7 / (16*500)
+entropy_init: 1.0            # paper App. K
+entropy_final: 0.001         # paper App. K
+entropy_decay_iters: 10000   # paper App. K
+n_value_nets: 10             # paper §6.2, App. K
+mv_groups: 4                 # ASSUMED: 4 fixed indices per iteration
+mv_k: 4                      # ASSUMED: 4 rollouts per index
+meta_z_per_iter: 1           # paper Alg. 1
+meta_k: 16                   # ASSUMED: k rollouts per z, halves of 8
+meta_inner_steps: 5          # paper App. K
+meta_inner_lr: 1.0e-2        # ASSUMED: paper App. K says 1e-4 on a SUM loss; on our MEAN loss 1e-4 (= 2.5e-8 in sum units) removes <5% of the baseline MSE (probe), unclipped >=1e-3 diverges; the sum loss at 1e-4 diverges; 1e-2 + clip 10 on the mean removes ~40%
+meta_inner_reduction: mean       # paper App. K writes a sum; mean is our choice (adaptation probe)
+meta_inner_clip: 10.0        # ASSUMED: global-norm clip of each inner SGD gradient (step <= lr*clip = 0.1)
+meta_outer_lr: 1.0e-3        # paper App. K
+meta_first_order: true       # ASSUMED
+eval_every: 25               # ASSUMED
+test_episodes: 100           # paper §6.2 / Fig. 5 caption
+pg_var_every: 5              # ASSUMED: Var(PG) logged every 5 iterations (costs 16 backward passes)
+ckpt_minutes: 10             # ASSUMED: orbax checkpoint cadence

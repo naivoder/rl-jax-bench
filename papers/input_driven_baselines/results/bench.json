@@ -1,0 +1,66 @@
+{
+ "none": {
+  "compile_s": 0.4800472719944082,
+  "iters_per_s": 43.066710472054936,
+  "env_steps_per_s": 344533.68377643946,
+  "s_per_iter": 0.02321979062340688,
+  "xla_cost_analysis_flops": 15147864.0,
+  "analytic_dense_flops_per_iter": {
+   "actor": 226099200.0,
+   "critic": 0.0,
+   "total": 226099200.0
+  },
+  "batch": [
+   16,
+   1
+  ]
+ },
+ "state": {
+  "compile_s": 0.43753227294655517,
+  "iters_per_s": 41.75599476157422,
+  "env_steps_per_s": 334047.9580925938,
+  "s_per_iter": 0.023948657090077177,
+  "xla_cost_analysis_flops": 20985692.0,
+  "analytic_dense_flops_per_iter": {
+   "actor": 226099200.0,
+   "critic": 182272000,
+   "total": 408371200.0
+  },
+  "batch": [
+   16,
+   1
+  ]
+ },
+ "multi": {
+  "compile_s": 0.4616528259939514,
+  "iters_per_s": 41.24764324246692,
+  "env_steps_per_s": 329981.14593973535,
+  "s_per_iter": 0.02424380937649403,
+  "xla_cost_analysis_flops": 23189744.0,
+  "analytic_dense_flops_per_iter": {
+   "actor": 226099200.0,
+   "critic": 182272000,
+   "total": 408371200.0
+  },
+  "batch": [
+   4,
+   4
+  ]
+ },
+ "maml": {
+  "compile_s": 0.7295991480350494,
+  "iters_per_s": 39.969400791293715,
+  "env_steps_per_s": 319755.2063303497,
+  "s_per_iter": 0.02501913914650989,
+  "xla_cost_analysis_flops": 32461940.0,
+  "analytic_dense_flops_per_iter": {
+   "actor": 226099200.0,
+   "critic": 911360000,
+   "total": 1137459200.0
+  },
+  "batch": [
+   1,
+   16
+  ]
+ }
+}

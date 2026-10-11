@@ -1,0 +1,6 @@
+# full-scale equal-budget tuning winner (identical for state, multi and maml).
+base: load_balance.yaml
+gamma: 0.995                 # paper App. K (gamma 1.0 = official code default, lost in the grid)
+lr_critic: 1.0e-2            # ASSUMED (selected on validation; paper App. K 1e-3)
+meta_outer_lr: 1.0e-2        # ASSUMED (selected on validation; paper App. K 1e-3)
+entropy_decay_iters: 1000    # official code rate (-1e-3/iteration); paper App. K says 10000

@@ -1,0 +1,26 @@
+{
+ "episodes": 50,
+ "strict": {
+  "steps": 50000,
+  "reward_mismatch_steps": 1,
+  "done_mismatch_eps": 0,
+  "obs_mismatch_steps": 620,
+  "obs_max_abs_size": 5485.0,
+  "spt_return_equal_eps": 0,
+  "spt_max_abs_return_diff_raw": 266789
+ },
+ "official": {
+  "steps": 50000,
+  "reward_mismatch_steps": 0,
+  "done_mismatch_eps": 0,
+  "obs_mismatch_steps": 1,
+  "obs_max_abs_size": 104.0,
+  "spt_return_equal_eps": 50,
+  "spt_max_abs_return_diff_raw": 0
+ },
+ "float64_durations": {
+  "steps": 25000,
+  "reward_mismatch_steps": 592,
+  "max_rel_return_diff": 5.8261760379089855e-05
+ }
+}

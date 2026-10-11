@@ -1,0 +1,167 @@
+# sources.yaml — one entry per planned config key, with the provenance of its value.
+# Tags: 'paper §X' | 'paper App. X' | 'paper Fig. N' | 'official code' (hongzimao/input_driven_rl_example)
+# | 'Park' (park-project/park, same authors' later env code) | 'ASSUMED (reason)'
+# Values here are the planned primary configs; later changes are noted in the entries.
+
+common:
+  dtype: {value: float32, source: "ASSUMED"}
+  param_init: {value: glorot_uniform_zero_bias, source: "official code nn_ops.glorot / zeros"}
+  advantage_lambda: {value: 1.0, source: "official code (full-episode Monte-Carlo returns, utils.discount; no bootstrap) for LB A2C. Recheck: App. K's 'turned off GAE by using lambda=1' belongs to the TRPO/MuJoCo paragraph; the paper's 'OpenAI A2C' reading for discrete tasks would imply 5-step bootstrapped returns (not run)"}
+  return_form: {value: "G_t = sum_{t'>=t} gamma^(t'-t) r_t'", source: "ASSUMED (paper Lemma 2 uses gamma^t')"}
+  test_episodes: {value: 100, source: "paper §6.1, §6.2, Fig. 4/5 captions; official code run_test num_exp=100"}
+  test_inputs_unseen: {value: true, source: "paper Fig. 4/5 captions ('unseen input sequences'); official seeds 1e8+ep"}
+  test_policy: {value: stochastic, source: "official code (actor samples in run_test)"}
+  seeds_lb: {value: 5, source: "ASSUMED (paper does not state)"}
+  seeds_abr_walker: {value: 3, source: "ASSUMED"}
+
+toy:
+  dynamics: {value: "s'=s+a+z", source: "paper App. A"}
+  action_set: {value: [-1, 1], source: "paper App. A"}
+  input_set: {value: [-1, 1], source: "paper App. A (sigma^2=25 variant ASSUMED)"}
+  reward: {value: "a+z", source: "paper App. A"}
+  theta_init: {value: 0.0, source: "paper App. A"}
+  gammas: {value: [0.9, 0.99], source: "ASSUMED (paper gamma in [0,1])"}
+  horizons: {value: [20, 200], source: "ASSUMED (paper T=inf)"}
+  mc_trajectories: {value: 1000000, source: "ASSUMED"}
+  enum_horizon_max: {value: 8, source: "ASSUMED"}
+  tolerance_mc_se: {value: 3, source: "ASSUMED"}
+
+two_server:
+  n_servers: {value: 2, source: "paper §3"}
+  service_rates: {value: [1.0, 1.0], source: "ASSUMED (paper 'identical rates'; official default [2,4] contradicts)"}
+  job_size_dist: {value: pareto, source: "paper §3"}
+  pareto_shape: {value: 1.5, source: "ASSUMED (copied from App. J)"}
+  pareto_scale: {value: 100.0, source: "ASSUMED (copied from App. J)"}
+  mean_interarrival: {value: 165.0, source: "ASSUMED (~91% load)"}
+  jobs_per_episode: {value: 500, source: "ASSUMED"}
+  obs: {value: "(q1,q2) job counts", source: "paper §3 ('queue length')"}
+  obs_job: {value: false, source: "paper §3 p.3 ('observes state s_t = (q1, q2)'); (was true before commit 16d659b)"}
+  reward: {value: "-tau * n_jobs_in_system", source: "paper §3"}
+  input_dep_arm: {value: multi_value_10, source: "ASSUMED"}
+  other_hparams: {value: "as load_balance", source: "ASSUMED"}
+
+load_balance:
+  n_servers: {value: 10, source: "paper App. J"}
+  service_rates: {value: "linspace(0.15, 1.05, 10)", source: "paper App. J; official README cmd"}
+  job_size_dist: {value: pareto, source: "paper App. J (official default 'uniform' differs:)"}
+  pareto_shape: {value: 1.5, source: "paper App. J; Park param.py"}
+  pareto_scale: {value: 100.0, source: "paper App. J; Park param.py"}
+  mean_interarrival: {value: 55, source: "paper App. J ('lambda=55'), interpreted as mean inter-arrival (Park job_interval=55)"}
+  integer_times: {value: true, source: "official code (int(size/rate), int(Exp(interval)))"}
+  jobs_per_episode: {value: 500, source: "paper App. J (official default 1000 differs)"}
+  episode_end: {value: drain_all_jobs, source: "official code / Park step done condition"}
+  obs_work_scale: {value: 5000.0, source: "official code (/job_size_norm_factor/5)"}
+  obs_work_cap: {value: 20.0, source: "official code"}
+  obs_job_scale: {value: 1000.0, source: "official code"}
+  obs_job_cap: {value: 10.0, source: "official code"}
+  obs_mode: {value: work_queued, source: "official code (queued work, in-service excluded); REVISED (Park-style in-service variant = sensitivity obs_mode: work)"}
+  critic_extra_feature: {value: "t / jobs_per_episode", source: "ASSUMED (replaces official non-causal wall_time/final_time)"}
+  reward: {value: "-n_active_jobs * dt", source: "paper App. J; official env.step"}
+  reward_scale: {value: 1.0e-4, source: "official code reward_scale=1e4 (calibrated vs heuristic ~ -54)"}
+  report_scale: {value: 1.0e-4, source: "ASSUMED"}
+  gamma: {value: 0.995, source: "paper App. K (official default 1.0)"}
+  hidden: {value: [64, 32], source: "paper App. K (official [200,128]; Recheck: sensitivity: official net +10.1 multi / +4.1 state, tuned config, validation, n=3)"}
+  activation: {value: relu, source: "paper App. K (official leaky_relu 0.2)"}
+  optimizer: {value: adam, source: "paper App. K"}
+  lr_actor: {value: 1.0e-3, source: "paper App. K ('1-3' read as 1e-3); official lr_rate=1e-3"}
+  lr_critic: {value: 1.0e-3, source: "official code lr_rate shared"}
+  adam_eps: {value: 1.0e-8, source: "ASSUMED (TF/optax default)"}
+  n_agents: {value: 16, source: "paper App. K"}
+  episodes_per_agent_per_iter: {value: 1, source: "official code"}
+  total_timesteps: {value: 2.0e7, source: "paper Fig. 5 x-axis"}
+  iterations: {value: 2500, source: "ASSUMED (2e7 / (16*500)). Recheck: the reading x = iterations x 500 (2e7 = 40,000 and 0.5e7 = 10,000 iterations) is now the primary reading; runs/recheck/long use iterations=10000 resumed from the 2,500 checkpoints"}
+  entropy_init: {value: 1.0, source: "paper App. K; official"}
+  entropy_final: {value: 0.001, source: "paper App. K (official 1e-4)"}
+  entropy_decay_iters: {value: 10000, source: "paper App. K (sensitivity 2500)"}
+  entropy_normalized_by_log_k: {value: true, source: "official code"}
+  logprob_eps: {value: 1.0e-6, source: "official code args.eps"}
+  actor_loss_reduction: {value: mean, source: "ASSUMED (official sums)"}
+  n_value_nets: {value: 10, source: "paper §6.2, App. K"}
+  multi_value_sampling: {value: "4 indices x 4 rollouts", source: "ASSUMED. Recheck: mv_schedule=official (16 agents, index with replacement, one Adam step per agent; load_balance_actor_multi_critic_train.py) implemented and measured, default stays 'groups'"}
+  meta_k_rollouts_per_z: {value: 16, source: "ASSUMED (Alg. 1 k unspecified)"}
+  meta_z_per_iter: {value: 1, source: "paper Alg. 1 (one z per loop)"}
+  meta_inner_steps: {value: 5, source: "paper App. K (official flag default 1)"}
+  meta_inner_lr: {value: 1.0e-2, source: "ASSUMED (paper App. K says 1e-4 on a SUM loss; maml_literal = 1e-4 on our MEAN loss (= 2.5e-8 in sum units) barely adapts; mean >=1e-3 unclipped diverges; sum at 1e-4 diverges (NaN at iteration 12, post-review) because of curvature: lambda_max(sum) 2e6-5e7 at every reward scale, lr*lambda >> 2 (recheck); OpenAI baselines' value losses are means, so maml_literal is a defensible literal reading)"}
+  meta_inner_clip: {value: 10.0, source: "ASSUMED (global-norm clip per inner SGD step)"}
+  meta_inner_opt: {value: sgd, source: "paper App. K ('vanilla stochastic gradient descent')"}
+  meta_outer_lr: {value: 1.0e-3, source: "paper App. K"}
+  meta_outer_opt: {value: adam, source: "ASSUMED"}
+  meta_first_order: {value: true, source: "ASSUMED (official stop_grad=1 hint)"}
+  meta_loss_reduction: {value: mean, source: "ASSUMED (5; paper writes sum; sum diverges at lr 1e-4)"}
+  heuristics: {value: [jsq_first, spt_official, lw_official, spt_fastest_tie, jsq_fastest_tie, eft, lrt], source: "Recheck: paper App. J names JSQ -> jsq_first (first-index ties, the authors' agents' convention) is the paper-comparison heuristic; spt_official / lw_official = the authors' ShortestProcessingTimeAgent / LeastWorkAgent (strict '<' scan, ties -> lowest index); spt_fastest_tie / jsq_fastest_tie = our earlier rules (ties -> faster server; formerly labeled 'spt (official)' / 'jsq'); eft/lrt ASSUMED extras. A 'fastest' rule exists but is not reported"}
+  maml_variant_name: {value: "FOMAML, inner SGD 1e-2 + clip 10 (mean loss), Adam outer, k 16", source: "ASSUMED (: differs from App. K on inner lr, clip, loss reduction, first order, outer optimizer; k unspecified in the paper)"}
+  eval_every_iters: {value: 25, source: "ASSUMED (official 100)"}
+  lstm_baseline_hidden: {value: 64, source: "ASSUMED (paper App. G gives no size)"}
+
+abr_proxy:
+  traces: {value: "Norway HSDPA raw logs (Riiser 2013), UMass mirror", source: "paper App. J; availability checked 2026-10-10"}
+  trace_split: {value: "by log file 80/20 train/test, fixed key", source: "ASSUMED"}
+  video: {value: "Pensieve EnvivioDash3 6 levels x 48 chunks, tiled to 500", source: "ASSUMED PROXY (paper 7 levels x 500 unavailable)"}
+  bitrates_kbps: {value: [300, 750, 1200, 1850, 2850, 4300], source: "Park / Pensieve (paper says 7 levels)"}
+  chunk_seconds: {value: 4.0, source: "Park / Pensieve"}
+  chunks_per_episode: {value: 500, source: "paper App. J"}
+  buffer_cap_s: {value: 40.0, source: "Park abr_sim"}
+  rebuffer_weight: {value: 4.3, source: "Pensieve QoE_lin (paper cites Mao et al. 2017); Park"}
+  smoothness_weight: {value: 1.0, source: "Pensieve QoE_lin; Park"}
+  obs_history: {value: 8, source: "Park past_chunk_len=8"}
+  heuristic: {value: robust_mpc_h5, source: "paper App. J (Yin 2015); horizon ASSUMED"}
+  gamma: {value: 0.995, source: "paper App. K"}
+  hidden: {value: [64, 32], source: "paper App. K"}
+  other_a2c_hparams: {value: "as load_balance", source: "paper App. K ('both environments')"}
+  total_timesteps: {value: 1.0e7, source: "paper Fig. 5 x-axis"}
+  n_value_nets: {value: 10, source: "paper App. K"}
+  fixed_inputs_for_multivalue: {value: "10 (trace, offset) pairs", source: "ASSUMED"}
+
+walker_wind_proxy:
+  simulator: {value: mjx, source: "ASSUMED (paper used mujoco-py/Gym)"}
+  model: {value: "walker2d.xml (Gym v4 reward/termination)", source: "paper §6.1 ('standard Walker2d'); semantics ASSUMED"}
+  wind_init: {value: "U[-1,1]", source: "paper App. K"}
+  wind_step_noise: {value: "N(0,1)", source: "paper App. K"}
+  wind_bounds: {value: [-10, 10], source: "paper App. K"}
+  wind_application: {value: "x-force on torso COM via xfrc_applied", source: "ASSUMED"}
+  wind_in_obs: {value: true, source: "paper §6.1 ('force sensor'; MDP case)"}
+  episode_cap: {value: 1000, source: "paper App. K"}
+  gamma: {value: 0.99, source: "paper App. K"}
+  policy_hidden: {value: [128, 64], source: "paper App. K"}
+  policy_activation: {value: relu, source: "paper App. K"}
+  value_hidden: {value: [128, 64], source: "ASSUMED"}
+  max_kl: {value: 0.01, source: "paper App. K"}
+  value_lr: {value: 1.0e-3, source: "paper App. K"}
+  cg_iters: {value: 10, source: "ASSUMED (OpenAI baselines TRPO default)"}
+  cg_damping: {value: 0.1, source: "ASSUMED (OpenAI baselines TRPO default)"}
+  batch: {value: "16 z-groups x 4 rollouts", source: "ASSUMED"}
+  obs_norm: {value: running_train_only, source: "ASSUMED"}
+  n_value_nets: {value: 10, source: "paper §6.1"}
+  meta_hparams: {value: "as load_balance meta_*", source: "paper App. K ('same as the discrete-action case')"}
+  total_timesteps: {value: 2.0e7, source: "ASSUMED (paper 5e7), gated by throughput pre-flight"}
+
+small_scale:
+  iterations: {value: 250, source: "ASSUMED (small-scale: 1/10 of the full run, 2e6 timesteps)"}
+  pg_var_every: {value: 5, source: "ASSUMED (Var(PG) logging cadence)"}
+  ckpt_minutes: {value: 10, source: "ASSUMED (orbax checkpoint cadence)"}
+  probe: {value: "64 z x 8 rollouts; state critic fitted 3000 Adam steps on 256 z", source: "ASSUMED"}
+two_server_extra:
+  count_scale: {value: 10.0, source: "ASSUMED (queue length / 10)"}
+full_scale:
+  iterations: {value: 2500, source: "ASSUMED: 2e7 timesteps / (16 x 500), paper Fig. 5 x-axis"}
+  seeds_headline: {value: "0-9", source: "ASSUMED (raised from 5 to 10 for paired-test power)"}
+  seeds_ablation: {value: "0-4", source: "ASSUMED (>=5 per headline rule)"}
+  val_seed: {value: 300000000, source: "ASSUMED (full-scale tuning: validation inputs, disjoint from test PRNGKey(1e8))"}
+  tuning_seeds: {value: [100, 101], source: "ASSUMED (disjoint from evaluation seeds)"}
+  tuning_grid: {value: "gamma {0.995, 1.0} x critic/meta lr {1e-3, 1e-2} x entropy_decay_iters {10000, 1000}", source: "gamma: paper App. K / official code; lr: paper App. K / ASSUMED; entropy decay: paper App. K / official code rate (-1e-3 per iteration)"}
+  tuned_config: {value: "gamma 0.995, lr_critic (meta_outer_lr for maml) 1e-2, entropy_decay_iters 1000", source: "ASSUMED (selected on validation, identical for every arm)"}
+  ablation_multi_shuffled: {value: "baseline of fixed sequence i read from net (i+1) mod 10", source: "ASSUMED (full-scale mechanism ablation)"}
+  ablation_maml_noadapt: {value: "meta_inner_steps 0", source: "ASSUMED (full-scale mechanism ablation)"}
+  diag_entropy_decay: {value: 1000, source: "official code (decay 1e-3 per iteration); divergence test #1 (scored on the TEST set)"}
+  confirm_seeds: {value: "10-19", source: "ASSUMED (post-review pre-declared confirmation of the tuned config)"}
+  confirm_eval_start: {value: 2400, source: "ASSUMED (evaluate only at 0 and 2400-2500; training and evaluated values unchanged)"}
+  sens_obs_work: {value: "obs_mode work, tuned config, state+multi, seeds 0-2", source: "ASSUMED (sensitivity; App. J 'amount of work currently in each queue')"}
+  probe_maml_k: {value: 16, source: "ASSUMED = training meta_k; n_z = 512 / k = 32 so the probe stays at 512 rollouts"}
+  judgment_rules: {value: " (MATCH / CLOSE / DIVERGENT)", source: "ASSUMED"}
+recheck:
+  official_commit: {value: 6c9cc23174651e3890721a3f6420ca98a90eb99f, source: "github.com/hongzimao/input_driven_rl_example HEAD (13 commits, 2019-05-06); run unmodified in $OFFICIAL_ROOT (TF 2.13 compat.v1 shim for the trainer)"}
+  obs_tie: {value: strict, source: "default = pre-fix; 'official' = authors' same-time event order (tests/test_official_env.py: bit-identical to the authors' env with exact durations)"}
+  paper_comparison_heuristic: {value: jsq_first, source: "paper App. J (names JSQ) + official agents' first-index tie rule"}
+  fig5_x_reading: {value: "x = iterations x 500", source: "paper App. K 10k-iteration entropy decay; official num_ep=1e5, 100-iteration test cadence, figures to ~45k iterations; official trainer reproduces our 2,500-iteration numbers"}
+  fig5_paper_values_digitized: {value: "last 4% of x: MAML -39.6, 10-value -42.0, state -60.4, heuristic -54.03; x in [0.475,0.525]e7: MAML -50.4, 10-value -50.2, state -69.4", source: "vector extraction of Fig. 5 (data/fig5_digitized.json)"}
+  long_budget_runs: {value: "paper config, iterations 10000 resumed from full-scale 2,500 checkpoints; state/multi seeds 0-4, maml 0-2", source: ""}

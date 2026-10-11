@@ -1,0 +1,40 @@
+{
+ "idx": [
+  0,
+  5,
+  7,
+  3,
+  6,
+  2,
+  0,
+  3,
+  2,
+  0,
+  5,
+  3,
+  5,
+  7,
+  6,
+  2
+ ],
+ "T": 1000,
+ "per-agent loss rel err (ours mean x T vs authors' sum), max": 2.7292670282731476e-07,
+ "per-agent gradient rel err (ours x T vs authors'), max over agents and tensors": 5.710455742504519e-07,
+ "update (post - pre) rel err, ours official vs authors', max over nets and tensors": 9.032658207610895e-06,
+ "update (post - pre) rel err, median": 5.1694065861344165e-06,
+ "nets not drawn: max |our update|": 0.0,
+ "n nets drawn": 6,
+ "steps per drawn net": {
+  "0": 3,
+  "2": 3,
+  "3": 3,
+  "5": 3,
+  "6": 2,
+  "7": 2
+ },
+ "groups: nets updated, rollouts per net, Adam steps per updated net": [
+  4,
+  4,
+  1
+ ]
+}

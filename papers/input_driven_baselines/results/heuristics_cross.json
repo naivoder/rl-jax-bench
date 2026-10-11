@@ -1,0 +1,162 @@
+{
+ "official_test_1e8": {
+  "spt_fast": [
+   -47.134,
+   2.455
+  ],
+  "spt_official": [
+   -61.455,
+   2.614
+  ],
+  "leastwork_official": [
+   -65.55,
+   3.41
+  ],
+  "jsq_fast": [
+   -40.569,
+   2.462
+  ],
+  "jsq_first": [
+   -53.826,
+   3.093
+  ],
+  "eft": [
+   -35.589,
+   2.106
+  ],
+  "lrt": [
+   -33.136,
+   1.706
+  ],
+  "official_env_spt": -61.629,
+  "official_env_leastwork": -64.916,
+  "gen": {
+   "gap_mean": 54.306,
+   "size_mean": 294.92,
+   "size_median": 158.0,
+   "size_q99": 2158.020000000004,
+   "size_max": 106137,
+   "span_mean": 27153.0,
+   "offered_util": 0.9051
+  }
+ },
+ "official_seeds_1000": {
+  "spt_fast": [
+   -48.374,
+   1.87
+  ],
+  "spt_official": [
+   -62.711,
+   1.715
+  ],
+  "leastwork_official": [
+   -65.1,
+   2.369
+  ],
+  "jsq_fast": [
+   -42.002,
+   1.767
+  ],
+  "jsq_first": [
+   -53.804,
+   2.006
+  ],
+  "eft": [
+   -35.76,
+   0.718
+  ],
+  "lrt": [
+   -33.474,
+   0.606
+  ],
+  "official_env_spt": -62.855,
+  "official_env_leastwork": -65.898,
+  "gen": {
+   "gap_mean": 54.454,
+   "size_mean": 295.56,
+   "size_median": 158.0,
+   "size_q99": 2176.0,
+   "size_max": 729644,
+   "span_mean": 27227.1,
+   "offered_util": 0.9046
+  }
+ },
+ "ours_test": {
+  "spt_fast": [
+   -47.164,
+   2.713
+  ],
+  "spt_official": [
+   -59.599,
+   2.207
+  ],
+  "leastwork_official": [
+   -63.268,
+   3.019
+  ],
+  "jsq_fast": [
+   -41.397,
+   2.902
+  ],
+  "jsq_first": [
+   -52.121,
+   2.748
+  ],
+  "eft": [
+   -36.014,
+   2.285
+  ],
+  "lrt": [
+   -33.15,
+   1.519
+  ],
+  "gen": {
+   "gap_mean": 54.26,
+   "size_mean": 291.77,
+   "size_median": 158.0,
+   "size_q99": 2078.010000000002,
+   "size_max": 149008,
+   "span_mean": 27130.1,
+   "offered_util": 0.8962
+  }
+ },
+ "ours_1000": {
+  "spt_fast": [
+   -49.988,
+   1.311
+  ],
+  "spt_official": [
+   -63.903,
+   1.036
+  ],
+  "leastwork_official": [
+   -66.212,
+   1.12
+  ],
+  "jsq_fast": [
+   -44.047,
+   1.184
+  ],
+  "jsq_first": [
+   -54.509,
+   1.08
+  ],
+  "eft": [
+   -38.242,
+   0.785
+  ],
+  "lrt": [
+   -35.262,
+   0.645
+  ],
+  "gen": {
+   "gap_mean": 54.402,
+   "size_mean": 296.49,
+   "size_median": 158.0,
+   "size_q99": 2204.0,
+   "size_max": 372897,
+   "span_mean": 27200.8,
+   "offered_util": 0.9083
+  }
+ }
+}

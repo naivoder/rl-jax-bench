@@ -1,0 +1,4 @@
+# small-scale: 10x-smaller proxy of the load-balancing run (2e6 instead of 2e7 timesteps), same env and hyper-parameters.
+base: load_balance.yaml
+iterations: 250              # ASSUMED (small-scale proxy: 1/10 of the full 2,500)
+eval_every: 25               # 10 checkpoints

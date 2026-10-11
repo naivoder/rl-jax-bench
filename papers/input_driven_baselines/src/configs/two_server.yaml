@@ -1,0 +1,6 @@
+# Two-server toy (paper §3, Fig. 2).  ALL numeric parameters ASSUMED; results labeled "under assumed parameters".
+base: load_balance.yaml
+service_rates: [1.0, 1.0]    # ASSUMED: paper "identical rates"
+mean_interarrival: 165.0     # ASSUMED: ~91% load
+obs_mode: count              # paper §3 "queue length"
+obs_job: false               # paper §3: s_t = (q1, q2), no job size

@@ -1,0 +1,56 @@
+{
+ "test_val_overlap": 0,
+ "per_seed": {
+  "0": {
+   "train_sequences_hashed": 42510,
+   "overlap_with_test_or_val": 0
+  },
+  "1": {
+   "train_sequences_hashed": 42510,
+   "overlap_with_test_or_val": 0
+  },
+  "2": {
+   "train_sequences_hashed": 42510,
+   "overlap_with_test_or_val": 0
+  },
+  "3": {
+   "train_sequences_hashed": 42510,
+   "overlap_with_test_or_val": 0
+  },
+  "4": {
+   "train_sequences_hashed": 42510,
+   "overlap_with_test_or_val": 0
+  },
+  "5": {
+   "train_sequences_hashed": 42510,
+   "overlap_with_test_or_val": 0
+  },
+  "6": {
+   "train_sequences_hashed": 42510,
+   "overlap_with_test_or_val": 0
+  },
+  "7": {
+   "train_sequences_hashed": 42510,
+   "overlap_with_test_or_val": 0
+  },
+  "8": {
+   "train_sequences_hashed": 42510,
+   "overlap_with_test_or_val": 0
+  },
+  "9": {
+   "train_sequences_hashed": 42510,
+   "overlap_with_test_or_val": 0
+  },
+  "100": {
+   "train_sequences_hashed": 42510,
+   "overlap_with_test_or_val": 0
+  },
+  "101": {
+   "train_sequences_hashed": 42510,
+   "overlap_with_test_or_val": 0
+  }
+ },
+ "max_int_time_or_size_x100_worst_policy": 464159000,
+ "int32_max": 2147483647,
+ "int32_headroom_ok": true
+}

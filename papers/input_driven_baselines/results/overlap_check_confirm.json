@@ -1,0 +1,48 @@
+{
+ "test_val_overlap": 0,
+ "per_seed": {
+  "10": {
+   "train_sequences_hashed": 42510,
+   "overlap_with_test_or_val": 0
+  },
+  "11": {
+   "train_sequences_hashed": 42510,
+   "overlap_with_test_or_val": 0
+  },
+  "12": {
+   "train_sequences_hashed": 42510,
+   "overlap_with_test_or_val": 0
+  },
+  "13": {
+   "train_sequences_hashed": 42510,
+   "overlap_with_test_or_val": 0
+  },
+  "14": {
+   "train_sequences_hashed": 42510,
+   "overlap_with_test_or_val": 0
+  },
+  "15": {
+   "train_sequences_hashed": 42510,
+   "overlap_with_test_or_val": 0
+  },
+  "16": {
+   "train_sequences_hashed": 42510,
+   "overlap_with_test_or_val": 0
+  },
+  "17": {
+   "train_sequences_hashed": 42510,
+   "overlap_with_test_or_val": 0
+  },
+  "18": {
+   "train_sequences_hashed": 42510,
+   "overlap_with_test_or_val": 0
+  },
+  "19": {
+   "train_sequences_hashed": 42510,
+   "overlap_with_test_or_val": 0
+  }
+ },
+ "max_int_time_or_size_x100_worst_policy": 464159000,
+ "int32_max": 2147483647,
+ "int32_headroom_ok": true
+}

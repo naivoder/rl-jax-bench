@@ -1,0 +1,10 @@
+# Sensitivity: the paper's inner learning RATE (App. K: 5 plain-SGD steps at 1e-4, no clip) applied to our MEAN-reduced
+# inner loss.  This is NOT App. K literally: the paper's L_T[V] is a SUM over the half's steps (Alg. 1, §5), and the
+# mean over h*T = 8*500 = 4000 elements makes one step at 1e-4 equal to a step of 2.5e-8 on the paper's sum
+# units. The literal sum-loss at 1e-4 (= 0.4 on the mean) diverges to NaN within a few iterations at
+# reward_scale 1e-4 (re-checked after review); the paper's own
+# reward scale for the critic is not stated, so the literal setting is not identifiable.
+base: small.yaml
+meta_inner_lr: 1.0e-4        # paper App. K value, but on the mean loss (= 2.5e-8 in the paper's sum units)
+meta_inner_clip: 0.0         # paper (no clipping mentioned)
+meta_inner_reduction: mean   # ASSUMED: paper writes a sum; see header
