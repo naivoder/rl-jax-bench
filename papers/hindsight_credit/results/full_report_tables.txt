@@ -1,0 +1,158 @@
+## main table
+| Exp | setting | stat | arm | Paper | Ours (mean ± SE, n=100) | Official snippet (100 runs) | Δ% | e (norm.) | Judgment (pre-declared, norm.) | Judgment (relative) | Notes |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| E1 |  | ep20 | State | -0.620 | -0.408 ± 0.024 | -0.374 | +34% | 0.25 | DIVERGENT | DIVERGENT | start level NON-COMPARABLE (ours −0.963, paper −1.80), see S-E1 |
+| E1 |  | ep20 | Return | -0.830 | -0.494 ± 0.021 | -0.474 | +40% | 0.39 | DIVERGENT | DIVERGENT | start level NON-COMPARABLE (ours −0.963, paper −1.80), see S-E1 |
+| E1 |  | ep20 | PG | -0.870 | -0.176 ± 0.007 | n/a | +80% | 0.80 | DIVERGENT | DIVERGENT | lr 0.4; start level NON-COMPARABLE (ours −0.963, paper −1.80), see S-E1 |
+| E1 |  | ep50 | State | -0.140 | -0.168 ± 0.005 | -0.171 | -20% | 0.03 | MATCH | DIVERGENT | start level NON-COMPARABLE (ours −0.963, paper −1.80), see S-E1 |
+| E1 |  | ep50 | Return | -0.500 | -0.175 ± 0.010 | -0.171 | +65% | 0.38 | DIVERGENT | DIVERGENT | start level NON-COMPARABLE (ours −0.963, paper −1.80), see S-E1 |
+| E1 |  | ep50 | PG | -0.338 | -0.127 ± 0.002 | n/a | +63% | 0.24 | DIVERGENT | DIVERGENT | lr 0.4; start level NON-COMPARABLE (ours −0.963, paper −1.80), see S-E1 |
+| E1 |  | final | State | -0.100 | -0.127 ± 0.002 | -0.125 ± 0.002 | -27% | 0.03 | MATCH | DIVERGENT | start level NON-COMPARABLE (ours −0.963, paper −1.80), see S-E1 |
+| E1 |  | final | Return | -0.430 | -0.134 ± 0.009 | -0.119 ± 0.002 | +69% | 0.34 | DIVERGENT | DIVERGENT | start level NON-COMPARABLE (ours −0.963, paper −1.80), see S-E1 |
+| E1 |  | final | PG | -0.180 | -0.113 ± 0.001 | n/a | +37% | 0.08 | CLOSE | DIVERGENT | lr 0.4; start level NON-COMPARABLE (ours −0.963, paper −1.80), see S-E1 |
+| E3 |  | ep100 | State | 0.270 | 0.727 ± 0.011 | 0.965 | +169% | 0.46 | DIVERGENT | DIVERGENT | official = MC (no bootstrap in snippet); ours = 3-step |
+| E3 |  | ep100 | Return | 0.280 | 0.951 ± 0.003 | 0.960 | +240% | 0.67 | DIVERGENT | DIVERGENT |  |
+| E3 |  | ep100 | PG | 0.080 | -0.002 ± 0.008 | n/a | -102% | 0.08 | MATCH | DIVERGENT | lr 0.1 |
+| E3 |  | final | State | 0.680 | 0.902 ± 0.007 | 0.994 ± 0.000 | +33% | 0.22 | DIVERGENT | DIVERGENT | official = MC (no bootstrap in snippet); ours = 3-step |
+| E3 |  | final | Return | 0.830 | 0.993 ± 0.000 | 0.993 ± 0.000 | +20% | 0.16 | CLOSE | CLOSE |  |
+| E3 |  | final | PG | 0.050 | 0.014 ± 0.019 | n/a | -73% | 0.04 | MATCH | DIVERGENT | lr 0.1 |
+| E4 |  | ep50 | State | 0.620 | 0.871 ± 0.028 | 0.866 | +41% | 0.25 | DIVERGENT | DIVERGENT |  |
+| E4 |  | ep50 | Return | 0.271 | 0.433 ± 0.067 | 0.624 | +60% | 0.16 | CLOSE | DIVERGENT |  |
+| E4 |  | ep50 | PG | 0.400 | 0.829 ± 0.022 | n/a | +107% | 0.43 | DIVERGENT | DIVERGENT | lr 0.1 |
+| E4 |  | ep100 | State | 0.720 | 0.929 ± 0.027 | 0.909 | +29% | 0.21 | DIVERGENT | DIVERGENT |  |
+| E4 |  | ep100 | Return | 0.460 | 0.579 ± 0.072 | 0.757 | +26% | 0.12 | CLOSE | DIVERGENT |  |
+| E4 |  | ep100 | PG | 0.530 | 0.927 ± 0.018 | n/a | +75% | 0.40 | DIVERGENT | DIVERGENT | lr 0.1 |
+| E4 |  | final | State | 0.840 | 0.994 ± 0.000 | 0.954 ± 0.028 | +18% | 0.15 | CLOSE | CLOSE |  |
+| E4 |  | final | Return | 0.800 | 0.754 ± 0.065 | 0.679 ± 0.073 | -6% | 0.05 | MATCH | CLOSE |  |
+| E4 |  | final | PG | 0.800 | 0.988 ± 0.002 | n/a | +24% | 0.19 | CLOSE | DIVERGENT | lr 0.1 |
+| E5 | sigma=0.0 | avg | State | 0.790 | 0.949 ± 0.000 | 0.950 ± 0.000 | +20% | 0.16 | CLOSE | DIVERGENT |  |
+| E5 | sigma=0.0 | avg | Return | 0.800 | 0.941 ± 0.001 | 0.941 ± 0.001 | +18% | 0.14 | CLOSE | CLOSE |  |
+| E5 | sigma=0.0 | avg | PG | 0.840 | 0.978 ± 0.001 | n/a | +16% | 0.14 | CLOSE | CLOSE | lr 0.4 |
+| E5 | sigma=1.0 | avg | State | 0.790 | 0.950 ± 0.001 | 0.949 ± 0.001 | +20% | 0.16 | CLOSE | DIVERGENT |  |
+| E5 | sigma=1.0 | avg | Return | 0.800 | 0.867 ± 0.022 | 0.885 ± 0.006 | +8% | 0.07 | CLOSE | CLOSE |  |
+| E5 | sigma=1.0 | avg | PG | 0.830 | 0.973 ± 0.004 | n/a | +17% | 0.14 | CLOSE | CLOSE | lr 0.4 |
+| E5 | sigma=2.0 | avg | State | 0.780 | 0.938 ± 0.006 | 0.945 ± 0.003 | +20% | 0.16 | CLOSE | DIVERGENT |  |
+| E5 | sigma=2.0 | avg | Return | 0.720 | 0.622 ± 0.058 | 0.571 ± 0.066 | -14% | 0.10 | CLOSE | CLOSE |  |
+| E5 | sigma=2.0 | avg | PG | 0.670 | 0.927 ± 0.003 | n/a | +38% | 0.26 | DIVERGENT | DIVERGENT | lr 0.1 |
+| E5 | sigma=3.0 | avg | State | 0.770 | 0.903 ± 0.027 | 0.900 ± 0.027 | +17% | 0.13 | CLOSE | CLOSE |  |
+| E5 | sigma=3.0 | avg | Return | 0.560 | 0.345 ± 0.079 | 0.317 ± 0.082 | -38% | 0.21 | DIVERGENT | DIVERGENT |  |
+| E5 | sigma=3.0 | avg | PG | 0.560 | 0.759 ± 0.044 | n/a | +36% | 0.20 | CLOSE | DIVERGENT | lr 0.1 |
+| E5 | sigma=4.0 | avg | State | 0.710 | 0.693 ± 0.062 | 0.792 ± 0.051 | -2% | 0.02 | MATCH | MATCH |  |
+| E5 | sigma=4.0 | avg | Return | 0.540 | 0.294 ± 0.083 | 0.128 ± 0.084 | -46% | 0.25 | DIVERGENT | DIVERGENT |  |
+| E5 | sigma=4.0 | avg | PG | 0.470 | 0.765 ± 0.043 | n/a | +63% | 0.29 | DIVERGENT | DIVERGENT | lr 0.1 |
+| E5 | sigma=5.0 | avg | State | 0.660 | 0.680 ± 0.064 | 0.691 ± 0.061 | +3% | 0.02 | MATCH | MATCH |  |
+| E5 | sigma=5.0 | avg | Return | 0.470 | -0.044 ± 0.087 | 0.120 ± 0.090 | -109% | 0.51 | DIVERGENT | DIVERGENT |  |
+| E5 | sigma=5.0 | avg | PG | 0.250 | 0.551 ± 0.069 | n/a | +120% | 0.30 | DIVERGENT | DIVERGENT | lr 0.1 |
+| E6 |  | final | State | 1.846 | 1.766 ± 0.017 | 1.807 ± 0.010 | -4% | 0.20 | CLOSE | MATCH |  |
+| E6 |  | final | Return | 1.772 | 1.640 ± 0.014 | 1.651 ± 0.014 | -7% | 0.33 | DIVERGENT | CLOSE |  |
+| E6 |  | final | PG | 1.734 | 1.830 ± 0.018 | n/a | +6% | 0.24 | DIVERGENT | CLOSE | lr 0.3 |
+| E7 |  | final | State | 1.494 | 1.501 ± 0.025 | 1.515 ± 0.026 | +0% | 0.02 | MATCH | MATCH |  |
+| E7 |  | final | Return | 1.765 | 1.661 ± 0.010 | 1.663 ± 0.012 | -6% | 0.26 | DIVERGENT | CLOSE |  |
+| E7 |  | final | PG | 1.719 | 1.847 ± 0.015 | n/a | +7% | 0.32 | DIVERGENT | CLOSE | lr 0.3 |
+| E8 | sigma=0.5,eps=0.0 | avg | State | 1.580 | 1.498 ± 0.020 | 1.501 ± 0.021 | -5% | 0.17 | CLOSE | CLOSE |  |
+| E8 | sigma=0.5,eps=0.0 | avg | Return | 1.972 | 1.595 ± 0.006 | 1.595 ± 0.006 | -19% | 0.75 | DIVERGENT | CLOSE |  |
+| E8 | sigma=0.5,eps=0.0 | avg | PG | 1.853 | 1.920 ± 0.004 | n/a | +4% | 0.13 | CLOSE | MATCH | lr 0.4 |
+| E8 | sigma=0.5,eps=0.1 | avg | State | 1.558 | 1.509 ± 0.019 | 1.470 ± 0.015 | -3% | 0.12 | MATCH | MATCH |  |
+| E8 | sigma=0.5,eps=0.1 | avg | Return | 1.814 | 1.569 ± 0.005 | 1.569 ± 0.005 | -13% | 0.61 | DIVERGENT | CLOSE |  |
+| E8 | sigma=0.5,eps=0.1 | avg | PG | 1.759 | 1.821 ± 0.004 | n/a | +4% | 0.15 | CLOSE | MATCH | lr 0.4 |
+| E8 | sigma=0.5,eps=0.2 | avg | State | 1.536 | 1.494 ± 0.012 | 1.488 ± 0.012 | -3% | 0.14 | MATCH | MATCH |  |
+| E8 | sigma=0.5,eps=0.2 | avg | Return | 1.681 | 1.542 ± 0.004 | 1.542 ± 0.004 | -8% | 0.46 | DIVERGENT | CLOSE |  |
+| E8 | sigma=0.5,eps=0.2 | avg | PG | 1.658 | 1.731 ± 0.004 | n/a | +4% | 0.25 | DIVERGENT | MATCH | lr 0.4 |
+| E8 | sigma=0.5,eps=0.3 | avg | State | 1.498 | 1.486 ± 0.008 | 1.504 ± 0.009 | -1% | 0.06 | MATCH | MATCH |  |
+| E8 | sigma=0.5,eps=0.3 | avg | Return | 1.588 | 1.519 ± 0.003 | 1.523 ± 0.003 | -4% | 0.35 | DIVERGENT | MATCH |  |
+| E8 | sigma=0.5,eps=0.3 | avg | PG | 1.577 | 1.630 ± 0.006 | n/a | +3% | 0.26 | DIVERGENT | MATCH | lr 0.4 |
+| E8 | sigma=0.5,eps=0.4 | avg | State | 1.515 | 1.500 ± 0.004 | 1.500 ± 0.004 | -1% | 0.15 | MATCH | MATCH |  |
+| E8 | sigma=0.5,eps=0.4 | avg | Return | 1.523 | 1.508 ± 0.001 | 1.506 ± 0.001 | -1% | 0.16 | MATCH | MATCH |  |
+| E8 | sigma=0.5,eps=0.4 | avg | PG | 1.521 | 1.540 ± 0.004 | n/a | +1% | 0.18 | CLOSE | MATCH | lr 0.3 |
+
+## E2
+| p_long | arm | Paper | Ours online (mean ± SE, 100 reps) | Ours final-h | Official snippet | oracle (ours / paper) | e | Judgment (pre-declared, norm.) | Judgment (relative) |
+|---|---|---|---|---|---|---|---|---|---|
+| 0.10 | State | 0.45 | 0.935 ± 0.005 | 1.014 | 0.994 ± 0.013 | 1.088 / 1.07 | 0.45 | DIVERGENT | DIVERGENT |
+| 0.10 | Return | 0.21 | 0.990 ± 0.011 | 1.045 | 0.994 ± 0.012 | 1.088 / 1.07 | 0.72 | DIVERGENT | DIVERGENT |
+| 0.10 | PG | 0.17 | 0.194 ± 0.002 | 0.194 | n/a | 1.088 / 1.07 | 0.02 | MATCH | CLOSE |
+| 0.23 | State | 0.62 | 1.156 ± 0.004 | 1.194 | 1.179 ± 0.007 | 1.251 / 1.24 | 0.43 | DIVERGENT | DIVERGENT |
+| 0.23 | Return | 0.41 | 1.133 ± 0.008 | 1.194 | 1.131 ± 0.007 | 1.251 / 1.24 | 0.58 | DIVERGENT | DIVERGENT |
+| 0.23 | PG | 0.42 | 0.450 ± 0.002 | 0.450 | n/a | 1.251 / 1.24 | 0.02 | MATCH | CLOSE |
+| 0.37 | State | 0.84 | 1.368 ± 0.005 | 1.465 | 1.375 ± 0.008 | 1.460 / 1.45 | 0.36 | DIVERGENT | DIVERGENT |
+| 0.37 | Return | 0.65 | 1.289 ± 0.008 | 1.389 | 1.291 ± 0.007 | 1.460 / 1.45 | 0.44 | DIVERGENT | DIVERGENT |
+| 0.37 | PG | 0.69 | 0.677 ± 0.003 | 0.677 | n/a | 1.460 / 1.45 | 0.01 | MATCH | MATCH |
+| 0.50 | State | 1.05 | 1.622 ± 0.005 | 1.637 | 1.634 ± 0.007 | 1.726 / 1.72 | 0.33 | DIVERGENT | DIVERGENT |
+| 0.50 | Return | 0.89 | 1.506 ± 0.008 | 1.642 | 1.517 ± 0.007 | 1.726 / 1.72 | 0.36 | DIVERGENT | DIVERGENT |
+| 0.50 | PG | 0.83 | 0.857 ± 0.002 | 0.857 | n/a | 1.726 / 1.72 | 0.02 | MATCH | MATCH |
+| 0.63 | State | 1.56 | 1.946 ± 0.005 | 2.013 | 1.940 ± 0.008 | 2.059 / 2.04 | 0.19 | CLOSE | DIVERGENT |
+| 0.63 | Return | 1.42 | 1.769 ± 0.007 | 1.982 | 1.771 ± 0.008 | 2.059 / 2.04 | 0.17 | CLOSE | DIVERGENT |
+| 0.63 | PG | 0.98 | 0.953 ± 0.003 | 0.953 | n/a | 2.059 / 2.04 | 0.01 | MATCH | MATCH |
+| 0.77 | State | 1.96 | 2.326 ± 0.005 | 2.370 | 2.308 ± 0.006 | 2.470 / 2.46 | 0.15 | CLOSE | CLOSE |
+| 0.77 | Return | 1.90 | 2.042 ± 0.007 | 2.375 | 2.048 ± 0.006 | 2.470 / 2.46 | 0.06 | CLOSE | CLOSE |
+| 0.77 | PG | 0.82 | 0.883 ± 0.004 | 0.883 | n/a | 2.470 / 2.46 | 0.03 | MATCH | CLOSE |
+| 0.90 | State | 2.75 | 2.693 ± 0.008 | 3.009 | 2.626 ± 0.007 | 2.968 / 2.96 | 0.02 | MATCH | MATCH |
+| 0.90 | Return | 2.78 | 2.048 ± 0.006 | 2.768 | 2.044 ± 0.007 | 2.968 / 2.96 | 0.25 | DIVERGENT | DIVERGENT |
+| 0.90 | PG | 0.55 | 0.537 ± 0.005 | 0.537 | n/a | 2.968 / 2.96 | 0.00 | MATCH | MATCH |
+
+## primary
+| # | claim (paper direction > 0) | diff mean ± SE | 95% t-CI | bootstrap 95% CI | wins/100 | p (t, two-sided) | p Holm | Wilcoxon p | verdict | seeds 1, 3 diff |
+|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | E1 State-PG ep100 | -0.0142 ± 0.0016 | [-0.0174, -0.0110] | [-0.0175, -0.0112] | 8 | 4.4e-14 | 1.8e-13 | 2.1e-15 | REVERSED (significant, opposite sign) | -0.013, -0.009 |
+| P2 | E2 p=0.9 |PG-oracle|-|State-oracle| | +2.1556 ± 0.0049 | [+2.1459, +2.1653] | [+2.1460, +2.1649] | 100 | 9.8e-165 | 9.8e-164 | 3.9e-18 | REPRODUCED | +2.146, +2.140 |
+| P3 | E3 State-PG ep500 | +0.8882 ± 0.0192 | [+0.8501, +0.9264] | [+0.8508, +0.9249] | 100 | 8.7e-69 | 6.1e-68 | 3.9e-18 | REPRODUCED | +0.878, +0.915 |
+| P4 | E3 Return-PG ep500 | +0.9792 ± 0.0187 | [+0.9422, +1.0163] | [+0.9426, +1.0147] | 100 | 4.3e-74 | 3.9e-73 | 3.9e-18 | REPRODUCED | +0.971, +0.993 |
+| P5 | E4 State-PG curve mean | +0.0049 ± 0.0115 | [-0.0180, +0.0278] | [-0.0213, +0.0218] | 69 | 0.67 | 0.67 | 5.9e-06 | NOT REPRODUCED (n.s.) | +0.026, +0.022 |
+| P6 | E5 σ=5 State-PG curve mean | +0.1291 ± 0.0883 | [-0.0461, +0.3043] | [-0.0416, +0.3044] | 59 | 0.15 | 0.29 | 0.028 | NOT REPRODUCED (n.s.) | +0.137, +0.117 |
+| P7 | E6 State-PG ep100 | -0.0640 ± 0.0237 | [-0.1110, -0.0171] | [-0.1100, -0.0181] | 19 | 0.008 | 0.024 | 1.4e-08 | REVERSED (significant, opposite sign) | -0.013, -0.060 |
+| P8 | E6 Return-PG ep100 | -0.1899 ± 0.0209 | [-0.2314, -0.1485] | [-0.2295, -0.1472] | 8 | 1.1e-14 | 5.4e-14 | 3e-12 | REVERSED (significant, opposite sign) | -0.182, -0.191 |
+| P9 | E7 Return-PG ep100 | -0.1858 ± 0.0197 | [-0.2249, -0.1466] | [-0.2218, -0.1449] | 5 | 2e-15 | 1.2e-14 | 2.4e-13 | REVERSED (significant, opposite sign) | -0.191, -0.200 |
+| P10 | E8 ε=0 Return-PG curve mean | -0.3254 ± 0.0066 | [-0.3386, -0.3123] | [-0.3385, -0.3125] | 0 | 2.5e-71 | 2e-70 | 3.9e-18 | REVERSED (significant, opposite sign) | -0.336, -0.333 |
+
+## secondary
+| Exp | setting | stat | A − B | paper sign | ours diff ± SE | bootstrap 95% CI | p (t) | agrees? |
+|---|---|---|---|---|---|---|---|---|
+| E1 |  | final | PG − Return | + | +0.0211 ± 0.0089 | [+0.0097, +0.0407] | 0.02 | yes |
+| E1 |  | final | State − Return | + | +0.0069 ± 0.0090 | [-0.0045, +0.0266] | 0.44 | n.s. |
+| E3 |  | final | Return − State | + | +0.0910 ± 0.0067 | [+0.0782, +0.1043] | 2.4e-24 | yes |
+| E4 |  | ep100 | State − PG | + | +0.0020 ± 0.0196 | [-0.0414, +0.0281] | 0.92 | n.s. |
+| E4 |  | ep100 | PG − Return | + | +0.3476 ± 0.0701 | [+0.2119, +0.4873] | 3e-06 | yes |
+| E6 |  | final | State − Return | + | +0.1259 ± 0.0175 | [+0.0914, +0.1592] | 1.3e-10 | yes |
+| E7 |  | final | PG − State | + | +0.3459 ± 0.0285 | [+0.2910, +0.4003] | 2.6e-21 | yes |
+| E5 | sigma=0.0 | avg | State − PG | − | -0.0283 ± 0.0006 | [-0.0294, -0.0272] | 3.6e-72 | yes |
+| E5 | sigma=0.0 | avg | Return − PG | − | -0.0366 ± 0.0008 | [-0.0382, -0.0349] | 7e-67 | yes |
+| E5 | sigma=1.0 | avg | State − PG | − | -0.0238 ± 0.0041 | [-0.0295, -0.0146] | 6.4e-08 | yes |
+| E5 | sigma=1.0 | avg | Return − PG | − | -0.1069 ± 0.0226 | [-0.1565, -0.0710] | 7.3e-06 | yes |
+| E5 | sigma=2.0 | avg | State − PG | + | +0.0107 ± 0.0075 | [-0.0056, +0.0235] | 0.16 | n.s. |
+| E5 | sigma=2.0 | avg | Return − PG | + | -0.3053 ± 0.0579 | [-0.4214, -0.1941] | 7.8e-07 | opposite (sig.) |
+| E5 | sigma=3.0 | avg | State − PG | + | +0.1436 ± 0.0525 | [+0.0433, +0.2513] | 0.0073 | yes |
+| E5 | sigma=3.0 | avg | Return − PG | 0 | -0.4137 ± 0.0804 | [-0.5683, -0.2535] | 1.3e-06 | paper tie; ours differs (sig.) |
+| E5 | sigma=4.0 | avg | State − PG | + | -0.0713 ± 0.0798 | [-0.2270, +0.0832] | 0.37 | n.s. |
+| E5 | sigma=4.0 | avg | Return − PG | + | -0.4705 ± 0.0815 | [-0.6348, -0.3129] | 8.8e-08 | opposite (sig.) |
+| E5 | sigma=5.0 | avg | State − PG | + | +0.1291 ± 0.0883 | [-0.0416, +0.3044] | 0.15 | n.s. |
+| E5 | sigma=5.0 | avg | Return − PG | + | -0.5951 ± 0.1053 | [-0.7945, -0.3841] | 1.5e-07 | opposite (sig.) |
+| E8 | sigma=0.5,eps=0.0 | avg | Return − PG | + | -0.3254 ± 0.0066 | [-0.3385, -0.3125] | 2.5e-71 | opposite (sig.) |
+| E8 | sigma=0.5,eps=0.0 | avg | PG − State | + | +0.4226 ± 0.0202 | [+0.3826, +0.4622] | 3.9e-38 | yes |
+| E8 | sigma=0.5,eps=0.1 | avg | Return − PG | + | -0.2515 ± 0.0061 | [-0.2634, -0.2398] | 3.8e-64 | opposite (sig.) |
+| E8 | sigma=0.5,eps=0.1 | avg | PG − State | + | +0.3113 ± 0.0184 | [+0.2751, +0.3465] | 4.7e-31 | yes |
+| E8 | sigma=0.5,eps=0.2 | avg | Return − PG | + | -0.1895 ± 0.0049 | [-0.1990, -0.1799] | 2.9e-61 | opposite (sig.) |
+| E8 | sigma=0.5,eps=0.2 | avg | PG − State | + | +0.2377 ± 0.0117 | [+0.2149, +0.2604] | 4.9e-37 | yes |
+| E8 | sigma=0.5,eps=0.3 | avg | Return − PG | + | -0.1115 ± 0.0064 | [-0.1237, -0.0986] | 9.8e-32 | opposite (sig.) |
+| E8 | sigma=0.5,eps=0.3 | avg | PG − State | + | +0.1441 ± 0.0101 | [+0.1241, +0.1635] | 6.8e-26 | yes |
+| E8 | sigma=0.5,eps=0.4 | avg | Return − PG | + | -0.0321 ± 0.0036 | [-0.0389, -0.0249] | 3e-14 | opposite (sig.) |
+| E8 | sigma=0.5,eps=0.4 | avg | PG − State | + | +0.0398 ± 0.0052 | [+0.0295, +0.0496] | 1.7e-11 | yes |
+| E2 | p=0.10 | online | abs err PG − abs err State | + | +0.7412 ± 0.0041 | [+0.7333, +0.7493] | 7.1e-127 | yes |
+| E2 | p=0.10 | online | abs err PG − abs err Return | + | +0.7725 ± 0.0072 | [+0.7585, +0.7865] | 2.3e-104 | yes |
+| E2 | p=0.23 | online | abs err PG − abs err State | + | +0.7061 ± 0.0029 | [+0.7003, +0.7119] | 8.2e-139 | yes |
+| E2 | p=0.23 | online | abs err PG − abs err Return | + | +0.6768 ± 0.0050 | [+0.6671, +0.6866] | 2.3e-114 | yes |
+| E2 | p=0.37 | online | abs err PG − abs err State | + | +0.6906 ± 0.0026 | [+0.6856, +0.6957] | 2.3e-143 | yes |
+| E2 | p=0.37 | online | abs err PG − abs err Return | + | +0.6120 ± 0.0058 | [+0.6007, +0.6232] | 1.8e-103 | yes |
+| E2 | p=0.50 | online | abs err PG − abs err State | + | +0.7647 ± 0.0022 | [+0.7604, +0.7691] | 4.9e-154 | yes |
+| E2 | p=0.50 | online | abs err PG − abs err Return | + | +0.6488 ± 0.0063 | [+0.6366, +0.6616] | 1.8e-102 | yes |
+| E2 | p=0.63 | online | abs err PG − abs err State | + | +0.9926 ± 0.0028 | [+0.9870, +0.9981] | 5.8e-155 | yes |
+| E2 | p=0.63 | online | abs err PG − abs err Return | + | +0.8161 ± 0.0075 | [+0.8016, +0.8307] | 4.2e-105 | yes |
+| E2 | p=0.77 | online | abs err PG − abs err State | + | +1.4431 ± 0.0034 | [+1.4367, +1.4496] | 1.5e-163 | yes |
+| E2 | p=0.77 | online | abs err PG − abs err Return | + | +1.1592 ± 0.0091 | [+1.1414, +1.1768] | 2e-111 | yes |
+| E2 | p=0.90 | online | abs err PG − abs err State | + | +2.1556 ± 0.0049 | [+2.1460, +2.1649] | 9.8e-165 | yes |
+| E2 | p=0.90 | online | abs err PG − abs err Return | + | +1.5105 ± 0.0088 | [+1.4933, +1.5273] | 1.4e-124 | yes |
+
+counts {'DIVERGENT': 38, 'MATCH': 21, 'CLOSE': 25}
+counts relative {'DIVERGENT': 42, 'CLOSE': 22, 'MATCH': 20}
+rows flipping between rules 32
+counts excl. E1 {'DIVERGENT': 32, 'MATCH': 19, 'CLOSE': 24}
+counts relative excl. E1 {'DIVERGENT': 33, 'CLOSE': 22, 'MATCH': 20}

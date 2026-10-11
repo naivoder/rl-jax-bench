@@ -1,0 +1,117 @@
+{
+ "P1": {
+  "primary": "REVERSED",
+  "movers": [
+   "counts"
+  ],
+  "revised": "READING-DEPENDENT: REV at A-LR/A-INIT/logit-SGD h; n.s. under counts",
+  "primary_tally": "REV / REV / REV / REV / REV",
+  "reading_tallies": {
+   "swapped_a0.4_ah0.3": "n.s. / REV / n.s. / REV / REV",
+   "counts": "n.s. / n.s. / n.s. / n.s. / n.s.",
+   "ema": "REV / REV / REV / REV / REV",
+   "residual": "REV / REV / REV / REV / REV"
+  }
+ },
+ "P3": {
+  "primary": "REPRODUCED",
+  "movers": [],
+  "revised": "REP (unchanged by the rule)",
+  "primary_tally": "REP / REP / REP / REP / REP",
+  "reading_tallies": {
+   "swapped_a0.4_ah0.3": "REP / REP / REP / REP / REP",
+   "counts": "REP / REP / REP / REP / REP",
+   "ema": "REP / REP / REP / REP / REP",
+   "residual": "REP / REP / REP / REP / REP"
+  }
+ },
+ "P4": {
+  "primary": "REPRODUCED",
+  "movers": [],
+  "revised": "REP (unchanged by the rule)",
+  "primary_tally": "REP / REP / REP / REP / REP",
+  "reading_tallies": {
+   "swapped_a0.4_ah0.3": "REP / REP / REP / REP / REP",
+   "counts": "REP / REP / REP / REP / REP",
+   "ema": "REP / REP / REP / REP / REP",
+   "residual": "REP / REP / REP / REP / REP"
+  }
+ },
+ "P5": {
+  "primary": "NOT REPRODUCED (n.s.)",
+  "movers": [
+   "ema",
+   "residual"
+  ],
+  "revised": "READING-DEPENDENT: n.s. at A-LR/A-INIT/logit-SGD h; REP under ema, residual",
+  "primary_tally": "n.s. / REP / REP / n.s. / n.s.",
+  "reading_tallies": {
+   "swapped_a0.4_ah0.3": "n.s. / REP / n.s. / n.s. / n.s.",
+   "counts": "REP / REP / n.s. / n.s. / n.s.",
+   "ema": "REP / REP / REP / REP / REP",
+   "residual": "REP / REP / REP / REP / REP"
+  }
+ },
+ "P6": {
+  "primary": "NOT REPRODUCED (n.s.)",
+  "movers": [
+   "residual"
+  ],
+  "revised": "READING-DEPENDENT: n.s. at A-LR/A-INIT/logit-SGD h; REP under residual",
+  "primary_tally": "n.s. / n.s. / n.s. / n.s. / n.s.",
+  "reading_tallies": {
+   "swapped_a0.4_ah0.3": "n.s. / n.s. / n.s. / n.s. / n.s.",
+   "counts": "n.s. / n.s. / n.s. / n.s. / REP",
+   "ema": "n.s. / n.s. / n.s. / n.s. / n.s.",
+   "residual": "REP / REP / REP / REP / REP"
+  }
+ },
+ "P7": {
+  "primary": "REVERSED",
+  "movers": [],
+  "revised": "REV (unchanged by the rule)",
+  "primary_tally": "REV / n.s. / REV / n.s. / REV",
+  "reading_tallies": {
+   "swapped_a0.4_ah0.3": "REV / n.s. / REV / n.s. / REV",
+   "counts": "REV / n.s. / REV / REV / REV",
+   "ema": "n.s. / n.s. / n.s. / n.s. / REV",
+   "residual": "n.s. / n.s. / REV / n.s. / REV"
+  }
+ },
+ "P8": {
+  "primary": "REVERSED",
+  "movers": [],
+  "revised": "REV (unchanged by the rule)",
+  "primary_tally": "REV / REV / REV / REV / REV",
+  "reading_tallies": {
+   "swapped_a0.4_ah0.3": "REV / REV / REV / REV / REV",
+   "counts": "REV / REV / REV / REV / REV",
+   "ema": "REV / REV / REV / REV / REV",
+   "residual": "REV / REV / REV / REV / REV"
+  }
+ },
+ "P9": {
+  "primary": "REVERSED",
+  "movers": [],
+  "revised": "REV (unchanged by the rule)",
+  "primary_tally": "REV / REV / REV / REV / REV",
+  "reading_tallies": {
+   "swapped_a0.4_ah0.3": "REV / REV / REV / REV / REV",
+   "counts": "REV / REV / REV / REV / REV",
+   "ema": "n.s. / REV / REV / REV / REV",
+   "residual": "REV / REV / REV / REV / REV"
+  }
+ },
+ "P10": {
+  "primary": "REVERSED",
+  "movers": [],
+  "revised": "REV (unchanged by the rule)",
+  "primary_tally": "REV / REV / REV / REV / REV",
+  "reading_tallies": {
+   "swapped_a0.4_ah0.3": "REV / REV / REV / REV / REV",
+   "counts": "REV / REV / REV / REV / REV",
+   "ema": "REV / REV / REV / REV / REV",
+   "residual": "REV / REV / REV / REV / REV"
+  }
+ }
+}

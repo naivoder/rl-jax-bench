@@ -1,0 +1,70 @@
+# Configuration for every experiment. Each value carries its provenance inline; the long form is in
+# sources.yaml next to this file, and the A-* labels are listed in the README.
+seed: 0                      # ASSUMED (single top-level seed; PRNG key tree in src/train.py)
+n_runs: 100                  # paper §5 ('average of 100 independent runs')
+gamma: 1.0                   # paper §5 ('we take γ = 1 in all of the tasks')
+pg_tuning_seed_offset: 999   # ASSUMED (A-PG-LR: tuning seeds disjoint from evaluation seeds)
+
+hca:
+  policy_lr: 0.3             # Appendix E ('α = 0.3'); A-LR
+  hindsight_lr: 0.4          # Appendix E ('α_b = 0.4' read as α_h); A-LR
+  value_lr: 0.3              # ASSUMED (A-LR: = policy lr; V used only when bootstrapping)
+  reward_model_lr: 0.3       # ASSUMED (A-LR; rhat only in the paper-pseudocode variant and Fig. 3-right 'rhat')
+  state_variant: official    # official code (StateHCA.update); 'paper' = Algorithm 1 with rhat
+  bin_widen: 2.0             # ASSUMED (A-BINS: centres span noise-free range ± 2 σ_tot)
+
+pg:
+  lr_grid: [0.1, 0.2, 0.3, 0.4]   # Appendix E ('best value from [0.1, 0.2, 0.3, 0.4]')
+
+experiments:
+  E1:                        # Figure 3 left
+    env: shortcut
+    env_kwargs: {n: 5, absorb: 0.1}       # Figure 3 caption (n = 5); paper §5 (absorb 0.1, -1 step, +1 final)
+    episodes: 100                         # Figure 3 left x-axis
+    seg_len: null                         # Monte Carlo (A-PG-N; Figure 3 caption has no n-step)
+    n_bins: 10                            # Appendix E ('n_b = 10 elsewhere')
+  E2:                        # Figure 3 right
+    env: shortcut
+    env_kwargs: {n: 5, absorb: 0.1}
+    p_long: [0.1, 0.23333333333333334, 0.3666666666666667, 0.5, 0.6333333333333333, 0.7666666666666667, 0.9]  # Figure 3 right x-axis
+    rollouts: 1000                        # Figure 3 caption ('1000 rollouts')
+    n_bins: 10                            # Appendix E
+    immediate: rhat                       # ASSUMED (A-F3R-IMM: Alg. 1 learns rhat; variants exact/official)
+  E3:                        # Figure 4 left
+    env: delayed_effect
+    env_kwargs: {n: 5, sigma: 0.0, aliasing: per_position}   # Figure 4 caption (n = 5, σ = 0); A-DE-ALIAS
+    episodes: 500                         # Figure 4 left x-axis
+    seg_len: 3                            # Figure 4 caption ('3-step return'); A-SEG; Return HCA stays MC (A-RET-MC)
+    n_bins: 3                             # Appendix E ('n_b = 3 for the results in Fig. 4')
+  E4:                        # Figure 4 middle
+    env: delayed_effect
+    env_kwargs: {n: 3, sigma: 2.0, aliasing: per_position}   # Figure 4 caption (n = 3, σ = 2)
+    episodes: 500
+    seg_len: null                         # Figure 4 caption (Monte Carlo)
+    n_bins: 3
+  E5:                        # Figure 4 right
+    env: delayed_effect
+    env_kwargs: {n: 3, aliasing: per_position}               # A-F4R (Fig. 4 middle setting)
+    sweep: {sigma: [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]}          # Figure 4 right x-axis
+    episodes: 500                         # A-F4R
+    seg_len: null
+    n_bins: 3
+  E6:                        # Figure 5 left
+    env: ambiguous_bandit
+    env_kwargs: {eps: 0.1, sigma: 1.5, hidden: false}        # Figure 5 caption (σ = 1.5); A-AB-EPS (ε = 0.1)
+    episodes: 100                         # Figure 5 x-axis
+    seg_len: null
+    n_bins: 10                            # Appendix E
+  E7:                        # Figure 5 middle
+    env: ambiguous_bandit
+    env_kwargs: {eps: 0.1, sigma: 1.5, hidden: true}         # A-AB-HIDDEN, A-AB-EPS
+    episodes: 100
+    seg_len: null
+    n_bins: 10
+  E8:                        # Figure 5 right
+    env: ambiguous_bandit
+    env_kwargs: {sigma: 0.5, hidden: true}                   # Figure 5 caption (σ = 0.5); paper §5 (hidden)
+    sweep: {eps: [0.0, 0.1, 0.2, 0.3, 0.4]}                  # Figure 5 right x-axis
+    episodes: 100                         # A-F5R
+    seg_len: null
+    n_bins: 10

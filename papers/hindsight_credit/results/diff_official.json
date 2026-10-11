@@ -1,0 +1,162 @@
+{
+ "official_commit": "3a564ad6438df2b1c68ca75a91d713d87d56453a",
+ "n_episodes": 100,
+ "cases": {
+  "shortcut_g1.0": {
+   "max_abs_err": {
+    "state_dlogits": 2.220446049250313e-16,
+    "state_dV": 0.0,
+    "state_dh": 0.0,
+    "return_dlogits": 2.220446049250313e-16,
+    "return_dV": 0.0,
+    "return_dh": 0.0
+   },
+   "grad_scale": 1.6454223798141987
+  },
+  "shortcut_g0.9": {
+   "max_abs_err": {
+    "state_dlogits": 2.220446049250313e-16,
+    "state_dV": 0.0,
+    "state_dh": 0.0,
+    "return_dlogits": 2.220446049250313e-16,
+    "return_dV": 0.0,
+    "return_dh": 0.0
+   },
+   "grad_scale": 1.6297908672059638
+  },
+  "delayed_effect_n3_s2_g1.0": {
+   "max_abs_err": {
+    "state_dlogits": 4.440892098500626e-16,
+    "state_dV": 0.0,
+    "state_dh": 0.0,
+    "return_dlogits": 1.7763568394002505e-15,
+    "return_dV": 0.0,
+    "return_dh": 0.0
+   },
+   "grad_scale": 11.337928422174327
+  },
+  "delayed_effect_n3_s2_g0.9": {
+   "max_abs_err": {
+    "state_dlogits": 4.440892098500626e-16,
+    "state_dV": 0.0,
+    "state_dh": 0.0,
+    "return_dlogits": 1.7763568394002505e-15,
+    "return_dV": 0.0,
+    "return_dh": 0.0
+   },
+   "grad_scale": 10.116738466581948
+  },
+  "delayed_effect_n5_s0_g1.0": {
+   "max_abs_err": {
+    "state_dlogits": 5.551115123125783e-17,
+    "state_dV": 0.0,
+    "state_dh": 0.0,
+    "return_dlogits": 1.1102230246251565e-16,
+    "return_dV": 0.0,
+    "return_dh": 0.0
+   },
+   "grad_scale": 0.7262590103439618
+  },
+  "delayed_effect_n5_s0_g0.9": {
+   "max_abs_err": {
+    "state_dlogits": 5.551115123125783e-17,
+    "state_dV": 0.0,
+    "state_dh": 0.0,
+    "return_dlogits": 4.440892098500626e-16,
+    "return_dV": 0.0,
+    "return_dh": 0.0
+   },
+   "grad_scale": 2.2025074335567294
+  },
+  "delayed_effect_n3_aliased_g1.0": {
+   "max_abs_err": {
+    "state_dlogits": 8.881784197001252e-16,
+    "state_dV": 0.0,
+    "state_dh": 8.881784197001252e-16,
+    "return_dlogits": 1.7763568394002505e-15,
+    "return_dV": 0.0,
+    "return_dh": 4.440892098500626e-16
+   },
+   "grad_scale": 10.940615549187392
+  },
+  "delayed_effect_n3_aliased_g0.9": {
+   "max_abs_err": {
+    "state_dlogits": 1.7763568394002505e-15,
+    "state_dV": 0.0,
+    "state_dh": 8.881784197001252e-16,
+    "return_dlogits": 1.7763568394002505e-15,
+    "return_dV": 0.0,
+    "return_dh": 4.440892098500626e-16
+   },
+   "grad_scale": 13.723440454351179
+  },
+  "bandit_observed_g1.0": {
+   "max_abs_err": {
+    "state_dlogits": 1.1102230246251565e-16,
+    "state_dV": 0.0,
+    "state_dh": 0.0,
+    "return_dlogits": 8.881784197001252e-16,
+    "return_dV": 0.0,
+    "return_dh": 0.0
+   },
+   "grad_scale": 9.239992728190098
+  },
+  "bandit_observed_g0.9": {
+   "max_abs_err": {
+    "state_dlogits": 1.1102230246251565e-16,
+    "state_dV": 0.0,
+    "state_dh": 0.0,
+    "return_dlogits": 8.881784197001252e-16,
+    "return_dV": 0.0,
+    "return_dh": 0.0
+   },
+   "grad_scale": 8.315993455371089
+  },
+  "bandit_hidden_g1.0": {
+   "max_abs_err": {
+    "state_dlogits": 5.551115123125783e-17,
+    "state_dV": 0.0,
+    "state_dh": 0.0,
+    "return_dlogits": 7.105427357601002e-15,
+    "return_dV": 0.0,
+    "return_dh": 0.0
+   },
+   "grad_scale": 57.318010557844076
+  },
+  "bandit_hidden_g0.9": {
+   "max_abs_err": {
+    "state_dlogits": 2.7755575615628914e-17,
+    "state_dV": 0.0,
+    "state_dh": 0.0,
+    "return_dlogits": 2.220446049250313e-16,
+    "return_dV": 0.0,
+    "return_dh": 0.0
+   },
+   "grad_scale": 51.58620950205967
+  },
+  "thm7_counterexample_g1.0": {
+   "max_abs_err": {
+    "state_dlogits": 5.551115123125783e-17,
+    "state_dV": 0.0,
+    "state_dh": 0.0,
+    "return_dlogits": 2.220446049250313e-16,
+    "return_dV": 0.0,
+    "return_dh": 0.0
+   },
+   "grad_scale": 1.2613014250324606
+  },
+  "thm7_counterexample_g0.9": {
+   "max_abs_err": {
+    "state_dlogits": 1.1102230246251565e-16,
+    "state_dV": 0.0,
+    "state_dh": 0.0,
+    "return_dlogits": 1.3877787807814457e-17,
+    "return_dV": 0.0,
+    "return_dh": 0.0
+   },
+   "grad_scale": 1.0216541542762931
+  }
+ },
+ "worst_max_abs_err": 7.105427357601002e-15,
+ "pass": true
+}

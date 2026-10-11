@@ -1,0 +1,103 @@
+# Provenance of every planned config key. Tags: 'paper §X' / 'Figure N' / 'Appendix X' / 'official code'
+# (github.com/hca-neurips2019/hca @ 3a564ad) / 'ASSUMED (reason)' -> the A-* labels are listed in the README.
+global:
+  gamma: {value: 1.0, source: "paper §5 ('we take γ = 1 in all of the tasks')"}
+  n_runs: {value: 100, source: "paper §5 ('average of 100 independent runs')"}
+  plot_band: {value: "std across runs", source: "paper §5 ('means and standard deviations')"}
+  dtype: {value: float64, source: "ASSUMED (A-DTYPE: tabular, cheap; exact-enumeration comparisons)"}
+  seed: {value: 0, source: "ASSUMED (single top-level seed; key tree in src/train.py)"}
+  pg_tuning_seed_offset: {value: 999, source: "ASSUMED (A-PG-LR: tuning seeds disjoint from eval seeds)"}
+
+hca:
+  policy_lr: {value: 0.3, source: "Appendix E ('α = 0.3'); ASSUMED meaning = HCA policy lr (A-LR)"}
+  hindsight_lr: {value: 0.4, source: "Appendix E ('α_b = 0.4' read as α_h; A-LR). Recheck: swapped reading α 0.4 / α_h 0.3 and sweep {0.1,0.2,0.8,1.6} reported (S-HLR)"}
+  value_lr: {value: 0.3, source: "ASSUMED (A-LR: same as policy lr; V only used when bootstrapping)"}
+  reward_model_lr: {value: 0.3, source: "ASSUMED (A-LR; r̂ only in the paper-pseudocode variant)"}
+  n_bins_delayed_effect: {value: 3, source: "Appendix E ('n_b = 3 for the results in Fig. 4')"}
+  n_bins_default: {value: 10, source: "Appendix E ('n_b = 10 elsewhere')"}
+  bin_assignment: {value: nearest_centre, source: "official code (ReturnHCA.update: argmin |bins − G|)"}
+  bin_centres: {value: "linspace(z_min0 − 2σ_tot, z_max0 + 2σ_tot, n_b)", source: "ASSUMED (A-BINS)"}
+  state_hca_form: {value: official, source: "official code (StateHCA.update: Σ_{j≥i} R_j (h − π)); variant 'paper' = Alg. 1 with r̂"}
+  hindsight_pairs: {value: "j >= i, unit weight", source: "official code (StateHCA.update loop j in range(i,T)); Algorithm 1 l.4"}
+  update_schedule: {value: "one summed update per episode, pre-update π/h/V", source: "official code (update returns summed gradients); A-UPDATE"}
+  return_hca_uses_value: {value: false, source: "paper §4 ('RL without value functions'); official code (dV computed, unused)"}
+  return_hca_returns: {value: monte_carlo, source: "paper Algorithm 2 (full trajectories); ASSUMED for Fig. 4 left (A-RET-MC)"}
+  bootstrap_term_form: {value: "(h(b|X_i,X_T) − π(b|X_i)) V(X_T)", source: "paper Algorithm 1 l.23 / Thm 7 in official-code π-multiplied form (A-BOOT-FORM)"}
+  init_logits: {value: 0.0, source: "ASSUMED (A-INIT; Fig. 3 caption 'initialized uniformly'). Recheck: h prior unpinned by the paper; residual h = softmax(θ+ψ) reported (S-HPRIOR); E1 long-logit +1 start reported (S-E1START)"}
+  hindsight_estimator: {value: "one logit-space CE SGD step per pair (official dlogits_h)", source: "ASSUMED (A-H-EST; paper: 'train h via cross-entropy'). Recheck: ML counts and probability EMA reported (S-HFORM)"}
+  init_value: {value: 0.0, source: "ASSUMED (A-INIT)"}
+
+pg:
+  lr_grid: {value: [0.1, 0.2, 0.3, 0.4], source: "Appendix E ('best value from [0.1, 0.2, 0.3, 0.4]')"}
+  lr_selection: {value: "max mean training-curve value per panel & sweep point on tuning seeds", source: "ASSUMED (A-PG-LR)"}
+  critic_lr: {value: "= actor lr", source: "ASSUMED (A-PG-LR)"}
+  returns: {value: "monte_carlo (n=∞) except Fig. 4 left n=3", source: "paper §5 ('n-step advantage actor critic, n = ∞ for Monte Carlo'); Figure 4 caption; A-PG-N"}
+  segments: {value: "non-overlapping, A3C-style", source: "ASSUMED (A-SEG; Algorithm 1 bootstraps every i at X_T)"}
+  entropy_bonus: {value: 0.0, source: "ASSUMED (A-NO-ENT; none mentioned)"}
+
+env_shortcut:
+  n_states: {value: 5, source: "Figure 3 caption ('n = 5'); confirmed by Fig. 3-right oracle fit"}
+  absorb_prob: {value: 0.1, source: "paper §5 ('a chance (of 0.1) that the agent transitions to the absorbing state directly')"}
+  absorb_applies_to: {value: "every transition", source: "ASSUMED (A-ENV-SC; fits Fig. 3 right to ≤0.019, 'long-only' fits to 0.08)"}
+  step_reward: {value: -1.0, source: "paper §5 ('per-step penalty (of −1)')"}
+  goal_reward: {value: 1.0, source: "paper §5 ('a final reward of 1')"}
+  absorb_reward: {value: 0.0, source: "ASSUMED (A-ENV-SC; with goal +1 gives optimum −0.1 = Fig. 3 left asymptote)"}
+  reward_convention: {value: "state reward at terminal G", source: "ASSUMED (A-ENV-*)"}
+  episodes: {value: 100, source: "Figure 3 left x-axis"}
+  fig3r_p_long: {value: [0.1, 0.2333, 0.3667, 0.5, 0.6333, 0.7667, 0.9], source: "Figure 3 right x-axis (linspace(0.1,0.9,7))"}
+  fig3r_rollouts: {value: 1000, source: "Figure 3 caption ('1000 rollouts from a fixed policy')"}
+  fig3r_repetitions: {value: 100, source: "ASSUMED (A-F3R; paper §5 100 runs)"}
+  fig3r_error_bars: {value: "95 % CI over the 1000 rollouts of one repetition", source: "paper Figure 3 right (bar widths = exact per-rollout CI of the PG estimator; recheck). Superseded: '95 % CI over repetitions'"}
+  paper_readoffs_fig5: {value: "exact vector means and stds", source: "paper PDF vector graphics (recheck; data/fig5_vector.json)"}
+  fig3r_quantity: {value: "Q̂(s0,short) − Q̂(s0,long)", source: "ASSUMED (A-F3R; reconstructed from oracle and PG bars)"}
+
+env_delayed_effect:
+  chain_len_fig4_left: {value: 5, source: "Figure 4 caption ('n = 5')"}
+  chain_len_fig4_mid_right: {value: 3, source: "Figure 4 caption ('for n = 3'); A-F4R for right panel"}
+  noise_sigma_fig4_left: {value: 0.0, source: "Figure 4 caption ('σ = 0')"}
+  noise_sigma_fig4_mid: {value: 2.0, source: "Figure 4 caption ('σ = 2')"}
+  noise_sigma_sweep: {value: [0, 1, 2, 3, 4, 5], source: "Figure 4 right x-axis"}
+  bootstrap_steps_fig4_left: {value: 3, source: "Figure 4 caption ('a 3-step return')"}
+  final_rewards: {value: [1.0, -1.0], source: "paper §5 ('r = 1', 'r = −1')"}
+  aliasing: {value: per_position, source: "ASSUMED (A-DE-ALIAS)"}
+  chain_actions: {value: 2, source: "ASSUMED (A-DE-ACT)"}
+  episodes: {value: 500, source: "Figure 4 left/middle x-axis; A-F4R for right"}
+
+env_ambiguous_bandit:
+  means: {value: [1.0, 2.0], source: "Figure 5 caption ('means 1, 2')"}
+  sigma_left_mid: {value: 1.5, source: "Figure 5 caption ('standard deviation 1.5')"}
+  sigma_right: {value: 0.5, source: "Figure 5 caption ('standard deviation 0.5')"}
+  crossover_eps_left_mid: {value: 0.1, source: "ASSUMED (A-AB-EPS; sensitivity 0.0). Recheck: Fig. 5-left std bound favours ε < 0.1 (ε = 0 consistent); primary kept as declared"}
+  crossover_eps_sweep: {value: [0.0, 0.1, 0.2, 0.3, 0.4], source: "Figure 5 right x-axis"}
+  hidden_right: {value: true, source: "paper §5 ('we introduce partial observability, see Fig. 5 (right)')"}
+  reward_step: {value: 1, source: "ASSUMED (A-AB-REW; deduced from flat State HCA in Fig. 5 middle). Recheck: official snippet only learns under state-attached rewards"}
+  episodes: {value: 100, source: "Figure 5 x-axes; A-F5R for right"}
+
+metrics:
+  value: {value: "exact V^π(x0) by DP, E+1 points", source: "ASSUMED (A-VALUE); recheck: Fig. 5 vector std 0.002-0.003 at episode 0 confirms an exact (not sampled) value"}
+  average_value: {value: "mean of learning curve (primary), final (secondary)", source: "ASSUMED (A-AVG)"}
+  optimal_value_bandit: {value: "2 − ε", source: "Figure 5 right (exact; matches the plotted black line)"}
+
+# Implementation details (keys of src/configs/default.yaml not listed above)
+implementation:
+  bin_widen: {value: 2.0, source: "ASSUMED (A-BINS: centres span noise-free return range ± 2·σ_tot)"}
+  fig3r_immediate: {value: rhat, source: "ASSUMED (A-F3R-IMM; Algorithm 1 learns rhat); sensitivities exact / official"}
+  fig3r_pg_baseline: {value: "batch-mean return", source: "ASSUMED (A-F3R primary)"}
+  segment_terminal: {value: "terminal at boundary appended as reward", source: "ASSUMED (A-SEG-TERM)"}
+  segment_hindsight_pairs: {value: "window ∪ {X_T}", source: "paper Algorithm 1 l.4 (i ≤ j ≤ T); A-SEG-HPAIR"}
+  optimizer: {value: "optax SGD per table, one summed update per episode", source: "official code (raw summed gradients); ASSUMED lr application (A-OPT)"}
+  exact_checks_h_lr_decay_tau: {value: 1000, source: "ASSUMED (A-RM; exact-check convergence test only)"}
+  small_scale_seed: {value: 2, source: "ASSUMED (seed disjoint from eval seed 0 and tuning seed 999)"}
+  small_scale_n_runs: {value: 20, source: "ASSUMED (5x fewer than the paper's 100, small-scale run)"}
+
+# Sensitivity options of make_runner / make_fig3r_runner; never the primary setting)
+sensitivity:
+  update_order: {value: "official (pre-update tables) primary; 'alg' = Algorithm 1/2 order as sensitivity", source: "official code for the primary; paper Appendix D Alg. 1/2 for the sensitivity"}
+  seg_mode: {value: "segment (primary); sliding (sensitivity)", source: "ASSUMED (A-SEG; Figure 4 caption '3-step return' unspecified)"}
+  bin_mode: {value: "fixed (A-BINS, primary); running observed-return range (sensitivity)", source: "ASSUMED (A-RUNBINS; review)"}
+  bin_layouts_s_bin: {value: "A (widen 2), W1 (widen 1), W0 (widen 0), OUT (DE [-1,0,1]; bandit [1,2] with n_b=2), RUN", source: "ASSUMED (review; Appendix E gives n_b only)"}
+  fig3r_pg_baseline_online_v_lr: {value: [0.3, 0.1], source: "ASSUMED (A-F3RV; 0.3 = A-LR value lr)"}
+  pg_fixed_lr: {value: 0.3, source: "Appendix E second reading ('α = 0.3' as the baseline's lr)"}
+  eps0_pg_retune: {value: "PG lr re-tuned on seed 999 at ε = 0", source: "ASSUMED (A-PG-LR protocol)"}
+  d_alpha_grid: {value: [0.3, 0.6, 1.0, 2.0], source: "ASSUMED (diagnostic only)"}
+  value_lr_grid_e3: {value: [0.1, 0.2, 0.3, 0.4], source: "Appendix E grid reused (descriptive)"}

@@ -1,0 +1,180 @@
+## S-BIN: Return-HCA ordering claims across 5 bin layouts × 2 update orders (diff mean; Holm over the 10 cells)
+| claim | A/off | A/alg | W1/off | W1/alg | W0/off | W0/alg | OUT/off | OUT/alg | RUN/off | RUN/alg | primary sign | all cells Holm<0.05 same sign? | reading |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| P4 | +0.979* | +0.980* | +0.979* | +0.980* | +0.979* | +0.980* | +0.979* | +0.980* | +0.979* | +0.979* | + | yes | ROBUST |
+| P8 | -0.190* | -0.220* | -0.135* | -0.200* | -0.087* | -0.165* | -0.142* | -0.156* | -0.192* | -0.222* | − | yes | ROBUST |
+| P9 | -0.186* | -0.228* | -0.163* | -0.214* | -0.087* | -0.174* | -0.096* | -0.153* | -0.200* | -0.238* | − | yes | ROBUST |
+| P10 | -0.325* | -0.325* | -0.328* | -0.327* | -0.268* | -0.296* | -0.211* | -0.250* | -0.329* | -0.329* | − | yes | ROBUST |
+| sec E3 Return−State | +0.091* | +0.090* | +0.091* | +0.090* | +0.091* | +0.090* | +0.091* | +0.090* | +0.091* | +0.090* | + | yes | ROBUST |
+| sec E4 ep100 PG−Return | +0.348* | +0.212* | +0.145* | +0.070* | +0.112* | +0.131* | +0.112* | +0.131* | +0.257* | +0.156* | + | yes | ROBUST |
+| sec E6 State−Return | +0.126* | +0.171* | +0.071* | +0.151* | +0.022 | +0.115* | +0.078* | +0.107* | +0.128* | +0.173* | + | no | LAYOUT-DEPENDENT (n.s. in some cells) |
+| sec E5 σ=0 Return−PG | -0.037* | -0.033* | -0.037* | -0.033* | -0.037* | -0.033* | -0.037* | -0.033* | -0.042* | -0.036* | − | yes | ROBUST |
+| sec E5 σ=1 Return−PG | -0.107* | -0.054* | -0.039* | -0.037* | -0.033* | -0.034* | -0.033* | -0.034* | -0.076* | -0.043* | − | yes | ROBUST |
+| sec E5 σ=2 Return−PG | -0.305* | -0.075* | -0.078* | -0.039* | -0.127* | -0.076* | -0.127* | -0.076* | -0.323* | -0.099* | − | yes | ROBUST |
+| sec E5 σ=3 Return−PG | -0.414* | -0.303* | -0.336* | -0.209* | -0.290* | -0.320* | -0.290* | -0.320* | -0.387* | -0.302* | − | yes | ROBUST |
+| sec E5 σ=4 Return−PG | -0.471* | -0.405* | -0.485* | -0.341* | -0.409* | -0.299* | -0.409* | -0.299* | -0.512* | -0.527* | − | yes | ROBUST |
+| sec E5 σ=5 Return−PG | -0.595* | -0.355* | -0.344* | -0.207* | -0.343* | -0.243* | -0.343* | -0.243* | -0.453* | -0.299* | − | yes | ROBUST |
+| sec E8 ε=0.1 Return−PG | -0.251* | -0.252* | -0.249* | -0.251* | -0.192* | -0.222* | -0.161* | -0.190* | -0.253* | -0.253* | − | yes | ROBUST |
+| sec E8 ε=0.2 Return−PG | -0.189* | -0.193* | -0.184* | -0.191* | -0.142* | -0.172* | -0.129* | -0.156* | -0.189* | -0.194* | − | yes | ROBUST |
+| sec E8 ε=0.3 Return−PG | -0.112* | -0.114* | -0.111* | -0.114* | -0.086* | -0.103* | -0.088* | -0.098* | -0.110* | -0.114* | − | yes | ROBUST |
+| sec E8 ε=0.4 Return−PG | -0.032* | -0.034* | -0.032* | -0.034* | -0.028* | -0.032* | -0.019* | -0.028* | -0.033* | -0.034* | − | yes | ROBUST |
+(* = Holm-adjusted p < 0.05 within the claim. Columns: layout/order; off = official pre-update order, alg = Alg. 1/2 order.)
+
+### S-BIN: Return-HCA level per layout (mean over 100 runs; official order / alg order)
+| exp | setting | stat | paper | A | W1 | W0 | OUT | RUN |
+|---|---|---|---|---|---|---|---|---|
+| E3 |  | final | 0.83 | 0.993 / 0.993 | 0.993 / 0.993 | 0.993 / 0.993 | 0.993 / 0.993 | 0.993 / 0.993 |
+| E4 |  | ep100 | 0.46 | 0.579 / 0.715 | 0.781 / 0.857 | 0.815 / 0.796 | 0.815 / 0.796 | 0.670 / 0.770 |
+| E4 |  | final | 0.8 | 0.754 / 0.794 | 0.858 / 0.858 | 0.915 / 0.869 | 0.915 / 0.869 | 0.761 / 0.913 |
+| E5 | σ=0 | avg | 0.8 | 0.941 / 0.944 | 0.941 / 0.944 | 0.941 / 0.944 | 0.941 / 0.944 | 0.936 / 0.942 |
+| E5 | σ=1 | avg | 0.8 | 0.867 / 0.919 | 0.934 / 0.936 | 0.940 / 0.939 | 0.940 / 0.939 | 0.897 / 0.930 |
+| E5 | σ=2 | avg | 0.72 | 0.622 / 0.852 | 0.850 / 0.889 | 0.800 / 0.851 | 0.800 / 0.851 | 0.604 / 0.829 |
+| E5 | σ=3 | avg | 0.56 | 0.345 / 0.456 | 0.423 / 0.550 | 0.469 / 0.439 | 0.469 / 0.439 | 0.372 / 0.457 |
+| E5 | σ=4 | avg | 0.54 | 0.294 / 0.359 | 0.280 / 0.423 | 0.355 / 0.466 | 0.355 / 0.466 | 0.252 / 0.237 |
+| E5 | σ=5 | avg | 0.47 | -0.044 / 0.197 | 0.208 / 0.345 | 0.208 / 0.308 | 0.208 / 0.308 | 0.098 / 0.252 |
+| E6 |  | final | 1.77 | 1.640 / 1.610 | 1.695 / 1.630 | 1.744 / 1.666 | 1.689 / 1.674 | 1.638 / 1.608 |
+| E7 |  | final | 1.765 | 1.661 / 1.618 | 1.684 / 1.633 | 1.760 / 1.672 | 1.751 / 1.693 | 1.646 / 1.608 |
+| E8 | ε=0.0 | avg | 1.97 | 1.595 / 1.595 | 1.592 / 1.594 | 1.652 / 1.625 | 1.709 / 1.671 | 1.591 / 1.591 |
+| E8 | ε=0.1 | avg | 1.81 | 1.569 / 1.569 | 1.572 / 1.570 | 1.628 / 1.599 | 1.660 / 1.630 | 1.568 / 1.568 |
+| E8 | ε=0.2 | avg | 1.68 | 1.542 / 1.538 | 1.548 / 1.540 | 1.589 / 1.560 | 1.603 / 1.575 | 1.542 / 1.538 |
+| E8 | ε=0.3 | avg | 1.59 | 1.519 / 1.517 | 1.519 / 1.516 | 1.544 / 1.527 | 1.543 / 1.533 | 1.520 / 1.516 |
+| E8 | ε=0.4 | avg | 1.52 | 1.508 / 1.506 | 1.507 / 1.506 | 1.512 / 1.508 | 1.520 / 1.512 | 1.507 / 1.506 |
+
+### Bin-layout check: share of Delayed-Effect (n=3) x0 returns that land in the middle A-BINS bin (analytic)
+| σ | centres | P(middle | + branch) = P(middle | − branch) |
+|---|---|---|
+| 1 | [−4.46, 0, 4.46] | 0.731 |
+| 2 | [−7.93, 0, 7.93] | 0.728 |
+| 3 | [−11.39, 0, 11.39] | 0.718 |
+| 4 | [−14.86, 0, 14.86] | 0.711 |
+| 5 | [−18.32, 0, 18.32] | 0.707 |
+
+## S-ORDER: primary family with the HCA arms in the literal Alg. 1/2 order (Holm over 10)
+| # | diff mean ± SE | wins | t p | Holm p | Wilcoxon p | verdict | primary verdict |
+|---|---|---|---|---|---|---|---|
+| P1 | -0.0153 ± 0.0015 | 8 | 1.3e-16 | 5e-16 | 1e-15 | REVERSED | REVERSED |
+| P2 | +2.1738 ± 0.0049 | 100 | 4.2e-165 | 4.2e-164 | 3.9e-18 | REPRODUCED | REPRODUCED |
+| P3 | +0.8898 ± 0.0189 | 100 | 1.3e-69 | 9.1e-69 | 3.9e-18 | REPRODUCED | REPRODUCED |
+| P4 | +0.9795 ± 0.0186 | 100 | 3.4e-74 | 2.7e-73 | 3.9e-18 | REPRODUCED | REPRODUCED |
+| P5 | +0.0270 ± 0.0060 | 79 | 1.9e-05 | 5.7e-05 | 6.4e-12 | REPRODUCED | NOT REPRODUCED |
+| P6 | +0.2189 ± 0.0770 | 58 | 0.0054 | 0.011 | 0.01 | REPRODUCED | NOT REPRODUCED |
+| P7 | -0.0492 ± 0.0229 | 18 | 0.034 | 0.034 | 2.9e-08 | REVERSED | REVERSED |
+| P8 | -0.2200 ± 0.0197 | 6 | 3e-19 | 1.5e-18 | 6.7e-12 | REVERSED | REVERSED |
+| P9 | -0.2282 ± 0.0182 | 4 | 3.2e-22 | 1.9e-21 | 2.4e-13 | REVERSED | REVERSED |
+| P10 | -0.3253 ± 0.0056 | 0 | 1.1e-78 | 1e-77 | 3.9e-18 | REVERSED | REVERSED |
+
+## S-PG03: primary family with PG fixed at lr 0.3 in every panel (second reading of App. E; Holm over 10)
+| # | diff mean ± SE | wins | t p | Holm p | Wilcoxon p | verdict | primary verdict |
+|---|---|---|---|---|---|---|---|
+| P1 | -0.0068 ± 0.0016 | 32 | 3.7e-05 | 0.00011 | 2.8e-05 | REVERSED | REVERSED |
+| P2 | +2.1556 ± 0.0049 | 100 | 9.8e-165 | 9.8e-164 | 3.9e-18 | REPRODUCED | REPRODUCED |
+| P3 | +0.9189 ± 0.0655 | 98 | 3e-25 | 2.1e-24 | 5.8e-18 | REPRODUCED | REPRODUCED |
+| P4 | +1.0099 ± 0.0650 | 100 | 2.6e-28 | 2.1e-27 | 3.9e-18 | REPRODUCED | REPRODUCED |
+| P5 | +0.1092 ± 0.0425 | 32 | 0.012 | 0.016 | 0.096 | REPRODUCED | NOT REPRODUCED |
+| P6 | +0.4583 ± 0.0976 | 48 | 8.5e-06 | 3.4e-05 | 0.026 | REPRODUCED | NOT REPRODUCED |
+| P7 | -0.0640 ± 0.0237 | 19 | 0.008 | 0.016 | 1.4e-08 | REVERSED | REVERSED |
+| P8 | -0.1899 ± 0.0209 | 8 | 1.1e-14 | 5.4e-14 | 3e-12 | REVERSED | REVERSED |
+| P9 | -0.1858 ± 0.0197 | 5 | 2e-15 | 1.2e-14 | 2.4e-13 | REVERSED | REVERSED |
+| P10 | -0.3112 ± 0.0062 | 0 | 3e-72 | 2.7e-71 | 3.9e-18 | REVERSED | REVERSED |
+
+## S-PAPERVAR: Alg.-1 (r̂) State-HCA variant vs tuned PG (AB3 runs; Holm over 4)
+| # | State(r̂) mean | official-snippet State mean | diff vs PG ± SE | t p | Holm p | Wilcoxon p | verdict |
+|---|---|---|---|---|---|---|---|
+| P1 | -0.1459 | -0.1274 | -0.0327 ± 0.0018 | 1e-32 | 3e-32 | 6.9e-18 | REVERSED |
+| P3 | 0.9019 | 0.9019 | +0.8882 ± 0.0192 | 8.7e-69 | 3.5e-68 | 3.9e-18 | REPRODUCED |
+| P5 | 0.9282 | 0.9282 | +0.0049 ± 0.0115 | 0.67 | 0.67 | 5.9e-06 | n.s. |
+| P7 | 1.7663 | 1.7663 | -0.0640 ± 0.0237 | 0.008 | 0.016 | 1.4e-08 | REVERSED |
+
+## S-EPS0: E6/E7 at ε = 0 (PG lr re-tuned on seed 999 at ε = 0; Holm over 3)
+| claim | State | Return | PG (lr) | diff ± SE | t p | Holm p | Wilcoxon p | verdict | primary (ε = 0.1) |
+|---|---|---|---|---|---|---|---|---|---|
+| P7 | 1.877 | 1.713 | 1.944 (0.3) | -0.0665 ± 0.0251 | 0.0093 | 0.0093 | 6e-09 | REVERSED | REVERSED |
+| P8 | 1.877 | 1.713 | 1.944 (0.3) | -0.2311 ± 0.0219 | 7.1e-18 | 1.4e-17 | 3.5e-14 | REVERSED | REVERSED |
+| P9 | 1.521 | 1.736 | 1.978 (0.3) | -0.2413 ± 0.0116 | 4.9e-38 | 1.5e-37 | 4.3e-18 | REVERSED | REVERSED |
+Paper (Fig. 5 left/middle, ε unstated): State 1.845 / 1.495, Return 1.77 / 1.765, PG 1.73 / 1.715.
+
+## S-SLIDE: E3 with sliding-window 3-step returns (PG lr re-tuned on seed 999 under sliding)
+max |sliding − segment| per-run final: State(off) 0 (avg 0), State(alg) 0, PG lr0.1 0, lr0.2 0, lr0.3 0, lr0.4 0; PG tuned lr under sliding = 0.1
+P3 (sliding): +0.8882 ± 0.0192, Holm p 8.7e-69, wins 100
+P4 (sliding): +0.9792 ± 0.0187, Holm p 8.7e-74, wins 100
+
+## S-F3R-V: E2 PG bars with an online-learned V(x0) baseline vs the batch-mean baseline
+| p_long | paper PG | batch-mean (primary) | online V lr 0.3 | judg. norm./rel. (online 0.3) | online V lr 0.1 | 2p(1−p)·oracle |
+|---|---|---|---|---|---|---|
+| 0.10 | 0.17 | 0.194 | 0.194 ± 0.002 | MATCH / CLOSE | 0.193 | 0.196 |
+| 0.23 | 0.42 | 0.450 | 0.450 ± 0.002 | MATCH / CLOSE | 0.449 | 0.447 |
+| 0.37 | 0.69 | 0.677 | 0.676 ± 0.003 | MATCH / MATCH | 0.675 | 0.678 |
+| 0.50 | 0.83 | 0.857 | 0.859 ± 0.003 | MATCH / MATCH | 0.858 | 0.863 |
+| 0.63 | 0.98 | 0.953 | 0.955 ± 0.003 | MATCH / MATCH | 0.958 | 0.956 |
+| 0.77 | 0.82 | 0.883 | 0.891 ± 0.005 | MATCH / CLOSE | 0.897 | 0.884 |
+| 0.90 | 0.55 | 0.537 | 0.544 ± 0.005 | MATCH / MATCH | 0.559 | 0.534 |
+P2 analogue (online-V PG): +2.1485 ± 0.0051, p 2.7e-163, wins 100
+
+## S-AVG: E5/E8 rows under the curve-mean (A-AVG, primary) and final-value readings
+| exp | setting | arm | paper | ours avg ± SE | judg. norm./rel. (avg) | ours final ± SE | judg. norm./rel. (final) |
+|---|---|---|---|---|---|---|---|
+| E5 | σ=0 | state_hca | 0.79 | 0.949 ± 0.000 | CLOSE / DIVERGENT | 0.994 ± 0.000 | DIVERGENT / DIVERGENT |
+| E5 | σ=0 | return_hca | 0.8 | 0.941 ± 0.001 | CLOSE / CLOSE | 0.993 ± 0.000 | CLOSE / DIVERGENT |
+| E5 | σ=0 | pg | 0.84 | 0.978 ± 0.001 | CLOSE / CLOSE | 0.998 ± 0.000 | CLOSE / CLOSE |
+| E5 | σ=1 | state_hca | 0.79 | 0.950 ± 0.001 | CLOSE / DIVERGENT | 0.994 ± 0.000 | DIVERGENT / DIVERGENT |
+| E5 | σ=1 | return_hca | 0.8 | 0.867 ± 0.022 | CLOSE / CLOSE | 0.952 ± 0.028 | CLOSE / CLOSE |
+| E5 | σ=1 | pg | 0.83 | 0.973 ± 0.004 | CLOSE / CLOSE | 0.997 ± 0.000 | CLOSE / DIVERGENT |
+| E5 | σ=2 | state_hca | 0.78 | 0.938 ± 0.006 | CLOSE / DIVERGENT | 0.994 ± 0.000 | DIVERGENT / DIVERGENT |
+| E5 | σ=2 | return_hca | 0.72 | 0.622 ± 0.058 | CLOSE / CLOSE | 0.632 ± 0.077 | CLOSE / CLOSE |
+| E5 | σ=2 | pg | 0.67 | 0.927 ± 0.003 | DIVERGENT / DIVERGENT | 0.986 ± 0.003 | DIVERGENT / DIVERGENT |
+| E5 | σ=3 | state_hca | 0.77 | 0.903 ± 0.027 | CLOSE / CLOSE | 0.954 ± 0.028 | CLOSE / DIVERGENT |
+| E5 | σ=3 | return_hca | 0.56 | 0.345 ± 0.079 | DIVERGENT / DIVERGENT | 0.397 ± 0.092 | CLOSE / DIVERGENT |
+| E5 | σ=3 | pg | 0.56 | 0.759 ± 0.044 | CLOSE / DIVERGENT | 0.911 ± 0.038 | DIVERGENT / DIVERGENT |
+| E5 | σ=4 | state_hca | 0.71 | 0.693 ± 0.062 | MATCH / MATCH | 0.775 ± 0.063 | CLOSE / CLOSE |
+| E5 | σ=4 | return_hca | 0.54 | 0.294 ± 0.083 | DIVERGENT / DIVERGENT | 0.279 ± 0.096 | DIVERGENT / DIVERGENT |
+| E5 | σ=4 | pg | 0.47 | 0.765 ± 0.043 | DIVERGENT / DIVERGENT | 0.873 ± 0.045 | DIVERGENT / DIVERGENT |
+| E5 | σ=5 | state_hca | 0.66 | 0.680 ± 0.064 | MATCH / MATCH | 0.756 ± 0.065 | CLOSE / CLOSE |
+| E5 | σ=5 | return_hca | 0.47 | -0.044 ± 0.087 | DIVERGENT / DIVERGENT | -0.080 ± 0.100 | DIVERGENT / DIVERGENT |
+| E5 | σ=5 | pg | 0.25 | 0.551 ± 0.069 | DIVERGENT / DIVERGENT | 0.623 ± 0.077 | DIVERGENT / DIVERGENT |
+| E8 | ε=0.0 | state_hca | 1.58 | 1.498 ± 0.020 | CLOSE / CLOSE | 1.475 ± 0.032 | DIVERGENT / CLOSE |
+| E8 | ε=0.0 | return_hca | 1.97 | 1.595 ± 0.006 | DIVERGENT / CLOSE | 1.681 ± 0.014 | DIVERGENT / CLOSE |
+| E8 | ε=0.0 | pg | 1.85 | 1.920 ± 0.004 | CLOSE / MATCH | 1.985 ± 0.001 | DIVERGENT / CLOSE |
+| E8 | ε=0.1 | state_hca | 1.56 | 1.509 ± 0.019 | CLOSE / MATCH | 1.525 ± 0.026 | CLOSE / MATCH |
+| E8 | ε=0.1 | return_hca | 1.81 | 1.569 ± 0.005 | DIVERGENT / CLOSE | 1.632 ± 0.011 | DIVERGENT / CLOSE |
+| E8 | ε=0.1 | pg | 1.76 | 1.821 ± 0.004 | CLOSE / MATCH | 1.883 ± 0.001 | DIVERGENT / CLOSE |
+| E8 | ε=0.2 | state_hca | 1.535 | 1.494 ± 0.012 | CLOSE / MATCH | 1.506 ± 0.018 | CLOSE / MATCH |
+| E8 | ε=0.2 | return_hca | 1.68 | 1.542 ± 0.004 | DIVERGENT / CLOSE | 1.591 ± 0.008 | DIVERGENT / CLOSE |
+| E8 | ε=0.2 | pg | 1.66 | 1.731 ± 0.004 | DIVERGENT / MATCH | 1.785 ± 0.001 | DIVERGENT / CLOSE |
+| E8 | ε=0.3 | state_hca | 1.5 | 1.486 ± 0.008 | CLOSE / MATCH | 1.476 ± 0.013 | CLOSE / MATCH |
+| E8 | ε=0.3 | return_hca | 1.59 | 1.519 ± 0.003 | DIVERGENT / MATCH | 1.540 ± 0.006 | DIVERGENT / MATCH |
+| E8 | ε=0.3 | pg | 1.58 | 1.630 ± 0.006 | DIVERGENT / MATCH | 1.674 ± 0.006 | DIVERGENT / CLOSE |
+| E8 | ε=0.4 | state_hca | 1.515 | 1.500 ± 0.004 | CLOSE / MATCH | 1.505 ± 0.006 | CLOSE / MATCH |
+| E8 | ε=0.4 | return_hca | 1.52 | 1.508 ± 0.001 | CLOSE / MATCH | 1.516 ± 0.003 | MATCH / MATCH |
+| E8 | ε=0.4 | pg | 1.52 | 1.540 ± 0.004 | CLOSE / MATCH | 1.564 ± 0.004 | DIVERGENT / MATCH |
+(The norm. judgments here omit the paper-spread clause, i.e. std_paper = 0, so both readings are judged alike.)
+
+D-ALPHA (oracle continuous h_z, E8 ε=0): α=0.3: avg 1.8022, final 1.9249; α=0.6: avg 1.7838, final 1.8520; α=1.0: avg 1.7755, final 1.8285; α=2.0: avg 1.7588, final 1.7648
+(consistency: α=0.3 here vs runs/full/oracle_hz.json avg max|Δ| = 0)
+
+## S-E1: E1 scored by the fraction of the start-to-optimum gap closed, q = (V − V0)/(−0.1 − V0)
+| arm | ep | paper V (q, V0 = −1.80) | ours V (q ± SE, V0 = −0.963) | Δ% of q | judgment (relative, on q) |
+|---|---|---|---|---|---|
+| state_hca | 20 | -0.62 (0.694) | -0.408 (0.644 ± 0.027) | -7% | CLOSE |
+| state_hca | 50 | -0.14 (0.976) | -0.168 (0.921 ± 0.006) | -6% | CLOSE |
+| state_hca | 100 | -0.10 (1.000) | -0.127 (0.968 ± 0.002) | -3% | MATCH |
+| return_hca | 20 | -0.83 (0.571) | -0.494 (0.543 ± 0.025) | -5% | MATCH |
+| return_hca | 50 | -0.50 (0.765) | -0.175 (0.914 ± 0.011) | +19% | CLOSE |
+| return_hca | 100 | -0.43 (0.806) | -0.134 (0.960 ± 0.010) | +19% | CLOSE |
+| pg | 20 | -0.87 (0.547) | -0.176 (0.912 ± 0.008) | +67% | DIVERGENT |
+| pg | 50 | -0.37 (0.841) | -0.127 (0.969 ± 0.003) | +15% | CLOSE |
+| pg | 100 | -0.18 (0.953) | -0.113 (0.985 ± 0.002) | +3% | MATCH |
+(V0 ours = -0.9631; ordering at ep100 in V and in q is identical because V0 is common to the arms.)
+
+## Bimodality check: E4 State − PG curve-mean (P5) distribution
+State avg: median 0.948, runs < 0.5: 2, < 0: 1; PG avg median 0.936, runs < 0.5: 1; diff median +0.0127, mean +0.0049; mean of diff over runs with State avg ≥ 0.5: +0.0158 (n=98)
+
+## Oracle-h_z Return HCA − tuned PG (same seed-0 run keys)
+| exp | setting | stat | oracle mean | PG mean | diff ± SE | t p | Wilcoxon p | wins |
+|---|---|---|---|---|---|---|---|---|
+| E6 | ε=0.1 | final | 1.8772 | 1.8303 | +0.0469 ± 0.0183 | 0.012 | 0.86 | 46 |
+| E7 | ε=0.1 | final | 1.8762 | 1.8467 | +0.0295 ± 0.0154 | 0.058 | 0.44 | 43 |
+| E8 | ε=0.0 | avg | 1.8022 | 1.9203 | -0.1181 ± 0.0135 | 5.7e-14 | 1.2e-13 | 17 |
+| E8 | ε=0.1 | avg | 1.7773 | 1.8208 | -0.0435 ± 0.0083 | 1e-06 | 8.2e-07 | 29 |
+| E8 | ε=0.2 | avg | 1.7012 | 1.7314 | -0.0302 ± 0.0059 | 1.7e-06 | 3.3e-06 | 29 |
+| E8 | ε=0.3 | avg | 1.6263 | 1.6303 | -0.0040 ± 0.0066 | 0.54 | 0.013 | 34 |
+| E8 | ε=0.4 | avg | 1.5469 | 1.5397 | +0.0072 ± 0.0040 | 0.078 | 0.35 | 49 |

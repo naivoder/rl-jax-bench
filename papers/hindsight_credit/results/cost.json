@@ -1,0 +1,125 @@
+{
+ "n_runs": 100,
+ "rows": [
+  {
+   "exp": "E1",
+   "method": "state_hca",
+   "flops_per_call_xla": 1390026.0,
+   "episodes": 100,
+   "flops_per_episode": 139.0026,
+   "first_call_s": 0.23311151697998866,
+   "steady_s_median": 0.06198992597637698,
+   "episodes_per_s": 161316.5339770011
+  },
+  {
+   "exp": "E1",
+   "method": "return_hca",
+   "flops_per_call_xla": 806856.0,
+   "episodes": 100,
+   "flops_per_episode": 80.6856,
+   "first_call_s": 0.2742961279582232,
+   "steady_s_median": 0.05412518902448937,
+   "episodes_per_s": 184756.86053448092
+  },
+  {
+   "exp": "E1",
+   "method": "pg",
+   "flops_per_call_xla": 596492.0,
+   "episodes": 100,
+   "flops_per_episode": 59.6492,
+   "first_call_s": 0.24261473899241537,
+   "steady_s_median": 0.048068653035443276,
+   "episodes_per_s": 208035.7856631957
+  },
+  {
+   "exp": "E3",
+   "method": "state_hca",
+   "flops_per_call_xla": 1903942.0,
+   "episodes": 500,
+   "flops_per_episode": 38.07884,
+   "first_call_s": 0.570431225001812,
+   "steady_s_median": 0.31932681502075866,
+   "episodes_per_s": 156579.3965556874
+  },
+  {
+   "exp": "E3",
+   "method": "return_hca",
+   "flops_per_call_xla": 934865.0,
+   "episodes": 500,
+   "flops_per_episode": 18.6973,
+   "first_call_s": 0.5045186600182205,
+   "steady_s_median": 0.282462970004417,
+   "episodes_per_s": 177014.35341849632
+  },
+  {
+   "exp": "E3",
+   "method": "pg",
+   "flops_per_call_xla": 792064.0,
+   "episodes": 500,
+   "flops_per_episode": 15.84128,
+   "first_call_s": 0.4414795850170776,
+   "steady_s_median": 0.24716297496343032,
+   "episodes_per_s": 202295.67153979227
+  },
+  {
+   "exp": "E4",
+   "method": "state_hca",
+   "flops_per_call_xla": 1132871.0,
+   "episodes": 500,
+   "flops_per_episode": 22.65742,
+   "first_call_s": 0.47895798104582354,
+   "steady_s_median": 0.25608430802822113,
+   "episodes_per_s": 195248.19925510578
+  },
+  {
+   "exp": "E4",
+   "method": "return_hca",
+   "flops_per_call_xla": 683183.0,
+   "episodes": 500,
+   "flops_per_episode": 13.66366,
+   "first_call_s": 0.4277475340059027,
+   "steady_s_median": 0.22366972704185173,
+   "episodes_per_s": 223543.8861632102
+  },
+  {
+   "exp": "E4",
+   "method": "pg",
+   "flops_per_call_xla": 580475.0,
+   "episodes": 500,
+   "flops_per_episode": 11.6095,
+   "first_call_s": 0.37760520802112296,
+   "steady_s_median": 0.19250138296047226,
+   "episodes_per_s": 259738.3937250304
+  },
+  {
+   "exp": "E6",
+   "method": "state_hca",
+   "flops_per_call_xla": 331180.0,
+   "episodes": 100,
+   "flops_per_episode": 33.118,
+   "first_call_s": 0.2213620359543711,
+   "steady_s_median": 0.03031387901864946,
+   "episodes_per_s": 329881.89976768993
+  },
+  {
+   "exp": "E6",
+   "method": "return_hca",
+   "flops_per_call_xla": 318604.0,
+   "episodes": 100,
+   "flops_per_episode": 31.8604,
+   "first_call_s": 0.21274677099427208,
+   "steady_s_median": 0.030031245027203113,
+   "episodes_per_s": 332986.5275629342
+  },
+  {
+   "exp": "E6",
+   "method": "pg",
+   "flops_per_call_xla": 245258.0,
+   "episodes": 100,
+   "flops_per_episode": 24.5258,
+   "first_call_s": 0.19301927799824625,
+   "steady_s_median": 0.02311971498420462,
+   "episodes_per_s": 432531.28366123873
+  }
+ ]
+}
