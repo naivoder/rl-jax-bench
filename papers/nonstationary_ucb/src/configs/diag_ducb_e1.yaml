@@ -1,0 +1,23 @@
+# Small-scale DIAGNOSTIC (labelled, never headline, not a tuning): which D-UCB reading could explain the gap to the
+# E1 read-off. Same environment, exp_id and cfg_idx as e1.yaml -> identical reward tables (CRN) for pairing.
+name: diag_ducb_e1
+label: "DIAGNOSTIC D-UCB variants on E1 (README Small-scale disclosure)"
+exp_id: 1                     # = e1.yaml (CRN with the E1 runs)
+cfg_idx: 0                    # = e1.yaml
+reps_per_seed: 500            # Small-scale size (README Small-scale)
+log_every: 10                 # ASSUMED
+tie: random                   # ASSUMED
+report_t: [3000, 5000, 10000]
+env:
+  kind: abrupt
+  T: 10000                    # paper §5
+  breakpoints: [3000, 5000]   # paper §5; 
+  segments:                   # 
+    - [0.5, 0.3, 0.4]
+    - [0.5, 0.9, 0.4]
+    - [0.5, 0.3, 0.4]
+policies:
+  ducb_padB: {algo: ducb, xi: 0.125, gamma: 0.9975, label: "D-UCB with padding B instead of 2B (xi=1/8 with 2B) DIAGNOSTIC"}  # ASSUMED diagnostic
+  ducb_lit: {xi: 0.5, gamma: 0.9975}       # ablation: literal 'discount then decide'
+readoff:
+  final_regret: {ducb_padB: 377, ducb_lit: 377}   # paper Figure 1 left, D-UCB read-off (comparison only)

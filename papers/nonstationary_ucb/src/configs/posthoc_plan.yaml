@@ -1,0 +1,18 @@
+# post-hoc follow-up (see README): analyses added AFTER the Full-scale results and the review / review.
+# POST-HOC and labelled as such everywhere; the pre-declared plan (full_plan.yaml) is unchanged.
+perrun_band: [5, 95]          # per-run reading = CONSISTENT when the read-off lies inside our 5-95 % per-run band
+mc_boundary_se: 2.0           # flag 'MC-limited' when the mean-based judgment flips within +-2 run-level SE
+families:
+  Tj:                         # tuned-vs-tuned with every arm at its JOINT-grid argmin (sweepj), seeds 20-24
+    - [tunedj_e1, swucb, exp3s, less]
+    - [tunedj_e1, ducb, exp3s, less]
+    - [tunedj_e1, swucb, ucb1, less]
+    - [tunedj_e1, ducb, ucb1, less]
+    - [tunedj_e2, swucb, exp3s, less]
+    - [tunedj_e2, ducb, exp3s, less]
+    - [tunedj_e2, swucb, ucb1, less]
+    - [tunedj_e2, ducb, ucb1, less]
+  S2B:                        # removing the discount from the padding-B D-UCB also raises regret
+    - [e1, ducb_nodisc_padB, ducb_padB, greater]
+    - [e2, ducb_nodisc_padB, ducb_padB, greater]
+x3j_paper_keys: {ucb1: ucb1_xi0.5, ducb: ducb_c4_xi0.5, swucb: swucb_c4_xi0.5, exp3s: exp3s_gx1_a0.0001}

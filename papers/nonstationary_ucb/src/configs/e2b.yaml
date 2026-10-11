@@ -1,0 +1,23 @@
+# E2b -- ALT 2011 slide variant of E2 (secondary, labelled ALT-slides). Provenance: sources.yaml e2b_periodic_slides.*
+name: e2b
+label: "E2b ALT-slides periodic, K=2, T=2e4 (slides p.21; secondary)"
+exp_id: 4                     # PRNG key tree EXP_ID (the key tree in src/algorithm.py)
+cfg_idx: 0
+reps_per_seed: 2000           # ASSUMED
+log_every: 10                 # ASSUMED
+tie: random                   # ASSUMED
+report_t: [20000]
+env:
+  kind: periodic
+  T: 20000                    # slides p.21
+  base: 0.5                   # paper §5
+  amp: 0.4                    # paper §5
+  periods: 3                  # slides p.21 (3 periods); ASSUMED
+policies:
+  ucb1: {xi: 0.5}                          # ASSUMED
+  exp3s: {S: 2, alpha: 5.0e-5}             # ASSUMED -> g = 0.0373041
+  ducb: {xi: 0.5, gamma: 0.9982322330470337}  # ASSUMED
+  swucb: {xi: 0.5, tau: 1780}              # ASSUMED
+readoff:                                   # slides p.21 (+-20)
+  final_regret: {ucb1: 1745, exp3s: 748, ducb: 310, swucb: 440}
+  precision: 20

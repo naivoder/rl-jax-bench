@@ -1,0 +1,23 @@
+# Full-scale ABLATIONS on E2 (labelled, never headline). Same exp_id/cfg_idx as e2.yaml -> CRN-paired. Provenance: sources.yaml ablations.*
+name: abl_e2
+label: "ABLATIONS on E2 (key-mechanism removal + README ablations)"
+exp_id: 2                     # = e2.yaml (CRN)
+cfg_idx: 0                    # = e2.yaml
+reps_per_seed: 2000           # ASSUMED
+log_every: 10                 # ASSUMED
+tie: random                   # ASSUMED
+report_t: [10000]
+env:
+  kind: periodic
+  T: 10000                    # paper §5
+  base: 0.5                   # paper §5
+  amp: 0.4                    # paper §5
+  periods: 3                  # ASSUMED
+policies:
+  ducb_nodisc: {algo: ducb, xi: 0.5, gamma: 1.0, label: "D-UCB with the discount REMOVED (gamma = 1) ABLATION"}   # paper §1.2 p.4 gamma = 1 remark (2B padding, so UCB with 4x UCB-1's xi, not UCB-1) (key mechanism removed)
+  swucb_nowin: {algo: swucb, xi: 0.5, tau: 10000, label: "SW-UCB with the window REMOVED (tau = T) ABLATION"}      # paper Remark 11 (key mechanism removed)
+  swucb_tau3684: {algo: swucb, xi: 0.5, tau: 3684, label: "SW-UCB tau = 4 sqrt(T) log T ABLATION"}               # alternative reading
+  ducb_xi06: {algo: ducb, xi: 0.6, gamma: 0.9975, label: "D-UCB xi = 0.6 ABLATION"}                                # README
+  swucb_xi06: {algo: swucb, xi: 0.6, tau: 1214, label: "SW-UCB xi = 0.6 ABLATION"}                                # README
+  exp3s_S6: {algo: exp3s, S: 6, alpha: 1.0e-4, label: "EXP3.S S = 6 (best-arm switches of E2) ABLATION"}          # ablation
+  ducb_lit: {xi: 0.5, gamma: 0.9975}                                                                              # ablation

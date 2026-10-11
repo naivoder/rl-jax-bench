@@ -1,0 +1,26 @@
+# Full-scale ABLATIONS on E1 (labelled, never headline). Same exp_id/cfg_idx as e1.yaml -> identical reward tables (CRN),
+# so every ablation is paired per replication with its headline arm. Provenance: sources.yaml ablations.*
+name: abl_e1
+label: "ABLATIONS on E1 (key-mechanism removal + README ablations)"
+exp_id: 1                     # = e1.yaml (CRN)
+cfg_idx: 0                    # = e1.yaml
+reps_per_seed: 2000           # ASSUMED
+log_every: 10                 # ASSUMED
+tie: random                   # ASSUMED
+report_t: [3000, 5000, 10000]
+env:
+  kind: abrupt
+  T: 10000                    # paper §5
+  breakpoints: [3000, 5000]   # paper §5; 
+  segments:                   # 
+    - [0.5, 0.3, 0.4]
+    - [0.5, 0.9, 0.4]
+    - [0.5, 0.3, 0.4]
+policies:
+  ducb_nodisc: {algo: ducb, xi: 0.5, gamma: 1.0, label: "D-UCB with the discount REMOVED (gamma = 1) ABLATION"}   # paper §1.2 p.4 gamma = 1 remark (with the printed 2B this is UCB with 4x UCB-1's xi, NOT UCB-1; see abl2_e1 ducb_nodisc_padB) (key mechanism removed)
+  swucb_nowin: {algo: swucb, xi: 0.5, tau: 10000, label: "SW-UCB with the window REMOVED (tau = T) ABLATION"}      # paper Remark 11: tau = T recovers UCB (key mechanism removed)
+  swucb_tau3684: {algo: swucb, xi: 0.5, tau: 3684, label: "SW-UCB tau = 4 sqrt(T) log T ABLATION"}               # alternative reading (see README)
+  ducb_xi06: {algo: ducb, xi: 0.6, gamma: 0.9975, label: "D-UCB xi = 0.6 ABLATION"}                                # README: theorems need xi > 1/2
+  swucb_xi06: {algo: swucb, xi: 0.6, tau: 1214, label: "SW-UCB xi = 0.6 ABLATION"}                                # README
+  exp3s_S3: {algo: exp3s, S: 3, alpha: 1.0e-4, label: "EXP3.S S = 3 (hardness) ABLATION"}                          # ablation -> g = 0.0766434
+  ducb_lit: {xi: 0.5, gamma: 0.9975}                                                                              # ablation (literal 'discount then decide')

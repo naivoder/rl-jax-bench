@@ -1,0 +1,28 @@
+# E1b -- ALT 2011 slide variant of E1 (secondary, labelled ALT-slides). Provenance: sources.yaml e1b_abrupt_slides.*
+name: e1b
+label: "E1b ALT-slides abrupt, K=3, T=2e4 (slides p.20; secondary)"
+exp_id: 3                     # PRNG key tree EXP_ID (the key tree in src/algorithm.py)
+cfg_idx: 0
+reps_per_seed: 2000           # ASSUMED
+log_every: 10                 # ASSUMED
+tie: random                   # ASSUMED
+report_t: [6000, 10000, 20000]
+env:
+  kind: abrupt
+  T: 20000                    # slides p.20 (x-axis 2e4)
+  breakpoints: [6000, 10000]  # slides p.20; ASSUMED
+  segments:                   # slides p.20 legend
+    - [0.5, 0.3, 0.4]
+    - [0.5, 0.9, 0.4]
+    - [0.5, 0.3, 0.4]
+policies:
+  ucb1: {xi: 0.5}                          # ASSUMED
+  exp3s: {S: 2, alpha: 5.0e-5}             # ASSUMED -> g = 0.0464563
+  ducb: {xi: 0.5, gamma: 0.9982322330470337}  # ASSUMED: 1 - 1/(4 sqrt(2e4))
+  swucb: {xi: 0.5, tau: 1780}              # ASSUMED
+  oracle_ucb1: {xi: 0.5}                   # EXTENSION reference
+readoff:                                   # slides p.20 (+-20)
+  final_regret: {ucb1: 1720, exp3s: 960, ducb: 715, swucb: 490}
+  regret_t6000: {ucb1: 50, exp3s: 145, ducb: 235, swucb: 80}
+  regret_t10000: {ucb1: 695, exp3s: 510, ducb: 290, swucb: 170}
+  precision: 20

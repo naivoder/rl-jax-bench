@@ -1,0 +1,21 @@
+# X3-confirm: every arm at its X3 grid argmin on E2 (EXTENSION, labelled; written by scripts/tuned.py).
+# Selected on seeds 0-4 (runs/full/sweepj_e2); evaluated on seeds 20-24 only. Same exp_id/cfg_idx as e2.yaml (CRN).
+name: tunedj_e2
+label: "X3-confirm tuned arms (sweepj) on E2 (EXTENSION)"
+exp_id: 2                     # = e2.yaml (CRN)
+cfg_idx: 0                    # = e2.yaml
+reps_per_seed: 2000           # ASSUMED
+log_every: 100               # ASSUMED (final value only)
+tie: random                   # ASSUMED
+report_t: [10000]
+env:
+  kind: periodic
+  T: 10000                    # paper §5
+  base: 0.5                   # paper §5
+  amp: 0.4                    # paper §5
+  periods: 3                  # ASSUMED
+policies:
+  ucb1: {xi: 32.0}   # X3 argmin 'ucb1_xi32' over 18 configs (mean 597.63 on seeds 0-4)
+  exp3s: {g: 0.1536115709600407, alpha: 0.0001, S: 2}   # X3 argmin 'exp3s_gx3_a0.0001' over 66 configs (mean 407.14 on seeds 0-4)
+  ducb: {xi: 0.015, gamma: 0.99}   # X3 argmin 'ducb_c1_xi0.015' over 96 configs (mean 126.95 on seeds 0-4)
+  swucb: {xi: 0.1, tau: 152}   # X3 argmin 'swucb_c0.5_xi0.1' over 72 configs (mean 134.69 on seeds 0-4)

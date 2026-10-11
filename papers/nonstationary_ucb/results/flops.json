@@ -1,0 +1,42 @@
+{
+ "K3_ucb1": {
+  "flops": 601.0,
+  "transcendentals": 4.0,
+  "bytes_accessed": 3094.0
+ },
+ "K3_exp3s": {
+  "flops": 557.0,
+  "transcendentals": 13.0,
+  "bytes_accessed": 3330.0
+ },
+ "K3_ducb": {
+  "flops": 612.0,
+  "transcendentals": 4.0,
+  "bytes_accessed": 3114.0
+ },
+ "K3_swucb": {
+  "flops": 711.0,
+  "transcendentals": 4.0,
+  "bytes_accessed": 32338.0
+ },
+ "K2_ucb1": {
+  "flops": 452.0,
+  "transcendentals": 3.0,
+  "bytes_accessed": 2870.0
+ },
+ "K2_exp3s": {
+  "flops": 444.0,
+  "transcendentals": 9.0,
+  "bytes_accessed": 3082.0
+ },
+ "K2_ducb": {
+  "flops": 459.0,
+  "transcendentals": 3.0,
+  "bytes_accessed": 2882.0
+ },
+ "K2_swucb": {
+  "flops": 542.0,
+  "transcendentals": 3.0,
+  "bytes_accessed": 32110.0
+ }
+}

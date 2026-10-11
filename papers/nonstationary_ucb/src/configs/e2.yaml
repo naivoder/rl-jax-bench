@@ -1,0 +1,31 @@
+# E2 -- paper Figure 1 right: Bernoulli MAB with periodic rewards. Provenance: sources.yaml e2_periodic.*
+name: e2
+label: "E2 periodic, K=2, T=1e4 (paper Figure 1 right)"
+exp_id: 2                     # PRNG key tree EXP_ID (the key tree in src/algorithm.py)
+cfg_idx: 0
+reps_per_seed: 2000           # ASSUMED
+log_every: 10                 # ASSUMED
+tie: random                   # ASSUMED
+report_t: [10000]
+env:
+  kind: periodic
+  T: 10000                    # paper §5
+  base: 0.5                   # paper §5 (p_t(2) = 1/2; p_t(1) centred at 1/2)
+  amp: 0.4                    # paper §5
+  periods: 3                  # ASSUMED: 'cos(6 pi R t / T)' read as cos(6 pi t / T)
+policies:
+  ucb1: {xi: 0.5}                          # paper §5; ASSUMED
+  exp3s: {S: 2, alpha: 1.0e-4}             # ASSUMED -> g = 0.0512039 at K = 2
+  ducb: {xi: 0.5, gamma: 0.9975}           # ASSUMED
+  swucb: {xi: 0.5, tau: 1214}              # ASSUMED
+readoff:                                   # RECHECK RC1 (see README): paper Figure 1 right, VECTOR-extracted
+                                           # from the PDF paths (runs/recheck/measurement/extract_fig1.py -> fig1_curves.json)
+  final_regret: {ucb1: 835.39, exp3s: 455.43, ducb: 223.85, swucb: 238.44}
+  arm1_pulls_T: {ucb1: 8136.62, exp3s: 4700.13, ducb: 6003.85, swucb: 5960.97}
+  precision: 1                # regret: y-quantum 0.29 + one step
+  precision_pulls: 5          # pulls: y-quantum 2.9 + one step
+  source: vector
+readoff_eye:                               # PRE-FIX eye reads (kept for scripts/report.py --readoff eye)
+  final_regret: {ucb1: 835, exp3s: 455, ducb: 222, swucb: 238}
+  arm1_pulls_T: {ucb1: 8100, exp3s: 4700, ducb: 5950, swucb: 5950}
+  precision: 10

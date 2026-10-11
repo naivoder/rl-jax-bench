@@ -1,0 +1,18 @@
+# post-hoc follow-up ABLATIONS on E2 (labelled, never headline). Same exp_id/cfg_idx as e2.yaml -> CRN-paired.
+name: abl2_e2
+label: "RESOLUTION ABLATIONS on E2 (gamma = 1 with padding B; EXP3.S S = 7 hardness)"
+exp_id: 2                     # = e2.yaml (CRN)
+cfg_idx: 0                    # = e2.yaml
+reps_per_seed: 2000           # ASSUMED
+log_every: 10                 # ASSUMED
+tie: random                   # ASSUMED
+report_t: [10000]
+env:
+  kind: periodic
+  T: 10000                    # paper §5
+  base: 0.5                   # paper §5
+  amp: 0.4                    # paper §5
+  periods: 3                  # ASSUMED
+policies:
+  ducb_nodisc_padB: {algo: ducb, xi: 0.125, gamma: 1.0, label: "D-UCB gamma = 1 with padding B (xi = 1/8 with 2B) ABLATION"}   # paper §1.2 p.4 gamma = 1 remark
+  exp3s_S7: {algo: exp3s, S: 7, alpha: 1.0e-4, label: "EXP3.S S = 7 (hardness = best-arm switches + 1 of E2) ABLATION"}   # same hardness definition as exp3s_S3 on E1

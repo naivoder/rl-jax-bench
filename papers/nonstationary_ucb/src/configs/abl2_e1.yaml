@@ -1,0 +1,20 @@
+# post-hoc follow-up ABLATIONS on E1 (labelled, never headline). Same exp_id/cfg_idx as e1.yaml -> CRN-paired.
+# Provenance: sources.yaml ablations.*; (see README).
+name: abl2_e1
+label: "RESOLUTION ABLATIONS on E1 (gamma = 1 with padding B)"
+exp_id: 1                     # = e1.yaml (CRN)
+cfg_idx: 0                    # = e1.yaml
+reps_per_seed: 2000           # ASSUMED
+log_every: 10                 # ASSUMED
+tie: random                   # ASSUMED
+report_t: [3000, 5000, 10000]
+env:
+  kind: abrupt
+  T: 10000                    # paper §5
+  breakpoints: [3000, 5000]   # paper §5; 
+  segments:                   # 
+    - [0.5, 0.3, 0.4]
+    - [0.5, 0.9, 0.4]
+    - [0.5, 0.3, 0.4]
+policies:
+  ducb_nodisc_padB: {algo: ducb, xi: 0.125, gamma: 1.0, label: "D-UCB gamma = 1 with padding B (xi = 1/8 with 2B) ABLATION"}   # paper §1.2 p.4: 'for gamma = 1, D-UCB boils down to the standard UCB-1' -- true only with padding B

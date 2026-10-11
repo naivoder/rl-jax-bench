@@ -1,0 +1,21 @@
+# Full-scale SECONDARY ARM (pre-declared in README Full-scale; labelled, outside the 8-test headline family): D-UCB with padding B
+# instead of the printed 2B. Same environment, exp_id and cfg_idx as e2.yaml -> CRN-paired with the headline arms.
+name: padb_e2
+label: "SECONDARY ARM D-UCB padding B (pre-declared in README Full-scale; labelled, outside the headline family)"
+exp_id: 2                     # = e2.yaml (CRN with the E2 runs)
+cfg_idx: 0                    # = e2.yaml
+reps_per_seed: 2000           # ASSUMED
+log_every: 10                 # ASSUMED
+tie: random                   # ASSUMED
+report_t: [10000]
+env:
+  kind: periodic
+  T: 10000                    # paper §5
+  base: 0.5                   # paper §5
+  amp: 0.4                    # paper §5
+  periods: 3                  # ASSUMED
+policies:
+  ducb_padB: {algo: ducb, xi: 0.125, gamma: 0.9975, label: "D-UCB with padding B instead of 2B (xi=1/8 with 2B) SECONDARY ARM"}  # secondary arm (xi = 1/8 with 2B == padding B with xi = 1/2)
+readoff:
+  final_regret: {ducb_padB: 222}   # paper Figure 1, D-UCB read-off (comparison only)
+  precision: 10

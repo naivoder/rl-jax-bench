@@ -1,0 +1,26 @@
+
+## e1: 4 seeds x [60, 60, 60, 60] reps (SMPyBandits 012fc13a, unpatched)
+| policy (SMPy) | ours-equivalent | oracle mean ± SE(seed means) [run SE] | 5-95% | ours Full-scale | paper | oracle/paper | ours−oracle (z) | R3000 | R5000 | arm1 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ucb1_paper(xi=1/2) | ucb1 | 836.8 ± 3.7 [3.0] | 760–906 | 837.2 | 905 | 0.92 | +0.4 (0.1) | 35 | 272 | 5447 | paper pct in oracle runs: 94.6
+| ducb_printed2B(alpha=4) | ducb | 612.3 ± 0.7 [1.3] | 581–646 | 610.9 | 377 | 1.62 | -1.4 (-1.1) | 184 | 281 | 4449 | paper pct in oracle runs: 0.0
+| ducb_smpy_default_pad(alpha=1) | ducb_padB | 382.8 ± 0.6 [1.8] | 343–433 | 381.4 | - | nan | -1.4 (-0.8) | 112 | 145 | 5552 |
+| swucb_paper(alpha=1/2) | swucb | 338.0 ± 4.5 [4.6] | 263–501 | 338.7 | 267 | 1.27 | +0.7 (0.1) | 70 | 136 | 6305 | paper pct in oracle runs: 8.3
+| exp3s_paper(S=2) | exp3s | 530.2 ± 1.9 [4.0] | 433–630 | 535.5 | 510 | 1.04 | +5.3 (1.3) | 97 | 298 | 6223 | paper pct in oracle runs: 39.2
+| ucb1_smpy_default(alpha=4) | - | 815.4 ± 2.8 [2.9] | 749–895 | - | - | nan | - | 89 | 131 | 3908 |
+| ducbPlus_smpy_default(Ups=2) | - | 421.5 ± 1.4 [1.7] | 378–469 | - | - | nan | - | 127 | 177 | 5372 |
+| swucbPlus_smpy_default(alpha=1) | - | 381.3 ± 2.1 [2.2] | 333–442 | - | - | nan | - | 101 | 147 | 5721 |
+| exp3s_smpy_default(Ups=2) | - | 535.7 ± 3.9 [3.9] | 449–636 | - | - | nan | - | 97 | 307 | 6277 |
+
+## e2: 4 seeds x [60, 60, 60, 60] reps (SMPyBandits 012fc13a, unpatched)
+| policy (SMPy) | ours-equivalent | oracle mean ± SE(seed means) [run SE] | 5-95% | ours Full-scale | paper | oracle/paper | ours−oracle (z) | R3000 | R5000 | arm1 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ucb1_paper(xi=1/2) | ucb1 | 942.4 ± 11.2 [7.5] | 811–1215 | 944.3 | 835 | 1.13 | +1.9 (0.3) | 207 | 425 | 7788 | paper pct in oracle runs: 10.0
+| ducb_printed2B(alpha=4) | ducb | 349.8 ± 0.8 [1.1] | 322–378 | 350.0 | 222 | 1.58 | +0.2 (0.2) | 117 | 197 | 5708 | paper pct in oracle runs: 0.0
+| ducb_smpy_default_pad(alpha=1) | ducb_padB | 216.9 ± 1.1 [1.1] | 193–249 | 218.2 | - | nan | +1.3 (1.1) | 74 | 126 | 5747 |
+| swucb_paper(alpha=1/2) | swucb | 259.7 ± 3.8 [2.4] | 213–318 | 259.8 | 238 | 1.09 | +0.1 (0.0) | 86 | 169 | 5972 | paper pct in oracle runs: 31.2
+| exp3s_paper(S=2) | exp3s | 667.7 ± 6.0 [4.9] | 553–795 | 665.1 | 455 | 1.47 | -2.6 (-0.5) | 205 | 345 | 4909 | paper pct in oracle runs: 0.0
+| ucb1_smpy_default(alpha=4) | - | 792.4 ± 7.8 [4.1] | 712–887 | - | - | nan | - | 192 | 400 | 7756 |
+| ducbPlus_smpy_default(Ups=2) | - | 204.5 ± 1.5 [1.1] | 180–231 | - | - | nan | - | 69 | 117 | 5566 |
+| swucbPlus_smpy_default(alpha=1) | - | 240.5 ± 0.5 [1.4] | 211–277 | - | - | nan | - | 78 | 157 | 5982 |
+| exp3s_smpy_default(Ups=2) | - | 656.4 ± 6.0 [5.0] | 538–790 | - | - | nan | - | 199 | 341 | 4875 |

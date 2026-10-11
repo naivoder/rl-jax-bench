@@ -1,0 +1,38 @@
+# E1 -- paper Figure 1 left: Bernoulli MAB with two swaps (abrupt changes). Provenance: sources.yaml e1_abrupt.*
+name: e1
+label: "E1 abrupt, K=3, T=1e4 (paper Figure 1 left; plotted means, )"
+exp_id: 1                     # PRNG key tree EXP_ID (the key tree in src/algorithm.py)
+cfg_idx: 0                    # environment configuration index (shared by all policies -> CRN, )
+reps_per_seed: 2000           # ASSUMED (paper states no count)
+log_every: 10                 # ASSUMED
+tie: random                   # ASSUMED; author code policyUCB.m
+report_t: [3000, 5000, 10000] # paper Figure 1 left-bottom read-off points (see README)
+env:
+  kind: abrupt
+  T: 10000                    # paper §5
+  breakpoints: [3000, 5000]   # paper §5 ('3000 <= t < 5000'); ASSUMED 1-indexed rounds
+  segments:                   # paper Figure 1 left-top + slides p.20; ASSUMED: the 0.3 arm jumps
+    - [0.5, 0.3, 0.4]
+    - [0.5, 0.9, 0.4]
+    - [0.5, 0.3, 0.4]
+policies:
+  ucb1: {xi: 0.5}                          # paper §5 (xi = 1/2), paper Alg. 1
+  exp3s: {S: 2, alpha: 1.0e-4}             # paper §5 (alpha = 1/T, Upsilon_T = 2) -> g = 0.0638305 (Auer2002 Cor.8.3)
+  ducb: {xi: 0.5, gamma: 0.9975}           # paper §5 gamma = 1 - 1/(4 sqrt T); A5 reading
+  swucb: {xi: 0.5, tau: 1214}              # paper §5 '4 sqrt(n) log T' -> round(4 sqrt(T log T)); 
+  oracle_ucb1: {xi: 0.5}                   # EXTENSION reference, labelled, never headline
+readoff:                                   # RECHECK RC1 (see README): paper Figure 1 left, VECTOR-extracted
+                                           # from the PDF paths (runs/recheck/measurement/extract_fig1.py -> fig1_curves.json)
+  final_regret: {ucb1: 909.46, exp3s: 512.71, ducb: 376.75, swucb: 267.46}
+  regret_t3000: {ucb1: 41.84, exp3s: 70.42, ducb: 115.54, swucb: 56.13}
+  regret_t5000: {ucb1: 208.86, exp3s: 313.69, ducb: 154.54, swucb: 81.8}
+  arm1_pulls_T: {ucb1: 4529.52, exp3s: 6784.34, ducb: 5676.93, swucb: 6401.84}
+  precision: 1                # regret: y-quantum 0.31 + <= 0.42 for a one-step x ambiguity at a kink
+  precision_pulls: 5          # pulls: y-quantum 2.2 + one step
+  source: vector
+readoff_eye:                               # PRE-FIX eye reads (kept for scripts/report.py --readoff eye)
+  final_regret: {ucb1: 905, exp3s: 510, ducb: 377, swucb: 267}
+  regret_t3000: {ucb1: 45, exp3s: 70, ducb: 120, swucb: 65}
+  regret_t5000: {ucb1: 210, exp3s: 315, ducb: 155, swucb: 82}
+  arm1_pulls_T: {ucb1: 4500, exp3s: 6800, ducb: 5650, swucb: 6400}
+  precision: 10

@@ -1,0 +1,22 @@
+# E1b -- ALT 2011 slide variant of E1 (secondary, labelled ALT-slides). Provenance: sources.yaml e1b_abrupt_slides.*
+name: padb_e1b
+label: "SECONDARY ARM D-UCB padding B on E1b (ALT-slides; labelled)"
+exp_id: 3                     # PRNG key tree EXP_ID (the key tree in src/algorithm.py)
+cfg_idx: 0
+reps_per_seed: 2000           # ASSUMED
+log_every: 10                 # ASSUMED
+tie: random                   # ASSUMED
+report_t: [6000, 10000, 20000]
+env:
+  kind: abrupt
+  T: 20000                    # slides p.20 (x-axis 2e4)
+  breakpoints: [6000, 10000]  # slides p.20; ASSUMED
+  segments:                   # slides p.20 legend
+    - [0.5, 0.3, 0.4]
+    - [0.5, 0.9, 0.4]
+    - [0.5, 0.3, 0.4]
+policies:
+  ducb_padB: {algo: ducb, xi: 0.125, gamma: 0.9982322330470337, label: "D-UCB padding B (xi=1/8 with 2B) SECONDARY ARM"}  # secondary arm; gamma 
+readoff:                                   # slides p.20 (+-20)
+  final_regret: {ducb_padB: 715}   # slides D-UCB read-off (comparison only)
+  precision: 20

@@ -1,0 +1,38 @@
+{
+ "e1": {
+  "argmin": "exp3sd_gx1_e3_a1e-05",
+  "mean_seeds0_4": 362.67960000000534,
+  "params": {
+   "B": 1.0,
+   "xi": 0.5,
+   "alpha": 1e-05,
+   "g": 0.06383051938131888,
+   "S": 2,
+   "eta_mult": 3.0
+  },
+  "grid_edge": {
+   "g": false,
+   "eta_mult": false,
+   "alpha": false
+  },
+  "n_configs": 108
+ },
+ "e2": {
+  "argmin": "exp3sd_gx1_e4_a0.0001",
+  "mean_seeds0_4": 279.0800935342627,
+  "params": {
+   "B": 1.0,
+   "xi": 0.5,
+   "alpha": 0.0001,
+   "g": 0.05120385698668023,
+   "S": 2,
+   "eta_mult": 4.0
+  },
+  "grid_edge": {
+   "g": false,
+   "eta_mult": false,
+   "alpha": false
+  },
+  "n_configs": 108
+ }
+}

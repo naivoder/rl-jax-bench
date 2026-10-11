@@ -1,0 +1,172 @@
+{
+ "criteria": {
+  "e1_integrity": true,
+  "e1_order_of_magnitude": true,
+  "e1_direction_DUCB_SWUCB_below_UCB1_EXP3S": false,
+  "e2_integrity": true,
+  "e2_order_of_magnitude": true,
+  "e2_direction_DUCB_SWUCB_below_UCB1_EXP3S": true
+ },
+ "rule_PASS": false,
+ "diagnostic": {
+  "e1": {
+   "ducb_padB": {
+    "final_regret_mean": 381.654,
+    "seed_means": [
+     380.8358000000049,
+     382.1044000000048,
+     382.02180000000476
+    ],
+    "regret_at_mean": {
+     "3000": 111.71713333333271,
+     "5000": 145.10346666666626,
+     "10000": 381.6540000000048
+    },
+    "final_arm1_mean": 5562.826666666667,
+    "minus_ducb_as_printed": {
+     "diff_mean": -229.25766666666667,
+     "diff_se": 0.7012214007676336,
+     "t95": [
+      -230.63314597010014,
+      -227.8821873632332
+     ],
+     "n": 1500
+    },
+    "paper_ducb_readoff": 377,
+    "rel_diff_to_paper": 0.012344827586206886
+   },
+   "ducb_lit": {
+    "final_regret_mean": 611.7182666666666,
+    "seed_means": [
+     611.5540000000302,
+     611.9360000000303,
+     611.6648000000305
+    ],
+    "regret_at_mean": {
+     "3000": 184.3841999999961,
+     "5000": 280.3066666666626,
+     "10000": 611.718266666697
+    },
+    "final_arm1_mean": 4457.75,
+    "minus_ducb_as_printed": {
+     "diff_mean": 0.8065999999999982,
+     "diff_se": 0.5596180694547112,
+     "t95": [
+      -0.2911175989205659,
+      1.9043175989205623
+     ],
+     "n": 1500
+    },
+    "paper_ducb_readoff": 377,
+    "rel_diff_to_paper": 0.6225948717948717
+   },
+   "padB_minus_other_arms": {
+    "ucb1": {
+     "diff_mean": -456.5805333333334,
+     "diff_se": 1.2243697214659008,
+     "t95": [
+      -458.9821930798605,
+      -454.1788735868063
+     ],
+     "n": 1500
+    },
+    "exp3s": {
+     "diff_mean": -151.2406,
+     "diff_se": 1.708776429403153,
+     "t95": [
+      -154.59244666392956,
+      -147.88875333607044
+     ],
+     "n": 1500
+    },
+    "swucb": {
+     "diff_mean": 42.952600000000004,
+     "diff_se": 1.8627609923183928,
+     "t95": [
+      39.298705253815235,
+      46.60649474618477
+     ],
+     "n": 1500
+    }
+   }
+  },
+  "e2": {
+   "ducb_padB": {
+    "final_regret_mean": 218.36494721133332,
+    "seed_means": [
+     219.48606746439458,
+     217.81117997873312,
+     217.79759415855017
+    ],
+    "regret_at_mean": {
+     "10000": 218.3649472005593
+    },
+    "final_arm1_mean": 5754.599333333333,
+    "minus_ducb_as_printed": {
+     "diff_mean": -131.49285991333335,
+     "diff_se": 0.49403409069464194,
+     "t95": [
+      -132.46193140230554,
+      -130.52378842436116
+     ],
+     "n": 1500
+    },
+    "paper_ducb_readoff": 222,
+    "rel_diff_to_paper": -0.016374111660660738
+   },
+   "ducb_lit": {
+    "final_regret_mean": 350.5737494326667,
+    "seed_means": [
+     350.63393730923457,
+     350.4602464130509,
+     350.62706454732825
+    ],
+    "regret_at_mean": {
+     "10000": 350.57374942320456
+    },
+    "final_arm1_mean": 5707.238666666667,
+    "minus_ducb_as_printed": {
+     "diff_mean": 0.715942307999999,
+     "diff_se": 0.354669133186187,
+     "t95": [
+      0.020241846305228073,
+      1.41164276969477
+     ],
+     "n": 1500
+    },
+    "paper_ducb_readoff": 222,
+    "rel_diff_to_paper": 0.5791610334804808
+   },
+   "padB_minus_other_arms": {
+    "ucb1": {
+     "diff_mean": -722.6737523959999,
+     "diff_se": 2.695878860532831,
+     "t95": [
+      -727.9618476725666,
+      -717.3856571194333
+     ],
+     "n": 1500
+    },
+    "exp3s": {
+     "diff_mean": -446.499849508,
+     "diff_se": 2.075459884640785,
+     "t95": [
+      -450.5709633007404,
+      -442.4287357152596
+     ],
+     "n": 1500
+    },
+    "swucb": {
+     "diff_mean": -40.926834953333326,
+     "diff_se": 0.8808277693937208,
+     "t95": [
+      -42.65462073591818,
+      -39.199049170748474
+     ],
+     "n": 1500
+    }
+   }
+  }
+ },
+ "verdict": "PASS on criteria 1-2 (integrity, order of magnitude). Criterion 3 FAILS for the as-printed D-UCB on E1 (D-UCB > EXP3.S). Debugged: no implementation bug (Toy-check exact replay); the cause is the D-UCB padding constant (diagnostic above). See README Small-scale."
+}

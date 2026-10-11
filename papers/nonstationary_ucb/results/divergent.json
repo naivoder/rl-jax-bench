@@ -1,0 +1,32 @@
+{
+ "swucb_e1": {
+  "n": 10000,
+  "p_RT_within10": 0.0982,
+  "p_R3000_within10": 0.4917,
+  "p_R5000_within10": 0.185,
+  "p_all3_within10": 0.0332,
+  "p_RT_le_277": 0.1393,
+  "p_R5000_le_92": 0.2358,
+  "mid_segment_increment_mean": 69.38342000000041,
+  "mid_segment_increment_paper": 17.0,
+  "mid_segment_increment_pct_of_paper": 10.9,
+  "last_segment_increment_mean": 201.30984000000024,
+  "last_segment_increment_paper": 185.0,
+  "last_segment_increment_pct_of_paper": 23.44,
+  "median_RT_given_R5000_le_92": 279.6999999999962
+ },
+ "swucb_e2b": {
+  "means": {
+   "swucb": 721.8898491422099,
+   "swucb_tau1214": 396.8589952154959,
+   "swucb_tau629": 279.32539549710674
+  },
+  "headline_check": 721.8898491422099,
+  "paper": 440,
+  "tau": {
+   "swucb": 1780,
+   "swucb_tau1214": 1214,
+   "swucb_tau629": 629
+  }
+ }
+}

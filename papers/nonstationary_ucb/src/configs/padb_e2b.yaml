@@ -1,0 +1,20 @@
+# E2b -- ALT 2011 slide variant of E2 (secondary, labelled ALT-slides). Provenance: sources.yaml e2b_periodic_slides.*
+name: padb_e2b
+label: "SECONDARY ARM D-UCB padding B on E2b (ALT-slides; labelled)"
+exp_id: 4                     # PRNG key tree EXP_ID (the key tree in src/algorithm.py)
+cfg_idx: 0
+reps_per_seed: 2000           # ASSUMED
+log_every: 10                 # ASSUMED
+tie: random                   # ASSUMED
+report_t: [20000]
+env:
+  kind: periodic
+  T: 20000                    # slides p.21
+  base: 0.5                   # paper §5
+  amp: 0.4                    # paper §5
+  periods: 3                  # slides p.21 (3 periods); ASSUMED
+policies:
+  ducb_padB: {algo: ducb, xi: 0.125, gamma: 0.9982322330470337, label: "D-UCB padding B (xi=1/8 with 2B) SECONDARY ARM"}  # secondary arm; gamma 
+readoff:                                   # slides p.21 (+-20)
+  final_regret: {ducb_padB: 310}   # slides D-UCB read-off (comparison only)
+  precision: 20

@@ -1,0 +1,52 @@
+# Full-scale pre-declared plan (see README); read by scripts/report.py.
+alpha: 0.05                   # Holm family-wise level
+n_boot: 10000                 # bootstrap resamples
+headline_seeds: [0, 1, 2, 3, 4]   # 
+confirm_seeds: [20, 21, 22, 23, 24]   # X3-confirm: never used for selection
+verdict: {match: 0.05, close: 0.20}   # 
+families:                     # each test: [experiment, arm, reference, direction] ; 'less' = arm has lower final regret
+  P:                          # README primary family (8)
+    - [e1, swucb, exp3s, less]
+    - [e1, ducb, exp3s, less]
+    - [e1, swucb, ucb1, less]
+    - [e1, ducb, ucb1, less]
+    - [e2, swucb, exp3s, less]
+    - [e2, ducb, exp3s, less]
+    - [e2, swucb, ucb1, less]
+    - [e2, ducb, ucb1, less]
+  S1:                         # secondary arm D-UCB padding B
+    - [e1, ducb_padB, exp3s, less]
+    - [e1, ducb_padB, ucb1, less]
+    - [e2, ducb_padB, exp3s, less]
+    - [e2, ducb_padB, ucb1, less]
+  S2:                         # key-mechanism ablation: removing forgetting raises regret
+    - [e1, ducb_nodisc, ducb, greater]
+    - [e1, swucb_nowin, swucb, greater]
+    - [e2, ducb_nodisc, ducb, greater]
+    - [e2, swucb_nowin, swucb, greater]
+  S3:                         # ALT slides
+    - [e1b, swucb, exp3s, less]
+    - [e1b, ducb, exp3s, less]
+    - [e1b, swucb, ucb1, less]
+    - [e1b, ducb, ucb1, less]
+    - [e2b, swucb, exp3s, less]
+    - [e2b, ducb, exp3s, less]
+    - [e2b, swucb, ucb1, less]
+    - [e2b, ducb, ucb1, less]
+  T:                          # tuned-vs-tuned (EXTENSION), seeds 20-24
+    - [tuned_e1, swucb, exp3s, less]
+    - [tuned_e1, ducb, exp3s, less]
+    - [tuned_e1, swucb, ucb1, less]
+    - [tuned_e1, ducb, ucb1, less]
+    - [tuned_e2, swucb, exp3s, less]
+    - [tuned_e2, ducb, exp3s, less]
+    - [tuned_e2, swucb, ucb1, less]
+    - [tuned_e2, ducb, ucb1, less]
+descriptive:                  # two-sided, no claim
+  - [e1, ducb, swucb]
+  - [e2, ducb, swucb]
+  - [e1b, ducb, swucb]
+  - [e2b, ducb, swucb]
+  - [e1, ducb_padB, swucb]
+  - [e2, ducb_padB, swucb]
+x3_roughly_optimal: 0.10      # paper setting within 10 % of the grid minimum

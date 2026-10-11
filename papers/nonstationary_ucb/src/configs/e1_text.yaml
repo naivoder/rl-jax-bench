@@ -1,0 +1,23 @@
+# E1-text -- secondary, labelled: the paper §5 TEXT means (the 0.4 arm jumps). Provenance: sources.yaml e1_abrupt.means_text_*
+name: e1_text
+label: "E1-text (ABLATION: paper §5 text means; never headline)"
+exp_id: 5                     # PRNG key tree EXP_ID (ablation id; the key tree in src/algorithm.py leaves 5..10 free)
+cfg_idx: 0
+reps_per_seed: 2000           # ASSUMED
+log_every: 10                 # ASSUMED
+tie: random                   # ASSUMED
+report_t: [3000, 5000, 10000]
+env:
+  kind: abrupt
+  T: 10000                    # paper §5
+  breakpoints: [3000, 5000]   # paper §5
+  segments:                   # paper §5 text (secondary)
+    - [0.5, 0.3, 0.4]
+    - [0.5, 0.3, 0.9]
+    - [0.5, 0.3, 0.4]
+policies:
+  ucb1: {xi: 0.5}                          # paper §5
+  exp3s: {S: 2, alpha: 1.0e-4}             # paper §5
+  ducb: {xi: 0.5, gamma: 0.9975}           # paper §5
+  swucb: {xi: 0.5, tau: 1214}              # paper §5; 
+  oracle_ucb1: {xi: 0.5}                   # EXTENSION reference

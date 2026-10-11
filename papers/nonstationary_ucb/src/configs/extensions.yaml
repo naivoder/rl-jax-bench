@@ -1,0 +1,32 @@
+# Full-scale EXTENSIONS X1 (theory rates; X2 bounds are computed from the same runs) and X4 (lower bound).
+# Labelled EXTENSION everywhere: the paper ran none of these. Provenance: 
+# hand derivation; README Full-scale pre-declared design.
+x1:
+  exp_id: 11                  # PRNG key tree EXP_ID (the key tree in src/algorithm.py: X1..X6 = 11..16); cfg_idx = T*1000 + Upsilon
+  base: [0.5, 0.3, 0.4]       # E1 base means (paper §5 / Figure 1)
+  swapped: [0.5, 0.9, 0.4]    # E1 middle-segment means
+  xi_theory: 0.6              # Theorems 1 and 7 need xi > 1/2 (see README)
+  xi_ucb1: 0.5                # paper §5 (UCB-1 reference arm)
+  chunk: 100000               # README: orbax checkpoint every 1e5 rounds
+  chunk_from_T: 300000        # README: T >= 3e5 points are chunked + checkpointed
+  grids:
+    a: {T: [1000, 3000, 10000, 30000, 100000, 300000, 1000000], upsilon: 4}       # grid (a)
+    b: {T: 100000, upsilon: [1, 2, 4, 8, 16, 32, 64]}                             # grid (b)
+    c025: {T: [1000, 3000, 10000, 30000, 100000, 300000, 1000000], beta: 0.25}    # grid (c), Upsilon_T = ceil(T^beta)
+    c05: {T: [1000, 3000, 10000, 30000, 100000, 300000, 1000000], beta: 0.5}      # grid (c)
+  expected_slope:             # pre-declared bands (hand derivation 'finite-T slopes')
+    T_fixed_upsilon: [0.45, 0.70]   # D-UCB and SW-UCB, grid (a)
+    upsilon_fixed_T: [0.35, 0.65]   # D-UCB and SW-UCB, grid (b)
+    c025: [0.505, 0.745]            # (1+beta)/2 +- 0.12 with beta = 0.25
+    c05: [0.63, 0.87]               # (1+beta)/2 +- 0.12 with beta = 0.5
+    ucb1_T_min: 0.8                 # UCB-1 slope in T >= 0.8 (untracked, linear-ish)
+x4:
+  exp_id: 14                  # the key tree in src/algorithm.py (X4); cfg_idx = T
+  mu: [0.5, 0.3]              # P_1 = Ber(0.5), P_2 = Ber(0.3)
+  nu: 0.7                     # Q = Ber(0.7) -> delta = 0.2, alpha = KL(Ber .3 || Ber .7) = 0.338919
+  T: [1000, 3000, 10000, 30000, 100000]   # 
+  upsilon_tuning: 2           # D-UCB / SW-UCB tuned for Upsilon = 2 (Remarks 3, 9); EXP3.S S = 2
+  xi_theory: 0.6              # 
+  xi_ucb1: 0.5                # paper §5
+  C_paper: 0.139878           # Theorem 13 C(mu) = 32 delta (mu1 - muK)/(27 alpha) (hand derivation)
+  C_rederived: 0.034970       # hand derivation C' = 8 delta (mu1 - muK)/(27 alpha)
