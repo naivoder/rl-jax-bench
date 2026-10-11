@@ -1,0 +1,18 @@
+# Linear baseline for Fig. B.10 (paper gives no details, A-18): linear model 20 -> 1 + bias, SGD.
+experiment: scr
+scr_mode: flip_one          # same streams as scr_b10 (Appendix B)
+paper_text: false           # official 20-bit problem
+n_steps: 3000000            # Appendix B
+n_seeds: 100                # Appendix B
+seed_offset: 0              # identical streams to scr_b10
+widths: []                  # linear learner (official nets/linear.py MyLinear)
+opt: sgd
+replace_mode: bernoulli     # unused
+k_max: 1
+periods_per_chunk: 50       # ASSUMED (500k steps per chunk)
+arms:                       # official cfg/flip_one/linear.json step sizes
+  - {name: linear_0.03, act: identity, lr: 0.03}
+  - {name: linear_0.01, act: identity, lr: 0.01}
+  - {name: linear_0.003, act: identity, lr: 0.003}
+  - {name: linear_0.001, act: identity, lr: 0.001}
+  - {name: linear_0.0003, act: identity, lr: 0.0003}

@@ -1,0 +1,12 @@
+{
+ "oracle_repo": "https://github.com/shibhansh/loss-of-plasticity",
+ "oracle_tree": "git archive 63c35f3 (last commit before f00ca40); AdamGnT.py == dcc3619",
+ "adamgnt_sha256": "29ac6816981d48f61b09b03a54d7ce7654dd93dbc69f024476b3519fa1427092",
+ "oracle_torch": "2.4.1+cpu",
+ "recorder": "scripts/oracle/record_fixtures_prefix.py",
+ "files": {
+  "gnt_ffnn_adaptable_contribution_prefix.npz": "05d51a208a11134ea4773dec3fea1c1b427273a29274d7a7d96e282bd9c92cd3",
+  "gnt_ffnn_adaptation_prefix.npz": "a1dc603f431f8b18d837df2d7f569ca8ea5a8c34399a1dae8fe0a857bce3c4b1",
+  "gnt_ffnn_contribution_prefix.npz": "37d2abf99cdf8a9b9f8a50ccf964d8fc9c50c59159fa96921b3fdb07c0895968"
+ }
+}

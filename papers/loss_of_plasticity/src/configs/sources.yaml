@@ -1,0 +1,202 @@
+# sources.yaml — one entry per planned config key: value + source tag.
+# Tags: 'paper §X' / 'Table N' / 'Figure N' / 'Appendix X' / 'Algorithm N' / 'official code <file>' / 'ASSUMED (reason)'.
+# Paper = arXiv:2306.13812v3. Official code = github.com/shibhansh/loss-of-plasticity @ a6b79580d85f3025bdb601566d3627c5f489f13b.
+
+common:
+  dtype: {value: float32, source: "ASSUMED (dtype policy; oracle uses torch float32 defaults)"}
+  top_level_seed_scheme: {value: "PRNGKey(seed) -> fold_in tree (see README)", source: "ASSUMED (stack mandate)"}
+  stats_mean_se: {value: true, source: "ASSUMED (loop mandate); paper plots mean ± 1 s.e. (Figs. 3, 4, 6 captions)"}
+  stats_paired_test: {value: "paired t + bootstrap 95% CI (10000 resamples), Holm over primary family", source: "ASSUMED (loop mandate)"}
+
+cbp:
+  decay_rate_eta: {value: 0.99, source: "Algorithm 1 (e.g.) + official code permuted_mnist/cfg/cbp.json, imagenet/cfg/cbp.json"}
+  util_type: {value: overall, source: "paper §6 Eqs. 6-8; official code util_type 'adaptable_contribution'"}
+  bias_correction_convention: {value: "oracle_C (EMA updated with h_t, then /(1-eta^age))", source: "official code lop/algos/gnt.py update_utility; ASSUMED over paper Eq. 4/8 indices (A-2)"}
+  bias_transfer: {value: false, source: "official code gnt.py (transfer is a no-op: mean_feature_act zeroed before use); paper §6 text = ablation true"}
+  replaced_unit_bias: {value: 0.0, source: "official code gnt.py gen_new_features"}
+  outgoing_weights_on_replace: {value: 0.0, source: "paper §6 / Algorithm 1"}
+  incoming_reinit: {value: "U(-b,b), b = gain(act)*sqrt(3/fan_in)", source: "Algorithm 1 ('sample from d_l'); official code gnt.py compute_bounds"}
+  replacement_count_base: {value: "rho * n_eligible", source: "official code gnt.py test_features (paper: n_l*rho, A-3)"}
+  utility_weight_reduction: {value: mean, source: "official code gnt.py (abs().mean); ranking-equivalent to paper's sum (see README)"}
+  adam_reset_on_replace: {value: "m, v, per-element step of in-weights, replaced bias, out-weights", source: "Algorithm 3 + official code gnt.py update_optim_params"}
+
+optim:
+  sgd_momentum_mnist_scr: {value: 0.0, source: "paper §3 (plain SGD, no mini-batches); official code momentum=0"}
+  adam_betas: {value: [0.9, 0.999], source: "paper §5 'default values'; official code slowly_changing_regression/expr.py beta defaults"}
+  adam_eps: {value: 1.0e-8, source: "ASSUMED (official code AdamGnT default)"}
+  adam_eps_placement: {value: "sqrt(v)+eps with bias corrections folded into step size", source: "official code utils/AdamGnT.py"}
+  l2_form: {value: "grad += lambda*theta on all params incl. biases", source: "official code algos/bp.py (torch SGD weight_decay)"}
+  snp_noise_param: {value: "standard deviation, added to all weights+biases after the step", source: "official code algos/bp.py perturb(); Figure A.8 label"}
+
+scr:  # Slowly-Changing Regression (Appendix B)
+  num_inputs: {value: 20, source: "official code slowly_changing_regression/cfg/flip_one/*.json (paper Table B.3 says m=21 + constant bit;)"}
+  num_flipping_bits: {value: 15, source: "Table B.3 (f=15); official code"}
+  constant_input_bit: {value: false, source: "official code fix_ltu_net.py uses an LTU bias instead"}
+  target_hidden_units: {value: 100, source: "Table B.3 (n=100)"}
+  target_weights: {value: "uniform {-1,+1} for all weights and biases", source: "Appendix B / Figure B.9; official code fix_ltu_net.py"}
+  ltu_beta: {value: 0.7, source: "Table B.3"}
+  ltu_threshold: {value: "beta*(num_inputs+1) - (n_neg + b/2)", source: "official code fix_ltu_net.py (paper: (m+1)beta - S_i)"}
+  flip_after_T: {value: 10000, source: "Table B.3"}
+  flip_mode_figB10_figD12: {value: flip_one, source: "Appendix B text; official code cfg/flip_one_prob.json"}
+  flip_mode_methods_comparison: {value: [flip_one, resample_all], source: "official code cfg/prob.json (resample_all) used by sgd/bp/*_wd|*_snp, sgd/cbp/relu"}
+  initial_flip_bits: {value: "iid Bernoulli(0.5)", source: "ASSUMED (official code torch.randint)"}
+  num_steps_figB10_figD12: {value: 3000000, source: "Appendix B ('3M examples'); official code cfg/flip_one/*.json num_data_points 3e6"}
+  num_steps_methods_resample_all: {value: 1000000, source: "official code cfg/sgd/bp/relu_wd.json etc."}
+  learner_hidden_units: {value: 5, source: "Table B.3"}
+  learner_hidden_layers: {value: 1, source: "Table B.3"}
+  activations: {value: [sigmoid, tanh, elu, leaky_relu, relu, swish], source: "Appendix B / Figure B.10"}
+  leaky_relu_slope: {value: 0.01, source: "ASSUMED (official code: torch nn.LeakyReLU default)"}
+  init_gains: {value: {tanh: 1.6667, sigmoid: 1.0, relu: 1.41421, leaky_relu: 1.41421, elu: 1.41421, swish: 1.41421, output: 1.0}, source: "Appendix B (hidden gains) except leaky_relu: official code nets/ffnn.py kaiming_uniform_ with a=0 -> sqrt(2) (= src/model.py INIT_GAIN); the paper formula sqrt(2/(1+0.01^2)) = 1.414143 differs by 5e-5 relative (corrected follow-up); output gain 1 = official code"}
+  reinit_gains: {value: {leaky_relu: 1.414143, others: "= init_gains"}, source: "official gnt.py compute_bounds: torch calculate_gain(act) with slope 0.01 (src/model.py REINIT_GAIN)"}
+  bias_init: {value: 0.0, source: "official code nets/ffnn.py"}
+  loss: {value: "(yhat - y)^2", source: "official code (F.mse_loss)"}
+  sgd_step_sizes: {value: [0.01, 0.003, 0.001], source: "Figure B.10; official code cfg/flip_one/*.json"}
+  num_runs: {value: 100, source: "Appendix B"}
+  shared_streams_across_arms: {value: true, source: "Appendix B ('same 100 sequences')"}
+  bin_size: {value: 40000, source: "Appendix B (Figure B.10 'bins of 40k'); 20000 also logged (official README)"}
+  linear_baseline_step_sizes: {value: [0.03, 0.01, 0.003, 0.001, 0.0003], source: "official code cfg/flip_one/linear.json"}
+  ablation_figD12:
+    activation: {value: tanh, source: "Appendix D"}
+    optimizer: {value: adam, source: "Appendix D"}
+    step_size: {value: 0.01, source: "Appendix D"}
+    replacement_rates: {value: [1.0e-5, 1.0e-4, 1.0e-3, 1.0e-2], source: "Figure D.12 x-axis"}
+    utilities: {value: [random, weight_magnitude, contribution, mean_corrected_contribution, adaptation, overall], source: "Appendix D list; official code gnt.py util_type names"}
+    maturity_threshold: {value: 10, source: "ASSUMED (official code slowly_changing_regression/expr.py default mt=10; not stated for D.12)"}
+    maturity_threshold_sensitivity: {value: [100], source: "ASSUMED (Algorithm 1 example)"}
+    replacement_mode: {value: bernoulli, source: "official code expr.py accumulate=False default"}
+    metric: {value: "whole-run mean squared error", source: "ASSUMED (Figure D.12 axis label)"}
+  methods_comparison:
+    activation: {value: relu, source: "official code cfg/sgd/bp/relu_wd.json, relu_snp.json, sgd/cbp/relu.json"}
+    step_size: {value: 0.01, source: "official code same files"}
+    l2_weight_decay_grid: {value: [1.0e-6, 1.0e-5, 1.0e-4, 1.0e-3, 1.0e-2, 1.0e-1, 1.0], source: "official code cfg/sgd/bp/relu_wd.json"}
+    snp_weight_decay: {value: 1.0e-2, source: "official code cfg/sgd/bp/relu_snp.json"}
+    snp_sigma_grid: {value: [1.0e-6, 1.0e-5, 1.0e-4, 1.0e-3, 1.0e-2, 1.0e-1], source: "official code cfg/sgd/bp/relu_snp.json"}
+    cbp_rho_grid: {value: [1.0e-6, 1.0e-5, 1.0e-4, 1.0e-3, 1.0e-2], source: "official code cfg/sgd/cbp/relu.json"}
+    cbp_maturity_threshold: {value: 10, source: "official code expr.py effective default (cfg key 'maturity_threshold' ignored)"}
+  paper_text_variant_flag: {value: false, source: "ASSUMED: 22-bit paper-text problem run once as sensitivity"}
+
+mnist:  # Online Permuted MNIST (§3-§6, Appendix A)
+  dataset: {value: "MNIST train, 60000 images, IDX files, sha256 recorded", source: "paper §3"}
+  pixel_scale: {value: "[0,1] (x/255), no normalisation", source: "official code permuted_mnist/load_mnist.py (ToTensor)"}
+  input_dim: {value: 784, source: "paper §3"}
+  num_classes: {value: 10, source: "paper §3"}
+  hidden_layers: {value: 3, source: "paper §3"}
+  hidden_width_paper: {value: 2000, source: "paper §3"}
+  hidden_width_reduced: {value: 100, source: "Figure 2b middle (width 100); ASSUMED (budget)"}
+  examples_per_task: {value: 60000, source: "paper §3"}
+  batch_size: {value: 1, source: "paper §3 ('no mini-batches')"}
+  num_tasks_paper: {value: 800, source: "paper §3"}
+  num_tasks_reduced: {value: 150, source: "Figure 2b middle (150 tasks); ASSUMED (budget)"}
+  permutation_per_task: {value: "uniform random over 784 pixels", source: "paper §3"}
+  shuffle_per_task: {value: true, source: "paper §3 ('random order')"}
+  init: {value: "Kaiming-uniform, gain sqrt(2) hidden, gain 1 output, bias 0", source: "paper §3 ('Kaiming'); official code nets/deep_ffnn.py"}
+  activation: {value: relu, source: "paper §4"}
+  loss: {value: softmax cross-entropy, source: "paper §3"}
+  step_size: {value: 0.003, source: "Appendix A; official code cfg/bp/width.json (width 100)"}
+  bp_step_sweep: {value: [0.01, 0.003, 0.001], source: "Figure 2b left; official code cfg/bp/std_net.json"}
+  l2_lambda: {value: 1.0e-4, source: "Figure A.8 (marked); official code cfg/l2.json + plots/all_metrics.py idx 1"}
+  l2_lambda_local_grid: {value: [1.0e-3, 1.0e-4, 1.0e-5], source: "Figure A.8 grid; ASSUMED (re-tune at width 100)"}
+  snp_lambda: {value: 1.0e-4, source: "Appendix A (= best L2 lambda); official code cfg/snp.json"}
+  snp_sigma: {value: 1.0e-5, source: "Figure A.8 (marked); official code cfg/snp.json + all_metrics.py idx 1"}
+  snp_sigma_local_grid: {value: [1.0e-4, 1.0e-5, 1.0e-6], source: "Figure A.8 grid; ASSUMED (re-tune at width 100)"}
+  cbp_rho_grid: {value: [1.0e-6, 1.0e-5, 1.0e-4], source: "Figure 6a right; official code cfg/cbp.json"}
+  cbp_rho_paper_line: {value: 1.0e-6, source: "official code plots/all_metrics.py (cbp idx 2)"}
+  cbp_maturity_threshold: {value: 100, source: "Algorithm 1 (e.g.); official code online_expr.py default"}
+  cbp_replacement_mode: {value: accumulator, source: "official code online_expr.py accumulate=True"}
+  dropout_p: {value: 0.1, source: "paper §5 / Appendix A (text); ASSUMED inverted dropout (optional arm)"}
+  adam_lr: {value: 3.0e-5, source: "Figure A.8 (marked); official plot uses 1e-4  (optional arm)"}
+  diag_sample_size: {value: 2000, source: "paper §4"}
+  diag_sample_source: {value: "first 2000 examples of the upcoming permuted+shuffled task, before training on it", source: "official code online_expr.py"}
+  diag_erank_scaling: {value: "mean over hidden layers of 100*erank_l/n_l", source: "official code plots/all_metrics.py (rank_normlization)"}
+  diag_dead_unit_def: {value: "sum_x |h| == 0 over the 2000 samples", source: "paper §4; official code online_expr.py"}
+  diag_weight_mag: {value: "sum |W| over weight matrices (no biases) / #weights; per-task average of per-step values", source: "official code online_expr.py + all_metrics.py"}
+  online_accuracy_def: {value: "argmax of pre-update forward pass == label, averaged over the task's 60000 steps", source: "paper §3; official code online_expr.py"}
+  seeds_final: {value: 10, source: "ASSUMED (budget; paper uses 30)"}
+  seeds_sweep: {value: 3, source: "ASSUMED (budget; paper uses 10)"}
+  anchor_width2000_tasks: {value: 20, source: "ASSUMED (budget)"}
+  anchor_width2000_seeds: {value: 3, source: "ASSUMED (budget)"}
+
+imagenet:  # out of scope (UNREPRODUCIBLE within budget) — recorded for completeness
+  status: {value: UNREPRODUCIBLE, source: "ASSUMED (budget)"}
+  network: {value: "Table 1 (conv32-5x5, conv64-3x3, conv128-3x3, maxpool 2x2 stride 2, fc128, fc128, fc2)", source: "Table 1; stride from official code nets/conv_net.py"}
+  optimizer: {value: "SGD momentum 0.9, batch 100, 250 epochs/task", source: "paper §2"}
+  cbp: {value: {step: 0.01, rho: 3.0e-4, m: 100, eta: 0.99}, source: "Table A.2 (bold) + official code imagenet/cfg/cbp.json"}
+  l2: {value: {step: 0.03, wd: 3.0e-6}, source: "Table A.2 (bold)"}
+  snp: {value: {step: 0.01, wd: 1.0e-5, sigma: 1.0e-5}, source: "Table A.2 (bold)"}
+
+slippery_ant:  # out of scope (UNREPRODUCIBLE at paper scale)
+  status: {value: UNREPRODUCIBLE, source: "ASSUMED (budget)"}
+  ppo: {value: {iteration: 4096, epochs: 10, minibatch: 128, gae_lambda: 0.95, gamma: 0.99, clip: 0.2, adam_lr: 1.0e-4, betas: [0.9, 0.999], hidden: [256, 256], act: tanh}, source: "Appendix E"}
+  friction: {value: "log-uniform [1e-4, 1e4] every 10M steps; 100M steps", source: "Appendix C"}
+
+# ---- implementation keys (configs under src/configs/*.yaml) ----
+implementation:
+  experiment: {value: "scr | mnist", source: "ASSUMED (config dispatcher, no paper value)"}
+  tag: {value: "run directory name under runs/", source: "ASSUMED (bookkeeping)"}
+  seed_offset: {value: "0 for SCR (streams 0..99, Appendix B shared sequences); 0 for small-scale/sweep MNIST seeds, 1000 for final MNIST seeds", source: "ASSUMED (selection-bias control, pre-declared protocol P7-P10)"}
+  n_seeds: {value: "SCR 100 (Appendix B); MNIST 10 final / 3 sweep; small-scale: SCR 10, MNIST 3", source: "Appendix B; ASSUMED (budget)"}
+  widths: {value: "[5] SCR (Table B.3); [100,100,100] MNIST reduced (Figure 2b middle); [] linear baseline", source: "Table B.3; Figure 2b; official nets/linear.py"}
+  scr_mode: {value: "flip_one (B.10, D.12) | resample (methods comparison)", source: "official code"}
+  periods_per_chunk: {value: 50, source: "ASSUMED (500k SCR steps per jitted chunk and per orbax checkpoint)"}
+  ckpt_every_tasks: {value: 5, source: "ASSUMED (orbax cadence for MNIST)"}
+  k_max: {value: 1, source: "ASSUMED (static bound on replacements per layer per step; every configured rho*n_l < 1, checked at start-up)"}
+  beta1: {value: 0.9, source: "paper §5 'default values'; official expr.py"}
+  beta2: {value: 0.999, source: "paper §5 'default values' (A-12)"}
+  eps: {value: 1.0e-8, source: "ASSUMED (official AdamGnT default)"}
+  track_wmag: {value: true, source: "ASSUMED (log per-step mean |w|, official online_expr.py to_log)"}
+  diag_n: {value: 2000, source: "paper §4"}
+  accumulator_exact_integer: {value: "residual kept as an integer count of eligible-unit-steps modulo 1/rho when 1/rho is an integer", source: "ASSUMED (official code accumulates in float64; float32 drifts -- toy-check check_replacement_counts)"}
+  tie_breaking: {value: "lax.top_k (lowest index among exact ties)", source: "ASSUMED (torch.topk tie order is unspecified; oracle diff D1 shows ties only at utility exactly 0)"}
+  adam_bp_arm: {value: "AdamGnT form for every Adam arm (incl. BP = CBP with rho 0)", source: "ASSUMED (arms differ only in the mechanism; official BP uses torch Adam whose eps sits at sqrt(v_hat)+eps -- differs by a factor sqrt(1-beta2^t) on eps only)"}
+  linear_baseline_act: {value: identity, source: "official nets/linear.py (no hidden layer)"}
+  mnist_bp_step_arms: {value: [0.01, 0.003, 0.001], source: "Figure 2b left; official cfg/bp/small_net.json"}
+  figD12_primary_stream_small_SUPERSEDED: {value: "resample, 1000000 steps (post-hoc official-config hypothesis; superseded in follow-up by full_extra.figD12_primary_stream)", source: "official code slowly_changing_regression/cfg/adam/bp/*.json (env_data/scr = re-sample-all, num_data_points 1e6); Appendix D does not state the stream. small-scale probe (RESULTS 'D.12 probes'). flip_one 3M kept as the paper-text reading"}
+
+# ---- full-scale keys (configs scr_methods_full.yaml, scr_flip_methods.yaml; --set overrides recorded ----
+full:
+  seeds: {value: "optional explicit seed list (overrides seed_offset/n_seeds); not used by any full-scale run", source: "ASSUMED (bookkeeping)"}
+  mnist_final_seeds: {value: "1000..1009 (10)", source: "pre-declared protocol pre-declared (disjoint from small-scale sweep seeds 0..2); paper uses 30 runs, ASSUMED (budget)"}
+  mnist_arms_full: {value: "bp, l2 1e-4, snp (1e-4, 1e-5), cbp rho 1e-4 / 1e-5 / 1e-6 at step 0.003", source: "Figure 6a / A.8 selected values; official cfg/{l2,snp,cbp}.json; BP step arms 0.01/0.001 dropped at full-scale (budget)"}
+  mnist_track_wmag_full: {value: false, source: "ASSUMED (throughput: the per-step |w| pass costs ~11 %; |w| is logged before and after every task instead)"}
+  scan_unroll: {value: "1 (default); 4 for the full-scale MNIST run", source: "ASSUMED (throughput, semantics unchanged; benchmark +8 %)"}
+  mnist_cbp_rho_selected: {value: "argmax over {1e-4,1e-5,1e-6} of the mean online accuracy over the 15 small-scale tasks, sweep seeds 0..2", source: "paper App. A selection rule (mean online accuracy over the run) on disjoint sweep seeds, pre-declared protocol P7-P10"}
+  scr_methods_selection: {value: "best arm per method on streams 0..49 (whole-run MSE), reported on streams 50..99", source: "pre-declared protocol S-SCR-M (pre-declared)"}
+  scr_flip_methods_lr: {value: 0.01, source: "Figure B.10 largest step; official sgd cfgs step 0.01"}
+  scr_flip_methods_rho_grid: {value: [1.0e-5, 1.0e-4, 1.0e-3], source: "official cfg/sgd/cbp/relu.json grid (middle three of 1e-6..1e-2)"}
+  scr_flip_methods_l2_grid: {value: [1.0e-3, 1.0e-2, 1.0e-1], source: "official cfg/sgd/bp/relu_wd.json grid (middle three)"}
+  scr_flip_methods_snp_grid: {value: {wd: 1.0e-2, sigma: [1.0e-4, 1.0e-3, 1.0e-2]}, source: "official cfg/sgd/bp/relu_snp.json grid (middle three)"}
+  ablation_random_utility: {value: "util random at rho 1e-5/1e-4/1e-3", source: "Appendix D (random utility); ASSUMED as the 'remove the utility' ablation"}
+  ablation_contribution_utility: {value: "util contribution at rho 1e-4", source: "Appendix D Eq. 2"}
+  ablation_maturity: {value: "mt in {0, 100, 1000} at rho 1e-4", source: "Algorithm 1 / 3 examples (100, 1000); 0 = ASSUMED (no protection)"}
+  ablation_eta0: {value: "eta 0 at rho 1e-4 (instantaneous utility)", source: "official Nature-era cbp_linear.py decay 0; ASSUMED ablation"}
+  ablation_bias_transfer: {value: "bias_transfer 1 at rho 1e-4", source: "paper §6 text (official code: no-op)"}
+
+# ---- follow-up keys (review resolution; configs d12_sens_*.yaml, mnist_w100_*.yaml; scripts/full_extra.sh) ----
+full_extra:
+  figD12_primary_stream: {value: "flip_one, 3000000 steps, 100 streams (scr_d12.yaml unmodified; run full_scr_d12 = merge of full_scr_d12_p0..p2)", source: "Appendix D ('on the Slowly-changing regression problem') + Appendix B (one bit flipped every T, 3M examples); review"}
+  figD12_resample_1M: {value: "re-sample-all, 1M (full_scr_d12_rs)", source: "official code cfg/adam/*.json; labelled post-hoc 'official-config hypothesis' (selected after small-scale agreement was seen)"}
+  figD12_mt: {value: 10, source: "official code expr.py effective default; NOT in the paper (Alg. 3 example m = 1000 run as sensitivity)"}
+  figD12_beta2: {value: 0.999, source: "official code / paper §5 'default values' (for the MNIST Adam arm); Alg. 3 example 0.99 run as sensitivity"}
+  sens_seeds: {value: "streams 0..29", source: "ASSUMED (sensitivity probes; CPU budget)"}
+  sens_bias_transfer: {value: 1.0, source: "paper §6 p.20 (bias transfer of fhat*w to consumers); review"}
+  sens_mt_1000: {value: 1000, source: "Algorithm 3 example (p.44)"}
+  sens_beta2_099: {value: 0.99, source: "Algorithm 3 example (p.44); review"}
+  convention: {value: "C (default, official gnt.py) | P (paper Eqs. 4/8 literal)", source: "paper Eqs. 4, 8 (pp.20-21); official gnt.py; review (now a config key)"}
+  weight_reduction: {value: "mean (default, official) | sum (paper Eq. 6)", source: "official gnt.py; paper Eq. 6; ranking-identical (see README)"}
+  count_base: {value: "eligible (default, official gnt.py rho*n_eligible) | layer (paper Alg. 1 n_l*rho, capped at n_eligible)", source: "paper Alg. 1 p.23; official gnt.py; review"}
+  perturb: {value: "auto: True iff some arm has sigma > 0", source: "ASSUMED (cost only; skipping N(0,1)*0 is exact, tests/test_options.py)"}
+  b10_papertext_streams: {value: "streams 0..29, paper_text true", source: "Table B.3 / Fig. B.9 22-bit problem; review; ASSUMED 30 streams (CPU budget)"}
+  mnist_l2_grid_w100: {value: [1.0e-3, 1.0e-4, 1.0e-5], source: "official cfg/l2.json; App. A selection rule (highest mean online accuracy) on sweep seeds 0..2, 15 tasks"}
+  mnist_snp_w100: {value: {wd: 1.0e-3, sigma: [1.0e-4, 1.0e-5, 1.0e-6]}, source: "App. A p.34 ('the scaling factor was set to the same value as the best regularization parameter found for L2') + official cfg/snp.json sigma grid"}
+  mnist_final_extra_arms: {value: "bp, l2 1e-3, cbp 1e-5, cbp 1e-5 + bias transfer; seeds 1000..1009; tasks 1..110; track_wmag true", source: "review, review//; horizon = full-scale reached horizon"}
+
+# ---- recheck keys (configs scr_d12_paper_era.yaml, recheck_act_conf*.yaml; scripts/recheck.sh) ----
+recheck:
+  adam_rule: {value: "standard (default) | paper_era (per arm)", source: "official lop/utils/AdamGnT.py history: dcc3619 (2023-05-20, paper era) step = lr*(1-b2^t); f00ca40 (2025-09-01) / a6b7958 step = lr*sqrt(1-b2^t)/(1-b1^t); paper Alg. 3 text = standard"}
+  figD12_adam_rule_cbp_arms: {value: "both reported; paper_era = figure-generating-code reading, standard = paper-text reading", source: "official code history + precedent"}
+  figD12_adam_rule_bp_arm: {value: standard, source: "official expr.py builds BP with torch.optim.Adam (unaffected by the AdamGnT history)"}
+  figD12_protocol: {value: "ambiguous: flip_one 3M (nominal primary) and resample 1M (official Adam cfgs), both reported", source: "Appendix D silent on stream/horizon; official cfg/adam/** all resample"}
+  recheck_act_conf_streams: {value: "2000..2199 (never used before)", source: "ASSUMED (confirmatory streams for the CBP residual-rise re-test)"}
+  recheck_act_conf_early_bins: {value: {tanh: 8, sigmoid: 3, elu: 2, relu: 2, leaky_relu: 9, swish: 2, linear: 2}, source: "argmin of the mean 40k-bin curve over the first 1M on the fresh-probe streams 100..199 (fixed before launch)"}
+  fig2b_w100_paper_curve: {value: "src/configs/paper_reads/fig2b_w100_vector.json", source: "PDF p.8 vector paths (pymupdf get_drawings), calibrated on the gridlines"}
+  fig2b_w100_paper_runs: {value: 10, source: "official permuted_mnist/cfg/bp/width.json num_runs 10; the shading implies n ~ 9-11"}

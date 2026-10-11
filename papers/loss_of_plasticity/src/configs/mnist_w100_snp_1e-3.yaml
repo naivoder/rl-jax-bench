@@ -1,0 +1,21 @@
+# follow-up (CPU-reduced, amended before launch): S&P with the width-100 L2 shrink (App. A p.34: S&P shrink = best L2
+# lambda = 1e-3) and the paper-selected sigma 1e-5; sweep seeds 0-2, 15 tasks. Not a sigma sweep (CPU budget).
+experiment: mnist
+widths: [100, 100, 100]     # 3 hidden layers (paper §3); width 100 = Figure 2b middle
+n_tasks: 15    # small-scale selection horizon
+examples_per_task: 60000    # paper §3 (all 60 000 images once per task, batch 1)
+n_seeds: 3    # small-scale sweep seeds 0-2
+seed_offset: 0    # sweep seeds
+opt: sgd                    # paper §3 plain SGD
+replace_mode: accumulate    # official online_expr.py accumulate=True
+k_max: 1                    # rho * 100 <= 0.01 < 1
+diag_n: 2000                # paper §4 (2000 samples)
+ckpt_every_tasks: 5         # ASSUMED (orbax cadence)
+act: relu                   # paper §4
+lr: 0.003                   # Appendix A (0.003 for all methods); official cfg/bp/width.json
+mt: 100                     # Algorithm 1 e.g.; official online_expr.py default
+eta: 0.99                   # Algorithm 1 e.g.; official cfg/cbp.json
+util: overall               # official cfg/cbp.json adaptable_contribution
+bias_transfer: 0.0          # official
+arms:
+  - {name: snp_1e-3_1e-5, wd: 1.0e-3, sigma: 1.0e-5}   # App. A shrink rule + Fig. A.8 sigma

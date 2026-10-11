@@ -1,0 +1,39 @@
+# SCR BP vs L2 vs S&P vs CBP (no numbers in paper v3; paper §6 claims CBP fixes LoP for all activations).
+# Grids = official cfg/sgd/bp/relu_wd.json, relu_snp.json, sgd/cbp/relu.json.
+experiment: scr
+scr_mode: resample          # official cfg/prob.json data used by those configs
+paper_text: false           # official 20-bit problem
+n_steps: 1000000            # official num_data_points 1e6 in those configs
+n_seeds: 100                # official num_runs 100
+seed_offset: 0              # streams shared across arms
+widths: [5]                 # Table B.3
+opt: sgd                    # official cfgs (sgd)
+replace_mode: bernoulli     # official expr.py accumulate=False
+k_max: 1                    # rho * 5 <= 0.05 < 1
+periods_per_chunk: 50       # ASSUMED
+act: relu                   # official cfgs (relu)
+lr: 0.01                    # official cfgs (step 0.01)
+mt: 10                      # official expr.py effective default; cfg key maturity_threshold is ignored
+eta: 0.99                   # official sgd/cbp/relu.json decay_rate
+util: overall               # official sgd/cbp/relu.json util_type adaptable_contribution
+bias_transfer: 0.0          # official
+arms:
+  - {name: bp}
+  - {name: l2_1e-06, wd: 1e-06}
+  - {name: l2_1e-05, wd: 1e-05}
+  - {name: l2_0.0001, wd: 0.0001}
+  - {name: l2_0.001, wd: 0.001}
+  - {name: l2_0.01, wd: 0.01}
+  - {name: l2_0.1, wd: 0.1}
+  - {name: l2_1, wd: 1.0}
+  - {name: snp_1e-06, wd: 0.01, sigma: 1e-06}
+  - {name: snp_1e-05, wd: 0.01, sigma: 1e-05}
+  - {name: snp_0.0001, wd: 0.01, sigma: 0.0001}
+  - {name: snp_0.001, wd: 0.01, sigma: 0.001}
+  - {name: snp_0.01, wd: 0.01, sigma: 0.01}
+  - {name: snp_0.1, wd: 0.01, sigma: 0.1}
+  - {name: cbp_1e-06, rho: 1e-06}
+  - {name: cbp_1e-05, rho: 1e-05}
+  - {name: cbp_0.0001, rho: 0.0001}
+  - {name: cbp_0.001, rho: 0.001}
+  - {name: cbp_0.01, rho: 0.01}

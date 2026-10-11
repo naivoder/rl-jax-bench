@@ -1,0 +1,34 @@
+# Fig. B.10 -- loss of plasticity across activations, Slowly-Changing Regression, plain SGD, BP only.
+experiment: scr
+scr_mode: flip_one          # Appendix B ('one bit flipped every T'); official cfg/flip_one/*.json
+paper_text: false           # official 20-bit problem
+n_steps: 3000000            # Appendix B '3M examples'; official num_data_points 3e6
+n_seeds: 100                # Appendix B '100 runs'
+seed_offset: 0              # streams 0..99 shared by every arm (Appendix B 'same 100 sequences')
+widths: [5]                 # Table B.3 (5 hidden units, 1 hidden layer)
+opt: sgd                    # Figure B.10 (SGD)
+replace_mode: bernoulli     # unused (rho = 0); official expr.py default accumulate=False
+k_max: 1                    # ASSUMED (rho * n < 1 for every arm)
+periods_per_chunk: 50       # ASSUMED (500k steps per jitted chunk / checkpoint)
+wd: 0.0
+sigma: 0.0
+rho: 0.0                    # BP: no replacement
+arms:                       # 6 activations (Appendix B) x step sizes {0.01, 0.003, 0.001} (Figure B.10)
+  - {name: tanh_0.01, act: tanh, lr: 0.01}
+  - {name: tanh_0.003, act: tanh, lr: 0.003}
+  - {name: tanh_0.001, act: tanh, lr: 0.001}
+  - {name: sigmoid_0.01, act: sigmoid, lr: 0.01}
+  - {name: sigmoid_0.003, act: sigmoid, lr: 0.003}
+  - {name: sigmoid_0.001, act: sigmoid, lr: 0.001}
+  - {name: elu_0.01, act: elu, lr: 0.01}
+  - {name: elu_0.003, act: elu, lr: 0.003}
+  - {name: elu_0.001, act: elu, lr: 0.001}
+  - {name: relu_0.01, act: relu, lr: 0.01}
+  - {name: relu_0.003, act: relu, lr: 0.003}
+  - {name: relu_0.001, act: relu, lr: 0.001}
+  - {name: leaky_relu_0.01, act: leaky_relu, lr: 0.01}
+  - {name: leaky_relu_0.003, act: leaky_relu, lr: 0.003}
+  - {name: leaky_relu_0.001, act: leaky_relu, lr: 0.001}
+  - {name: swish_0.01, act: swish, lr: 0.01}
+  - {name: swish_0.003, act: swish, lr: 0.003}
+  - {name: swish_0.001, act: swish, lr: 0.001}

@@ -1,0 +1,23 @@
+# follow-up (CPU-reduced, amended before launch): held-out final seeds 1000-1009, tasks 1-15 (the selection horizon) for
+# the width-100-selected L2 (1e-3; review sweep) and CBP with the paper-§6 bias transfer; track_wmag on.
+experiment: mnist
+widths: [100, 100, 100]     # 3 hidden layers (paper §3); width 100 = Figure 2b middle
+n_tasks: 15    # small-scale selection horizon; CPU budget (110 tasks infeasible on CPU)
+examples_per_task: 60000    # paper §3 (all 60 000 images once per task, batch 1)
+n_seeds: 5    # ASSUMED (CPU budget, follow-up; paired with the stored full_mnist arms on the same seeds)
+seed_offset: 1000           # final seeds disjoint from sweep seeds (pre-declared protocol P7-P10 selection control)
+opt: sgd                    # paper §3 plain SGD
+replace_mode: accumulate    # official online_expr.py accumulate=True
+k_max: 1                    # rho * 100 <= 0.01 < 1
+diag_n: 2000                # paper §4 (2000 samples)
+ckpt_every_tasks: 5         # ASSUMED (orbax cadence)
+act: relu                   # paper §4
+lr: 0.003                   # Appendix A (0.003 for all methods); official cfg/bp/width.json
+mt: 100                     # Algorithm 1 e.g.; official online_expr.py default
+eta: 0.99                   # Algorithm 1 e.g.; official cfg/cbp.json
+util: overall               # official cfg/cbp.json adaptable_contribution
+bias_transfer: 0.0          # official
+track_wmag: true    # paper Fig. 3: average |w| over each task
+arms:
+  - {name: l2_1e-3, wd: 1.0e-3}                  # width-100 selection (review sweep on seeds 0-2, official cfg/l2.json grid)
+  - {name: cbp_bt1_1e-5, rho: 1.0e-5, bias_transfer: 1.0}   # paper §6 bias transfer at the small-scale selected rho

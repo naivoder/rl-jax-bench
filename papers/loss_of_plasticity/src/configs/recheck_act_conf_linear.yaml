@@ -1,0 +1,15 @@
+# recheck: the linear control (cannot lose plasticity) on the same never-used streams 2000-2199.
+# Linear baseline for Fig. B.10 (paper gives no details, A-18): linear model 20 -> 1 + bias, SGD.
+experiment: scr
+scr_mode: flip_one          # same streams as scr_b10 (Appendix B)
+paper_text: false           # official 20-bit problem
+n_steps: 3000000            # Appendix B
+n_seeds: 200
+widths: []                  # linear learner (official nets/linear.py MyLinear)
+opt: sgd
+replace_mode: bernoulli     # unused
+k_max: 1
+periods_per_chunk: 50       # ASSUMED (500k steps per chunk)
+seed_offset: 2000
+arms:
+  - {name: linear_0.003, act: identity, lr: 0.003}

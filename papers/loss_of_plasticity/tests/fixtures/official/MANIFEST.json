@@ -1,0 +1,25 @@
+{
+ "oracle_repo": "https://github.com/shibhansh/loss-of-plasticity",
+ "oracle_commit": "a6b79580d85f3025bdb601566d3627c5f489f13b",
+ "oracle_torch": "2.4.1+cpu",
+ "recorder": "scripts/oracle/record_fixtures.py",
+ "files": {
+  "gnt_ffnn_adaptable_contribution.npz": "bd9c5e33e306d222746715ae60efde4668a95abba7ec831edb7588f87be35b90",
+  "gnt_ffnn_contribution.npz": "d727deb2069743c73b5c4bf0ae3d07b36c471f08b9e152193fa38ee34bff519f",
+  "gnt_ffnn_zero_contribution.npz": "546eb9a0b9eccfb52b7943f0a5ed33cece210b137fedcd279ded32d1c539de1a",
+  "gnt_ffnn_weight.npz": "9ddebf4d817653714fb73905e49bba1cd1bbf4c8e0db94e178abb9e5fb68bddf",
+  "gnt_ffnn_adaptation.npz": "8662c99a8b12989cdfebc33f1706309c4da1c6b19f6483ee703e70ee239a116a",
+  "gnt_deep_relu_sgd.npz": "a20992d6b30587e0f2f6f4252daadeebcf8e9b1805c937ac96c8de44e0917214",
+  "ltu.npz": "0d251075ffb5ffc7b35805aa73b4cfe7721185fc92892af3c266663bbdea334b",
+  "diag.npz": "ace5a73cb63bda0c980fc5e8a594ea37de9b279f12d68e68f82d47db11ec98c9",
+  "traj_bp_relu_sgd.npz": "af62a12e46f3cfacb1f59961b6fe7c31563dbaf7aeea534065eed8ffff5b9fd9",
+  "traj_bp_tanh_sgd.npz": "eeada4294f1c1d0350a207b48e0cadde43fa36ce4692baa1104f97a13ff77cc0",
+  "traj_l2_relu_sgd.npz": "84e8d7918d98ca999469ecf91432f17b2f1f68fed40e22fad8e0bb16d8e3930d",
+  "traj_linear_sgd.npz": "7178814aeca7793ca378794ece17c6c87acec3b2f694774a4778216b1d6cb69b",
+  "traj_bp_tanh_adam.npz": "5fcaf785993bdc6bab5c5761d9e4b99c4d13515f012d0b206c6d0d1f7fe3ee52",
+  "traj_bp_tanh_adamgnt.npz": "39c08515f8bcf954e7e93d94659ecdb22c93c12a52dcf8abf2790fb76ef43af2",
+  "traj_mnist_w100.npz": "2cccb911e8b0c4dafd43f2b317428b0431b80c09324cfa6bf904a9ac4bd76085",
+  "snp_sigma1e-2.npz": "4f1a337ba6256dfd7747f58014abc17fe9d71076720a8b64cafdda76fe3809d6",
+  "snp_sigma0.npz": "70ae719c0555c8eef71d2922ac74a79ce5630e18aa1827213659fbab8ea1c942"
+ }
+}

@@ -1,0 +1,49 @@
+# full-scale: paper §6 text claim "CBP overcomes the loss of plasticity for all activation functions" (no figure in v3),
+# on the Fig. B.10 problem itself (flip-one stream, 3M examples, SGD 0.01, 100 runs), plus L2 / S&P on ReLU.
+experiment: scr
+scr_mode: flip_one          # Appendix B / Fig. B.10 stream
+paper_text: false           # official 20-bit problem
+n_steps: 3000000            # Appendix B '3M examples'
+n_seeds: 100                # Appendix B '100 runs'
+seed_offset: 0              # same streams as scr_b10
+widths: [5]                 # Table B.3
+opt: sgd                    # Fig. B.10 (SGD)
+replace_mode: bernoulli     # official expr.py accumulate=False
+k_max: 1                    # rho * 5 <= 0.005 < 1
+periods_per_chunk: 50       # ASSUMED
+lr: 0.01                    # Fig. B.10 largest step (fastest loss of plasticity); official sgd cfgs 0.01
+mt: 10                      # official expr.py effective default
+eta: 0.99                   # official sgd/cbp/relu.json decay_rate
+util: overall               # official util_type adaptable_contribution
+bias_transfer: 0.0          # official
+arms:                       # 6 activations x {BP, CBP rho in official grid middle 3}; ReLU L2 / S&P official grids
+  - {name: tanh_bp, act: tanh}
+  - {name: tanh_cbp_1e-05, act: tanh, rho: 1e-05}
+  - {name: tanh_cbp_0.0001, act: tanh, rho: 0.0001}
+  - {name: tanh_cbp_0.001, act: tanh, rho: 0.001}
+  - {name: sigmoid_bp, act: sigmoid}
+  - {name: sigmoid_cbp_1e-05, act: sigmoid, rho: 1e-05}
+  - {name: sigmoid_cbp_0.0001, act: sigmoid, rho: 0.0001}
+  - {name: sigmoid_cbp_0.001, act: sigmoid, rho: 0.001}
+  - {name: elu_bp, act: elu}
+  - {name: elu_cbp_1e-05, act: elu, rho: 1e-05}
+  - {name: elu_cbp_0.0001, act: elu, rho: 0.0001}
+  - {name: elu_cbp_0.001, act: elu, rho: 0.001}
+  - {name: relu_bp, act: relu}
+  - {name: relu_cbp_1e-05, act: relu, rho: 1e-05}
+  - {name: relu_cbp_0.0001, act: relu, rho: 0.0001}
+  - {name: relu_cbp_0.001, act: relu, rho: 0.001}
+  - {name: leaky_relu_bp, act: leaky_relu}
+  - {name: leaky_relu_cbp_1e-05, act: leaky_relu, rho: 1e-05}
+  - {name: leaky_relu_cbp_0.0001, act: leaky_relu, rho: 0.0001}
+  - {name: leaky_relu_cbp_0.001, act: leaky_relu, rho: 0.001}
+  - {name: swish_bp, act: swish}
+  - {name: swish_cbp_1e-05, act: swish, rho: 1e-05}
+  - {name: swish_cbp_0.0001, act: swish, rho: 0.0001}
+  - {name: swish_cbp_0.001, act: swish, rho: 0.001}
+  - {name: relu_l2_0.001, act: relu, wd: 0.001}
+  - {name: relu_l2_0.01, act: relu, wd: 0.01}
+  - {name: relu_l2_0.1, act: relu, wd: 0.1}
+  - {name: relu_snp_0.0001, act: relu, wd: 0.01, sigma: 0.0001}
+  - {name: relu_snp_0.001, act: relu, wd: 0.01, sigma: 0.001}
+  - {name: relu_snp_0.01, act: relu, wd: 0.01, sigma: 0.01}

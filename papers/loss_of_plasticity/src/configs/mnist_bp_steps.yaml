@@ -1,0 +1,17 @@
+# Online Permuted MNIST, 10x-REDUCED (labelled): BP step-size study at width 100 (Figure 2b left/middle analogue).
+experiment: mnist
+widths: [100, 100, 100]     # Figure 2b middle width 100
+n_tasks: 150                # Figure 2b middle
+examples_per_task: 60000    # paper §3
+n_seeds: 10                 # ASSUMED (budget)
+seed_offset: 1000           # same streams as mnist_reduced final seeds
+opt: sgd                    # paper §3
+replace_mode: accumulate    # unused (rho = 0)
+k_max: 1
+diag_n: 2000                # paper §4
+ckpt_every_tasks: 5         # ASSUMED
+act: relu                   # paper §4
+arms:                       # Figure 2b left step sizes; official cfg/bp/small_net.json (width 100)
+  - {name: bp_0.01, lr: 0.01}
+  - {name: bp_0.003, lr: 0.003}
+  - {name: bp_0.001, lr: 0.001}

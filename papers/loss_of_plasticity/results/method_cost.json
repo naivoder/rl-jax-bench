@@ -1,0 +1,39 @@
+{
+ "device": "cpu:0",
+ "scr_relu_sgd": {
+  "bp": {
+   "flops_per_step_xla": 836.0,
+   "us_per_step_cpu": 0.5087910481961444
+  },
+  "l2": {
+   "flops_per_step_xla": 836.0,
+   "us_per_step_cpu": 0.5083982978248969
+  },
+  "snp": {
+   "flops_per_step_xla": 11518.0,
+   "us_per_step_cpu": 10.193388801417314
+  },
+  "cbp": {
+   "flops_per_step_xla": 3091.0,
+   "us_per_step_cpu": 6.2736671505263075
+  }
+ },
+ "mnist_w100_sgd": {
+  "bp": {
+   "flops_per_step_xla": 742769.0,
+   "us_per_step_cpu": 39.15237901189054
+  },
+  "l2": {
+   "flops_per_step_xla": 742769.0,
+   "us_per_step_cpu": 38.576001999899745
+  },
+  "snp": {
+   "flops_per_step_xla": 10017925.0,
+   "us_per_step_cpu": 745.9199046522068
+  },
+  "cbp": {
+   "flops_per_step_xla": 1045173.0,
+   "us_per_step_cpu": 84.62964200104277
+  }
+ }
+}
