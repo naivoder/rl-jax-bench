@@ -1,0 +1,52 @@
+[project]
+name = "rl-jax-bench"
+version = "0.1.0"
+description = "Reinforcement learning papers reimplemented in JAX and checked against the published results"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "jax==0.11.1",
+    "jaxlib==0.11.1",
+    "flax==0.12.9",
+    "optax==0.2.8",
+    "orbax-checkpoint==0.12.7",
+    "chex==0.1.92",
+    "equinox==0.13.8",
+    "gymnax==1.0.0",
+    "gymnasium==1.1.1",
+    "brax==0.14.2",
+    "mujoco==3.15.0",
+    "mujoco-mjx==3.15.0",
+    "etils==1.14.0",
+    "numpy==2.5.3",
+    "scipy==1.18.1",
+    "pyyaml==6.0.3",
+    "matplotlib==3.11.2",
+    "pillow==12.3.0",
+    "imageio==2.34.0",
+    "pandas==3.0.6",
+    "seaborn==0.13.2",
+    "jaxopt==0.8.5",
+    "six==1.17.0",  # imported by gymnax, missing from its metadata
+]
+
+[project.optional-dependencies]
+cuda = ["jax[cuda12]==0.11.1"]
+pdf = ["pymupdf==1.28.2", "pypdf==6.20.0"]
+
+[dependency-groups]
+dev = ["pytest==9.1.1"]
+
+[tool.uv]
+# gymnax 1.0.0 declares jax < 0.7 but runs on the pinned version; every result here was produced with it
+override-dependencies = ["jax==0.11.1", "jaxlib==0.11.1"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/rl_jax_bench"]

@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.egg-info/
+runs/
+logs/
+*.ckpt
+.jax_cache/
+external/
+papers/loss_of_plasticity/data/
