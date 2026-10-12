@@ -1,0 +1,123 @@
+# sources.yaml — one entry per planned config key: value + source tag.
+# Tags: 'paper Table 1', 'paper §X', 'Figure N', 'official code (MadryLab/implementation-matters@5ee6ecb, <file>)',
+# NOTE (recheck, review): every 'official code' tag below is the code of the COMPANION paper
+# (Engstrom et al., implementation-matters), not of this paper. Values not in this paper's Table 1 are therefore
+# 'companion-code, not this paper'; e.g. shows that code's Hopper PPO LR disagrees with Table 1.
+#       'ASSUMED (<reason>)'.
+paper:
+  title: "A Closer Look at Deep Policy Gradients"
+  version: "arXiv:1811.02553v4 (ICLR 2020)"
+  pdf_sha256: fa2a4d5487415f9422d47fc8e7d7a5327414985c030b2964eddcd439e8688af1
+official_code:
+  repo: https://github.com/MadryLab/implementation-matters
+  commit: 5ee6ecb12545365d9178135e65576adfc0d82f52
+  status: "companion paper's code; no dedicated repo for this paper exists"
+
+env:
+  hopper: {value: "brax hopper (PROXY for Hopper-v2)", source: "ASSUMED (JAX-only stack)"}
+  walker2d: {value: "brax walker2d (PROXY for Walker2d-v2)", source: "ASSUMED (JAX-only stack)"}
+  humanoid: {value: "not run", source: "ASSUMED (budget)"}
+  episode_length: {value: 1000, source: "ASSUMED (gym-v2 TimeLimit)"}
+  timelimit_is_terminal: {value: true, source: "official code (agent.py advantage_and_return uses not_dones from gym done)"}
+  reset_each_collection: {value: true, source: "official code (agent.py run_trajectories resets envs)"}
+  num_actors: {value: 1, source: "official code (MuJoCo.json num_actors=1; agent.py asserts NUM_ACTORS==1)"}
+
+common:
+  steps_per_iteration: {value: 2048, source: "paper Table 1 (Timesteps per iteration)"}
+  train_iterations: {value: 488, source: "official code (MuJoCo.json train_steps=488); Figure 8 curves end at 487"}
+  gamma: {value: 0.99, source: "paper Table 1"}
+  gae_lambda: {value: 0.95, source: "paper Table 1"}
+  policy_hidden: {value: [64, 64], source: "paper Table 1"}
+  value_hidden: {value: [64, 64], source: "paper Table 1"}
+  activation: {value: tanh, source: "official code (models.py ACTIVATION=nn.Tanh)"}
+  log_std_init: {value: 0.0, source: "official code (models.py CtsPolicy stdev_init zeros)"}
+  log_std_state_independent: {value: true, source: "official code (models.py CtsPolicy.log_stdev Parameter)"}
+  value_epochs: {value: 10, source: "paper Table 1"}
+  value_minibatches: {value: 32, source: "official code (MuJoCo.json num_minibatches=32)"}
+  value_adam_eps: {value: 1.0e-5, source: "official code (agent.py val_opt eps=1e-5)"}
+  entropy_coeff: {value: 0.0, source: "paper Table 1"}
+  adv_norm_eps: {value: 1.0e-8, source: "official code (steps.py adv_normalize)"}
+  obs_norm: {value: "running mean/std (push-before-normalise)", source: "official code (custom_env.py ZFilter; MuJoCo.json norm_states=true)"}
+  last_index_bootstrap_quirk: {value: "V(s_{t+1}) := V(s_t) at last index", source: "official code (agent.py advantage_and_return)"}
+  freeze_normalisers_in_instruments: {value: true, source: "ASSUMED (correctness; diverges from official code)"}
+  dtype: {value: float32, source: "ASSUMED "}
+  physics_backend: {value: mjx, source: "ASSUMED (brax 0.14.2 MJX = MuJoCo 3.15 physics on the gym-derived XML)"}
+  env_post_step_kinematics: {value: true, source: "correctness (recheck, 2026-10-12): gym/gymnasium Hopper/Walker2d step() read qpos AFTER do_simulation; brax MJX State.x is pre-integration xpos of the last substep. Legacy false = every full-scale run"}
+  checkpoint_normaliser_after_rollout_k: {value: true, source: "ASSUMED (theta_k + normaliser stats used by update k; avoids empty stats at k=0)"}
+
+ppo:
+  hopper_policy_lr: {value: 4.5e-4, source: "paper Table 1 (official config uses 3e-4)"}
+  walker2d_policy_lr: {value: 4.0e-4, source: "paper Table 1 (= official walker_ppo.py)"}
+  hopper_value_lr: {value: 2.0e-4, source: "paper Table 1 (official config 2.5e-4)"}
+  walker2d_value_lr: {value: 3.0e-4, source: "paper Table 1"}
+  policy_epochs: {value: 10, source: "paper Table 1"}
+  minibatches: {value: 32, source: "official code (MuJoCo.json num_minibatches)"}
+  clip_eps: {value: 0.2, source: "paper Table 1"}
+  adam_eps: {value: 1.0e-5, source: "official code (MuJoCo.json adam_eps)"}
+  anneal_lr: {value: true, source: "official code (configs/*_ppo.py anneal_lr=True; linear to 0) -- companion-code, not this paper "}
+  value_clipping_walker2d: {value: true, source: "official code (configs/walker_ppo.py) -- companion-code, not this paper ; also enters code-form GAE-MRE for Walker PPO only"}
+  value_clipping_hopper: {value: false, source: "official code (configs/hopper_ppo.py) -- companion-code, not this paper "}
+  clip_val_eps: {value: 0.2, source: "official code (MuJoCo.json clip_val_eps)"}
+  reward_norm: {value: "divide by running std of discounted return", source: "paper Table 1 (On) + official code (RewardFilter)"}
+  reward_clip: {value: [-10, 10], source: "paper Table 1"}
+  obs_clip: {value: [-10, 10], source: "paper Table 1 (State clipping)"}
+  init: {value: "orthogonal (sqrt2 hidden, 0.01 policy head, 1.0 value head)", source: "official code (configs/*_ppo.py; models.py)"}
+  grad_clip: {value: null, source: "official code (MuJoCo.json clip_grad_norm=-1)"}
+
+trpo:
+  hopper_kl_delta: {value: 0.13, source: "paper Table 1"}
+  walker2d_kl_delta: {value: 0.04, source: "paper Table 1"}
+  hopper_value_lr: {value: 2.0e-4, source: "paper Table 1"}
+  walker2d_value_lr: {value: 3.0e-4, source: "paper Table 1"}
+  fisher_fraction: {value: 0.1, source: "paper Table 1"}
+  cg_steps: {value: 10, source: "paper Table 1"}
+  cg_damping: {value: 0.1, source: "paper Table 1"}
+  backtrack_steps: {value: 10, source: "paper Table 1"}
+  backtrack_accept_ratio: {value: 0.1, source: "official code (torch_utils.py backtracking_line_search)"}
+  backtrack_factor: {value: 0.5, source: "official code (torch_utils.py scaling=2**-i)"}
+  reward_norm: {value: false, source: "paper Table 1"}
+  reward_clip: {value: null, source: "paper Table 1"}
+  obs_norm: {value: true, source: "official code (MuJoCo.json norm_states=true; trpo configs leave it) -- companion-code, not this paper: Table 1 does not specify TRPO obs normalisation "}
+  obs_clip: {value: null, source: "paper Table 1 ('–') + official code (clip_observations=-1)"}
+  init: {value: xavier_uniform, source: "official code (configs/*_trpo.py)"}
+  anneal_lr: {value: false, source: "official code (configs/*_trpo.py)"}
+  value_clipping: {value: false, source: "official code (configs/*_trpo.py)"}
+
+instruments:
+  checkpoints: {value: [0, 150, 300, 450], source: "Figures 1,2,4,9,10,13-20; official code save_iters=150"}
+  grad_n_estimates: {value: 10, source: "Figure 1/2 captions"}
+  grad_sample_sizes: {value: [100, 1000, 2000, 10000, 100000], source: "Figures 1/2/9/10 x-points (2000 added: vertical line) — "}
+  grad_sample_1e6_estimates: {value: "1 seed only", source: "ASSUMED (scaled)"}
+  grad_reference_pairs: {value: 1000000, source: "Figure 10 caption ('around 1M' for Walker/Hopper)"}
+  rollout_chunk: {value: 10000, source: "ASSUMED (samples > 1e4 pairs = n/1e4 fresh single-actor 1e4-step rollouts in parallel; paper used one actor)"}
+  nested_estimates: {value: true, source: "ASSUMED (n <= chunk estimates are prefixes of each estimate's first actor)"}
+  grad_param_set: {value: "policy params incl. log-std", source: "ASSUMED "}
+  grad_advantage: {value: "normalised GAE (agent's V)", source: "ASSUMED + official code surrogate_reward "}
+  bootstrap_resamples: {value: 1000, source: "ASSUMED (paper 500 / 10)"}
+  value_log_every: {value: 10, source: "Figure 3 x-spacing + official code log_every=10"}
+  heldout_pairs: {value: 2048, source: "official code (agent.py take_steps collects num_saps held-out)"}
+  returns_target: {value: "truncated discounted return, terminal steps excluded", source: "official code (steps.py value_loss_returns)"}
+  gae_mre_variants: {value: [true_abs_rel, code_squared_over_abs], source: "official code steps.py value_loss_gae re=True"}
+  baseline_sample_sizes: {value: [100, 1000, 2000, 4000, 6000, 8000, 10000], source: "Figure 4 vector paths "}
+  baseline_checkpoints: {value: [150, 300, 450], source: "Figure 4"}
+  baseline_algorithm: {value: ppo, source: "ASSUMED (not stated)"}
+  vstar_fit_pairs: {value: 1000000, source: "ASSUMED (scaled from paper 5e6, Figure 4 caption)"}
+  vstar_optimizer: {value: "Adam 1e-3 cosine, 4000 steps x batch 4096, standardised targets, early stop on 10% split", source: "ASSUMED "}
+  vstar_lr: {value: 1.0e-3, source: "ASSUMED (cosine decay to 5%, standardised targets -- small-scale pass-1 fit at 3e-4 x 1000 steps was LR-limited)"}
+  vstar_steps: {value: 4000, source: "ASSUMED "}
+  vstar_batch: {value: 4096, source: "ASSUMED "}
+  landscape_grid: {value: "7x7 over [0,3]^2", source: "ASSUMED (scaled; axis range from Figures 5-7)"}
+  landscape_max: {value: 3.0, source: "Figures 5-7 axis range [0, 3]"}
+  landscape_true_chunk: {value: 2000, source: "ASSUMED (2000-step actors; only the first 2 episodes of each are used, which always complete -> unbiased return estimate)"}
+  landscape_random_dir_norm: {value: 2.0, source: "paper §2.3 Fig 5 caption 'random norm 2 Gaussian vector' (reading)"}
+  landscape_true_reward_pairs: {value: 100000, source: "ASSUMED (scaled from paper 1e6, Figure 6 caption)"}
+  landscape_concentration_pairs: {value: [2000, 20000, 100000], source: "Figure 5"}
+  landscape_few_step_pairs: {value: 2048, source: "Figures 6/7 ('2,000'), Table 1 (2048)"}
+  landscape_many_step_pairs: {value: 100000, source: "ASSUMED (scaled from paper 1e6)"}
+
+seeds:
+  train_seeds_e0_e2: {value: 5, source: "ASSUMED (paper 24 trials, 5/algo plotted in Figs 3/8)"}
+  seeds_e1_e3_e4: {value: ">=3", source: "ASSUMED (paper plots 3 agents in Figs 1/2/9/10)"}
+stats:
+  primary_family: {value: [P1, P2, P3, P4], source: "ASSUMED (pre-declared)"}
+  test: {value: "paired t + 1e4 bootstrap CI, Holm, alpha 0.05", source: "ASSUMED (shared loop rule)"}
