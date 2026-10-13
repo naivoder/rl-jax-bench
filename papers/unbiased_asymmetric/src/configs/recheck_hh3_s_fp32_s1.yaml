@@ -1,0 +1,7 @@
+# Recheck: HH-3 asym-s at Table-2 settings, FRESH seed 1, 20 runs (4 slices of 5), full-f32 matmuls, to 4.2M
+env: heavenhell_3
+tag: recheck/hh3_s_fp32_s1    # run control
+seed: 1                      # fresh key tree (the learner-strength GPU probe with seed 1 was killed before its first chunk)
+runs: 5                      # per slice; 4 slices = 20 runs
+overrides:
+  max_env_steps: 4200000     # budget: past the full-scale common step (3.66, 4.16]M; logging cadence only

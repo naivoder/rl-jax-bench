@@ -1,0 +1,7 @@
+# small-scale (small-scale): Heaven-Hell-3 as a 10x-smaller proxy of Figure 3a (1M of the paper's 10M env steps).
+env: heavenhell_3          # Table 1 / Appendix C.1.1
+tag: small                 # output dir runs/small/... (run control)
+seed: 0                    # ASSUMED (one top-level seed per launch)
+runs: 5                    # ASSUMED (small-scale replications; paper uses 20)
+overrides:
+  max_env_steps: 1000000   # ASSUMED (small-scale: 10x-smaller proxy of the 10M of Figure 3a; asym-hs solves HH-3 by ~2M)

@@ -1,0 +1,5 @@
+# full-scale (full reproduction, tiered scope): paper length, Table 2 hyper-parameters.
+env: cleaner            # Figure 3f; Appendix C.2.2
+tag: full                 # output dir runs/full/... (run control)
+seed: 0                    # ASSUMED (one top-level seed per launch; runs are fold_in(run_idx), same as small-scale)
+runs: 5                    # ASSUMED (budget: paper uses 20 runs, Figure 3 caption; 5 = pre-declared full-scale tier)

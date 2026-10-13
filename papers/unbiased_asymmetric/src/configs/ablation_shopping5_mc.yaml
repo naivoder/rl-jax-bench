@@ -1,0 +1,12 @@
+# full-scale ablation: remove the TD bootstrap from the critic target / actor advantage (lambda-return with lambda = 1,
+# i.e. Monte-Carlo returns). Theory (toy check): a baseline that depends on s only
+# leaves the policy gradient unbiased when the advantage uses MC returns, so the asym-s bias must come from
+# bootstrapping V(s). Pre-declared prediction : asym-s with MC beats asym-s with TD(0) on
+# Shopping-5 final and auc.
+env: shopping_5            # Figure 3c; Table 1 / Appendix C.1.2
+tag: ablation        # output dir runs/ablation/... (run control)
+seed: 0                    # ASSUMED (same key tree as small-scale Shopping-5, so run_idx pairs with the TD(0) runs)
+runs: 5                    # ASSUMED (budget; matches the small-scale Shopping-5 TD(0) cells it is paired with)
+overrides:
+  td: tdlambda             # official code --q-estimator td-lambda (tdlambda_q_estimator); ablation switch
+  td_lambda: 1.0           # ASSUMED (ablation: lambda = 1 = Monte-Carlo return; official estimator form)

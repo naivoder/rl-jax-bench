@@ -1,0 +1,9 @@
+# Recheck (DIAGNOSTIC ONLY): code-history sensitivity of the final negentropy weight. The official
+# main_a2c.py@1a065b0 default --negentropy-value-to is 0.01 (absolute); App. E says lambda0/10 (= 0.1 for HH-3 asym-s)
+env: heavenhell_3
+tag: recheck/hh3_s_lamfin001_s0   # run control
+seed: 0                      # same key tree as recheck_hh3_s_fp32_s0 (compare against it)
+runs: 5                      # as recheck_hh3_s_fp32_s0
+overrides:
+  max_env_steps: 4200000     # as recheck_hh3_s_fp32_s0
+  lambda_final_factor: 0.01  # lambda0 = 1.0 (Table 2 HH-3 asym-s) -> final 0.01 = the official absolute default

@@ -1,0 +1,182 @@
+{
+ "heavenhell_3/a2c_asym_hs": {
+  "actor_mac": 295936,
+  "critic_mac": 327936,
+  "flops_per_env_step": 5646848,
+  "n_params": 631173
+ },
+ "heavenhell_3/a2c_asym_s": {
+  "actor_mac": 295936,
+  "critic_mac": 164096,
+  "flops_per_env_step": 4008448,
+  "n_params": 465349
+ },
+ "heavenhell_3/a2c": {
+  "actor_mac": 295936,
+  "critic_mac": 295168,
+  "flops_per_env_step": 5319168,
+  "n_params": 596613
+ },
+ "heavenhell_3/a2c_react_2": {
+  "actor_mac": 394240,
+  "critic_mac": 393472,
+  "flops_per_env_step": 7088640,
+  "n_params": 596613
+ },
+ "heavenhell_3/a2c_react_4": {
+  "actor_mac": 590848,
+  "critic_mac": 590080,
+  "flops_per_env_step": 10627584,
+  "n_params": 596613
+ },
+ "heavenhell_4/a2c_asym_hs": {
+  "actor_mac": 295936,
+  "critic_mac": 327936,
+  "flops_per_env_step": 5646848,
+  "n_params": 632197
+ },
+ "heavenhell_4/a2c_asym_s": {
+  "actor_mac": 295936,
+  "critic_mac": 164096,
+  "flops_per_env_step": 4008448,
+  "n_params": 466117
+ },
+ "heavenhell_4/a2c": {
+  "actor_mac": 295936,
+  "critic_mac": 295168,
+  "flops_per_env_step": 5319168,
+  "n_params": 597125
+ },
+ "heavenhell_4/a2c_react_2": {
+  "actor_mac": 394240,
+  "critic_mac": 393472,
+  "flops_per_env_step": 7088640,
+  "n_params": 597125
+ },
+ "heavenhell_4/a2c_react_4": {
+  "actor_mac": 590848,
+  "critic_mac": 590080,
+  "flops_per_env_step": 10627584,
+  "n_params": 597125
+ },
+ "shopping_5/a2c_asym_hs": {
+  "actor_mac": 296448,
+  "critic_mac": 327936,
+  "flops_per_env_step": 5650944,
+  "n_params": 674631
+ },
+ "shopping_5/a2c_asym_s": {
+  "actor_mac": 296448,
+  "critic_mac": 164096,
+  "flops_per_env_step": 4012544,
+  "n_params": 506439
+ },
+ "shopping_5/a2c": {
+  "actor_mac": 296448,
+  "critic_mac": 295168,
+  "flops_per_env_step": 5323264,
+  "n_params": 601863
+ },
+ "shopping_5/a2c_react_2": {
+  "actor_mac": 394752,
+  "critic_mac": 393472,
+  "flops_per_env_step": 7092736,
+  "n_params": 601863
+ },
+ "shopping_5/a2c_react_4": {
+  "actor_mac": 591360,
+  "critic_mac": 590080,
+  "flops_per_env_step": 10631680,
+  "n_params": 601863
+ },
+ "shopping_6/a2c_asym_hs": {
+  "actor_mac": 296448,
+  "critic_mac": 327936,
+  "flops_per_env_step": 5650944,
+  "n_params": 720391
+ },
+ "shopping_6/a2c_asym_s": {
+  "actor_mac": 296448,
+  "critic_mac": 164096,
+  "flops_per_env_step": 4012544,
+  "n_params": 550791
+ },
+ "shopping_6/a2c": {
+  "actor_mac": 296448,
+  "critic_mac": 295168,
+  "flops_per_env_step": 5323264,
+  "n_params": 604679
+ },
+ "shopping_6/a2c_react_2": {
+  "actor_mac": 394752,
+  "critic_mac": 393472,
+  "flops_per_env_step": 7092736,
+  "n_params": 604679
+ },
+ "shopping_6/a2c_react_4": {
+  "actor_mac": 591360,
+  "critic_mac": 590080,
+  "flops_per_env_step": 10631680,
+  "n_params": 604679
+ },
+ "car_flag/a2c_asym_hs": {
+  "actor_mac": 251392,
+  "critic_mac": 251392,
+  "flops_per_env_step": 4525056,
+  "n_params": 505864
+ },
+ "car_flag/a2c_asym_s": {
+  "actor_mac": 251392,
+  "critic_mac": 132864,
+  "flops_per_env_step": 3339776,
+  "n_params": 386568
+ },
+ "car_flag/a2c": {
+  "actor_mac": 251392,
+  "critic_mac": 249856,
+  "flops_per_env_step": 4509696,
+  "n_params": 504328
+ },
+ "car_flag/a2c_react_2": {
+  "actor_mac": 304384,
+  "critic_mac": 302848,
+  "flops_per_env_step": 5463552,
+  "n_params": 504328
+ },
+ "car_flag/a2c_react_4": {
+  "actor_mac": 410368,
+  "critic_mac": 408832,
+  "flops_per_env_step": 7371264,
+  "n_params": 504328
+ },
+ "cleaner/a2c_asym_hs": {
+  "actor_mac": 276736,
+  "critic_mac": 705536,
+  "flops_per_env_step": 9269248,
+  "n_params": 985361
+ },
+ "cleaner/a2c_asym_s": {
+  "actor_mac": 276736,
+  "critic_mac": 563968,
+  "flops_per_env_step": 7853568,
+  "n_params": 843025
+ },
+ "cleaner/a2c": {
+  "actor_mac": 276736,
+  "critic_mac": 272896,
+  "flops_per_env_step": 4942848,
+  "n_params": 552721
+ },
+ "cleaner/a2c_react_2": {
+  "actor_mac": 352768,
+  "critic_mac": 348928,
+  "flops_per_env_step": 6311424,
+  "n_params": 552721
+ },
+ "cleaner/a2c_react_4": {
+  "actor_mac": 504832,
+  "critic_mac": 500992,
+  "flops_per_env_step": 9048576,
+  "n_params": 552721
+ }
+}

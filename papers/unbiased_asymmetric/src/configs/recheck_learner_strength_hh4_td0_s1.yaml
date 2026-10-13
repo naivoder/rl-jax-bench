@@ -1,0 +1,7 @@
+# Recheck probe (learner strength; trained on GPU with the old TF32 default): HH-4 Table-2 settings, new seed, 20 runs, TD(0) (= full-scale algorithm)
+env: heavenhell_4
+tag: recheck/learner_strength/hh4_td0_s1
+seed: 1
+runs: 20
+overrides:
+  matmul_precision: null     # the TF32 GPU default this probe was trained with (before the full-f32 default)

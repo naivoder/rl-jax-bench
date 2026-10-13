@@ -1,0 +1,6 @@
+# small-scale (small-scale): Shopping-5 at the paper's own length (2M env steps, Figure 3c) -- the paper's cheapest setting.
+env: shopping_5            # Table 1 / Appendix C.1.2
+tag: small                 # output dir runs/small/...
+seed: 0                    # ASSUMED (one top-level seed per launch; runs are fold_in(run_idx))
+runs: 5                    # ASSUMED (small-scale: enough replications to see direction; paper uses 20, Figure 3 caption)
+overrides: {}              # none: every other value from sources.yaml (common / table2)

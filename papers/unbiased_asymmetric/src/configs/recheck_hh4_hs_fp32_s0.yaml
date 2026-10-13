@@ -1,0 +1,7 @@
+# Recheck: the full-scale HH-4 asym-hs key tree (seed 0, 5 runs) re-trained with full-f32 matmuls, to 3.4M
+env: heavenhell_4
+tag: recheck/hh4_hs_fp32_s0   # run control
+seed: 0                      # SAME key tree as runs/full (before/after the matmul-precision fix)
+runs: 5                      # as full-scale
+overrides:
+  max_env_steps: 3400000     # budget: past the full-scale common step; logging cadence only, no effect on learning

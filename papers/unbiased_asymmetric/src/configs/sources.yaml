@@ -1,0 +1,124 @@
+# sources.yaml — every planned config key with its value and provenance.
+# Tags: 'paper §X' / 'Table N' / 'Figure N' / 'Appendix X' / 'official code (asym-rlpo@1a065b0 <file>)' / 'ASSUMED (reason)'.
+# Copied verbatim to src/configs/sources.yaml.
+
+common:
+  episodes_per_update:      {value: 2,        source: "Appendix E (E in Algorithm 1); official code hpsearch --simulation-num-episodes 2"}
+  max_episode_steps:        {value: 100,      source: "Appendix E; official hpsearch --max-episode-timesteps 100"}
+  truncation_is_terminal:   {value: true,     source: "official code (q_estimators.td0_q_estimator sets values[-1]=0)"}
+  gamma:                    {value: 0.99,     source: "Table 1 (categorical); official code --training-discount default for others"}
+  td_estimator:             {value: td0,      source: "paper eqs (6),(7),(22) + official default --q-estimator td0 (hpsearch used td-lambda 0.7: diagnostic only)"}
+  td_lambda_diagnostic:     {value: 0.7,      source: "official code hpsearch.sbatch (2021-08) — diagnostic arm only"}
+  target_update_period:     {value: 10000,    source: "Appendix E; official --target-update-period 10_000"}
+  target_first_refresh_at:  {value: 0,        source: "official code (Dispenser fires at i>=0)"}
+  actor_delta_critic:       {value: online_after_update, source: "official code (PO_A2C_ABC.actor_losses uses self.models)"}
+  update_order:             {value: [critic, actor], source: "official code main_a2c.py"}
+  policy_term_discount_weight: {value: "gamma**t", source: "paper eq (21); official actor_losses discounts"}
+  negentropy_schedule:      {value: linear,   source: "Appendix E; official --negentropy-schedule linear"}
+  negentropy_nsteps:        {value: 2000000,  source: "Appendix E; official default --negentropy-nsteps 2_000_000"}
+  negentropy_final_factor:  {value: 0.1,      source: "Appendix E (λ0/10)"}
+  optimizer:                {value: adam,     source: "official code main_a2c.py (paper silent)"}
+  adam_eps:                 {value: 1.0e-4,   source: "official code --optim-eps-actor/--optim-eps-critic default"}
+  adam_betas:               {value: [0.9, 0.999], source: "official code (torch.optim.Adam default)"}
+  grad_clip_max_norm:       {value: null,     source: "official code default --optim-max-norm inf"}
+  loss_reduction:           {value: "sum over t, mean over episodes; critic squared error not halved", source: "official code (reduction='sum', utils.aggregate.average)"}
+  metric:                   {value: "undiscounted return of behaviour episodes, window 100 episodes", source: "Figure 3 caption; official avg100_behavior_mean_return, --evaluation-discount 1.0"}
+  metric_log_points:        {value: 200,      source: "official --num-wandb-logs 200"}
+  runs_per_config:          {value: 20,       source: "paper §6, Figure 3 caption (MINIMAL-VIABLE tiers reduce this: ASSUMED budget)"}
+  dtype:                    {value: float32,  source: "ASSUMED (tiny models; exact differential tests)"}
+  matmul_precision:         {value: highest,  source: "full f32 matmuls as in the authors' fp32 torch code and every oracle test; null = pre-2026-10-12 JAX default, which allows TF32 on Ampere GPUs (all small-scale/full-scale GPU cells)"}
+  length_buckets:           {value: [16, 32, 64], source: "ASSUMED (implementation detail: losses padded to the smallest bucket >= longest episode; results identical, tests/test_equivalence.py)"}
+  xla_command_buffers:      {value: "FUSION,CUBLAS,CUBLASLT,CUSTOM_CALL,WHILE", source: "ASSUMED (performance only; bit-identical)"}
+  linear_init:              {value: "xavier_normal(gain=sqrt(2)) hidden / gain 1 output, zero bias", source: "official code modules.make_module"}
+  gru_init:                 {value: "uniform(-1/sqrt(H), 1/sqrt(H)) all GRU weights and biases", source: "official code (torch.nn.GRU default)"}
+  embedding_init:           {value: "normal(0,1); reset-observation row fixed at 0", source: "official code (torch.nn.Embedding default, padding_idx=-1)"}
+  final_perf_window:        {value: "last 10 of 200 log points", source: "ASSUMED (paper shows curves only)"}
+  speed_scalar:             {value: "mean over all 200 log points (normalised AUC)", source: "ASSUMED (operationalises 'converges faster')"}
+
+methods:
+  a2c_asym_hs: {critic_input: [history, state], actor_input: full_history, source: "paper §5 eqs (21)-(22); official AsymA2C"}
+  a2c_asym_s:  {critic_input: [state],          actor_input: full_history, source: "paper §3.4 eq (7); official AsymA2C_State"}
+  a2c:         {critic_input: [history],        actor_input: full_history, source: "paper §3.3 eqs (5)-(6); official A2C"}
+  a2c_react_2: {critic_input: [history_window_2], actor_input: history_window_2, source: "paper §6; official --truncated-histories --truncated-histories-n 2"}
+  a2c_react_4: {critic_input: [history_window_4], actor_input: history_window_4, source: "paper §6; official --truncated-histories-n 4"}
+
+architecture:
+  categorical:
+    embed_dim_state_action_obs: {value: 64,  source: "Appendix D"}
+    gru_hidden:                 {value: 128, source: "Appendix D; official models_flat"}
+    head_hidden:                {value: [512, 256], source: "Appendix D"}
+    activation:                 {value: relu, source: "Appendix D"}
+    reset_obs_index:            {value: "n_obs (extra)", source: "official code FlatPaddingWrapper / gym-pomdps"}
+  feature_vector:
+    action_features:            {value: one_hot, source: "Appendix D; official models_extra_carflag OneHotRepresentation"}
+    state_obs_features:         {value: identity, source: "Appendix D"}
+    gru_hidden:                 {value: 128, source: "Appendix D; official"}
+    head_hidden:                {value: [512, 256], source: "Appendix D"}
+  gridverse:
+    action_embed_dim:           {value: 1,   source: "Appendix D; official models_gv"}
+    obs_embed_dim:              {value: 8,   source: "Appendix D"}
+    obs_feature_dim:            {value: 168, source: "official code (paper says 144)"}
+    state_grid_embed_dim:       {value: 1,   source: "official models_gv GV_StateRepresentation"}
+    state_cnn:                  {value: "conv3x3 32-64-64, pad 1, ReLU", source: "official representations/gv.gv_cnn (Appendix D: '3-layer convolutional network')"}
+    gru_hidden:                 {value: 64,  source: "official code (paper says 128)"}
+    head_hidden:                {value: [512], source: "Appendix D; official"}
+
+environments:
+  heavenhell_3: {file: "gym-pomdps heavenhell_3.pomdp (episodic)", S: 28, A: 4, O: 15, gamma: 0.99, max_env_steps: 10000000, source: "Table 1; Figure 3a x-axis; Appendix C.1.1"}
+  heavenhell_4: {file: "gym-pomdps heavenhell_4.pomdp (episodic)", S: 36, A: 4, O: 19, gamma: 0.99, max_env_steps: 10000000, source: "Table 1; Figure 3b"}
+  shopping_5:   {file: "gym-pomdps shopping_5.v1.pomdp (episodic)", S: 625, A: 6, O: 50, gamma: 0.99, max_env_steps: 2000000, source: "Table 1; Figure 3c; Appendix C.1.2"}
+  shopping_6:   {file: "gym-pomdps shopping_6.v1.pomdp (episodic)", S: 1296, A: 6, O: 72, gamma: 0.99, max_env_steps: 2000000, source: "Table 1; Figure 3d"}
+  car_flag:
+    max_env_steps: {value: 4000000, source: "Figure 3e x-axis"}
+    n_actions:     {value: 7,       source: "Appendix C.2.1; official CarEnvWrapper(num_actions=7)"}
+    force_levels:  {value: "linspace(-1,1,7)", source: "official car_flag.CarEnvWrapper"}
+    power:         {value: 0.0015,  source: "official car_flag.CarEnv"}
+    max_speed:     {value: 0.07,    source: "official"}
+    position_bounds: {value: [-1.1, 1.1], source: "official"}
+    flag_positions:  {value: [-1.0, 1.0], source: "official (heaven side uniform)"}
+    priest_region:   {value: [0.3, 0.7], source: "official (priest 0.5 ± 0.2)"}
+    start_position:  {value: "U(-0.2, 0.2), v=0", source: "official reset"}
+    rewards:         {value: {good: 1.0, bad: -1.0}, source: "Appendix C.2.1"}
+  cleaner:
+    max_env_steps: {value: 4000000, source: "Figure 3f x-axis"}
+    grid:          {value: "13x13 Kruskal maze, generator seed 5, fixed", source: "official extra_lyu/cleaner.EnvCleaner(seed=5)"}
+    maze_fixture:  {value: "fixtures/cleaner_maze_seed5.npy sha256 9484c9e9bd9666f6c9799a084ef8b183edba1a68d5dfd995d8ecc9ea8608e084", source: "exported once from the official generator by oracle/export_cleaner.py (the maze is data, not code)"}
+    n_agents:      {value: 2, source: "Appendix C.2.2"}
+    n_actions:     {value: 16, source: "Appendix C.2.2 (4x4 joint)"}
+    start_cells:   {value: [[1,1],[1,1]], source: "official"}
+    state_dim:     {value: 845, source: "Appendix C.2.2 (13x13x5); official EnvCleaner_Fix.state"}
+    obs_dim:       {value: 54,  source: "Appendix C.2.2 (2 x 3x3x3)"}
+    reward:        {value: "+1 per newly cleaned cell per agent", source: "Appendix C.2.2"}
+  memory_four_rooms_7x7: {status: "NOT IMPLEMENTED -- src/envs.py raises KeyError, no train.ENV_IDS entry; Fig. 3g/h UNREPRODUCIBLE; kept as a paper record only", max_env_steps: 6000000, grid: [7,7], obs_view: [2,3], n_actions: 8, rewards: {living: -0.05, good: 5.0, bad: -5.0}, source: "Figure 3g; Appendix C.3.1 (obs/actions: paper over stale yaml, D12)"}
+  memory_four_rooms_9x9: {status: "NOT IMPLEMENTED -- src/envs.py raises KeyError, no train.ENV_IDS entry; Fig. 3g/h UNREPRODUCIBLE; kept as a paper record only", max_env_steps: 6000000, grid: [9,9], obs_view: [2,3], n_actions: 8, rewards: {living: -0.05, good: 5.0, bad: -5.0}, source: "Figure 3h; Appendix C.3.1"}
+
+# Table 2 — selected hyper-parameters (alpha_pi, alpha_V, lambda0). Source: Table 2 (Appendix E).
+table2:
+  heavenhell_3:  {a2c_asym_hs: [0.001, 0.001, 0.1], a2c_asym_s: [0.001, 0.001, 1.0], a2c: [0.001, 0.001, 0.1], a2c_react_2: [0.001, 0.0003, 1.0], a2c_react_4: [0.001, 0.0003, 1.0]}
+  heavenhell_4:  {a2c_asym_hs: [0.001, 0.001, 0.1], a2c_asym_s: [0.001, 0.001, 0.1], a2c: [0.001, 0.0003, 0.3], a2c_react_2: [0.001, 0.0003, 0.3], a2c_react_4: [0.001, 0.0003, 0.3]}
+  shopping_5:    {a2c_asym_hs: [0.001, 0.0003, 3.0], a2c_asym_s: [0.001, 0.001, 10.0], a2c: [0.001, 0.0003, 3.0], a2c_react_2: [0.001, 0.001, 3.0], a2c_react_4: [0.001, 0.001, 3.0]}
+  shopping_6:    {a2c_asym_hs: [0.001, 0.0003, 3.0], a2c_asym_s: [0.001, 0.001, 10.0], a2c: [0.001, 0.0003, 3.0], a2c_react_2: [0.001, 0.001, 1.0], a2c_react_4: [0.001, 0.0003, 10.0]}
+  car_flag:      {a2c_asym_hs: [0.001, 0.001, 0.03], a2c_asym_s: [0.001, 0.001, 0.03], a2c: [0.001, 0.001, 0.03], a2c_react_2: [0.001, 0.001, 0.03], a2c_react_4: [0.001, 0.001, 0.03]}
+  cleaner:       {a2c_asym_hs: [0.001, 0.001, 1.0], a2c_asym_s: [0.001, 0.001, 1.0], a2c: [0.001, 0.001, 1.0], a2c_react_2: [0.001, 0.001, 3.0], a2c_react_4: [0.001, 0.001, 1.0]}
+  # memory_four_rooms_* rows: paper Table 2 record only -- env NOT IMPLEMENTED (see environments above)
+  memory_four_rooms_7x7: {a2c_asym_hs: [0.0003, 0.001, 0.1], a2c_asym_s: [0.0003, 0.001, 0.01], a2c: [0.0003, 0.0001, 0.1], a2c_react_2: [0.001, 0.001, 0.3], a2c_react_4: [0.001, 0.001, 0.3]}
+  memory_four_rooms_9x9: {a2c_asym_hs: [0.001, 0.0003, 0.3], a2c_asym_s: [0.001, 0.0003, 0.1], a2c: [0.001, 0.0003, 0.3], a2c_react_2: [0.001, 0.001, 0.1], a2c_react_4: [0.001, 0.001, 0.1]}
+
+grid_search_space:   # Appendix E — NOT run (36k runs); recorded for traceability
+  alpha_pi: {value: [0.0001, 0.0003, 0.001], source: "Appendix E"}
+  alpha_V:  {value: [0.0001, 0.0003, 0.001], source: "Appendix E"}
+  lambda0:
+    heavenhell: {value: [0.01, 0.03, 0.1, 0.3, 1.0], source: "Appendix E"}
+    shopping:   {value: [0.3, 1.0, 3.0, 10.0, 30.0], source: "Appendix E"}
+    car_flag:   {value: [0.03, 0.1, 0.3, 1.0, 3.0], source: "Appendix E"}
+    cleaner:    {value: [0.03, 0.1, 0.3, 1.0, 3.0], source: "Appendix E"}
+    memory_four_rooms: {value: [0.01, 0.03, 0.1, 0.3, 1.0], source: "Appendix E"}
+
+toys:
+  toy: {value: "Mini Heaven-Hell + Good/Bad POMDP (Appendix B.2)", source: "ASSUMED (our construction) / Appendix B.2"}
+  gamma_grid: {value: [0.9, 0.99], source: "ASSUMED"}
+  q_grid: {value: [0.05, 0.3, 0.5, 0.9], source: "ASSUMED"}
+  c: {value: 0.8, source: "ASSUMED"}
+  enumerator_horizon: {value: 6, source: "ASSUMED (allows priest revisits so V_MC(s) is also biased)"}
+  tolerance_unbiased: {value: 1.0e-6, source: "ASSUMED (float64 enumeration)"}
+  mc_samples: {value: [1000, 10000, 100000], source: "ASSUMED (1/sqrt(N) convergence check)"}

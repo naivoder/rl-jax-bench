@@ -1,0 +1,26 @@
+{
+ "written_epoch": 1791830673,
+ "primary_tests": [
+  "HH-3 hs-A2C final",
+  "HH-3 hs-asym_s final",
+  "HH-4 hs-A2C final",
+  "HH-4 hs-asym_s final",
+  "Shopping-5 hs-asym_s final (small data)",
+  "Shopping-6 hs-asym_s final",
+  "Shopping-5 hs-A2C auc (small data)",
+  "Shopping-6 hs-A2C auc"
+ ],
+ "secondary_tests": [
+  "Car-Flag hs-A2C final",
+  "Car-Flag hs-asym_s final",
+  "Cleaner hs-asym_s final",
+  "Cleaner asym_s peak-final > 0"
+ ],
+ "test": "paired t (two-sided) on per-run scalars paired by run_idx + 10k bootstrap CI; Holm within each family; alpha 0.05",
+ "tiers": {
+  "P1": "HH-3,HH-4 x {hs,s,a2c} x 5 runs x 10M",
+  "P2": "Shopping-6 x 5 arms x 5 runs x 2M",
+  "P3": "Car-Flag,Cleaner x {hs,s,a2c} x 5 (or 3) runs x 4M",
+  "P4": "HH-3/4 x react-2/4 x 3 runs x 10M if budget"
+ }
+}

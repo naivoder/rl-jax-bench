@@ -1,0 +1,8 @@
+# Recheck (pre-declared): HH-4 asym-hs at Table-2 settings, FRESH seed 2, 20 runs (4 slices
+# of 5 via --run-offset), full-f32 matmuls (CPU), to 3.4M (past the full-scale common step (2.81, 3.31]M)
+env: heavenhell_4            # Figure 3b
+tag: recheck/hh4_hs_fp32_s2   # run control
+seed: 2                      # fresh key tree (never used before)
+runs: 5                      # per slice; 4 slices = 20 runs, the paper's n
+overrides:
+  max_env_steps: 3400000     # budget: covers every pre-declared window; logging cadence only, no effect on learning
