@@ -1,0 +1,27 @@
+# Common keys.  Every value: inline source tag (see sources.yaml for the full table).
+arch: separate             # separate | shared | markov            -- paper §4 "Arch" (Fig. 6/8); markov = App. B reference
+algo: sac                  # td3 | sac | sacd                      -- paper §4 "RL"
+cell: lstm                 # lstm | gru                            -- paper §4 "Encoder"
+inputs: oar                # o | oa | or | oar                     -- paper §4 "Inputs"
+obs_embed: 32              # author logs (state_embedding_size 32)
+action_embed: 8            # author logs (0 when 'a' not in inputs); DEVIATION from printed Table 5 (16)
+reward_embed: 8            # author logs (0 when 'r' not in inputs); DEVIATION from printed Table 5 (16)
+rnn_hidden: 128            # Table 5; author logs
+dqn_layers: [128, 128]     # author logs
+policy_layers: [128, 128]  # author logs
+lr: 3.0e-4                 # Table 5
+alpha_lr: 3.0e-4           # official code / author logs
+auto_alpha: true           # Table 5 / App. A.3 (SAC automatic temperature)
+entropy_alpha: 0.0         # ignored when auto_alpha (official sac.py); used by sacd with auto_alpha false
+target_entropy_ratio: 0.7  # official configs (sacd target = ratio * log|A|)
+gamma: 0.9                 # author logs (all toy-env runs); DEVIATION from printed Table 5 (0.99 for every benchmark)
+tau: 0.005                 # Table 5
+exploration_noise: 0.1     # Table 5 / official td3.py (normalised action units)
+target_noise: 0.2          # Table 5 / official td3.py
+target_noise_clip: 0.5     # Table 5 / official td3.py
+batch_size: 32             # Table 5; author logs
+markov_batch_size: 256     # official configs mlp.yml (transitions); DEVIATION from App. B 'same hyperparameters'
+seed_base: 0               # ASSUMED (our key-tree root; seeds are fold_in indices)
+scan_unroll: 1             # ASSUMED (performance only; does not change arithmetic)
+ckpt_every_iters: 0        # ASSUMED (0 = no checkpoint; long runs set it)
+matmul_precision: highest  # paper App. A.2 (RTX 2080 Ti: no TF32 -> fp32); small and full stages overrode to "default" (TF32), README dtype policy

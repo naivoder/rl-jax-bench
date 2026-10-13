@@ -1,0 +1,3 @@
+base: pendulum_v.yaml
+env: Pendulum-P              # official envs/pomdp/__init__.py (obs dims [0,1] = cos, sin)
+cell: gru                    # author logs (Pendulum-P input grid is gru, len 200)

@@ -1,0 +1,19 @@
+# Cue-memory toy for the toy stage (the README); not a paper experiment.  gamma/alpha/H chosen to match the worked numbers.
+base: base.yaml
+env: CueMemory
+cue_H: 5                     # worked numbers of the toy (README) (H = 5)
+algo: sacd                   # soft closed form needs SAC-Discrete with fixed alpha
+auto_alpha: false            # alpha fixed (README)
+entropy_alpha: 0.1           # worked numbers of the toy (README)
+gamma: 0.99                  # worked numbers of the toy (README)
+cell: gru                    # ASSUMED (toy)
+inputs: oar                  # ASSUMED (toy)
+sampled_seq_len: 5           # = H (full context)
+num_init_rollouts: 64        # ASSUMED (toy)
+num_iters: 292               # ASSUMED (toy; 64/8 + 292 = 300 so the last iteration is an eval point)
+rollouts_per_iter: 8         # ASSUMED (toy)
+update_ratio: null
+updates_per_iter: 20         # ASSUMED (toy)
+log_interval: 50             # ASSUMED (toy)
+num_eval_episodes: 64        # ASSUMED (toy)
+chunk: 20                    # ASSUMED

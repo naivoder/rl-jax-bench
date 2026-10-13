@@ -1,0 +1,198 @@
+# sources.yaml — one entry per planned config key: value + source tag.
+# Tags: 'paper §X' / 'Table N' / 'Figure N' / 'Appendix X' / 'official code' (twni2016/pomdp-baselines @ e7c19c3,
+# semantics identical at ICML commit a04c8bc) / 'author logs' (variant_*.yml in the authors' numeric-results
+# archive, the configs behind Fig. 6/21/11) / 'ASSUMED (reason)'.
+paper: "Ni, Eysenbach, Salakhutdinov. Recurrent Model-Free RL Can Be a Strong Baseline for Many POMDPs. ICML 2022 (arXiv 2110.05038v3)"
+official_code: {url: "https://github.com/twni2016/pomdp-baselines", commit: "e7c19c32a20033d75414b29fbc466c77c211e968", icml_commit: "a04c8bc"}
+author_logs: {url: "https://drive.google.com/file/d/1syDNw_suIAgS-DxGp0luzepqy1pYB-5Q", sha256: "7bde5109ee51906bea2366b0fe4e02bfe4d89c7f54e9c0ee3a032af43977e2cb"}
+
+common:
+  rnn_layers:            {value: 1, source: "Appendix B (Fig. 7 caption)"}
+  rnn_weight_init:       {value: orthogonal, source: "Table 5; official code (bias 0)"}
+  rnn_bias_init:         {value: 0.0, source: "official code (recurrent_actor/critic.py)"}
+  rnn_cell_convention:   {value: pytorch, source: "ASSUMED (oracle is PyTorch; differential-tested)"}
+  embedder_layers:       {value: 1, source: "Appendix B (Fig. 7 caption: one hidden layer)"}
+  embedder_activation:   {value: relu, source: "official code (utl.FeatureExtractor)"}
+  head_hidden_init:      {value: "U(+-1/sqrt(out_dim)), bias 0.1", source: "official code (torchkit fanin_init, rlkit quirk)"}
+  head_output_init:      {value: "actor U(+-1e-3), critic U(+-3e-3), weight and bias", source: "official code (MarkovPolicyBase init_w=1e-3; FlattenMlp init_w=3e-3); tests/test_init.py (was listed as 3e-3 for both)"}
+  embedder_init:         {value: "U(+-1/sqrt(in_dim)) weight and bias", source: "official code (torch nn.Linear default)"}
+  optimizer:             {value: adam, source: "Table 5"}
+  adam_betas:            {value: [0.9, 0.999], source: "ASSUMED (torch default, not overridden in code)"}
+  adam_eps:              {value: 1.0e-8, source: "ASSUMED (torch default)"}
+  lr:                    {value: 3.0e-4, source: "Table 5"}
+  tau:                   {value: 0.005, source: "Table 5"}
+  grad_clip:             {value: null, source: "official code (none); ASSUMED none since paper silent"}
+  zero_start_state:      {value: true, source: "Appendix B"}
+  burn_in:               {value: 0, source: "official code (none)"}
+  loss_mask_norm:        {value: "sum(mask*err)/max(1,sum(mask)) per head", source: "official code (policy_rnn.py)"}
+  replay_start_sampling: {value: "uniform over valid starts, n-L+1 per episode", source: "official code (seq_replay_buffer_efficient.py)"}
+  td3_policy_delay:      {value: 1, source: "official code (no delay)", deviation_from_printed_paper: "Table 5 cites Fujimoto et al. (2018) defaults: policy delay 2 (review)"}
+  td3_actor_q:           {value: "min(Q1,Q2)", source: "official code (td3.py actor_loss)", deviation_from_printed_paper: "Fujimoto et al. (2018), cited by Table 5, use Q1 (review)"}
+  sac_tanh_logprob:      {value: "log N(z) - sum log(1 - tanh(z)^2 + 1e-6)  (rlkit form, not the stable softplus form)", source: "official code (TanhNormal)"}
+  sacd_critic_shortcut:  {value: "observation-only shortcut of width obs+act+rew embedding", source: "official code", deviation_from_printed_paper: "App. B: 'remove the observation-action embedder in the critic' (review); SAC-D used only in the toy stage toy"}
+  warmup_actions:        {value: "underlying env action_space.sample() stored RAW (Pendulum U[-2,2] executed as clip; point robot U[-0.1,0.1])", source: "official code (learner.collect_rollouts); README; tests/test_parity2.py", deviation_from_printed_paper: "paper silent (review)"}
+  window_start_inputs:   {value: "a[0] = r[0] = 0 for every sampled window, also mid-episode", source: "official code (policy update layout); README", deviation_from_printed_paper: "App. B specifies only zero-padding + zero initial hidden state (review)"}
+  td3_exploration_noise: {value: 0.1, source: "Table 5 (Fujimoto defaults) + official code (normalised units)"}
+  td3_target_noise:      {value: 0.2, source: "Table 5 + official code"}
+  td3_target_noise_clip: {value: 0.5, source: "Table 5 + official code"}
+  sac_auto_alpha:        {value: true, source: "Table 5 / Appendix A.3"}
+  sac_target_entropy:    {value: "-dim(A)", source: "official code (sac.py), Haarnoja 2018b"}
+  sac_log_alpha_init:    {value: 0.0, source: "official code (alpha=1)"}
+  sac_alpha_lr:          {value: 3.0e-4, source: "official code / configs"}
+  sac_log_std_clamp:     {value: [-20, 2], source: "official code (actor.py LOG_SIG_MIN/MAX)"}
+  sac_target_actor:      {value: false, source: "official code (use_target_actor=False)"}
+  sac_alpha_loss:        {value: "-exp(log_alpha)*(mean_logp + target_entropy)", source: "official code"}
+  dtype:                 {value: float32, source: "ASSUMED (torch default in oracle)"}
+  final_metric:          {value: "mean eval metric over env_steps >= 0.8*T, per seed; T = the paper's horizon. Runs shorter than it report final_last20_of_run (last 20 % of what was run), never compared with Table 7 / late-figure values", source: "Appendix C; review "}
+  paper_metric:          {value: "the authors' metric as their scripts compute it: np.interp of each run's eval curve onto start_x:interval_x (Pendulum 2000/1000, Semi-Circle 60000/15000), rounded to 2 dp, truncated at max_x, trailing rolling mean (window 3 Pendulum / 10 Semi-Circle, min_periods 1), mean of grid points [int(0.8 len):]; sd over seeds (ddof 1). Reported beside final_metric (which stays primary, pre-declared)", source: "official scripts/merge_csv.py, scripts/plot_csv.py get_run_down, scripts/eval.sh (recheck); reproduces Table 7 Semi-Circle 94.2 +- 0.6 from the logs"}
+  grad_norm_metric:      {value: "official get_grad_norm: arithmetic mean over RNN parameter tensors of each tensor's UNSQUARED l2 norm (+ squared global norm logged from full-fp32 stage as off_sq_*)", source: "official code (README)", deviation_from_printed_paper: "Fig. 6/21 captions: 'average squared l2-norm'; the authors' logged values fit the figures' axes only unsquared (review)"}
+  eval_deterministic:    {value: true, source: "official code (evaluate(deterministic=True), eval_stochastic: false)"}
+  separate_critic_rnns:  {value: 1, source: "official code (Critic_RNN: one RNN, two Q heads)"}
+  shared_joint_loss:     {value: "0.5*(LQ1+LQ2)+Lpi, one Adam incl. Q heads", source: "official code (policy_rnn_shared.py)"}
+  shared_target_encoder: {value: false, source: "official code (targets only for heads)"}
+
+pendulum:            # E1, E3, E5, E6
+  env:               {value: "gym-0.18 Pendulum-v0 dynamics", source: "author logs dates + environments.yml history (gym 0.18.0 until 2022-03-12)"}
+  max_speed:         {value: 8.0, source: "gym 0.18 source"}
+  max_torque:        {value: 2.0, source: "gym 0.18 source"}
+  dt:                {value: 0.05, source: "gym 0.18 source"}
+  g:                 {value: 10.0, source: "gym 0.18 source"}
+  horizon:           {value: 200, source: "official code (register max_episode_steps=200)"}
+  obs_dims_P:        {value: [0, 1], source: "official code envs/pomdp/__init__.py"}
+  obs_dims_V:        {value: [2], source: "official code envs/pomdp/__init__.py"}
+  gamma:             {value: 0.9, source: "author logs (all 132 Pendulum variants)", deviation_from_printed_paper: "Table 5 prints gamma 0.99 for every benchmark; the paper never prints 0.9 (review)"}
+  obs_embed:         {value: 32, source: "author logs"}
+  action_embed:      {value: 8, source: "author logs (0 when 'a' not in inputs)", deviation_from_printed_paper: "Table 5 prints 16 (review)"}
+  reward_embed:      {value: 8, source: "author logs (0 when 'r' not in inputs)", deviation_from_printed_paper: "Table 5 prints 16 (review)"}
+  rnn_hidden:        {value: 128, source: "author logs; Table 5"}
+  dqn_layers:        {value: [128, 128], source: "author logs", deviation_from_printed_paper: "Table 5 Meta-RL column [128,128,128]; Fig. 7 caption says two layers (paper inconsistent)"}
+  policy_layers:     {value: [128, 128], source: "author logs", deviation_from_printed_paper: "as dqn_layers"}
+  batch_size:        {value: 32, source: "author logs"}
+  sampled_seq_len:   {value: 200, source: "author logs ('-1' = max trajectory length); Figure 21 legend 'lstm-200'"}
+  sampled_seq_len_ablation: {value: [5, 64, 200], source: "author logs (V grid)"}
+  num_init_rollouts: {value: 5, source: "author logs"}
+  num_iters:         {value: 250, source: "author logs"}
+  rollouts_per_iter: {value: 1, source: "author logs"}
+  updates_per_env_step: {value: 1.0, source: "author logs (num_updates_per_iter: 1.0)"}
+  eval_episodes:     {value: 20, source: "author logs (num_eval_tasks)"}
+  eval_every_iters:  {value: 5, source: "author logs (log_interval)"}
+  total_env_steps:   {value: 51000, source: "author logs (progress.csv max z/env_steps)"}
+  seeds:             {value: 12, source: "ASSUMED (paper uses 4, Appendix C; 12 for power on SAC shared cells)"}
+  inputs_V:          {value: oar, source: "Figure 21 legend"}
+  inputs_P_ablation: {value: [o, oa, or, oar], source: "author logs (P grid)"}
+  version_flag_v1:   {value: false, source: "ASSUMED (v1 ordering available as a flag; repo HEAD uses gym 0.21 Pendulum-v1)"}
+
+semicircle:          # E2, E7
+  env:               {value: PointRobotSparse-v0, source: "official code envs/meta/__init__.py"}
+  horizon:           {value: 60, source: "official code"}
+  episodes_per_task: {value: 2, source: "official code configs/meta/point_robot (max_rollouts_per_task)"}
+  goal_radius:       {value: 0.2, source: "official code"}
+  goal_circle_radius: {value: 1.0, source: "official code; Appendix D.2"}
+  action_bound:      {value: 0.1, source: "official code"}
+  start_box:         {value: "[-1.5,1.5]x[-0.5,1.5]", source: "official code (modify_init_state_dist=True)"}
+  num_tasks:         {value: 100, source: "author logs"}
+  num_train_tasks:   {value: 80, source: "author logs"}
+  num_eval_tasks:    {value: 20, source: "author logs"}
+  done_flag_in_obs:  {value: true, source: "official code (VariBadWrapper add_done_info when episodes_per_task>1)"}
+  terminal_flag:     {value: is_goal_state, source: "official code (learner.collect_rollouts)"}
+  gamma:             {value: 0.9, source: "author logs", deviation_from_printed_paper: "Table 5 prints 0.99 incl. the Meta-RL column (review)"}
+  rl:                {value: td3, source: "Table 7 / Figure 6 legend"}
+  encoder:           {value: lstm, source: "Table 7 / Figure 6 legend"}
+  inputs:            {value: or, source: "Figure 6 legend (Table 7 'ord': d is in the observation)"}
+  obs_embed:         {value: 32, source: "author logs"}
+  action_embed:      {value: 0, source: "author logs"}
+  reward_embed:      {value: 8, source: "author logs", deviation_from_printed_paper: "Table 5 Meta-RL column 16 (review)"}
+  rnn_hidden:        {value: 128, source: "author logs"}
+  sampled_seq_len:   {value: 64, source: "Figure 6 legend; author logs"}
+  batch_size:        {value: 32, source: "author logs; Table 5"}
+  num_init_rollouts: {value: 400, source: "author logs"}
+  num_iters:         {value: 500, source: "author logs"}
+  rollouts_per_iter: {value: 25, source: "author logs"}
+  updates_per_iter:  {value: 1000, source: "author logs", deviation_from_printed_paper: "500k gradient steps for 1.548M env steps (0.33/step); Table 5 Meta-RL column 0.1M per 5M (0.02/step, Cheetah-Vel example) (review)"}
+  replay_capacity:   {value: "unbounded (all episodes of the run) = configs' 4e6", source: "author logs", deviation_from_printed_paper: "Table 5 prints 1e6, which a 1.548M-step run would overflow (review)"}
+  total_env_steps:   {value: 1548000, source: "author logs (progress.csv)"}
+  eval_every_iters:  {value: 5, source: "author logs"}
+  seeds:             {value: 8, source: "ASSUMED (paper 4; budget)"}
+  truncation_rule:   {value: "if measured cost > 45 GPU-min, stop at 0.75M env steps (250 iters), labelled", source: "ASSUMED (2 GPU-h budget; pre-declared)"}
+
+wind:                # E8 (only if budget remains)
+  horizon:           {value: 75, source: "official code"}
+  goal:              {value: [0.0, 1.0], source: "official code; Appendix D.2 (D=1)"}
+  goal_radius:       {value: 0.03, source: "official code"}
+  wind_range:        {value: 0.08, source: "Appendix D.2; official code"}
+  wind_task_process: {value: "FIXED list of 60 winds (numpy seed 1337) and ONE fixed 40/20 split for every run seed", source: "official code (WindEnv.__init__)", deviation_from_printed_paper: "App. D.2 describes winds sampled U[-0.08,0.08] at the first time-step; between-seed variance carries no task-set variability (review)"}
+  episodes_per_task: {value: 1, source: "official code / configs (NOT stated in the paper)"}
+  num_tasks:         {value: 60, source: "author logs"}
+  num_train_tasks:   {value: 40, source: "author logs"}
+  gamma:             {value: 0.9, source: "author logs", deviation_from_printed_paper: "Table 5 prints 0.99 (review)"}
+  rl:                {value: td3, source: "Table 7"}
+  encoder:           {value: lstm, source: "Table 7"}
+  inputs:            {value: oa, source: "Table 7 'oad'; the d is dropped because the official code/configs use 1 episode per task: not from the paper); Table 2 lists oard for the whole benchmark (paper inconsistent, F10)"}
+  obs_embed:         {value: 32, source: "author logs"}
+  action_embed:      {value: 8, source: "author logs"}
+  reward_embed:      {value: 0, source: "author logs"}
+  rnn_hidden:        {value: 64, source: "author logs", deviation_from_printed_paper: "Table 5 RNN 128 (review)"}
+  sampled_seq_len:   {value: 64, source: "Table 7; author logs"}
+  batch_size:        {value: 64, source: "author logs", deviation_from_printed_paper: "Table 5 batch 32 (review)"}
+  num_init_rollouts: {value: 100, source: "author logs"}
+  num_iters:         {value: 1000, source: "author logs"}
+  rollouts_per_iter: {value: 10, source: "author logs"}
+  updates_per_iter:  {value: 500, source: "author logs"}
+  eval_every_iters:  {value: 4, source: "author logs"}
+
+cartpole:            # E9 extension only (not in the paper)
+  env:               {value: "gym CartPole-v0 physics", source: "official code envs/pomdp/__init__.py"}
+  obs_dims_P:        {value: [0, 2], source: "official code"}
+  obs_dims_V:        {value: [1, 3], source: "official code"}
+  rl:                {value: sacd, source: "official code configs/pomdp/cartpole/v/rnn.yml"}
+  sacd_target_entropy_ratio: {value: 0.7, source: "official code config (target = 0.7*log|A|)"}
+  gamma:             {value: 0.9, source: "official code config"}
+  num_iters:         {value: 50, source: "official code config"}
+  seeds:             {value: 8, source: "ASSUMED"}
+
+shared_diagnostic:   # E6 (ours)
+  arms:              {value: [separate, shared_official, shared_noleak, shared_detach], source: "ASSUMED (decompose README)"}
+  cells:             {value: ["sac-lstm-200-oar", "td3-lstm-200-oar"], source: "ASSUMED (Fig. 21 cell + its TD3 twin)"}
+  seeds:             {value: 12, source: "ASSUMED"}
+
+stats:
+  primary_family:    {value: [P1, P2, P3, P4, P5], source: "ASSUMED (pre-declared, README)"}
+  test:              {value: "one-sided paired t + paired bootstrap 95% CI (10000), Holm", source: "ASSUMED (shared stats.py)"}
+  match_rule:        {value: "MATCH <=5% rel or within paper spread; CLOSE <=20%; DIVERGENT >20%", source: "loop rule"}
+
+implementation:      # config keys (src/configs/*.yaml); not paper hyperparameters
+  arch:              {value: "separate | shared | markov", source: "paper §4 'Arch' (Fig. 6, Fig. 8); markov = Appendix B reference"}
+  algo:              {value: "td3 | sac | sacd", source: "paper §4 'RL'"}
+  cell:              {value: "lstm | gru", source: "paper §4 'Encoder'"}
+  inputs:            {value: "o | oa | or | oar", source: "paper §4 'Inputs'"}
+  obs_embed:         {value: 32, source: "author logs"}
+  action_embed:      {value: 8, source: "author logs (0 when 'a' not in inputs)"}
+  reward_embed:      {value: 8, source: "author logs (0 when 'r' not in inputs)"}
+  rnn_hidden:        {value: 128, source: "Table 5; author logs (Wind 64)"}
+  auto_alpha:        {value: true, source: "Table 5 / Appendix A.3"}
+  alpha_lr:          {value: 3.0e-4, source: "official code / author logs"}
+  entropy_alpha:     {value: "unused with auto_alpha; 0.1 in the cue toy", source: "official sac.py (ignored when auto); the README"}
+  target_entropy_ratio: {value: 0.7, source: "official configs (sacd)"}
+  exploration_noise: {value: 0.1, source: "Table 5 + official td3.py"}
+  target_noise:      {value: 0.2, source: "Table 5 + official td3.py"}
+  target_noise_clip: {value: 0.5, source: "Table 5 + official td3.py"}
+  markov_batch_size: {value: 256, source: "official configs mlp.yml", deviation_from_printed_paper: "App. B: Markovian policies use the SAME hyperparameters as the recurrent ones and the max of SAC/TD3 is reported; ours: batch 256 transitions, SAC only (review)"}
+  num_init_rollouts: {value: "5 / 400 / 100", source: "author logs (Pendulum / Semi-Circle / Wind)"}
+  num_iters:         {value: "250 / 500 / 1000", source: "author logs"}
+  paper_num_iters:   {value: "250 / 500 / 1000", source: "author logs (the paper's horizon; runs shorter than it report final_last20_of_run, not final_last20)"}
+  rollouts_per_iter: {value: "1 / 25 / 10", source: "author logs"}
+  update_ratio:      {value: "1.0 (Pendulum)", source: "author logs (num_updates_per_iter float = ratio)"}
+  updates_per_iter:  {value: "1000 / 500 (Semi-Circle / Wind)", source: "author logs (int = absolute)"}
+  log_interval:      {value: "5 / 5 / 4", source: "author logs"}
+  num_eval_episodes: {value: 20, source: "author logs (num_eval_tasks)"}
+  pendulum_version:  {value: v0, source: "README (gym 0.18 at the time of the paper's runs)"}
+  oracle:            {value: false, source: "official --oracle flag (VariBadWrapper oracle=True appends the task)"}
+  matmul_precision:  {value: "highest = true fp32 (tests; full-fp32 stage, every arm) / default = TF32 (small and full stages training, both arms)", source: "paper App. A.2: RTX 2080 Ti (Turing, no TF32) -> the paper's numbers are fp32; TF32 in small and full stages is a DEVIATION (review), re-run in fp32 at full-fp32 stage; README dtype policy"}
+  fast_bptt:         {value: true, source: "ASSUMED (performance; identical function, tested vs autodiff)"}
+  scan_unroll:       {value: 1, source: "ASSUMED (performance only)"}
+  chunk:             {value: "updates per jitted call", source: "ASSUMED (performance only)"}
+  ckpt_every_iters:  {value: "50 / 25", source: "ASSUMED (resumability)"}
+  seed_base:         {value: 0, source: "ASSUMED (key-tree root)"}
+  nan_dump_dir:      {value: nan_dumps, source: "ASSUMED (NaN guard dump location)"}
+  env:               {value: "Pendulum-V | Pendulum-P | Pendulum-F | SemiCircle | Wind | CueMemory", source: "official envs/*/__init__.py; CueMemory = the README"}
+  cue_H:             {value: 5, source: "the README worked numbers"}

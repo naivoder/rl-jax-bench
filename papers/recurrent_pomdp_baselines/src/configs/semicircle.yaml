@@ -1,0 +1,18 @@
+base: base.yaml
+env: SemiCircle              # PointRobotSparse-v0 + VariBadWrapper (2 episodes per task)
+algo: td3                    # Table 7 / Figure 6 legend td3-lstm-64-or(d)
+cell: lstm                   # Table 7 / Figure 6
+inputs: or                   # Figure 6 legend ('d' is the done flag inside the observation)
+action_embed: 0              # author logs
+reward_embed: 8              # author logs
+sampled_seq_len: 64          # Figure 6 legend; author logs
+num_init_rollouts: 400       # author logs
+num_iters: 500               # author logs
+paper_num_iters: 500         # author logs (the paper horizon; final_last20 is renamed final_last20_of_run below it)
+rollouts_per_iter: 25        # author logs
+update_ratio: null
+updates_per_iter: 1000       # author logs (int: absolute count); DEVIATION from printed Table 5 (0.1M grad / 5M env)
+log_interval: 5              # author logs
+num_eval_episodes: 20        # author logs (num_eval_tasks 20; the metric is over the 20 eval tasks)
+chunk: 1000                  # ASSUMED (one iteration per jitted call)
+ckpt_every_iters: 25         # ASSUMED

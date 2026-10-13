@@ -1,0 +1,14 @@
+base: base.yaml
+env: Pendulum-V              # official envs/pomdp/__init__.py (obs dim [2] = theta-dot)
+pendulum_version: v0         # author-log dates + gym 0.18.0 pin (README)
+sampled_seq_len: 200         # author logs ('-1' = max trajectory length 200); Figure 21 legend 'lstm-200'
+num_init_rollouts: 5         # author logs
+num_iters: 250               # author logs
+paper_num_iters: 250         # author logs (the paper horizon; final_last20 is renamed final_last20_of_run below it)
+rollouts_per_iter: 1         # author logs
+update_ratio: 1.0            # author logs (num_updates_per_iter: 1.0 = ratio of new env steps)
+updates_per_iter: null       # ratio mode
+log_interval: 5              # author logs
+num_eval_episodes: 20        # author logs (num_eval_tasks: 20)
+chunk: 200                   # ASSUMED (updates per jitted call; 200 = one iteration)
+ckpt_every_iters: 50         # ASSUMED (resumability)

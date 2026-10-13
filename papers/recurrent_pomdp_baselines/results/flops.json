@@ -1,0 +1,88 @@
+{
+ "pendulum_v/sac-lstm/separate": {
+  "flops_T6": 549255616.0,
+  "flops_T11": 1041114304.0,
+  "per_step": 98371737.6,
+  "const": -40974809.599999905,
+  "gflops_per_update_L5": 0.549255616,
+  "gflops_per_update_L64": 6.3531881344,
+  "gflops_per_update_L200": 19.731744448
+ },
+ "pendulum_v/sac-gru/separate": {
+  "flops_T6": 464406656.0,
+  "flops_T11": 873759168.0,
+  "per_step": 81870502.4,
+  "const": -26816358.400000036,
+  "gflops_per_update_L5": 0.464406656,
+  "gflops_per_update_L64": 5.294766297600001,
+  "gflops_per_update_L200": 16.429154624000002
+ },
+ "pendulum_v/sac-lstm/shared": {
+  "flops_T6": 366108608.0,
+  "flops_T11": 693865344.0,
+  "per_step": 65551347.2,
+  "const": -27199475.200000048,
+  "gflops_per_update_L5": 0.366108608,
+  "gflops_per_update_L64": 4.233638092800001,
+  "gflops_per_update_L200": 13.148621312
+ },
+ "pendulum_v/sac-gru/shared": {
+  "flops_T6": 336902848.0,
+  "flops_T11": 634452864.0,
+  "per_step": 59510003.2,
+  "const": -20157171.200000048,
+  "gflops_per_update_L5": 0.336902848,
+  "gflops_per_update_L64": 3.8479930368,
+  "gflops_per_update_L200": 11.941353472
+ },
+ "pendulum_v/td3-lstm/separate": {
+  "flops_T6": 549335296.0,
+  "flops_T11": 1040940608.0,
+  "per_step": 98321062.4,
+  "const": -40591078.400000095,
+  "gflops_per_update_L5": 0.549335296,
+  "gflops_per_update_L64": 6.3502779776,
+  "gflops_per_update_L200": 19.721942464
+ },
+ "pendulum_v/td3-gru/separate": {
+  "flops_T6": 464417984.0,
+  "flops_T11": 873517120.0,
+  "per_step": 81819827.2,
+  "const": -26500979.200000048,
+  "gflops_per_update_L5": 0.464417984,
+  "gflops_per_update_L64": 5.2917877888,
+  "gflops_per_update_L200": 16.419284288
+ },
+ "pendulum_v/td3-lstm/shared": {
+  "flops_T6": 365896000.0,
+  "flops_T11": 693383808.0,
+  "per_step": 65497561.6,
+  "const": -27089369.600000024,
+  "gflops_per_update_L5": 0.365896,
+  "gflops_per_update_L64": 4.2302521344,
+  "gflops_per_update_L200": 13.137920512
+ },
+ "pendulum_v/td3-gru/shared": {
+  "flops_T6": 336690240.0,
+  "flops_T11": 633971456.0,
+  "per_step": 59456243.2,
+  "const": -20047219.200000048,
+  "gflops_per_update_L5": 0.33669024,
+  "gflops_per_update_L64": 3.8446085888000003,
+  "gflops_per_update_L200": 11.930657664
+ },
+ "semicircle/td3-lstm/separate": {
+  "flops_T6": 557256000.0,
+  "flops_T11": 1033565056.0,
+  "per_step": 95261811.2,
+  "const": -14314867.200000048,
+  "gflops_per_update_L64": 6.1777028608
+ },
+ "semicircle/td3-lstm/shared": {
+  "flops_T6": 382430176.0,
+  "flops_T11": 701746368.0,
+  "per_step": 63863238.4,
+  "const": -749254.3999999762,
+  "gflops_per_update_L64": 4.1503612416
+ }
+}

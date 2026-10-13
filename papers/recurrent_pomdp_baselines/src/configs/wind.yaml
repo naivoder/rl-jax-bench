@@ -1,0 +1,20 @@
+base: base.yaml
+env: Wind                    # Wind-v0 (1 episode per task)
+algo: td3                    # Table 7 td3-lstm-64-oad
+cell: lstm                   # Table 7
+inputs: oa                   # Table 7 'oad'; d dropped: 1 episode per task in the official code/configs (not the paper)
+action_embed: 8              # author logs
+reward_embed: 0              # author logs
+rnn_hidden: 64               # author logs (DEVIATION from printed Table 5: 128)
+batch_size: 64               # author logs (DEVIATION from printed Table 5: 32)
+sampled_seq_len: 64          # Table 7; author logs
+num_init_rollouts: 100       # author logs
+num_iters: 1000              # author logs
+paper_num_iters: 1000        # author logs (the paper horizon; final_last20 is renamed final_last20_of_run below it)
+rollouts_per_iter: 10        # author logs
+update_ratio: null
+updates_per_iter: 500        # author logs
+log_interval: 4              # author logs
+num_eval_episodes: 20        # author logs
+chunk: 500                   # ASSUMED
+ckpt_every_iters: 50         # ASSUMED
