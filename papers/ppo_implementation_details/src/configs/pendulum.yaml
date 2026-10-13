@@ -1,0 +1,16 @@
+# E3 proxy: ppo_continuous_action.py mujoco() dict on gymnax Pendulum-v1. Sources: sources.yaml continuous.*
+base: classic_control.yaml
+env_id: Pendulum-v1            # ASSUMED (proxy)
+total_timesteps: 1000000       # paper Figure Hopper-v2 x-axis (1M);
+num_envs: 1                    # paper K text ('num_envs is set to 1')
+num_steps: 2048                # paper mujoco() dict
+num_minibatches: 32            # paper mujoco() dict
+update_epochs: 10              # paper mujoco() dict
+learning_rate: 3.0e-4          # paper mujoco() dict
+ent_coef: 0.0                  # paper mujoco() dict
+action_type: continuous        # paper K1-K3 (diagonal Gaussian, state-independent log-std)
+obs_norm: true                 # paper K6
+reward_scaling: true           # paper K8
+reward_scaling_mode: baselines # official code (vec_normalize.py); gymnasium029 = flag
+seeds: [1, 2, 3, 4, 5]         # ASSUMED
+chunk_updates: 50

@@ -1,0 +1,190 @@
+{
+ "E1": {
+  "line_s": 540,
+  "wall_s": 500.2394440174103,
+  "gpu_h": 0.13895540111594729,
+  "rows": [
+   {
+    "env": "CartPole-v1",
+    "arm": "separate",
+    "status": "ok",
+    "wall_s": 35.5820689201355
+   },
+   {
+    "env": "CartPole-v1",
+    "arm": "shared",
+    "status": "ok",
+    "wall_s": 33.30075263977051
+   },
+   {
+    "env": "CartPole-v1",
+    "arm": "advnorm_batch",
+    "status": "ok",
+    "wall_s": 32.06631684303284
+   },
+   {
+    "env": "CartPole-v1",
+    "arm": "no_vclip",
+    "status": "ok",
+    "wall_s": 32.54549551010132
+   },
+   {
+    "env": "CartPole-v1",
+    "arm": "trunc_bootstrap",
+    "status": "ok",
+    "wall_s": 37.94931435585022
+   },
+   {
+    "env": "CartPole-v1",
+    "arm": "advnorm_ddof0",
+    "status": "ok",
+    "wall_s": 32.39511179924011
+   },
+   {
+    "env": "Acrobot-v1",
+    "arm": "separate",
+    "status": "ok",
+    "wall_s": 41.09903311729431
+   },
+   {
+    "env": "Acrobot-v1",
+    "arm": "shared",
+    "status": "ok",
+    "wall_s": 37.332855463027954
+   },
+   {
+    "env": "Acrobot-v1",
+    "arm": "advnorm_batch",
+    "status": "ok",
+    "wall_s": 37.01779222488403
+   },
+   {
+    "env": "Acrobot-v1",
+    "arm": "no_vclip",
+    "status": "ok",
+    "wall_s": 41.31953430175781
+   },
+   {
+    "env": "Acrobot-v1",
+    "arm": "trunc_bootstrap",
+    "status": "ok",
+    "wall_s": 36.96668553352356
+   },
+   {
+    "env": "Acrobot-v1",
+    "arm": "advnorm_ddof0",
+    "status": "ok",
+    "wall_s": 36.934590339660645
+   },
+   {
+    "env": "MountainCar-v0",
+    "arm": "separate",
+    "status": "ok",
+    "wall_s": 36.25085806846619
+   },
+   {
+    "env": "MountainCar-v0",
+    "arm": "shared",
+    "status": "ok",
+    "wall_s": 29.478358507156372
+   }
+  ]
+ },
+ "E3": {
+  "line_s": 900,
+  "wall_s": 579.5525789260864,
+  "gpu_h": 0.16098682747946846,
+  "rows": [
+   {
+    "env": "Pendulum-v1",
+    "arm": "default",
+    "status": "ok",
+    "wall_s": 80.87809944152832
+   },
+   {
+    "env": "Pendulum-v1",
+    "arm": "gym021",
+    "status": "ok",
+    "wall_s": 79.03052830696106
+   },
+   {
+    "env": "Pendulum-v1",
+    "arm": "gymnasium029",
+    "status": "ok",
+    "wall_s": 81.29611539840698
+   },
+   {
+    "env": "Pendulum-v1",
+    "arm": "trunc_bootstrap",
+    "status": "ok",
+    "wall_s": 89.39006614685059
+   },
+   {
+    "env": "Pendulum-v1",
+    "arm": "no_rscale",
+    "status": "ok",
+    "wall_s": 85.50821304321289
+   },
+   {
+    "env": "Pendulum-v1",
+    "arm": "no_vclip",
+    "status": "ok",
+    "wall_s": 84.39435005187988
+   },
+   {
+    "env": "Pendulum-v1",
+    "arm": "advnorm_batch",
+    "status": "ok",
+    "wall_s": 79.05488014221191
+   }
+  ]
+ },
+ "E4": {
+  "line_s": 540,
+  "wall_s": 466.96528720855713,
+  "gpu_h": 0.12971257978015477,
+  "rows": [
+   {
+    "env": "CartPole-v1",
+    "arm": "lstm",
+    "status": "ok",
+    "wall_s": 102.49653697013855
+   },
+   {
+    "env": "CartPole-v1",
+    "arm": "gymnasium029",
+    "status": "ok",
+    "wall_s": 104.08013033866882
+   },
+   {
+    "env": "CartPole-v1",
+    "arm": "lstm_noreset",
+    "status": "ok",
+    "wall_s": 99.50841999053955
+   },
+   {
+    "env": "CartPole-v1",
+    "arm": "ff_masked",
+    "status": "ok",
+    "wall_s": 31.282269954681396
+   },
+   {
+    "env": "CartPole-v1",
+    "arm": "ff_full",
+    "status": "ok",
+    "wall_s": 29.07261300086975
+   },
+   {
+    "env": "CartPole-v1",
+    "arm": "lstm_zero_train",
+    "status": "ok",
+    "wall_s": 100.52500486373901
+   },
+   {
+    "env": "CartPole-v1",
+    "arm": "no_rscale",
+    "status": "skipped_budget"
+   }
+  ]
+ }
+}

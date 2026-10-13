@@ -1,0 +1,48 @@
+"""ORACLE for the gymnax-vs-gymnasium dynamics test: gymnasium 0.29.1 classic-control envs, state injected through
+env.unwrapped.state. Usage: .venv/bin/python -I scripts/official/oracle_envs.py <dir with ours_envs.npz>"""
+import os
+import sys
+import warnings
+
+import gymnasium as gym
+import numpy as np
+
+warnings.filterwarnings("ignore")
+DIR = sys.argv[1]
+z = np.load(os.path.join(DIR, "ours_envs.npz"))
+out = {}
+
+
+def act(env_id, a):
+    return np.asarray(a, np.float32).reshape(1) if env_id == "Pendulum-v1" else int(a)
+
+
+for env_id in ["CartPole-v1", "Acrobot-v1", "MountainCar-v0", "Pendulum-v1"]:
+    env = gym.make(env_id)
+    env.reset(seed=0)
+    u = env.unwrapped
+    S, A = z[f"{env_id}/tf/state"], z[f"{env_id}/tf/action"]
+    obs_l, rew_l, term_l = [], [], []
+    for s, a in zip(S, A):
+        u.state = np.array(s, dtype=np.float64)
+        if hasattr(u, "steps_beyond_terminated"):
+            u.steps_beyond_terminated = None
+        o, r, term, trunc, _ = u.step(act(env_id, a))   # unwrapped: no TimeLimit/checker wrappers
+        obs_l.append(o); rew_l.append(r); term_l.append(term)
+    out[f"{env_id}/tf/obs"] = np.stack(obs_l)
+    out[f"{env_id}/tf/reward"] = np.array(rew_l)
+    out[f"{env_id}/tf/terminated"] = np.array(term_l)
+    # open loop
+    trajs = []
+    for init in z[f"{env_id}/ol/init"]:
+        u.state = np.array(init, dtype=np.float64)
+        if hasattr(u, "steps_beyond_terminated"):
+            u.steps_beyond_terminated = None
+        ol = []
+        for a in z[f"{env_id}/ol/actions"]:
+            o, *_ = u.step(act(env_id, a))
+            ol.append(o)
+        trajs.append(np.stack(ol))
+    out[f"{env_id}/ol/obs"] = np.stack(trajs)
+np.savez(os.path.join(DIR, "oracle_envs.npz"), **out)
+print("[INFO] oracle wrote oracle_envs.npz", gym.__version__)

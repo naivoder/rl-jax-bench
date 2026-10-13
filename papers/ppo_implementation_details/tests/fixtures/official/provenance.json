@@ -1,0 +1,55 @@
+{
+ "oracle_commits": {
+  "cleanrl": "fe8d8a03c41a7ef5b523e2e354bd01c363e786bb",
+  "ppo-implementation-details": "fbef824effc284137943ff9c058125435ec68cd3",
+  "openai/baselines": "ea25b9e8b234e6ee1bca43083f8f3cf974143998",
+  "gymnasium": "0.29.1",
+  "torch": "2.4.1 (CPU)",
+  "gym (the post's own stack, *_gym021 cases)": "0.21.0"
+ },
+ "harness": "scripts/official/oracle_{difftest,wrappers,envs}.py and oracle_{wrappers,envs}_gym021.py",
+ "cases": {
+  "separate": {
+   "n_inputs": 35,
+   "n_oracle": 95
+  },
+  "separate_novclip": {
+   "n_inputs": 35,
+   "n_oracle": 95
+  },
+  "shared": {
+   "n_inputs": 31,
+   "n_oracle": 71
+  },
+  "gaussian": {
+   "n_inputs": 36,
+   "n_oracle": 101
+  },
+  "lstm": {
+   "n_inputs": 21,
+   "n_oracle": 32
+  },
+  "wrappers": {
+   "n_inputs": 6,
+   "n_oracle": 5
+  },
+  "wrappers_gym021": {
+   "n_inputs": 6,
+   "n_oracle": 2
+  },
+  "envs": {
+   "n_inputs": 8,
+   "n_oracle": 12
+  },
+  "envs_gym021": {
+   "n_inputs": 8,
+   "n_oracle": 12
+  },
+  "metric": {
+   "n_inputs": 6,
+   "n_oracle": 5,
+   "harness": "scripts/official/oracle_metric.py under .venv (gymnasium) and .venv_post (gym 0.21)"
+  }
+ },
+ "post_repo_note": "fbef824 (2022-07-01) is the authors' repo three months AFTER the post (2022-03-25). The post's only pinned permalink, eb40cbe, no longer exists (GitHub 422 / not our ref / Wayback 404). The PPO files and the pre-existing scripts are byte-identical to the oldest surviving commit 339df2e (2022-01-14, before the post), and the gym 0.21.0 pin is unchanged (SUMMARY \u00a78.1, review F2)."
+}

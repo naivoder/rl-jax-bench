@@ -1,0 +1,4 @@
+# E3 secondary proxy: Brax hopper, ours only, labeled PROXY
+base: pendulum.yaml
+env_id: brax-hopper            # ASSUMED (backend generalized, episode_length 1000)
+env_impl: brax

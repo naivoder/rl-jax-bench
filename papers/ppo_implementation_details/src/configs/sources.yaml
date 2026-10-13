@@ -1,0 +1,134 @@
+# sources.yaml: one entry per planned config key: value + source tag.
+# Tags: 'paper §<heading> C<n>/A<n>/K<n>/L<n>/X<n>' (the HTML post; detail numbering as in the README),
+#       'Figure <env>' (result image), 'Table-libs', 'official code (<repo>@<sha>, <file>:<line>)',
+#       'ASSUMED (<reason>; <ID>)'.
+paper:
+  title: "The 37 Implementation Details of Proximal Policy Optimization"
+  venue: "ICLR 2022 Blog Track (2022-03-25)"
+  html_sha256: 954e1de953931fcfbcad7aef427b32894ea2d8e450a8ec70945c3ec03188a37a
+official_code:
+  post_repo: {repo: https://github.com/vwxyzjn/ppo-implementation-details, commit: fbef824effc284137943ff9c058125435ec68cd3, note: "authors' repo at a revision after the post; PPO files identical to the pre-publication 339df2e; the post's pinned eb40cbe no longer exists "}
+  cleanrl: {repo: https://github.com/vwxyzjn/cleanrl, commit: fe8d8a03c41a7ef5b523e2e354bd01c363e786bb, role: "primary oracle"}
+  baselines: {repo: https://github.com/openai/baselines, commit: ea25b9e8b234e6ee1bca43083f8f3cf974143998, role: "official semantics (read)"}
+  baselines_fork: {repo: https://github.com/vwxyzjn/baselines, commit: e2cb1c938a62fa8d7fe98187246cde08dfd57bd1, role: "made the red curves"}
+  local_path: $OFFICIAL_ROOT (default external/official)
+paper_runs:   # recheck 2026-10-13: the paper's own run records, public
+  wandb_project: "vwxyzjn/ppo-details (api.wandb.ai, anonymous GraphQL; 156 runs)"
+  e1_reference: "data/paper_raw.json (36 classic-control histories reduced with src/eval.summarize); supersedes the plot reads for E1 (retracted)"
+  e1_run_ids: {CartPole_ppo: [222xktu9, 31icwre9, 3arngmip], CartPole_ppo_shared: [7ypq80sa, 1qi6dfnt, 2o4ved4g], Acrobot_ppo: [37peelw7, lajpuh0z, ywi32t0b], Acrobot_ppo_shared: [dyuvnu6x, 3qbs6ne0, 1olvrj8n]}
+  mujoco_horizon: "1M with lr annealed to ~0 (W&B config total_timesteps 1000000; corrected)"
+  red_classic_control_num_env: "4 for CartPole seed 1 only, 1 for all other red runs (fork run.py:113 'args.num_env or 1'; corrected)"
+  code_snapshots: "W&B code snapshots of the plotted runs are algorithmically identical to post_repo@fbef824 (closed)"
+  lockfile_stack: "post poetry.lock pins torch 1.10.1 / numpy 1.21.5 / gym 0.21.0; authors'-code check venv ran torch 1.13.1 / numpy 1.23.5; $OFFICIAL_ROOT/.venv_post_lock reproduces the lock stack"
+
+core:   # 13 core details, classic control (E1)
+  env_ids: {value: [CartPole-v1, Acrobot-v1, MountainCar-v0], source: "Figure CartPole-v1/Acrobot-v1/MountainCar-v0"}
+  env_impl: {value: gymnax, source: "ASSUMED (JAX-only stack)"}
+  total_timesteps: {value: 500000, source: "official code (post_repo scripts/ours/classic_control*.sh --total-timesteps 500000); Figure x-axis"}
+  num_envs: {value: 4, source: "official code (post_repo ppo.py --num-envs 4)"}
+  num_steps: {value: 128, source: "official code (post_repo ppo.py --num-steps 128; fork defaults.classic_control nsteps=128)"}
+  num_minibatches: {value: 4, source: "official code (ppo.py --num-minibatches 4)"}
+  minibatch_size: {value: 128, source: "derived (4*128/4)"}
+  update_epochs: {value: 4, source: "official code (ppo.py --update-epochs 4)"}
+  learning_rate: {value: 2.5e-4, source: "official code (ppo.py --learning-rate 2.5e-4)"}
+  anneal_lr: {value: true, source: "paper §C4; official code (ppo.py:185-188, per update frac=1-(update-1)/num_updates)"}
+  gamma: {value: 0.99, source: "official code (ppo.py --gamma)"}
+  gae_lambda: {value: 0.95, source: "official code (ppo.py --gae-lambda)"}
+  clip_coef: {value: 0.2, source: "official code (ppo.py --clip-coef 0.2); constant, not annealed (baselines ppo2.py:84 constfn)"}
+  clip_vloss: {value: true, source: "paper §C9; official code (ppo.py --clip-vloss)"}
+  vf_clip_range: {value: "= clip_coef", source: "official code (ppo2/model.py:L69 CLIPRANGE; ppo.py:282-286)"}
+  vloss_half_factor: {value: 0.5, source: "official code (ppo2/model.py vf_loss=.5*mean; ppo.py:289)"}
+  ent_coef: {value: 0.01, source: "official code (ppo.py --ent-coef 0.01)"}
+  vf_coef: {value: 0.5, source: "official code (ppo.py --vf-coef 0.5; ppo2.learn default)"}
+  max_grad_norm: {value: 0.5, source: "paper §C11"}
+  adam_eps: {value: 1.0e-5, source: "paper §C3"}
+  adam_eps_mode: {value: torch, source: "official code (CleanRL / the post's ppo.py torch Adam: eps on the bias-corrected sqrt(v)); tf1 = baselines TF1 epsilon-hat, diagnostic arm adam_tf1 "}
+  adam_betas: {value: [0.9, 0.999], source: "official code (torch/TF Adam defaults; neither sets them)"}
+  norm_adv: {value: true, source: "paper §C7"}
+  norm_adv_level: {value: minibatch, source: "paper §C7 ('at the minibatch level')"}
+  adv_norm_eps: {value: 1.0e-8, source: "official code (ppo2/model.py:139; ppo.py:271)"}
+  adv_norm_ddof: {value: 1, source: "official code (CleanRL/post ppo.py torch .std() unbiased); baselines np.std ddof=0 is a flag (ASSUMED default)"}
+  hidden_sizes: {value: [64, 64], source: "paper §C13 pseudocode"}
+  activation: {value: tanh, source: "paper §C13"}
+  architecture: {value: separate, source: "paper §C13 + post_repo ppo.py; 'shared' = ppo_shared.py (arm)"}
+  init_hidden_gain: {value: 1.4142135623730951, source: "paper §C2 (np.sqrt(2))"}
+  init_policy_head_gain: {value: 0.01, source: "paper §C2"}
+  init_value_head_gain: {value: 1.0, source: "paper §C2"}
+  init_bias: {value: 0.0, source: "paper §C2"}
+  bootstrap_truncation: {value: false, source: "paper §C5 note (official treats truncation as terminal); flag = ablation "}
+  target_kl: {value: null, source: "paper §X3 (off by default)"}
+  log_kl_estimators: {value: [k1, k2, k3], source: "paper §C12 (k1, k3); official code (baselines model.py approxkl = k2)"}
+  seeds_ours: {value: [1,2,3,4,5,6,7,8,9,10], source: "ASSUMED (power); paper used 3"}
+  seeds_oracle: {value: [1,2,3,4,5], source: "ASSUMED (CPU budget)"}
+
+continuous:   # K1-K9 (E3 proxy)
+  env_id_primary: {value: Pendulum-v1, source: "ASSUMED (proxy for MuJoCo)"}
+  env_id_secondary: {value: "brax hopper (backend generalized)", source: "ASSUMED (proxy)"}
+  total_timesteps: {value: 1000000, source: "paper Figure Hopper-v2 x-axis; official code (baselines scripts --num_timesteps=1000000; CleanRL default 1e6). NB post_repo default 2e6 "}
+  num_envs: {value: 1, source: "paper §K text ('num_envs is set to 1')"}
+  num_steps: {value: 2048, source: "paper §K mujoco() dict"}
+  num_minibatches: {value: 32, source: "paper §K mujoco() dict"}
+  update_epochs: {value: 10, source: "paper §K mujoco() dict"}
+  learning_rate: {value: 3.0e-4, source: "paper §K mujoco() dict"}
+  anneal_lr: {value: true, source: "paper §K mujoco() dict (lr=lambda f: 3e-4*f)"}
+  gamma: {value: 0.99, source: "paper §K mujoco() dict"}
+  gae_lambda: {value: 0.95, source: "paper §K mujoco() dict"}
+  clip_coef: {value: 0.2, source: "paper §K mujoco() dict"}
+  ent_coef: {value: 0.0, source: "paper §K mujoco() dict"}
+  vf_coef: {value: 0.5, source: "official code (ppo2.learn default; ppo_continuous_action.py)"}
+  max_grad_norm: {value: 0.5, source: "paper §C11"}
+  architecture: {value: separate, source: "paper §K4 (value_network='copy')"}
+  logstd_init: {value: 0.0, source: "paper §K2"}
+  logstd_state_independent: {value: true, source: "paper §K2"}
+  logprob_reduction: {value: sum_over_action_dims, source: "paper §K3"}
+  action_clip_for_env_only: {value: true, source: "paper §K5"}
+  obs_norm: {value: true, source: "paper §K6"}
+  obs_norm_eps: {value: 1.0e-8, source: "official code (vec_normalize.py epsilon=1e-8)"}
+  obs_clip: {value: 10.0, source: "paper §K7"}
+  reward_scaling: {value: true, source: "paper §K8"}
+  reward_scaling_mode: {value: baselines, source: "official code (vec_normalize.py step_wait); gymnasium029 = flag; gym021 = flag, the post's own ppo_continuous_action.py wrappers under gym 0.21.0 (Official-code verification)"}
+  reward_scaling_eps: {value: 1.0e-8, source: "official code (vec_normalize.py)"}
+  reward_clip: {value: 10.0, source: "paper §K9"}
+  rms_init: {value: {mean: 0.0, var: 1.0, count: 1.0e-4}, source: "official code (common/running_mean_std.py epsilon=1e-4)"}
+  seeds_ours: {value: [1,2,3,4,5], source: "ASSUMED "}
+  seeds_oracle: {value: [1,2,3,4,5], source: "ASSUMED "}
+
+lstm:   # L1-L5 (E4 proxy)
+  env_id: {value: "CartPole-v1 masked velocities (obs[1]=obs[3]=0)", source: "ASSUMED (POMDP proxy)"}
+  lstm_hidden: {value: 128, source: "official code (ppo_atari_lstm.py nn.LSTM(512,128); baselines nlstm=128)"}
+  encoder: {value: "Linear(64)+tanh", source: "ASSUMED (replaces Nature CNN)"}
+  lstm_weight_init: {value: "orthogonal(1.0)", source: "paper §L1 ('std=1'); official code (ppo_atari_lstm.py:137)"}
+  lstm_bias_init: {value: 0.0, source: "paper §L1"}
+  lstm_initial_state: {value: zeros, source: "paper §L2"}
+  reset_at_done: {value: true, source: "paper §L3; arm = false (ablation)"}
+  minibatch_by_env_columns: {value: true, source: "paper §L4; official code (ppo_atari_lstm.py:306-315)"}
+  recompute_from_initial_state: {value: true, source: "paper §L5; official code (ppo_atari_lstm.py:232, 310)"}
+  reward_scaling: {value: true, source: "ASSUMED amendment, NOT in the post's LSTM recipe (post §L: 'the Atari hyperparameters again'; Atari reward treatment = A6 sign clip, the identity on CartPole). Reason: the small-scale failure of the unscaled proxy in ours AND CleanRL's code. The post gives no shared-network/dense-reward recipe (P1 copies train-procgen defaults). Arms: no_rscale = off; lstm_atari = the post's recipe (eps 0.1, off)"}
+  reward_scaling_mode: {value: baselines, source: "official code (vec_normalize.py semantics)"}
+  heads: {value: shared, source: "official code (ppo_atari_lstm.py actor/critic on LSTM output)"}
+  num_envs: {value: 8, source: "ASSUMED (Atari-LSTM structure)"}
+  num_steps: {value: 128, source: "paper §A atari() dict"}
+  num_minibatches: {value: 4, source: "paper §A atari() dict"}
+  update_epochs: {value: 4, source: "paper §A atari() dict"}
+  learning_rate: {value: 2.5e-4, source: "paper §A atari() dict"}
+  clip_coef: {value: 0.2, source: "ASSUMED (classic-control value); NOT the post's LSTM recipe (paper §A atari() cliprange=0.1; arms lstm_atari / lstm_eps01 use 0.1)"}
+  ent_coef: {value: 0.01, source: "paper §A atari() dict"}
+  total_timesteps: {value: 500000, source: "ASSUMED (matches E1)"}
+  seeds_ours: {value: [1,2,3,4,5,6,7,8,9,10], source: "ASSUMED "}
+
+eval:
+  metric: {value: "undiscounted raw episodic return of training episodes", source: "paper Figures (y = 'Episodic Return'); official code (RecordEpisodeStatistics before normalisers)"}
+  final_window_frac: {value: 0.10, source: "ASSUMED "}
+  auc_bins: {value: 50, source: "ASSUMED "}
+  thresholds: {value: {CartPole-v1: 475, Acrobot-v1: -100}, source: "ASSUMED (475 = gym reward_threshold for CartPole-v1, -100 = gym reward_threshold for Acrobot-v1)"}
+  equivalence_rule: {value: "one-SD equivalence rule (README)", source: "ASSUMED (loop MATCH/CLOSE/DIVERGENT rule)"}
+  primary_family: {value: ["separate>shared CartPole", "separate>shared Acrobot"], source: "paper §C13 claim; ASSUMED test design "}
+  alpha: {value: 0.05, source: "ASSUMED (Holm)"}
+
+numerics:
+  train_dtype: {value: float32, source: "official code (torch float32 default)"}
+  test_dtype: {value: float64, source: "ASSUMED "}
+  diff_test_tol: {value: 1.0e-5, source: "loop brief"}
+budget:
+  gpu_hours_total: {value: 1.5, source: "loop brief"}
+  plan: {value: {E1: 0.1, pendulum: 0.15, brax_hopper: 0.25, lstm: 0.2, ablations: 0.4, reserve: 0.4}, source: "ASSUMED "}

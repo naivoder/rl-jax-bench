@@ -1,0 +1,23 @@
+# E4 proxy: ppo_atari_lstm.py details L1-L5 on masked-velocity CartPole, under a MODIFIED
+# recipe: the post's LSTM recipe is "the Atari hyperparameters again" (eps 0.1, Atari reward treatment = sign clip,
+# the identity on CartPole); this config adds K8 reward scaling and uses eps 0.2. The post's own recipe is
+# the arm lstm_atari (eps 0.1, no reward scaling).
+base: classic_control.yaml
+mask_velocity: true            # (obs[1]=obs[3]=0)
+recurrent: true
+architecture: lstm             # Linear(64)+tanh -> LSTM(128) -> shared heads
+num_envs: 8                    # ASSUMED (Atari-LSTM structure)
+num_steps: 128                 # paper atari() dict
+num_minibatches: 4             # paper atari() dict (2 env columns each)
+update_epochs: 4               # paper atari() dict
+learning_rate: 2.5e-4          # paper atari() dict
+clip_coef: 0.2                 # ASSUMED (classic-control value); NOT the post's (atari() cliprange 0.1)
+ent_coef: 0.01                 # paper atari() dict
+lstm_hidden: 128               # official code (ppo_atari_lstm.py nn.LSTM(512,128))
+lstm_reset: true               # paper L3; false = ablation arm
+lstm_train_from_zero: false    # paper L5; true = deliberately broken variant (W12 power check)
+reward_scaling: true           # ASSUMED amendment (small-scale), NOT in the post's LSTM recipe. Reason: the small-scale
+                               # failure: without it the shared LSTM trunk stays at the random-policy return (22),
+                               # ours AND CleanRL's. (The post gives no shared-network / dense-reward recipe; P1 uses
+                               # VecNormalize(ob=False) only because it copies train-procgen's defaults.)
+reward_scaling_mode: baselines # official code (vec_normalize.py semantics)
