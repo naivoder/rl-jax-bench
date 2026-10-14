@@ -1,0 +1,182 @@
+# sources.yaml — one entry per planned config key: value + source tag.
+# Official code = github.com/plai-group/a2d @ 368aaf5e0e425c2d48d25925c772a0d9a4f3823b (a2d_gridworld/).
+meta:
+  paper: "Warrington et al., Robust Asymmetric Learning in POMDPs, ICML 2021 (arXiv:2012.15566v3)"
+  official_commit: 368aaf5e0e425c2d48d25925c772a0d9a4f3823b
+
+env:
+  grid_interior:            {value: [5, 5],  source: "Figure 3; official code (7x7 MiniGrid incl. walls)"}
+  fl_start:                 {value: [2, 0],  source: "Figure 3; official code LavaGapEnv agent_pos (1,3) [x,y]"}
+  fl_goal:                  {value: [2, 4],  source: "Figure 3; official code goal (width-2, 3)"}
+  fl_hazard_cells:          {value: "rows 1-3 x cols 1-3, uniform", source: "paper §4 ('interior nine squares'); official code potential_lava_locs"}
+  fl_hazard_visible_to_trainee: {value: false, source: "paper Figure 3 caption; official code render_lava=False"}
+  td_floor:                 {value: "[(0,0),(1,0),(2,0),(3,0),(2,1),(2,2),(1,2),(1,3),(1,4),(3,2),(3,3),(3,4)]", source: "Figure 3; official code TigerDoorEnv _wall_locations"}
+  td_start:                 {value: [0, 0],  source: "official code agent_pos (1,1)"}
+  td_button:                {value: [3, 0],  source: "official code Button at (1,4)"}
+  td_doors:                 {value: [[1, 4], [3, 4]], source: "official code (5,2),(5,4); side Bernoulli(0.5)"}
+  td_reveal_persistent:     {value: true,    source: "official code illuminated flag"}
+  tdk_widths:               {value: {TD1: 3, TD2: 5, TD3: 7}, source: "Figure B.1; official code TigerDoorEnvOSC lateral_steps 1/2/3"}
+  tdk_button_above_start:   {value: true,    source: "Figure B.1; official code button (4,3), agent (4,4)"}
+  reward_step:              {value: -2.0,    source: "paper §4, App. D.1; official code step()"}
+  reward_goal:              {value: 20.0,    source: "paper §4; official code reward_range[1]"}
+  reward_hazard:            {value: -100.0,  source: "paper §4; official code -5*reward_range[1]"}
+  step_cost_on_terminal:    {value: true,    source: "official code; forced by paper's 10.66/-26.6/-54 (exact DP, src/exact.py)"}
+  wall_bump:                {value: "stay, -2", source: "official code (MiniGrid can_overlap)"}
+  gamma:                    {value: 0.995,   source: "App. D.1; official code --gamma"}
+  max_steps:                {value: 100,     source: "official code _tmax=100 (paper App. D.1 says 200)"}
+  timeout_bootstrap:        {value: false,   source: "official code (done=True at cap, mask 0)"}
+  action_moves:             {value: "[(+x),(+y),(-x),(-y)]", source: "official code DIR_TO_VEC"}
+  image_hw:                 {value: [42, 42, 3], source: "paper Figure 3 / App. D.1; official code tile_size 6 x 7"}
+  image_noise_sd:           {value: 0.05,    source: "official code full_rendering_obs_noise"}
+  image_noise_clip:         {value: [0.0, 1.0], source: "official code np.clip"}
+  frame_stack:              {value: 1,       source: "official code --frame-stack 1; App. D.1 'most recent image'"}
+  fl_state_dim:             {value: 34,      source: "official code gen_obs (25 pos + 9 lava)"}
+  fl_partial_dim:           {value: 25,      source: "App. B.2; official code partial_state"}
+  td_state_dim:             {value: 30,      source: "official code gen_obs (25+2+2+1)"}
+  td_partial_dim:           {value: 30,      source: "official code partial_state (App. B.2 implies 29)"}
+
+nets:
+  mlp_hidden:               {value: [64, 64], source: "App. D.1; official code mlp hidden_size 64 depth 2"}
+  mlp_activation:           {value: tanh,    source: "official code activ=nn.Tanh"}
+  init:                     {value: "orthogonal gain sqrt2, zero bias", source: "official code --initialization orthogonal"}
+  policy_out_gain_flat:     {value: 0.01,    source: "official code"}
+  value_out_gain_flat:      {value: 0.01,    source: "official code slim_init"}
+  image_head_out_gain:      {value: 1.0,     source: "official code"}
+  q_out_gain:               {value: 1.414,   source: "official code slim_init=False"}
+  q_init_qexp:              {value: "orthogonal, hidden gain sqrt2, Q output gain sqrt2 (as every Q net)", source: "official code: Q_arguments sets --initialization fixed but the flag is never read, so the orthogonal init of initialize_weights_scalable applies; src/model.py make_q"}
+  encoder_convs:            {value: "4 x conv3x3, 32 filters, strides [2,1,1,1], ReLU", source: "official code PixelEncoder (paper App. D.1 says 2 conv)"}
+  encoder_feature_dim:      {value: 64,      source: "official code feature_dim=64 (paper says 50)"}
+  encoder_out:              {value: "Linear -> LayerNorm -> tanh", source: "official code PixelEncoder.forward"}
+  encoder_init:             {value: "pytorch default (kaiming_uniform a=sqrt5)", source: "ASSUMED (official code applies no custom init to PixelEncoder)"}
+  separate_policy_value_encoders: {value: true, source: "App. D.1 (gridworld)"}
+  l2_reg:                   {value: 0.0,     source: "official code (--l2-reg never applied; paper App. D.1 says 1e-3)"}
+  dtype_train:              {value: "float64 compact arms (full-scale headline and follow-up runs) | float32 image arms", source: "official code float64; float32 for the image arms ASSUMED (GPU budget); see config_keys.dtype"}
+  dtype_tests:              {value: float64, source: "ASSUMED (ours; matches official code)"}
+
+rl_trpo:
+  iters:                    {value: 200,     source: "official code --iters 201 (range(1,201)); Figure 4 x-axis 4e5"}
+  batch_size:               {value: 2000,    source: "App. D.1; official code --batch-size"}
+  max_kl:                   {value: 0.01,    source: "App. D.1; official code --max-kl"}
+  max_kl_preenc_td:         {value: 0.005,   source: "App. D.1; official code (hard-set)"}
+  cg_steps:                 {value: 10,      source: "official code --cg-steps"}
+  cg_damping:               {value: 0.1,     source: "official code --damping"}
+  fisher_frac_samples:      {value: 0.1,     source: "official code --fisher-frac-samples"}
+  max_backtrack:            {value: 10,      source: "official code --max-backtrack"}
+  backtrack_accept_ratio:   {value: 0.1,     source: "official code backtracking_line_search"}
+  adv_normalize_eps:        {value: 1.0e-3,  source: "official code adv_normalize"}
+  lambda_rl:                {value: 0.95,    source: "App. D.1; official code --lambda-rl"}
+  entropy_rl:               {value: 1.0,     source: "App. D.1; official code --rl-entropy-reg"}
+  entropy_mode_main:        {value: "add c*H(pi) to advantages before normalization", source: "App. D.1; official code regularize_adv=1"}
+  value_lr:                 {value: 7.0e-4,  source: "App. D.1; official code --val-lr"}
+  value_epochs:             {value: 25,      source: "App. D.1; official code --val-epochs"}
+  value_minibatches:        {value: 32,      source: "App. D.1; official code --num-minibatches"}
+  value_target_main:        {value: "lambda-return (V_old + GAE adv)", source: "official code value-calc gae (paper says reward-to-go)"}
+  value_clip:               {value: 0.2,     source: "official code --clip-eps, signed-max"}
+  value_exclude_terminal:   {value: true,    source: "official code sel=not_dones"}
+  adam_eps:                 {value: 1.0e-5,  source: "official code --eps"}
+  bootstrap_cut_episode:    {value: "V_{t+1} := V_t", source: "official code advantage_and_return"}
+
+ail:
+  buffer_size:              {value: 5000,    source: "App. D.1; official code --buffer-size"}
+  il_lr:                    {value: 3.0e-4,  source: "App. D.1; official code --lr"}
+  il_minibatch:             {value: 64,      source: "App. D.1; official code --dagger-mini-batch-size"}
+  il_epochs:                {value: 2,       source: "App. D.1; official code --max-proj-iter"}
+  kl_direction:             {value: "KL(expert || trainee), analytic", source: "paper Eq. 11/17; official code discrete_kl_loss"}
+  ail_beta:                 {value: "1 at iteration 1, then 0", source: "App. D.1; official code AD()"}
+  ail_pretrain:             {value: "5000 expert samples + 2 projection epochs", source: "official code pretrain() + projection_step() (corrected: max_proj_iter fixed at construction = 2)"}
+  ail_start_offset:         {value: 80000,   source: "App. D.1; official plotting PRETRAIN_SHIFT; written as metrics.json interactions_paper_axis from the follow-up runs on (the older 'interactions' field omits it)"}
+  image_augmentation:       {value: "crop(pad 5%, scale U[0.82,1]) + speckle 0.025 + resize 42", source: "official code ReplayBuffer"}
+
+a2d:
+  beta_init:                {value: 1.0,     source: "Alg. 1 line 4; official code A2D()"}
+  beta_decay:               {value: 0.8,     source: "App. D.1; official code --beta-decay"}
+  beta_floor:               {value: 1.0e-3,  source: "official code (snap to 0)"}
+  entropy_a2d:              {value: 10.0,    source: "App. D.1; official code --a2d-entropy-reg"}
+  lambda_a2d_fl:            {value: 0.9,     source: "App. D.1; official code default"}
+  lambda_a2d_td:            {value: 0.95,    source: "App. D.1; official code (commented TD setting)"}
+  importance_weight:        {value: "pi_theta(a|s) / (beta pi_theta(a|s) + (1-beta) pi_psi(a|b))", source: "paper Eq. 27; official code importance_weight"}
+  mixture_value:            {value: "beta V_m(s) + (1-beta) V_p(b)", source: "Alg. 1 line 10; official code get_mixture_value"}
+  update_order:             {value: "expert(V_m, [Q_m], TRPO) -> learner_val(V_p, [Q_p]) -> AIL", source: "official code step()"}
+  cotrain_from_scratch:     {value: true,    source: "paper §5; official code --cotrain 1"}
+
+q_experiment:   # Figure B.1 (official Q_arguments.py)
+  envs:                     {value: [TD1, TD2, TD3], source: "App. B.1; official launch_q.sh"}
+  representation:           {value: partial_state, source: "App. B.1 ('compact representation'); official Q_arguments"}
+  beta:                     {value: 0.0,     source: "Figure B.1 caption; official --beta-decay 0"}
+  lambda:                   {value: 0.5,     source: "App. B.1 / D.1; official --lambda_a2d 0.5"}
+  max_kl:                   {value: 0.001,   source: "App. D.1; official --max-kl"}
+  entropy:                  {value: 0.02,    source: "App. D.1; official --a2d-entropy-reg"}
+  entropy_mode:             {value: "surrogate += c*mean H", source: "App. D.1; official regularize_adv=0"}
+  value_target:             {value: "MC reward-to-go, no clip, terminal excluded", source: "official value-calc time"}
+  q_lr:                     {value: 3.0e-4,  source: "App. D.1; official --q-lr"}
+  q_epochs:                 {value: 25,      source: "official --q-epochs"}
+  q_target:                 {value: "MC reward-to-go", source: "official q_step(returns)"}
+  init:                     {value: "orthogonal (the 'fixed' flag is never read)", source: "official Q_arguments + code path"}
+  seeds:                    {value: 20,      source: "Figure B.1 caption (official launcher: 10)"}
+
+lambda_sweep:   # Figure B.2
+  env:                      {value: TD2,     source: "Figure B.2 caption; official _launch_lambda_sweep.sh"}
+  lambdas:                  {value: [0.0, 0.25, 0.5, 0.75, 1.0], source: "Figure B.2"}
+  other_settings:           {value: "HEADLINE (follow-up runs): App. B.1 settings = arm a2d_noq (beta 0, KL 1e-3, entropy 0.02 on the surrogate, reg_adv false, MC values) with lam_a2d = lam_rl = lambda | VARIANT: main (E1) args", source: "headline: paper App. D.1 p.30 last paragraph ('In Section B.1 we use a lambda value of 0.5 in GAE (when not sweeping over lambda) ... entropy regularizer of 0.02 ... trust region of 0.001') + Fig. B.1 caption (beta = 0); variant: official launcher calls RunA2DExperiments with the main args"}
+  seeds:                    {value: "20 (B.1 headline) | 10 (main-args variant)", source: "Figure B.1 caption: 20 seeds for Section B.1; official launcher: 10"}
+  interactions:             {value: 500000,  source: "Figure B.2 x-axis (ASSUMED iters 251)"}
+
+eval:
+  interval_iters:           {value: 5,       source: "App. D.1; official --log-interval"}
+  interactions:             {value: 2000,    source: "App. D.1; official --eval-batch-size (complete episodes)"}
+  policy:                   {value: stochastic, source: "App. D.1; official plotting shift=0"}
+  normalised_reward:        {value: "R - (R*_MDP + 1)", source: "Figure 4 caption; official plotting reward_sub (11.66 / 7.0)"}
+  divergence_metric:        {value: "AIL training loss (as code) + clean fresh-rollout KL", source: "official column 6 + ASSUMED (ours)"}
+  seeds_compact:            {value: 20,      source: "Figure 4 caption"}
+  seeds_image:              {value: "5-10",  source: "ASSUMED (budget; paper 20)"}
+  final_window_evals:       {value: 5,       source: "ASSUMED (ours)"}
+
+optima:   # exact (src/exact.py)
+  fl:  {mdp: 10.6667, pomdp: 4.0, ail_greedy: -26.6667, ail_stochastic_fixed_point: -36.141, source: "paper §4 text + exact DP (exact DP, src/exact.py)"}
+  td:  {mdp: 6.0, pomdp: 2.0, ail_commit: -54.0, ail_stochastic_fixed_point: -66.0, source: "paper §4 text + exact DP"}
+  td1: {mdp: 18.0, pomdp: 16.0, implicit: -42.0, source: "App. B.1 text + official TD-OSC print + exact DP"}
+  td2: {mdp: 16.0, pomdp: 14.0, source: "official TD-OSC print + exact DP"}
+  td3: {mdp: 14.0, pomdp: 12.0, source: "official TD-OSC print + exact DP"}
+
+# ---------------------------------------------------------------------------------------------------------------
+# One entry per field of src/train.py:Config (tests/test_sources.py asserts full coverage).
+config_keys:
+  env:          {value: "FL | TD | TD1 | TD2 | TD3", source: "paper §4 / App. B.1; official env ids"}
+  method:       {value: "a2d | ail | rl", source: "paper §5 Alg. 1 (A2D), §3 (AIL), App. D.1 (RL baselines)"}
+  obs:          {value: "partial | image", source: "paper App. D.1 / Fig. B.3 (compact vs image trainees)"}
+  rl_actor:     {value: "expert (RL(MDP)) | learner", source: "paper Fig. 4 legend; official do_rl render_type"}
+  asym_value:   {value: false, source: "paper Fig. 4 RL(Asym) = Pinto et al.; official ARL learner_val.ASYMMETRIC"}
+  iters:        {value: 200, source: "official --iters 201; Figure 4 x-axis 4e5"}
+  batch:        {value: 2000, source: "App. D.1; official --batch-size"}
+  buffer:       {value: 5000, source: "App. D.1; official --buffer-size"}
+  gamma:        {value: 0.995, source: "App. D.1"}
+  lam_rl:       {value: 0.95, source: "App. D.1; official --lambda-rl"}
+  lam_a2d:      {value: "FL 0.9, else 0.95 (Q-args 0.5)", source: "App. D.1; official --lambda-a2d / Q_arguments"}
+  ent_rl:       {value: 1.0, source: "App. D.1; official --rl-entropy-reg"}
+  ent_a2d:      {value: "10 (Q-args 0.02)", source: "App. D.1; official --a2d-entropy-reg"}
+  reg_adv:      {value: "true (Q-args false)", source: "official --regularize-adv"}
+  value_calc:   {value: "gae (Q-args time)", source: "official --value-calc"}
+  max_kl:       {value: "0.01 (Q-args 0.001)", source: "App. D.1; official --max-kl"}
+  beta_decay:   {value: "0.8 (Q-args 0 = beta 0 from start)", source: "App. D.1; official --beta-decay"}
+  use_q:        {value: false, source: "App. B.1; official --USE-Q"}
+  critic:       {value: "paper", source: "ASSUMED (ours: brief's critic ablation; 'paper' = Alg. 1 line 10 mixture)"}
+  critic_targets: {value: "official (all headline runs) | own (labeled arms)", source: "official code a2d_gridworld/a2d/util/rl_update.py:226-229 (advantages and returns from the MIXTURE value; both value nets fit to old_V + A) = 'official'; 'own' = paper App. D.1 p.29-30 ('individually targeting the sum of rewards ahead (i.e. is not back-propagated through any mixture)')"}
+  estimator:    {value: "official (all headline runs) | paper (labeled arm)", source: "official surrogate_reward (centered + entropy in the advantage) = 'official'; 'paper' = paper Eq. 27 p.7 with a positive std rescaling (no centering, no entropy), ASSUMED (the paper gives no normalizer; a positive rescaling leaves the TRPO step unchanged)"}
+  kl_fallback:  {value: "true (follow-up and recheck runs) / false-equivalent (earlier runs, bitwise identical until the first non-finite step)", source: "ASSUMED (correctness fix): the official calc_kl form p(log p - log q) has a non-finite Fisher-vector product once min prob ~1e-150; the log-prob form has the same value"}
+  loglik_clamp: {value: true, source: "official code: a2d/models/models.py DiscPolicy.get_loglikelihood = torch Categorical(probs=softmax(z)).log_prob = log(clamp(p, eps, 1-eps)), eps = finfo(float64).eps = 2.22e-16 (torch distributions/utils.py clamp_probs), zero gradient outside; used for the TRPO old/new log-probs (rl_update.batched_evaluation, rl_steps._apply incl. the line search) and both IS-weight factors (rl_update.importance_weight); entropy, KL and the AIL loss unclamped. eps fixed at the float64 value also in float32 runs. Before the clamp fix we used the exact log_softmax (false = pre-fix behavior)"}
+  official_buffer_seed: {value: "false (default; true = official, measured separately in the recheck runs)", source: "official code: A2D_base_class.initial_log() -> logging(0) pushes one 2000-step rollout of the untrained expert into the A2D buffer; the hard_reset() after it is skipped because mini_batch_update(-1, verbose=False, update=False, ...) raises TypeError inside a bare try/except (A2Dagger.py:70). Confirmed by the dumped learner Adam step 278 and buffer counter 1000 after 2 iterations. false = pre-fix (empty buffer at iteration 1)"}
+  il_lr:        {value: 3.0e-4, source: "App. D.1; official --lr"}
+  val_lr:       {value: 7.0e-4, source: "App. D.1; official --val-lr"}
+  q_lr:         {value: 3.0e-4, source: "App. D.1; official --q-lr"}
+  val_epochs:   {value: 25, source: "App. D.1; official --val-epochs"}
+  q_epochs:     {value: 25, source: "official --q-epochs"}
+  n_mb:         {value: 32, source: "App. D.1; official --num-minibatches"}
+  clip:         {value: 0.2, source: "official --clip-eps"}
+  il_mb:        {value: 64, source: "App. D.1; official --dagger-mini-batch-size"}
+  proj_epochs:  {value: 2, source: "App. D.1; official --max-proj-iter"}
+  fisher_frac:  {value: 0.1, source: "official --fisher-frac-samples"}
+  damping:      {value: 0.1, source: "official --damping"}
+  eval_every:   {value: 5, source: "App. D.1; official --log-interval"}
+  augment:      {value: true, source: "official --data-aug"}
+  expert_ckpt:  {value: "runs/<exp>/<env>/expert_best.npz", source: "official save_as_expert (best stochastic eval of RL(MDP))"}
+  dtype:        {value: "float32 (image arms, GPU) | float64 (compact arms, full-scale float64 runs)", source: "official code (torch.DoubleTensor default); float64 DELAYS (does not remove) the flat-policy TRPO freeze (removed by kl_fallback); float32 for image arms is ASSUMED adequate (their late TRPO acceptance stays 0.93-1.00, measured) and forced by the GPU budget"}

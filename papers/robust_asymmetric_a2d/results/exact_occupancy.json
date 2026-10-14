@@ -1,0 +1,50 @@
+{
+ "TD1/q/proj_gamma=1.0": [
+  16.0,
+  -0.0
+ ],
+ "TD1/q/proj_gamma=0.995": [
+  16.0,
+  0.0
+ ],
+ "TD1/mc/proj_gamma=1.0": [
+  -42.0,
+  0.6931
+ ],
+ "TD1/mc/proj_gamma=0.995": [
+  -42.0,
+  0.6931
+ ],
+ "TD/q/proj_gamma=1.0": [
+  2.0,
+  0.0
+ ],
+ "TD/q/proj_gamma=0.995": [
+  2.0,
+  -0.0
+ ],
+ "TD/mc/proj_gamma=1.0": [
+  2.0,
+  0.0
+ ],
+ "TD/mc/proj_gamma=0.995": [
+  2.0,
+  0.0
+ ],
+ "TD2/q/proj_gamma=1.0": [
+  14.0,
+  0.0
+ ],
+ "TD2/q/proj_gamma=0.995": [
+  14.0,
+  0.0
+ ],
+ "TD2/mc/proj_gamma=1.0": [
+  14.0,
+  0.0
+ ],
+ "TD2/mc/proj_gamma=0.995": [
+  14.0,
+  0.0
+ ]
+}

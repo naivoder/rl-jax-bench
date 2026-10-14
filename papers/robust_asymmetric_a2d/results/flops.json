@@ -1,0 +1,33 @@
+{
+ "rl_mdp": {
+  "gflop_per_iter_per_seed": 2.168
+ },
+ "rl_compact": {
+  "gflop_per_iter_per_seed": 2.168
+ },
+ "rl_image": {
+  "gflop_per_iter_per_seed": 2732.684
+ },
+ "rl_asym": {
+  "gflop_per_iter_per_seed": 362.444
+ },
+ "ail_compact": {
+  "gflop_per_iter_per_seed": 0.572
+ },
+ "ail_image": {
+  "gflop_per_iter_per_seed": 518.864
+ },
+ "a2d_compact": {
+  "gflop_per_iter_per_seed": 4.732
+ },
+ "a2d_image": {
+  "gflop_per_iter_per_seed": 3000.715
+ },
+ "a2d_q": {
+  "gflop_per_iter_per_seed": 8.533
+ },
+ "_macs_per_forward": {
+  "image_net": 7907072,
+  "flat_net": 6272
+ }
+}
