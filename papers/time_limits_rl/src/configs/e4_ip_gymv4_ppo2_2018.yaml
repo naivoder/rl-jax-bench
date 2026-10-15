@@ -1,0 +1,14 @@
+# Recheck primary for the paper's Baselines-PPO arms: "ppo2-2018" = Baselines ppo2 @9fa8e1b (2018-01) semantics on the
+# gym-v4 IP port. Differences from e4_inverted_pendulum_gymv4.yaml (the original primary, kept as the
+# "ppo2-2019/Tonic-act" ablation) -- . Sources: sources.yaml recheck.*
+base: e4_inverted_pendulum_gymv4.yaml
+name: e4_ip_gymv4_ppo2_2018
+action_interface: raw               # official code (baselines ppo2 @9fa8e1b runner env.step(actions); gym ctrl = a; MuJoCo clamp) C1
+reward_scale_reset_on_done: false   # official code (baselines vec_normalize.py @9fa8e1b: no ret reset; added ad219e2 2018-09) C2
+tau_obs_norm: true                  # official code (env-side tau wrapper inside VecNormalize) + paper §1 text; C3 (ASSUMED placement)
+seeds: [0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 12000, 13000, 14000, 15000, 16000, 17000, 18000, 19000, 20000, 21000, 22000, 23000, 24000, 25000, 26000, 27000, 28000, 29000]
+arms:
+  ppo_g099:    {time_mode: none, T: 1000, gamma: 0.99}           # Figure 3a PPO
+  ta_ppo_g099: {time_mode: remaining_pm1, T: 1000, gamma: 0.99}  # Figure 3a TA-PPO (paper §1: remaining time in [-1, 1]) C3
+  ppo_g1:      {time_mode: none, T: 1000, gamma: 1.0}            # Figure 3b PPO
+  ta_ppo_g1:   {time_mode: remaining_pm1, T: 1000, gamma: 1.0}   # Figure 3b TA-PPO C3

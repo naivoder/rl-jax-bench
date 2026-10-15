@@ -1,0 +1,14 @@
+# Recheck: E7 Brax hopper PROXY under ppo2-2018 (C1: no runner clip, control cost on the raw action; C2) with
+# stochastic AND deterministic evaluation. 490 updates = the full-scale E7 evaluation grid up to ~1e6 steps.
+base: e7_hopper.yaml
+name: e7_hopper_ppo2_2018
+action_interface: raw
+reward_scale_reset_on_done: false
+total_timesteps: 1003520   # 490 x 2048: evaluations at the full-scale E7 updates 49, 98, ..., 490
+seeds: [0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000]
+eval:
+  every_updates: 49
+  episodes: 5
+  horizon: 3000
+  gamma: 0.99
+  deterministic_too: true  #

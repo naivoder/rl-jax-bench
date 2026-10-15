@@ -1,0 +1,13 @@
+# E2 Two-Goal Gridworld (paper §2.2, §3.1, Figure 1): tabular Q-learning (standard / TA / PEB), driven by
+# scripts/toys/run_toys.py (: constants moved here from the driver; values unchanged). Sources: sources.yaml e2_*.
+name: e2_two_goal
+exp_id: 2                  # key tree : EXP_ID 2 = E2
+T: 3                       # paper §2.2
+gamma: 0.99                # paper §2.2
+epsilon: 1.0               # paper §2.2 ('with random actions': uniform behavior = eps-greedy with eps 1)
+episodes: 400000           # ASSUMED (paper: 'until convergence')
+episodes_long: 4000000     # ASSUMED (G1-4 noise diagnosis: 10x episodes for the standard agent)
+lr_power: 0.7              # ASSUMED (: alpha = 1/(1+n(s,a))^0.7; paper: 'decaying learning rate')
+bump_reward: -1.0          # ASSUMED, ablated 0.0 at full scale (exact)
+agents: [standard, time_aware, peb]   # paper §2.2, §3.1, Figure 1b-d
+seeds: [0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000]   # paper §1

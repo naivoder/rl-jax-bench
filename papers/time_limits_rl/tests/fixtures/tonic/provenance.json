@@ -1,0 +1,11 @@
+{
+ "oracle": "Tonic",
+ "commit": "0e20c894ee68278ab68322de61bb2c7204a11d5f",
+ "harness": "scripts/official/run_tonic.py",
+ "venv": "$OFFICIAL_ROOT/.venv",
+ "cases": {
+  "lr_mixed": "lambda_returns",
+  "lr_dense": "lambda_returns",
+  "runner_T5": "Sequential+TimeFeature"
+ }
+}

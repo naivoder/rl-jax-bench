@@ -1,0 +1,18 @@
+# E4/E5 PROXY: Brax inverted_pendulum for paper Figure 3 InvertedPendulum-v1 (and Figure 4 value surfaces).
+# Sources: sources.yaml e4_proxy_inverted_pendulum.*. LABELLED PROXY: dynamics/obs/reward differ from v1.
+base: ppo_base.yaml
+name: e4_inverted_pendulum
+exp_id: 4
+env: brax-inverted_pendulum
+brax_backend: generalized  # ASSUMED
+total_timesteps: 100000    # paper Figure 3 x-axis (1e5)
+readout_T: 1000            # Figure 4: value vs time on full-length episodes
+readout_episodes: 5        #
+device: cpu
+device_reason: "brax generalized IP measured 0.46 ms/seq-step on CPU vs 15 ms on the shared GPU (scratch probe)"
+chunk_updates: 7
+arms:
+  ppo_g099:    {time_mode: none, T: 1000, gamma: 0.99}         # Figure 3a PPO
+  ta_ppo_g099: {time_mode: elapsed_pm1, T: 1000, gamma: 0.99}  # Figure 3a TA-PPO
+  ppo_g1:      {time_mode: none, T: 1000, gamma: 1.0}          # Figure 3b PPO
+  ta_ppo_g1:   {time_mode: elapsed_pm1, T: 1000, gamma: 1.0}   # Figure 3b TA-PPO

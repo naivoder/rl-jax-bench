@@ -1,0 +1,14 @@
+{
+ "oracle": "Tonic environments.Gym over gym 0.24.1 MuJoCo-v4 (mujoco 2.2.0)",
+ "commit": "0e20c894ee68278ab68322de61bb2c7204a11d5f",
+ "harness": "scripts/official/env_trace.py",
+ "venv": "$OFFICIAL_ROOT/.venv-ref",
+ "cases": [
+  "InvertedPendulum-v4",
+  "Hopper-v4"
+ ],
+ "ours": [
+  "src.data.gymv4_env",
+  "src.data.brax_env(generalized)"
+ ]
+}

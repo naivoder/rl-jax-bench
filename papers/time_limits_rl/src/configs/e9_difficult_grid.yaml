@@ -1,0 +1,17 @@
+# E9 Difficult Gridworld + experience replay (paper §3.4, Figure 7). Sources: sources.yaml e9_difficult_grid.*
+kind: buffer_q
+name: e9_difficult_grid
+exp_id: 9
+seeds: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]  # paper §3.4 (30 seeds, 0..29)
+buffer_sizes: [40, 60, 100, 1000000]   # paper Figure 7 legend
+peb: [0, 1]                  # paper Figure 7 (without / with PEB)
+total_steps: 2000000         # paper Figure 7 x-axis
+bin_steps: 50000             # ASSUMED metric binning
+T: 200                       # paper §3.4
+eps: 0.1                     # paper §3.4
+lr: 0.1                      # Zhang & Sutton 2017 §5.1; ASSUMED transfer
+minibatch: 10                # Zhang & Sutton 2017 §4; ASSUMED transfer
+min_buffer: 10               # ASSUMED
+update_mode: sequential      # ASSUMED; ablation batch_mean
+device: cpu
+device_reason: "tabular scan; measured 7.8e5 vs 6.1e5 steps/s (CPU vs shared GPU, 60 lanes)"

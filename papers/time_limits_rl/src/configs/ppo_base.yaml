@@ -1,0 +1,32 @@
+# PPO base = OpenAI Baselines ppo2 MuJoCo defaults (paper §1 "Baselines ... hyperparameters reported by Schulman et
+# al. (2017)"). Every key's source: sources.yaml `ppo.*` (tags repeated inline).
+kind: ppo
+num_steps: 2048          # Schulman et al. 2017 Table 3 (horizon 2048), via paper §1
+num_minibatches: 32      # Schulman et al. 2017 Table 3 (minibatch 64 = 2048/32)
+update_epochs: 10        # Schulman et al. 2017 Table 3
+learning_rate: 3.0e-4    # Schulman et al. 2017 Table 3; constant
+gamma: 0.99              # Schulman et al. 2017 Table 3 / paper Figure 3a (per-arm override allowed)
+gae_lambda: 0.95         # Schulman et al. 2017 Table 3
+clip_coef: 0.2           # Schulman et al. 2017 Table 3
+clip_vloss: true         # official code (baselines ppo2 value clipping) via the PPO-details reproduction
+ent_coef: 0.0            # Schulman et al. 2017 (MuJoCo: no entropy bonus)
+vf_coef: 0.5             # official code (baselines ppo2) via the PPO-details reproduction
+max_grad_norm: 0.5       # official code (baselines ppo2) via the PPO-details reproduction
+adam_eps: 1.0e-5         # official code (baselines ppo2) via the PPO-details reproduction
+adam_eps_mode: tf1       # official code (baselines ppo2 = TF1 Adam epsilon-hat; PPO-details reproduction); ASSUMED
+norm_adv: true           # official code (baselines ppo2 per-minibatch advantage normalisation)
+adv_norm_ddof: 0         # official code (baselines np.std, ddof 0; PPO-details reproduction)
+hidden: 64               # Schulman et al. 2017 §6.1 (2 x 64 tanh, separate actor / critic)
+obs_norm: true           # official code (baselines run_mujoco VecNormalize); ASSUMED (A3)
+reward_scaling: true     # official code (baselines VecNormalize); ASSUMED (A3)
+reward_scale_gamma: 0.99 # official code (VecNormalize default gamma); ASSUMED also at agent gamma = 1
+norm_eps: 1.0e-8         # official code (baselines vec_normalize.py epsilon)
+obs_clip: 10.0           # official code (baselines vec_normalize.py clipob)
+reward_clip: 10.0        # official code (baselines vec_normalize.py cliprew)
+seeds: [0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000]   # paper §1 (10 seeds 0, 1000, ..., 9000)
+chunk_updates: 10        # engineering (updates per jitted chunk / checkpoint); no effect on results
+device: gpu              # mandatory default; per-config override with device_reason
+# full-scale ablation switches (defaults = the paper's Baselines ppo2 behavior; trainer bit-identical with them off)
+adv_norm_scope: minibatch  # official code (baselines ppo2 per-minibatch); ablation 'batch' = Tonic segments.py (oracle stage)
+anneal_lr: false           # ASSUMED (: ppo2 run_mujoco constant lr); ablation true = baselines ppo1 schedule='linear'
+tau_obs_norm: false        # ASSUMED (: tau appended raw); ablation true = Tonic MeanStd z-scores tau (oracle stage)

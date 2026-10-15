@@ -1,0 +1,12 @@
+# E1 Last Moment (paper §2.1): tabular TA / time-unaware Q-learning + memoryless REINFORCE, driven by
+# scripts/toys/run_toys.py (: constants moved here from the driver; values unchanged). Sources: sources.yaml e1_*.
+name: e1_last_moment
+exp_id: 1                  # key tree : EXP_ID 1 = E1
+T_values: [2, 3, 4, 5, 10] # paper §2.1 (T = 2 vs T > 2); ASSUMED grid
+gammas: [1.0, 0.99]        # ASSUMED (claim exact at gamma = 1)
+epsilon: 0.1               # ASSUMED
+episodes: 20000            # ASSUMED
+lr_power: 0.7              # ASSUMED (: alpha = 1/(1+n(s,a))^0.7, same schedule as E2)
+reinforce_lr: 0.05         # ASSUMED (: memoryless REINFORCE step size; only checks max_p J(p) is reached)
+reinforce_episodes: 20000  # ASSUMED (= episodes)
+seeds: [0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000]   # paper §1

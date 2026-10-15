@@ -1,0 +1,9 @@
+# E3 horizon-length ablation (owner ablation list: horizon length). Same env/PPO as e3_queue_of_cars.yaml, T in {10, 20}.
+base: e3_queue_of_cars.yaml
+name: e3_queue_of_cars_horizon
+probe_T: 20              # probe table covers the longest horizon; a T-lane's exact value uses its first T rows
+arms:
+  ppo_T10: {time_mode: none, T: 10}          # ASSUMED ablation (horizon length)
+  ta_T10:  {time_mode: elapsed_pm1, T: 10}   # ASSUMED ablation (horizon length); encoding
+  ppo_T20: {time_mode: none, T: 20}          # ASSUMED ablation (horizon length)
+  ta_T20:  {time_mode: elapsed_pm1, T: 20}   # ASSUMED ablation (horizon length); encoding

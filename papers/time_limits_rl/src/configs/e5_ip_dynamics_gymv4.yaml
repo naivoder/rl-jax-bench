@@ -1,0 +1,12 @@
+# E5 training dynamics: paper Figure 4 plots the critic vs episode step AND training step up to 1e6. IP on
+# the gym-v4 MJX port, 1e6 steps, critic read-outs during training. Sources: sources.yaml e5_dynamics.*
+base: e4_inverted_pendulum_gymv4.yaml
+name: e5_ip_dynamics_gymv4
+total_timesteps: 1000000   # paper Figure 4 training-step axis (1e6)
+readout_T: 1000            # Figure 4 episode-step axis (T = 1000)
+readout_episodes: 5        #
+readout_stride: 10         # storage only (values kept at t = 0, 10, ..., 990, 999)
+# read-outs every 7 updates (1.4e4 steps) up to 1e5, then every 49 updates (~1e5 steps); u = 488 (end) is added by the
+# end-of-training read-out. ASSUMED (: resolves 'quickly' within the first 1e5 steps, then Figure 4's grid)
+readout_updates: [7, 14, 21, 28, 35, 42, 49, 98, 147, 196, 245, 294, 343, 392, 441, 488]
+chunk_updates: 7

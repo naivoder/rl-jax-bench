@@ -1,0 +1,10 @@
+# Recheck: Hopper TA PROXY (Brax hopper, gamma = 1, T = 1000, 2e6 steps) under ppo2-2018 (C1, C2, C3).
+base: e4_hopper_ta.yaml
+name: e4_hopper_ta_ppo2_2018
+env: brax-hopper
+action_interface: raw
+reward_scale_reset_on_done: false
+tau_obs_norm: true
+arms:
+  ppo_g1:    {time_mode: none, T: 1000, gamma: 1.0}
+  ta_ppo_g1: {time_mode: remaining_pm1, T: 1000, gamma: 1.0}

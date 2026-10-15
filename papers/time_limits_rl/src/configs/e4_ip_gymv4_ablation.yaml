@@ -1,0 +1,9 @@
+# E4 ablations on the gym-v4 IP port at gamma = 1 (Figure 3b setting), 10 paper seeds. Variants are selected by
+# --set (tau_obs_norm / adv_norm_scope / anneal_lr / ppo1-like bundle) with a fresh `name` per variant.
+base: e4_inverted_pendulum_gymv4.yaml
+name: e4_ip_gymv4_ablation_encoding
+arms:
+  ppo_g1:          {time_mode: none, T: 1000, gamma: 1.0}           # Figure 3b PPO
+  ta_ppo_g1:       {time_mode: elapsed_pm1, T: 1000, gamma: 1.0}    # Figure 3b TA-PPO, encoding (Tonic)
+  ta_remaining_g1: {time_mode: remaining_pm1, T: 1000, gamma: 1.0}  # ablation: paper-text encoding (A1)
+  ta_raw_g1:       {time_mode: remaining_raw, T: 1000, gamma: 1.0}  # ablation: unnormalized remaining steps k

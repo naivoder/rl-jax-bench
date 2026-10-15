@@ -1,0 +1,21 @@
+# E7 PROXY: Brax hopper for paper Figure 6 (left) Hopper-v1. Sources: sources.yaml e7_proxy_hopper_peb.*
+base: ppo_base.yaml
+name: e7_hopper
+exp_id: 7
+env: brax-hopper
+brax_backend: generalized  # ASSUMED
+gamma: 0.99                # paper Figure 6 caption
+total_timesteps: 1000000   # ASSUMED (paper 3e6, budget)
+seeds: [0, 1000, 2000, 3000, 4000]   # >= 5 
+eval:
+  every_updates: 49        # ~1e5 steps (: every 1e5 steps; 49 x 2048 = 100352)
+  episodes: 5              # official code (Tonic trainer test_episodes = 5)
+  horizon: 3000            #  (equivalent to the paper's 1e6 for the gamma=0.99 discounted metric)
+  gamma: 0.99              # paper Figure 6 caption (discounted sum of rewards)
+device: cpu
+device_reason: "brax generalized hopper measured 3.0 ms/seq-step on CPU"
+chunk_updates: 49
+arms:
+  peb_ppo_T300: {time_mode: none, T: 300, peb: 1}   # paper §3.2 PEB-PPO (T = 300)
+  ppo_T300:     {time_mode: none, T: 300, peb: 0}   # paper §3.2 PPO (T = 300)
+  ppo_T1000:    {time_mode: none, T: 1000, peb: 0}  # paper §3.2 PPO (T = 1000)

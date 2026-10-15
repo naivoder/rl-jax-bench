@@ -1,0 +1,19 @@
+# E3 Queue of Cars (paper §2.3, Figure 2): TA-PPO vs PPO. Sources: sources.yaml e3_queue_of_cars.*
+base: ppo_base.yaml
+name: e3_queue_of_cars
+exp_id: 3                # key tree EXP_ID 
+env: queue_of_cars       # paper §2.3 (our JAX implementation)
+qoc_semantics: literal   # ASSUMED: dangerous = advance 0.8 / crash 0.1 / stay 0.1; ablation crash_first
+total_timesteps: 300000  # ASSUMED
+gamma: 0.99              # ASSUMED (Baselines default)
+obs_norm: false          # ASSUMED (one-hot obs)
+reward_scaling: false    # ASSUMED (rewards in [0, 1])
+probe: qoc               # Figure 2 heat map: P(dangerous | slot, t) each update
+probe_T: 15
+device: gpu              # measured 4.3e5 vs 1.2e5 steps/s (GPU vs CPU, 40 lanes)
+chunk_updates: 16
+arms:
+  ppo:           {time_mode: none, T: 15}            # paper Figure 2 'time-unaware PPO'; T = 15 ASSUMED
+  ta_ppo:        {time_mode: elapsed_pm1, T: 15}     # paper Figure 2 'time-aware PPO'; encoding (Tonic)
+  ta_remaining:  {time_mode: remaining_pm1, T: 15}   # ablation: paper-text encoding (A1)
+  ta_raw:        {time_mode: remaining_raw, T: 15}   # ablation: unnormalized remaining steps

@@ -1,0 +1,15 @@
+# Recheck co-reading "ppo1-2018": Baselines ppo1 @9fa8e1b pposgd_simple / run_mujoco with the
+# recheck corrections C1 (raw actions), C3 (remaining-time tau, normalized with the obs as ppo1's in-policy
+# RunningMeanStd does) and C5 (ppo1 stop rule: iterate until completed-episode steps >= budget; lrmult from them).
+# Residual ppo1 differences NOT implemented (as): per-batch obs-statistics update, normc init, std floor.
+base: e4_ip_gymv4_ppo2_2018.yaml
+name: e4_ip_gymv4_ppo1_2018
+anneal_lr: true                  # official code (ppo1 run_mujoco schedule='linear')
+anneal_clip: true                # official code (ppo1 pposgd_simple clip_param * lrmult)
+clip_vloss: false                # official code (ppo1: vf_loss = mean(square(vpred - ret)))
+vf_coef: 1.0                     # official code (ppo1 total_loss = pol_surr + pol_entpen + vf_loss)
+max_grad_norm: 1.0e+10           # official code (ppo1: no gradient clipping)
+adv_norm_scope: batch            # official code (ppo1: atarg standardised once per batch)
+reward_scaling: false            # official code (ppo1: no reward scaling)
+obs_clip: 5.0                    # official code (ppo1 mlp_policy: clip((ob - mean) / std, -5, 5))
+stop_rule: ppo1_completed_steps  # official code (pposgd_simple.learn timesteps_so_far loop) C5
