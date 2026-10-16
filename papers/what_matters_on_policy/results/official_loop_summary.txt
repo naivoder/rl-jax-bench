@@ -1,0 +1,5 @@
+base_pre   seeds=[0, 1, 2] scores=[1161.0, 1294.0, 1294.0] mean=1250 se=44 finals=[2327.0, 2508.0, 1201.0] nonfinite_minibatches=[0, 0, 0] collapsed=0/3 n_points=[11, 11, 11]
+base       seeds=[0, 1, 2] scores=[nan, nan, nan] mean=nan se=nan finals=[nan, nan, nan] nonfinite_minibatches=[1600, 1280, 1280] collapsed=3/3 n_points=[11, 11, 11]
+rec_pre    seeds=[0, 1, 2] scores=[1396.0, 1725.0, 2041.0] mean=1720 se=186 finals=[2545.0, 1285.0, 2613.0] nonfinite_minibatches=[0, 0, 0] collapsed=0/3 n_points=[11, 11, 11]
+rec        seeds=[0, 1, 2] scores=[1856.0, 1306.0, 1750.0] mean=1638 se=168 finals=[2114.0, 1527.0, 2738.0] nonfinite_minibatches=[0, 0, 0] collapsed=0/3 n_points=[11, 11, 11]
+released   seeds=[0, 1, 2] scores=[2036.0, 1723.0, 2129.0] mean=1963 se=123 finals=[2066.0, 2613.0, 2743.0] nonfinite_minibatches=[0, 0, 0] collapsed=0/3 n_points=[11, 11, 11]

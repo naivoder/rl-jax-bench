@@ -1,0 +1,158 @@
+# sources.yaml: one entry per planned config key: value + source tag.
+# Tags: 'paper §X.Y' | 'Table N' | 'Figure N' | 'Appendix X' | 'official code (seed_rl@0e1e0ac <file>)' |
+#       'official data (mujoco123_data.json <experiment>)' | 'ASSUMED (<reason>; README <ID>)'.
+# Copied verbatim to src/configs/sources.yaml.
+paper:
+  title: "What Matters for On-Policy Deep Actor-Critic Methods? A Large-Scale Study (ICLR 2021); read as arXiv:2006.05990v1"
+  pdf: arXiv:2006.05990v1
+  pdf_sha256: 2bb27a66690d6f8163680235847bb4ab670f8f455a8f360e701e7bbe4fa6d7fb
+official:
+  code: {repo: https://github.com/google-research/seed_rl, commit: 0e1e0ac9178a670ad1e1463baed92020e88905ec,
+         local: $OFFICIAL_ROOT/seed_rl}
+  data: {url: "https://storage.googleapis.com/seed_rl_external_data_release/mujoco123_data.json",
+         sha256: ce5f423c1d693ca69c00365045287ef9513621f367012c58b2ad201571203d24,
+         local: $OFFICIAL_ROOT/data/mujoco123_data.json}
+
+env:
+  names:            {value: [halfcheetah, walker2d, hopper], source: "ASSUMED (budget PROXY for HalfCheetah/Walker2d/Hopper-v1, paper §2; README)"}
+  brax_version:     {value: "0.14.2", source: "ASSUMED (installed in the repository environment)"}
+  backend:          {value: mjx, source: "ASSUMED (closest to MuJoCo; positional only as declared fallback)"}
+  episode_length:   {value: 1000, source: "paper §3.6"}
+  time_limit_as_terminal: {value: true, source: "Table 2 C22=False; paper §3.6"}
+  action_bounds:    {value: [-1.0, 1.0], source: "paper footnote 8"}
+  total_env_steps:  {value: 1001472, source: "paper §2 (1M) + ASSUMED (finish the crossing iteration: 489 x 2048)"}
+
+eval:
+  every_env_steps:  {value: 100000, source: "paper §2"}
+  episodes:         {value: 100, source: "paper §2"}
+  policy:           {value: stochastic, source: "paper §2; official data '_eval_' (stochastic) vs '_eval_det'"}
+  include_step0_in_score: {value: false, source: "ASSUMED (raw data closer to excluding step 0)"}
+  freeze_obs_norm:  {value: true, source: "ASSUMED (paper §2 'freezing the policy')"}
+  seed_score:       {value: mean_of_eval_returns, source: "paper §2"}
+  config_score:     {value: median_over_3_seeds, source: "paper §2"}
+  percentile:       {value: "np.percentile(x, 95) linear", source: "official code (seed_rl@0e1e0ac mujoco/what_matters_in_on_policy_rl.ipynb percentile_ci)"}
+  ci:               {value: "binom.interval(0.95, n, 0.95) as 0-based sorted indices, hi clamped to n-1", source: "paper footnote 4 + official code (percentile_ci)"}
+  top_frac:         {value: "top floor((n-1)/20)+1", source: "official code (plot_top_90)"}
+
+stats:
+  paired_seeds:     {value: 8, source: "ASSUMED (task rule >=5, prefer more)"}
+  test:             {value: "paired t + paired bootstrap 95% CI (10000 resamples)", source: "ASSUMED (task rule; rl_jax_bench.stats)"}
+  multiplicity:     {value: "Holm over 33 primary contrasts (11 arms x 3 envs)", source: "ASSUMED"}
+  equivalence_margin_rel: {value: 0.10, source: "ASSUMED (TOST for no-effect claims Q1-Hopper, Q6, Q8)"}
+
+# ---------------- REC (anchor) ----------------
+rec:
+  num_envs:            {value: 256, source: "Table 2 C1"}
+  iteration_size:      {value: 2048, source: "Table 2 C2"}
+  num_epochs:          {value: 10, source: "Table 2 C3"}
+  batch_size:          {value: 64, source: "Table 2 C4"}
+  batch_mode:          {value: shuffle_transitions_recompute, source: "paper §3.5 recommendation (C5); official code ppo_training_step_utils 'split_with_advantage_recomputation'"}
+  advantage_estimator: {value: gae, source: "Table 2 C6; paper §3.4"}
+  gae_lambda:          {value: 0.9, source: "paper §3.4 recommendation; Figure 45"}
+  gamma:               {value: 0.99, source: "Table 2 C20; paper §3.6"}
+  frame_skip:          {value: 1, source: "Table 2 C21; ASSUMED not tuned (budget)"}
+  handle_abandoned:    {value: false, source: "Table 2 C22; paper §3.6"}
+  policy_loss:         {value: ppo, source: "paper §3.1 recommendation"}
+  ppo_epsilon:         {value: 0.25, source: "paper §3.1 recommendation ('start with 0.25')"}
+  ppo_lower_bound:     {value: "1/(1+eps)", source: "Appendix B.3 footnote 19; official code policy_losses.py"}
+  value_loss:          {value: mse_no_half, source: "Table 2 C11; official code generalized_onpolicy_loss.py (keras MSE)"}
+  value_clip_eps:      {value: null, source: "paper §3.4 recommendation (no PPO-style value clipping)"}
+  baseline_cost:       {value: 1.0, source: "official code generalized_onpolicy_loss.py default "}
+  shared:              {value: false, source: "paper §3.2 recommendation; official data shared=False"}
+  policy_width:        {value: 64, source: "Table 2 C49; ASSUMED kept (paper says tune)"}
+  policy_depth:        {value: 2, source: "Table 2 C52; paper §3.2"}
+  value_width:         {value: 256, source: "paper §3.2 'wide value MLP' + ASSUMED width (HalfCheetah best 256)"}
+  value_depth:         {value: 2, source: "Table 2 C53; paper §3.2"}
+  activation:          {value: tanh, source: "Table 2 C55; paper §3.2"}
+  hidden_init:         {value: "orthogonal(gain=sqrt(2))", source: "Table 2 C56; official gin hidden/Orthogonal.gain"}
+  policy_last_init:    {value: "orthogonal(gain=0.01)", source: "official gin policy/Orthogonal.gain=0.01. /: the study rows bind policy gain 0.01, value 1, hidden sqrt2 as absolute gains = ours, so the  'deviation' (Table 2 C56 Orthogonal(1.41) rescaled by C57 0.01 = 0.0141) is withdrawn for REC"}
+  value_last_init:     {value: "orthogonal(gain=1.0)", source: "official gin.  withdrawn: study rows bind value Orthogonal.gain=1"}
+  bias_init:           {value: 0.0, source: "official code (keras Dense default)"}
+  global_std:          {value: true, source: "Table 2 C59"}
+  std_param_init:      {value: 0.0, source: "official code continuous_control_agent._ConcatTrainableTensor"}
+  std_transform:       {value: softplus, source: "paper §3.2 recommendation (C60)"}
+  initial_std:         {value: 0.5, source: "paper §3.2 / Figure 2 (C61)"}
+  min_std:             {value: 0.001, source: "Table 2 C62"}
+  action_transform:    {value: tanh, source: "paper §3.2 recommendation (C63)"}
+  tanh_logprob_threshold: {value: 0.999, source: "official code parametric_distribution.TanhTransformedDistribution"}
+  obs_norm:            {value: average, source: "Table 2 C64; paper §3.3"}
+  obs_clip:            {value: 10.0, source: "Table 2 C65"}
+  obs_norm_std_floor:  {value: 1.0e-6, source: "Appendix B.9; official code AverageMeanStd"}
+  obs_norm_update:     {value: "once per iteration, before epochs", source: "official code learner.py training_step"}
+  value_norm:          {value: average_popart_nocomp, source: "Table 2 C66; official data 'Popart Avg (comp=False)'"}
+  value_norm_divides_advantages: {value: true, source: "official code popart.normalize_advantage "}
+  adv_norm_minibatch:  {value: false, source: "Table 2 C67"}
+  adv_norm_eps:        {value: 1.0e-8, source: "official code policy_losses.AdvantagePreprocessor"}
+  grad_clip:           {value: 0.5, source: "Table 2 C68"}
+  grad_clip_scope:     {value: joint_global, source: "official code ppo_training_step_utils (clip_by_global_norm over all vars)"}
+  optimizer:           {value: adam, source: "Table 2 C23; paper §3.7"}
+  lr:                  {value: 3.0e-4, source: "Table 2 C24; paper §3.7"}
+  adam_b1:             {value: 0.9, source: "Table 2 C26"}
+  adam_b2:             {value: 0.999, source: "Appendix B.5 (TF default)"}
+  adam_eps:            {value: 1.0e-7, source: "Table 2 C28"}
+  adam_eps_form:       {value: eps_hat, source: "official code (tf.keras Adam); ASSUMED fidelity choice "}
+  lr_end_fraction:     {value: 0.0, source: "Table 2 C31 (0.0 = decay to zero)"}
+  lr_decay_unit:       {value: optimizer_step, source: "official code mujoco/ppo_main.create_optimizer PolynomialDecay"}
+  lr_horizon_frames:   {value: 1001472, recheck: " 2026-10-16: decay to 0 over the training run (paper App. B.5/§3.7/Table 2 C31; official learner.py decays over and stops at the same total_environment_frames; the 1M-env curves end at 1M with total_environment_frames_small=1e6). Pre-fix value 2000000  kept as --lr_horizon_frames 2000000 / arms lr2M_*", prefix_value: 2000000, prefix_deviation: ": paper text (App. B.5, §3.7, Table 2 C31) says linear decay to 0; with a 2M horizon lr is ~0.5*lr0 at the 1M budget", source: "official data (every mujoco123 row: total_environment_frames=2e6, curves of the 1M envs truncated at total_environment_frames_small=1e6) + official code learner.py final_iteration=ceil(total_frames/2048) (implementation)"}
+  logp_presquash:      {value: true, source: "official code AT STUDY TIME: seed_rl@68c15aa common/parametric_distribution.py NormalSquashedDistribution (actions stored pre-squash; log_prob = N(x) - postprocessor fldj; study rows' gin keys are NormalTanhDistribution.*, a pre-2020-09-25 class name), differential-tested (tests/test_official_parity.py::test_studyera_*); README. false = released HEAD 0e1e0ac semantics, diagnostic arms X3/X4 only"}
+  eval_det_final:      {value: true, source: "ASSUMED diagnostic (official data '_eval_det' exists); not scored"}
+  nan_rule:            {value: "skip non-finite minibatch updates, flag lane; report score (NaN if flagged) and score_guarded", source: "ASSUMED (amended in implementation before small-scale)"}
+  regularization:      {value: none, source: "Table 2 C32; paper §3.8"}
+  dtype:               {value: float32, source: "ASSUMED (official code float32)"}
+
+# ---------------- BASE (Table 2, separate nets): keys that differ from REC ----------------
+base_overrides:
+  ppo_epsilon:      {value: 0.2, source: "Table 2 C16"}
+  gae_lambda:       {value: 0.95, source: "Table 2 C8"}
+  value_clip_eps:   {value: 0.2, source: "Table 2 C13; official data (non-F experiments)"}
+  batch_mode:       {value: shuffle_transitions, source: "Table 2 C5"}
+  value_width:      {value: 64, source: "Table 2 C50"}
+  std_transform:    {value: safe_exp, source: "Table 2 C60"}
+  initial_std:      {value: 1.0, source: "Table 2 C61"}
+  action_transform: {value: clip, source: "Table 2 C63; official data action_postprocessor=clip"}
+  clip_logprob_at:  {value: raw_presquash_sample, source: "official code at study time seed_rl@68c15aa (ClippedIdentity postprocessor, zero log-det, action stored pre-clip). Released HEAD 0e1e0ac evaluates it at the clipped action: diagnostic arm X3"}
+  shared:           {value: false, source: "official data (: Table 2 'Shared' is a typo)"}
+
+# ---------------- arms (one change from REC) ----------------
+arms:
+  A1_obsnorm_none:    {change: {obs_norm: none}, source: "Figure 33 (C64)"}
+  A2a_lastlayer_1:    {change: {policy_last_init: "orthogonal(gain=1.0)"}, source: "Figure 24 (C57)", recheck: "the paper's arm marginalises 8 sampled kernel_init; ours is the Orthogonal(1) member (matched paper ratio in README)"}
+  A2b_initstd_1:      {change: {initial_std: 1.0}, source: "Figure 2 (C61)"}
+  A2c_initstd_0p1:    {change: {initial_std: 0.1}, source: "Figure 2 (C61); secondary"}
+  A3a_shared_bc1:     {change: {shared: true, shared_width: 64, shared_depth: 2, baseline_cost: 1.0}, source: "Figure 15 (C47) + official data final_arch C54; ASSUMED trunk width 64", confound: ": also cuts value capacity 256 -> 64 (linear head on the 64 trunk)"}
+  A3x_sep_v64:        {change: {v_width: 64}, source: " control (EXTRA): Table 2 C50 value width 64; A3a - A3x varies only C47. Not run (UNREPRODUCIBLE(budget))"}
+  X5_rec_lr_to0_1M:   {change: {lr_horizon_frames: 1001472}, source: " sensitivity (EXTRA): paper-text decay to 0 at the 1M budget. Run in recheck P1 (seeds 0-4); identical to REC after "}
+  lr2M_rec:      {change: {lr_horizon_frames: 2000000}, source: ": the pre-fix  schedule as a labelled sensitivity arm"}
+  lr2M_A5a:      {change: {lr: 1.0e-4, lr_horizon_frames: 2000000}, source: ": A5a under the pre-fix  schedule"}
+  X6_lr1em4_to0_1M:   {change: {lr: 1.0e-4, lr_horizon_frames: 1001472}, source: " sensitivity (EXTRA): A5a with decay to 0 at 1M. Run in recheck P1; identical to A5a after "}
+  A3b_shared_bc0p1:   {change: {shared: true, shared_width: 64, shared_depth: 2, baseline_cost: 0.1}, source: "official data final_arch C54 (no paper figure); secondary"}
+  A3c_shared_bc10:    {change: {shared: true, shared_width: 64, shared_depth: 2, baseline_cost: 10.0}, source: "official data final_arch C54 (no paper figure); secondary"}
+  A4_lambda_0p95:     {change: {gae_lambda: 0.95}, source: "Figure 45 (C8)"}
+  A4b_lambda_0p99:    {change: {gae_lambda: 0.99}, source: "Figure 45 (C8); secondary"}
+  A5a_lr_1em4:        {change: {lr: 1.0e-4}, source: "Figure 69 (C24)"}
+  A5b_lr_1em3:        {change: {lr: 1.0e-3}, source: "Figure 69 (C24)"}
+  A6_entropy_1em3:    {change: {regularization: penalty_entropy, entropy_coef: 1.0e-3}, source: "Figure 81 (C46) + ASSUMED coefficient (README)"}
+  A7_valuenorm_none:  {change: {value_norm: none}, source: "Figure 37 (C66)"}
+  A7b_rewardnorm_ppo2: {change: {reward_norm: ppo2_return_std}, source: "ASSUMED / EXTRA (not in paper or official code); secondary"}
+  A8_advnorm_true:    {change: {adv_norm_minibatch: true}, source: "Figure 35 (C67)"}
+  BASE:               {change: base_overrides, source: "Table 2 "}
+  X1_rec_clip:        {change: {action_transform: clip}, source: "DIAGNOSTIC (implementation, after BASE diverged in dev): C63 one-factor, Figure 17; study-era clip semantics (log-prob at the raw x) since official-code check; small-scale ran it with the HEAD semantics "}
+  X3_base_head:       {change: "base_overrides + logp_presquash: false", source: "DIAGNOSTIC (official-code check): BASE with the released-HEAD clip semantics (log-prob at clip(x)) = the small-scale row labelled BASE"}
+  X4_rec_head:        {change: "logp_presquash: false", source: "DIAGNOSTIC (official-code check): REC with the released-HEAD tanh semantics (store u, 0.999 threshold) = the small-scale row labelled REC"}
+
+# ---------------- EXP-P95 ----------------
+p95:
+  offline_experiment: {value: final_stability, source: "official data; ASSUMED group choice"}
+  subsample_N:        {value: [32, 64, 128, 256], source: "ASSUMED"}
+  subsample_reps:     {value: 2000, source: "ASSUMED"}
+  gpu_grid:           {value: "Appendix F.1 grid: C16 {0.1,0.2,0.3,0.5}; C64 {Average,None} -> C65 {1,2,5,10,None}; C68 {0.5,1,2,5,None}; C67 {F,T}; lr {3e-5,1e-4,3e-4,1e-3}; C66 {Average,None}", source: "Appendix F.1"}
+  gpu_base:           {value: "Table 2 with value clipping disabled", source: "paper footnote 11; official data final_stability (no value_ppo_style_clip_eps)"}
+  gpu_N:              {value: 128, source: "ASSUMED (budget), floor 64"}
+  gpu_seeds_per_config: {value: 3, source: "paper §2"}
+
+# ---------------- small-scale (implementation) ----------------
+small:
+  seeds:          {value: [1000, 1001, 1002], source: "ASSUMED (direction only; disjoint from full-scale seeds 0-7)"}
+  eval_episodes:  {value: 20, source: "ASSUMED (budget; paper §2 uses 100, kept for full-scale)"}
+  arms:           {value: "REC + 11 primary + 5 secondary + 2 diagnostic", source: "README"}
+  root_seed:      {value: 20210101, source: "ASSUMED (one top-level seed, README)"}

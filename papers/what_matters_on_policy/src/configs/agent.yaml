@@ -1,0 +1,102 @@
+# REC = the paper's recommended configuration (anchor of one-factor experiment) and the one-factor arms.
+# Every key is traced in sources.yaml (copy of src/configs/sources.yaml);
+# the inline tag repeats it. Arms change exactly the keys listed (automated diff in tests/test_smoke.py).
+static:
+  num_envs: 256            # Table 2 C1
+  iteration_size: 2048     # Table 2 C2  -> unroll 8
+  epochs: 10               # Table 2 C3
+  minibatch: 64            # Table 2 C4
+  episode_length: 1000     # paper §3.6
+  total_env_steps: 1001472 # paper §2 (1M) + ASSUMED finish the crossing iteration (489 x 2048)
+  lr_horizon_frames: 1001472  #  (2026-10-16): lr decays linearly to 0 over the training run (= total_env_steps).
+                              # Paper App. B.5 / §3.7 / Table 2 C31 = 0.0 ('decay to 0'); official learner.py:156-158/247-249
+                              # derives decay_steps from total_environment_frames and learner.py:569 stops at the same value,
+                              # so the decay ends where training ends; the 1M-env curves in the authors' data end at 1M
+                              # (total_environment_frames_small = 1e6). Pre-fix  (2M, lr ~ lr0/2 at 1M) is reproduced by
+                              # `--lr_horizon_frames 2000000` or the lr2M_* arms (labelled sensitivity).
+  eval_every: 100000       # paper §2
+  eval_episodes: 100       # paper §2
+  pi_width: 64             # Table 2 C49 (paper: tune; base kept, ASSUMED)
+  pi_depth: 2              # Table 2 C52
+  v_depth: 2               # Table 2 C53
+rec:
+  obs_norm: true           # Table 2 C64 / paper §3.3
+  obs_clip: 10.0           # Table 2 C65
+  tanh: true               # paper §3.2 recommendation (C63)
+  softplus: true           # paper §3.2 recommendation (C60)
+  init_std: 0.5            # paper §3.2 / Figure 2 (C61)
+  min_std: 0.001           # Table 2 C62
+  ppo_eps: 0.25            # paper §3.1 ('start with 0.25')
+  vclip_eps: 0.0           # paper §3.4 (no PPO-style value clipping); 0 = off
+  gae_lambda: 0.9          # paper §3.4 / Figure 45
+  gamma: 0.99              # Table 2 C20
+  lr: 0.0003               # Table 2 C24 / paper §3.7
+  lr_horizon_frames: null  # null = static.lr_horizon_frames (the training length); set per arm only by sensitivity arms
+  lr_end: 0.0              # Table 2 C31: end value of the decay is 0, reached at the end of training 
+  adam_b1: 0.9             # Table 2 C26
+  adam_b2: 0.999           # Appendix B.5 (TF default)
+  adam_eps: 1.0e-7         # Table 2 C28 (keras eps-hat form)
+  grad_clip: 0.5           # Table 2 C68 (joint global norm)
+  ent_coef: 0.0            # paper §3.8 (no regulariser)
+  value_norm: true         # Table 2 C66 (PopArt Avg, compensate=False; advantages / std)
+                           # NOTE: following the official code this ALSO divides the advantages by the
+                           # target std and updates the stats on every advantage recompute (10x/iteration); App. B.9
+                           # describes target normalisation only. Arm A7 therefore removes both mechanisms -- as does the
+                           # study's own C66=None arm (reward_normalizer unset -> no normalize_advantage).
+  adv_norm: false          # Table 2 C67
+  recompute: true          # paper §3.5 (C5 'shuffle transitions (recompute advantages)')
+  shared: false            # paper §3.2; official data shared=False 
+  baseline_cost: 1.0       # official GeneralizedOnPolicyLoss default 
+  reward_norm: false       # not a paper choice 
+  logp_presquash: true     # official code AT STUDY TIME (seed_rl@68c15aa; study rows' gin keys NormalTanhDistribution.*):
+                           # store the pre-squash x, log-prob at x minus the postprocessor log-det (README)
+  v_width: 256             # paper §3.2 'wide value MLP' + ASSUMED width 256
+  pi_last_gain: 0.01       # Table 2 C57 / official gin policy/Orthogonal.gain=0.01 
+                           #  called this a 1/sqrt(2) deviation from Table 2 (C56 Orthogonal(1.41) x C57).
+                           # WITHDRAWN by the recheck: the study rows of the non-architecture experiments
+                           # bind policy gain 0.01, value 1 and hidden sqrt2 as ABSOLUTE gains, exactly as here. The
+                           # paper's A2a arm (final_arch2) is last layer = kernel_init (8 sampled initialisers) x scaling;
+                           # ours is the Orthogonal(1) member (README).
+arms:                      # one change from REC each (BASE: Table 2 with separate nets)
+  REC: {}
+  BASE: {ppo_eps: 0.2, gae_lambda: 0.95, vclip_eps: 0.2, recompute: false, v_width: 64, softplus: false,
+         init_std: 1.0, tanh: false}                       # Table 2 (study-era clip semantics)
+  A1_obsnorm_none: {obs_norm: false}                       # Figure 33 (C64)
+  A2a_lastlayer_1: {pi_last_gain: 1.0}                     # Figure 24 (C57)
+  A2b_initstd_1: {init_std: 1.0}                           # Figure 2 (C61)
+  A3a_shared_bc1: {shared: true, baseline_cost: 1.0}       # Figure 15 (C47) + official data C54; trunk 64x2 
+                                                           # CONFOUND: also cuts value capacity 256 -> 64;
+                                                           # control arm A3x_sep_v64 isolates C47 at matched width
+  A4_lambda_0p95: {gae_lambda: 0.95}                       # Figure 45 (C8)
+  A5a_lr_1em4: {lr: 0.0001}                                # Figure 69 (C24)
+  A5b_lr_1em3: {lr: 0.001}                                 # Figure 69 (C24)
+  A6_entropy_1em3: {ent_coef: 0.001}                       # Figure 81 (C46) + ASSUMED coefficient
+  A7_valuenorm_none: {value_norm: false}                   # Figure 37 (C66)
+  A8_advnorm_true: {adv_norm: true}                        # Figure 35 (C67)
+  # secondary (exploratory)
+  A2c_initstd_0p1: {init_std: 0.1}                         # Figure 2 (C61)
+  A3b_shared_bc0p1: {shared: true, baseline_cost: 0.1}     # official data final_arch C54
+  A3c_shared_bc10: {shared: true, baseline_cost: 10.0}     # official data final_arch C54
+  A4b_lambda_0p99: {gae_lambda: 0.99}                      # Figure 45 (C8)
+  A7b_rewardnorm_ppo2: {reward_norm: true}                 # ASSUMED / EXTRA 
+  A3x_sep_v64: {v_width: 64}                               #  control: separate nets, value MLP 64x2 = Table 2 C50/C53;
+                                                           # A3a - A3x varies ONLY C47 (shared trunk) at equal value width
+  X5_rec_lr_to0_1M: {lr_horizon_frames: 1001472}           #  sensitivity (EXTRA): lr decays to 0 at the 1M budget
+  X6_lr1em4_to0_1M: {lr: 0.0001, lr_horizon_frames: 1001472}  #  sensitivity (EXTRA): A5a with lr -> 0 at 1M
+  #  pre-fix sensitivity: lr decays over 2M frames (lr ~ lr0/2 at the 1M scoring end). After, X5/X6 are
+  # identical to REC/A5a (same resolved config, same keys -> same lanes).
+  lr2M_rec: {lr_horizon_frames: 2000000}
+  lr2M_A5a: {lr: 0.0001, lr_horizon_frames: 2000000}
+  # diagnostics (EXTRA, not paper arms). small-scale ran with released-HEAD semantics everywhere; official-code check found the
+  # study used the pre-squash semantics: small-scale "BASE" = X3 below, small-scale "X2_base_rawlogp" = BASE above,
+  # small-scale "REC" = X4 below.
+  X1_rec_clip: {tanh: false}                               # C63 one-factor: REC with the clip transform (Fig. 17)
+  X3_base_head: {ppo_eps: 0.2, gae_lambda: 0.95, vclip_eps: 0.2, recompute: false, v_width: 64, softplus: false,
+                 init_std: 1.0, tanh: false, logp_presquash: false}   # BASE with released-HEAD log-prob at clip(x) 
+  X4_rec_head: {logp_presquash: false}                     # REC with released-HEAD tanh semantics (store u, 0.999)
+primary: [BASE, A1_obsnorm_none, A2a_lastlayer_1, A2b_initstd_1, A3a_shared_bc1, A4_lambda_0p95, A5a_lr_1em4,
+          A5b_lr_1em3, A6_entropy_1em3, A7_valuenorm_none, A8_advnorm_true]
+secondary: [A2c_initstd_0p1, A3b_shared_bc0p1, A3c_shared_bc10, A4b_lambda_0p99, A7b_rewardnorm_ppo2]
+review: [A3x_sep_v64, X5_rec_lr_to0_1M, X6_lr1em4_to0_1M]
+recheck: [lr2M_rec, lr2M_A5a]
+diagnostic: [X1_rec_clip, X3_base_head, X4_rec_head]

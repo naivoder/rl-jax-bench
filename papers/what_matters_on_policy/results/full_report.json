@@ -1,0 +1,1119 @@
+{
+ "primary": [
+  {
+   "arm": "A1_obsnorm_none",
+   "n": 5,
+   "excluded_seeds": [],
+   "mean": 2969.430419921875,
+   "se": 299.96577885425324,
+   "rho": 0.5619040527338471,
+   "diff_mean": -2315.155810546875,
+   "diff_se": 547.2502376237429,
+   "t95": [
+    -3834.566054115645,
+    -795.7455669781045
+   ],
+   "rel_t95": [
+    -0.7256133000550005,
+    -0.15057859447730515
+   ],
+   "diff_per_seed": [
+    -2025.385,
+    -4374.555,
+    -1097.965,
+    -1915.618,
+    -2162.255
+   ],
+   "t": -4.230524998215971,
+   "t_p": 0.013364437412030172,
+   "boot95": [
+    -3412.933935546875,
+    -1474.35361328125
+   ],
+   "wins": 0,
+   "wilcoxon_p": 0.0625,
+   "rel_improvement": -0.43809594726615286,
+   "rel_boot95": [
+    -0.5923734078090327,
+    -0.31100239667073515
+   ],
+   "p_holm": 0.12027993670827154,
+   "rho_paper": 0.51772030651341,
+   "paper_spread": [
+    0.4661283086585913,
+    0.654045643153527
+   ],
+   "paper_arm_q95": [
+    1081.0,
+    1039.0,
+    1261.0,
+    987
+   ],
+   "paper_rec_q95": [
+    2088.0,
+    1928.0,
+    2229.0,
+    1013
+   ],
+   "paper_boot95": [
+    0.4851991850762832,
+    0.6000785869979909
+   ],
+   "paper_ci_clamped": {
+    "arm": false,
+    "rec": false
+   },
+   "rho_t95": [
+    0.27438669994499953,
+    0.8494214055226949
+   ],
+   "delta_pct": 8.534288816676492,
+   "paper_boot_excludes_ours": false,
+   "judgment": "MATCH",
+   "why": "inside paper spread",
+   "judgment_generic": "MATCH",
+   "why_generic": "inside paper spread",
+   "judgment_ci": "REPRODUCED-DIRECTION",
+   "why_ci": "our t95 excludes 1 on the paper's side and contains its point",
+   "claim": "Q1"
+  },
+  {
+   "arm": "A2a_lastlayer_1",
+   "n": 5,
+   "excluded_seeds": [],
+   "mean": 5199.31376953125,
+   "se": 574.5126353989746,
+   "rho": 0.9838639285615487,
+   "diff_mean": -85.2724609375,
+   "diff_se": 535.7250507972204,
+   "t95": [
+    -1572.683655955282,
+    1402.138734080282
+   ],
+   "rel_t95": [
+    -0.2975982579086012,
+    0.26532611503169856
+   ],
+   "diff_per_seed": [
+    -1745.786,
+    -691.513,
+    408.491,
+    168.909,
+    1433.537
+   ],
+   "t": -0.15917206188249883,
+   "t_p": 0.8812469072304192,
+   "boot95": [
+    -1104.07607421875,
+    803.51787109375
+   ],
+   "wins": 3,
+   "wilcoxon_p": 1.0,
+   "rel_improvement": -0.016136071438451336,
+   "rel_boot95": [
+    -0.1945078353606786,
+    0.15310832560244464
+   ],
+   "p_holm": 1.0,
+   "rho_paper": 0.8120198825124265,
+   "paper_spread": [
+    0.6936204794798863,
+    1.0684647302904564
+   ],
+   "paper_arm_q95": [
+    1797.0,
+    1707.0,
+    2060.0,
+    1023
+   ],
+   "paper_rec_q95": [
+    2213.0,
+    1928.0,
+    2461.0,
+    988
+   ],
+   "paper_boot95": [
+    0.7164889219099516,
+    0.9922833165174578
+   ],
+   "paper_ci_clamped": {
+    "arm": false,
+    "rec": false
+   },
+   "rho_t95": [
+    0.7024017420913988,
+    1.2653261150316986
+   ],
+   "delta_pct": 21.162541675387168,
+   "paper_boot_excludes_ours": false,
+   "judgment": "CONFLICT",
+   "why": "MATCH clause (inside spread, signs agree) and DIVERGENT clause (gap > 20 %) both hold",
+   "judgment_generic": "MATCH",
+   "why_generic": "inside paper spread; gap > 20 %",
+   "judgment_ci": "INCONCLUSIVE",
+   "why_ci": "our t95 contains both 1 and the paper's point ratio",
+   "claim": "Q2a"
+  },
+  {
+   "arm": "A2b_initstd_1",
+   "n": 5,
+   "excluded_seeds": [],
+   "mean": 6151.597265625,
+   "se": 372.27810436145256,
+   "rho": 1.1640641286459517,
+   "diff_mean": 867.01103515625,
+   "diff_se": 320.932398539863,
+   "t95": [
+    -24.040151869140118,
+    1758.0622221816402
+   ],
+   "rel_t95": [
+    -0.004549107691825425,
+    0.33267736498372885
+   ],
+   "diff_per_seed": [
+    1221.642,
+    902.083,
+    1420.639,
+    -373.263,
+    1163.955
+   ],
+   "t": 2.7015378911598376,
+   "t_p": 0.05400822252813267,
+   "boot95": [
+    241.62392578125,
+    1289.70302734375
+   ],
+   "wins": 4,
+   "wilcoxon_p": 0.125,
+   "rel_improvement": 0.16406412864595168,
+   "rel_boot95": [
+    0.045424508370187196,
+    0.2623381981044713
+   ],
+   "p_holm": 0.43206578022506137,
+   "rho_paper": 0.5645782289114456,
+   "paper_spread": [
+    0.49430153044610875,
+    0.6463414634146342
+   ],
+   "paper_arm_q95": [
+    1613.0,
+    1518.0,
+    1749.0,
+    1064
+   ],
+   "paper_rec_q95": [
+    2857.0,
+    2706.0,
+    3071.0,
+    949
+   ],
+   "paper_boot95": [
+    0.5164723296776043,
+    0.6142206430459901
+   ],
+   "paper_ci_clamped": {
+    "arm": false,
+    "rec": false
+   },
+   "rho_t95": [
+    0.9954508923081746,
+    1.332677364983729
+   ],
+   "delta_pct": 106.18296438570886,
+   "paper_boot_excludes_ours": true,
+   "judgment": "DIVERGENT",
+   "why": "gap > 20 %",
+   "judgment_generic": "DIVERGENT",
+   "why_generic": "gap > 20 %, outside spread",
+   "judgment_ci": "INCONSISTENT",
+   "why_ci": "our t95 excludes the paper's point ratio",
+   "claim": "Q2b"
+  },
+  {
+   "arm": "A3a_shared_bc1",
+   "n": 5,
+   "excluded_seeds": [],
+   "mean": 4763.25771484375,
+   "se": 463.06752592800456,
+   "rho": 0.9013492271884536,
+   "diff_mean": -521.328515625,
+   "diff_se": 472.5046245593718,
+   "t95": [
+    -1833.211667666189,
+    790.5546364161888
+   ],
+   "rel_t95": [
+    -0.3468978625226408,
+    0.1495963168995476
+   ],
+   "diff_per_seed": [
+    865.785,
+    -1786.241,
+    -1216.386,
+    -618.266,
+    148.465
+   ],
+   "t": -1.1033299750476693,
+   "t_p": 0.33179600978054796,
+   "boot95": [
+    -1324.70390625,
+    305.88681640625
+   ],
+   "wins": 2,
+   "wilcoxon_p": 0.4375,
+   "rel_improvement": -0.09865077281154648,
+   "rel_boot95": [
+    -0.2487104520571107,
+    0.06091991832406517
+   ],
+   "p_holm": 1.0,
+   "rho_paper": 1.0077220077220077,
+   "paper_spread": [
+    0.7935560859188544,
+    1.3012156686177399
+   ],
+   "paper_arm_q95": [
+    2349.0,
+    1995.0,
+    2890.0,
+    213
+   ],
+   "paper_rec_q95": [
+    2331.0,
+    2221.0,
+    2514.0,
+    1019
+   ],
+   "paper_boot95": [
+    0.8052143756062334,
+    1.2180737723562456
+   ],
+   "paper_ci_clamped": {
+    "arm": false,
+    "rec": false
+   },
+   "rho_t95": [
+    0.6531021374773591,
+    1.1495963168995476
+   ],
+   "delta_pct": -10.5557663441343,
+   "paper_boot_excludes_ours": false,
+   "tost_p": 0.49434157550208735,
+   "judgment": "MATCH",
+   "why": "inside paper spread",
+   "judgment_generic": "MATCH",
+   "why_generic": "inside paper spread",
+   "judgment_ci": "INCONCLUSIVE",
+   "why_ci": "our t95 contains both 1 and the paper's point ratio",
+   "claim": "Q3"
+  },
+  {
+   "arm": "A4_lambda_0p95",
+   "n": 5,
+   "excluded_seeds": [],
+   "mean": 5333.88095703125,
+   "se": 179.55296618690627,
+   "rho": 1.0093280200970678,
+   "diff_mean": 49.2947265625,
+   "diff_se": 321.94097796263117,
+   "t95": [
+    -844.5567258644379,
+    943.146178989438
+   ],
+   "rel_t95": [
+    -0.15981510926911768,
+    0.17847114946325318
+   ],
+   "diff_per_seed": [
+    542.1,
+    -1119.045,
+    347.197,
+    628.621,
+    -152.399
+   ],
+   "t": 0.15311727905672762,
+   "t_p": 0.8857195195464097,
+   "boot95": [
+    -576.1826171875,
+    537.72783203125
+   ],
+   "wins": 3,
+   "wilcoxon_p": 0.8125,
+   "rel_improvement": 0.009328020097067714,
+   "rel_boot95": [
+    -0.09865996018860557,
+    0.10714143393968419
+   ],
+   "p_holm": 1.0,
+   "rho_paper": 0.802356722013926,
+   "paper_spread": [
+    0.500617538081515,
+    1.281870595771941
+   ],
+   "paper_arm_q95": [
+    1498.0,
+    1216.0,
+    2001.0,
+    330
+   ],
+   "paper_rec_q95": [
+    1867.0,
+    1561.0,
+    2429.0,
+    351
+   ],
+   "paper_boot95": [
+    0.6075092811391505,
+    1.1326269486409464
+   ],
+   "paper_ci_clamped": {
+    "arm": false,
+    "rec": false
+   },
+   "rho_t95": [
+    0.8401848907308823,
+    1.1784711494632532
+   ],
+   "delta_pct": 25.795421463366196,
+   "paper_boot_excludes_ours": false,
+   "judgment": "DIVERGENT",
+   "why": "gap > 20 %",
+   "judgment_generic": "MATCH",
+   "why_generic": "inside paper spread; gap > 20 %",
+   "judgment_ci": "INCONSISTENT",
+   "why_ci": "our t95 excludes the paper's point ratio",
+   "claim": "Q4"
+  },
+  {
+   "arm": "A5a_lr_1em4",
+   "n": 5,
+   "excluded_seeds": [],
+   "mean": 5483.14794921875,
+   "se": 197.20163462215993,
+   "rho": 1.0375737494082649,
+   "diff_mean": 198.56171875,
+   "diff_se": 176.1783056969547,
+   "t95": [
+    -290.5876757443504,
+    687.7111132443504
+   ],
+   "rel_t95": [
+    -0.054987782027085,
+    0.13013528084361478
+   ],
+   "diff_per_seed": [
+    785.002,
+    -185.954,
+    402.49,
+    -54.696,
+    45.966
+   ],
+   "t": 1.1270497690649104,
+   "t_p": 0.3227544232126462,
+   "boot95": [
+    -87.0666015625,
+    540.56005859375
+   ],
+   "wins": 3,
+   "wilcoxon_p": 0.625,
+   "rel_improvement": 0.03757374940826493,
+   "rel_boot95": [
+    -0.015401873266168133,
+    0.10853136674503719
+   ],
+   "p_holm": 1.0,
+   "rho_paper": 0.797649034424853,
+   "paper_spread": [
+    0.6913489736070382,
+    0.8344827586206897
+   ],
+   "paper_arm_q95": [
+    950.0,
+    943.0,
+    968.0,
+    268
+   ],
+   "paper_rec_q95": [
+    1191.0,
+    1160.0,
+    1364.0,
+    274
+   ],
+   "paper_boot95": [
+    0.7343068550528402,
+    0.8268280442648792
+   ],
+   "paper_ci_clamped": {
+    "arm": false,
+    "rec": false
+   },
+   "rho_t95": [
+    0.945012217972915,
+    1.1301352808436147
+   ],
+   "delta_pct": 30.078982688973,
+   "paper_boot_excludes_ours": true,
+   "judgment": "DIVERGENT",
+   "why": "gap > 20 %",
+   "judgment_generic": "DIVERGENT",
+   "why_generic": "gap > 20 %, outside spread",
+   "judgment_ci": "INCONSISTENT",
+   "why_ci": "our t95 excludes the paper's point ratio",
+   "claim": "Q5"
+  },
+  {
+   "arm": "A6_entropy_1em3",
+   "n": 5,
+   "excluded_seeds": [],
+   "mean": 5198.41572265625,
+   "se": 150.28232052181198,
+   "rho": 0.9836939915341573,
+   "diff_mean": -86.1705078125,
+   "diff_se": 222.7849189939047,
+   "t95": [
+    -704.7206056650136,
+    532.3795900400137
+   ],
+   "rel_t95": [
+    -0.13335397984460629,
+    0.1007419629129206
+   ],
+   "diff_per_seed": [
+    306.088,
+    -637.056,
+    331.943,
+    188.335,
+    -620.164
+   ],
+   "t": -0.3867878858301786,
+   "t_p": 0.7186091582352448,
+   "boot95": [
+    -465.22060546875,
+    292.87958984375
+   ],
+   "wins": 3,
+   "wilcoxon_p": 0.8125,
+   "rel_improvement": -0.016306008465842785,
+   "rel_boot95": [
+    -0.08171173168887771,
+    0.06006880372411778
+   ],
+   "p_holm": 1.0,
+   "rho_paper": 1.1709166092350103,
+   "paper_spread": [
+    0.8192234245703374,
+    1.6164584864070537
+   ],
+   "paper_arm_q95": [
+    1699.0,
+    1287.0,
+    2200.0,
+    40
+   ],
+   "paper_rec_q95": [
+    1451.0,
+    1361.0,
+    1571.0,
+    1337
+   ],
+   "paper_boot95": [
+    0.7114755227736483,
+    1.5495998494779295
+   ],
+   "paper_ci_clamped": {
+    "arm": true,
+    "rec": false
+   },
+   "rho_t95": [
+    0.8666460201553937,
+    1.1007419629129207
+   ],
+   "delta_pct": -15.98940660882506,
+   "paper_boot_excludes_ours": false,
+   "tost_p": 0.059043922434429574,
+   "judgment": "UNCLASSIFIED",
+   "why": "no clause applies: gap <= 20 %, point-estimate signs differ, not Holm-significant",
+   "judgment_generic": "MATCH",
+   "why_generic": "inside paper spread; paper CI clamped at the max (not counted as reproduction)",
+   "judgment_ci": "INCONSISTENT",
+   "why_ci": "our t95 excludes the paper's point ratio",
+   "claim": "Q6"
+  },
+  {
+   "arm": "A7_valuenorm_none",
+   "n": 5,
+   "excluded_seeds": [],
+   "mean": 5100.79931640625,
+   "se": 180.20506078966528,
+   "rho": 0.9652220805854468,
+   "diff_mean": -183.7869140625,
+   "diff_se": 281.6307080474164,
+   "t95": [
+    -965.7191148941381,
+    598.1452867691382
+   ],
+   "rel_t95": [
+    -0.1827426165034831,
+    0.11318677767437658
+   ],
+   "diff_per_seed": [
+    392.907,
+    -1238.425,
+    38.858,
+    -228.357,
+    116.083
+   ],
+   "t": -0.6525812307071178,
+   "t_p": 0.5496303151490716,
+   "boot95": [
+    -712.06689453125,
+    213.28916015625
+   ],
+   "wins": 3,
+   "wilcoxon_p": 1.0,
+   "rel_improvement": -0.03477791941455323,
+   "rel_boot95": [
+    -0.1310785671971413,
+    0.04144658660491851
+   ],
+   "p_holm": 1.0,
+   "rho_paper": 0.7230688386757751,
+   "paper_spread": [
+    0.6171128107074569,
+    0.9536348025186033
+   ],
+   "paper_arm_q95": [
+    1376.0,
+    1291.0,
+    1666.0,
+    1002
+   ],
+   "paper_rec_q95": [
+    1903.0,
+    1747.0,
+    2092.0,
+    998
+   ],
+   "paper_boot95": [
+    0.6468524500105814,
+    0.8803434590304369
+   ],
+   "paper_ci_clamped": {
+    "arm": false,
+    "rec": false
+   },
+   "rho_t95": [
+    0.8172573834965169,
+    1.1131867776743767
+   ],
+   "delta_pct": 33.48965256933904,
+   "paper_boot_excludes_ours": true,
+   "judgment": "DIVERGENT",
+   "why": "gap > 20 %",
+   "judgment_generic": "DIVERGENT",
+   "why_generic": "gap > 20 %, outside spread",
+   "judgment_ci": "INCONSISTENT",
+   "why_ci": "our t95 excludes the paper's point ratio",
+   "claim": "Q7"
+  },
+  {
+   "arm": "A8_advnorm_true",
+   "n": 5,
+   "excluded_seeds": [],
+   "mean": 5387.0818359375,
+   "se": 248.70749629494048,
+   "rho": 1.0193951997372666,
+   "diff_mean": 102.49560546875,
+   "diff_se": 396.2468559625365,
+   "t95": [
+    -997.6620382184494,
+    1202.6532491559494
+   ],
+   "rel_t95": [
+    -0.1887871622694584,
+    0.22757756174399155
+   ],
+   "diff_per_seed": [
+    -208.036,
+    -575.488,
+    1419.995,
+    568.17,
+    -692.163
+   ],
+   "t": 0.2586660409450429,
+   "t_p": 0.8086580073578817,
+   "boot95": [
+    -548.667578125,
+    850.53349609375
+   ],
+   "wins": 2,
+   "wilcoxon_p": 1.0,
+   "rel_improvement": 0.019395199737266566,
+   "rel_boot95": [
+    -0.09701902129240897,
+    0.17024059743864947
+   ],
+   "p_holm": 1.0,
+   "rho_paper": 0.9466292134831461,
+   "paper_spread": [
+    0.7507598784194529,
+    1.1642633228840125
+   ],
+   "paper_arm_q95": [
+    1685.0,
+    1482.0,
+    1857.0,
+    959
+   ],
+   "paper_rec_q95": [
+    1780.0,
+    1595.0,
+    1974.0,
+    1041
+   ],
+   "paper_boot95": [
+    0.8091322707060605,
+    1.1016228768996428
+   ],
+   "paper_ci_clamped": {
+    "arm": false,
+    "rec": false
+   },
+   "rho_t95": [
+    0.8112128377305416,
+    1.2275775617439915
+   ],
+   "delta_pct": 7.686851960375929,
+   "paper_boot_excludes_ours": false,
+   "tost_p": 0.1714492136679399,
+   "judgment": "UNCLASSIFIED",
+   "why": "no clause applies: gap <= 20 %, point-estimate signs differ, not Holm-significant",
+   "judgment_generic": "MATCH",
+   "why_generic": "inside paper spread",
+   "judgment_ci": "INCONCLUSIVE",
+   "why_ci": "our t95 contains both 1 and the paper's point ratio",
+   "claim": "Q8"
+  }
+ ],
+ "secondary": {
+  "base_vs_rec": {
+   "base_mean": 1648.9119873046875,
+   "base_se": 206.3278043145867,
+   "n_base": 3,
+   "rho": 0.3120229125598783,
+   "welch_t": -10.70861477264461,
+   "welch_p": 4.067577234912635e-05
+  },
+  "small_halfcheetah_side_by_side": [
+   {
+    "arm": "A1_obsnorm_none",
+    "n": 3,
+    "semantics": "released-HEAD (X4-like)",
+    "diff_mean": -1944.1236979166667,
+    "diff_se": 246.6328638303976,
+    "rho": 0.6956833036554372
+   },
+   {
+    "arm": "A2a_lastlayer_1",
+    "n": 3,
+    "semantics": "released-HEAD (X4-like)",
+    "diff_mean": -1298.0550130208333,
+    "diff_se": 331.58385366220995,
+    "rho": 0.7968134364807631
+   },
+   {
+    "arm": "A2b_initstd_1",
+    "n": 3,
+    "semantics": "released-HEAD (X4-like)",
+    "diff_mean": 32.255696614583336,
+    "diff_se": 215.9319175475843,
+    "rho": 1.0050490341960037
+   },
+   {
+    "arm": "A3a_shared_bc1",
+    "n": 3,
+    "semantics": "released-HEAD (X4-like)",
+    "diff_mean": -929.7439778645834,
+    "diff_se": 587.5424955753017,
+    "rho": 0.8544657337939973
+   },
+   {
+    "arm": "A4_lambda_0p95",
+    "n": 3,
+    "semantics": "released-HEAD (X4-like)",
+    "diff_mean": -485.7423502604167,
+    "diff_se": 107.04381425917398,
+    "rho": 0.9239659968836871
+   },
+   {
+    "arm": "A5a_lr_1em4",
+    "n": 3,
+    "semantics": "released-HEAD (X4-like)",
+    "diff_mean": -504.1689453125,
+    "diff_se": 69.35621539449606,
+    "rho": 0.9210816533940531
+   },
+   {
+    "arm": "A6_entropy_1em3",
+    "n": 3,
+    "semantics": "released-HEAD (X4-like)",
+    "diff_mean": -754.19921875,
+    "diff_se": 25.939318601592017,
+    "rho": 0.8819440270793467
+   },
+   {
+    "arm": "A7_valuenorm_none",
+    "n": 3,
+    "semantics": "released-HEAD (X4-like)",
+    "diff_mean": -2134.11083984375,
+    "diff_se": 157.32518161383527,
+    "rho": 0.6659443217989063
+   },
+   {
+    "arm": "A8_advnorm_true",
+    "n": 3,
+    "semantics": "released-HEAD (X4-like)",
+    "diff_mean": -227.6494140625,
+    "diff_se": 363.696279736198,
+    "rho": 0.9643656842995568
+   }
+  ],
+  "small_quarantined": [
+   {
+    "env": "walker2d",
+    "arm": "A1_obsnorm_none",
+    "rho": 0.7074864718316616,
+    "diff": -495.8489583333333,
+    "n_finite": 3,
+    "rho_paper": 0.5,
+    "spread": [
+     0.4641350210970464,
+     0.5533024333719583
+    ],
+    "status": "QUARANTINED (released-HEAD semantics, n = 3; no judgment)"
+   },
+   {
+    "env": "walker2d",
+    "arm": "A2a_lastlayer_1",
+    "rho": 0.4237398695814264,
+    "diff": -976.8368225097656,
+    "n_finite": 3,
+    "rho_paper": 0.9019316493313522,
+    "spread": [
+     0.7526595744680851,
+     1.0079239302694136
+    ],
+    "status": "QUARANTINED (released-HEAD semantics, n = 3; no judgment)"
+   },
+   {
+    "env": "walker2d",
+    "arm": "A2b_initstd_1",
+    "rho": 0.8686236149846721,
+    "diff": -222.70027669270834,
+    "n_finite": 3,
+    "rho_paper": 0.8845108695652174,
+    "spread": [
+     0.7458033573141487,
+     1.0347826086956522
+    ],
+    "status": "QUARANTINED (released-HEAD semantics, n = 3; no judgment)"
+   },
+   {
+    "env": "walker2d",
+    "arm": "A3a_shared_bc1",
+    "rho": 1.0978190670630512,
+    "diff": 165.81620279947916,
+    "n_finite": 3,
+    "rho_paper": 1.386605783866058,
+    "spread": [
+     0.9633286318758815,
+     1.805111821086262
+    ],
+    "status": "QUARANTINED (released-HEAD semantics, n = 3; no judgment)"
+   },
+   {
+    "env": "walker2d",
+    "arm": "A4_lambda_0p95",
+    "rho": 0.8586200040485308,
+    "diff": -239.65771484375,
+    "n_finite": 3,
+    "rho_paper": 0.8902132998745295,
+    "spread": [
+     0.7082199237887861,
+     1.1956214689265536
+    ],
+    "status": "QUARANTINED (released-HEAD semantics, n = 3; no judgment)"
+   },
+   {
+    "env": "walker2d",
+    "arm": "A5a_lr_1em4",
+    "rho": 0.23886143940512858,
+    "diff": -1290.2301127115886,
+    "n_finite": 3,
+    "rho_paper": 0.6519916142557652,
+    "spread": [
+     0.5355239786856127,
+     0.7835648148148148
+    ],
+    "status": "QUARANTINED (released-HEAD semantics, n = 3; no judgment)"
+   },
+   {
+    "env": "walker2d",
+    "arm": "A6_entropy_1em3",
+    "rho": 0.9495681627147404,
+    "diff": -85.48860677083333,
+    "n_finite": 3,
+    "rho_paper": 0.9070321811680572,
+    "spread": [
+     0.7302483069977427,
+     1.0163727959697733
+    ],
+    "status": "QUARANTINED (released-HEAD semantics, n = 3; no judgment)"
+   },
+   {
+    "env": "walker2d",
+    "arm": "A7_valuenorm_none",
+    "rho": 1.4366300630609203,
+    "diff": 740.1454671223959,
+    "n_finite": 3,
+    "rho_paper": 1.7159420289855072,
+    "spread": [
+     1.5711662075298438,
+     1.9453044375644994
+    ],
+    "status": "QUARANTINED (released-HEAD semantics, n = 3; no judgment)"
+   },
+   {
+    "env": "walker2d",
+    "arm": "A8_advnorm_true",
+    "rho": 0.9144011300936301,
+    "diff": -145.10135904947916,
+    "n_finite": 3,
+    "rho_paper": 0.9637635092180546,
+    "spread": [
+     0.8245816503173687,
+     1.1537921348314606
+    ],
+    "status": "QUARANTINED (released-HEAD semantics, n = 3; no judgment)"
+   },
+   {
+    "env": "walker2d",
+    "arm": "A5b_lr_1em3",
+    "rho": 0.9647421118760335,
+    "diff": -59.766764322916664,
+    "n_finite": 3,
+    "rho_paper": 0.9832285115303984,
+    "spread": [
+     0.7477797513321492,
+     1.2951388888888888
+    ],
+    "status": "QUARANTINED (released-HEAD semantics, n = 3; no judgment)"
+   },
+   {
+    "env": "hopper",
+    "arm": "A1_obsnorm_none",
+    "rho": 0.5410205035791147,
+    "diff": -725.6060384114584,
+    "n_finite": 3,
+    "rho_paper": 1.0024081878386515,
+    "spread": [
+     0.970919881305638,
+     1.0467692307692307
+    ],
+    "status": "QUARANTINED (released-HEAD semantics, n = 3; no judgment)"
+   },
+   {
+    "env": "hopper",
+    "arm": "A2a_lastlayer_1",
+    "rho": 0.8149565594066891,
+    "diff": -292.53733317057294,
+    "n_finite": 3,
+    "rho_paper": 0.9740740740740741,
+    "spread": [
+     0.902072909220872,
+     1.0464584920030464
+    ],
+    "status": "QUARANTINED (released-HEAD semantics, n = 3; no judgment)"
+   },
+   {
+    "env": "hopper",
+    "arm": "A2b_initstd_1",
+    "rho": 1.3854439169077601,
+    "diff": 609.352783203125,
+    "n_finite": 3,
+    "rho_paper": 1.1077283372365339,
+    "spread": [
+     1.0313432835820895,
+     1.182182985553772
+    ],
+    "status": "QUARANTINED (released-HEAD semantics, n = 3; no judgment)"
+   },
+   {
+    "env": "hopper",
+    "arm": "A3a_shared_bc1",
+    "rho": 1.0640765706492132,
+    "diff": 101.29939778645833,
+    "n_finite": 3,
+    "rho_paper": 0.9808823529411764,
+    "spread": [
+     0.8518258426966292,
+     1.1221198156682028
+    ],
+    "status": "QUARANTINED (released-HEAD semantics, n = 3; no judgment)"
+   },
+   {
+    "env": "hopper",
+    "arm": "A4_lambda_0p95",
+    "rho": 1.0629048309265159,
+    "diff": 99.44698079427083,
+    "n_finite": 3,
+    "rho_paper": 1.0010471204188482,
+    "spread": [
+     0.9211324570273003,
+     1.1000546746856206
+    ],
+    "status": "QUARANTINED (released-HEAD semantics, n = 3; no judgment)"
+   },
+   {
+    "env": "hopper",
+    "arm": "A5a_lr_1em4",
+    "rho": 0.9384578360946539,
+    "diff": -97.292724609375,
+    "n_finite": 3,
+    "rho_paper": 0.8895774647887323,
+    "spread": [
+     0.8479338842975207,
+     0.9357589539511085
+    ],
+    "status": "QUARANTINED (released-HEAD semantics, n = 3; no judgment)"
+   },
+   {
+    "env": "hopper",
+    "arm": "A6_entropy_1em3",
+    "rho": 0.8962999663985456,
+    "diff": -163.94059244791666,
+    "n_finite": 3,
+    "rho_paper": 0.7812135355892649,
+    "spread": [
+     0.748564867967853,
+     0.8442477876106195
+    ],
+    "status": "QUARANTINED (released-HEAD semantics, n = 3; no judgment)"
+   },
+   {
+    "env": "hopper",
+    "arm": "A7_valuenorm_none",
+    "rho": 0.893433418737566,
+    "diff": -168.47235107421875,
+    "n_finite": 3,
+    "rho_paper": 0.9562389118864577,
+    "spread": [
+     0.9170052234474754,
+     0.9898203592814371
+    ],
+    "status": "QUARANTINED (released-HEAD semantics, n = 3; no judgment)"
+   },
+   {
+    "env": "hopper",
+    "arm": "A8_advnorm_true",
+    "rho": 0.7316784113036785,
+    "diff": -424.19272867838544,
+    "n_finite": 3,
+    "rho_paper": 1.028169014084507,
+    "spread": [
+     0.9892793329362716,
+     1.0784810126582278
+    ],
+    "status": "QUARANTINED (released-HEAD semantics, n = 3; no judgment)"
+   },
+   {
+    "env": "hopper",
+    "arm": "A5b_lr_1em3",
+    "rho": 0.7032620307298233,
+    "diff": -469.11651611328125,
+    "n_finite": 3,
+    "rho_paper": 1.019718309859155,
+    "spread": [
+     0.9873278236914601,
+     1.0505969300739055
+    ],
+    "status": "QUARANTINED (released-HEAD semantics, n = 3; no judgment)"
+   }
+  ]
+ },
+ "rec": {
+  "n": 5,
+  "mean": 5284.58623046875,
+  "se": 269.6208411918469,
+  "per_seed": [
+   5047.4462890625,
+   6173.83203125,
+   4522.720703125,
+   5238.3427734375,
+   5440.58935546875
+  ],
+  "median": 5238.3427734375
+ },
+ "nonfinite_lanes": [],
+ "tally": {
+  "predeclared": {
+   "CONFLICT": [
+    "A2a_lastlayer_1"
+   ],
+   "DIVERGENT": [
+    "A2b_initstd_1",
+    "A4_lambda_0p95",
+    "A5a_lr_1em4",
+    "A7_valuenorm_none"
+   ],
+   "MATCH": [
+    "A1_obsnorm_none",
+    "A3a_shared_bc1"
+   ],
+   "UNCLASSIFIED": [
+    "A6_entropy_1em3",
+    "A8_advnorm_true"
+   ]
+  },
+  "generic": {
+   "DIVERGENT": [
+    "A2b_initstd_1",
+    "A5a_lr_1em4",
+    "A7_valuenorm_none"
+   ],
+   "MATCH": [
+    "A1_obsnorm_none",
+    "A2a_lastlayer_1",
+    "A3a_shared_bc1",
+    "A4_lambda_0p95",
+    "A6_entropy_1em3",
+    "A8_advnorm_true"
+   ]
+  },
+  "ci": {
+   "INCONCLUSIVE": [
+    "A2a_lastlayer_1",
+    "A3a_shared_bc1",
+    "A8_advnorm_true"
+   ],
+   "INCONSISTENT": [
+    "A2b_initstd_1",
+    "A4_lambda_0p95",
+    "A5a_lr_1em4",
+    "A6_entropy_1em3",
+    "A7_valuenorm_none"
+   ],
+   "REPRODUCED-DIRECTION": [
+    "A1_obsnorm_none"
+   ]
+  }
+ },
+ "eval_noise": {
+  "median_score_se_from_episodes": 86.48215547232417,
+  "max_score_se_from_episodes": 162.33510089870174,
+  "rec_seed_sd": 602.8905290556452,
+  "variance_share_median": 0.02057671715237027
+ }
+}
