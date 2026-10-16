@@ -1,0 +1,133 @@
+# sources.yaml — one entry per planned config key: value + source tag.
+# Paper = arXiv:2410.14606v2; "official code" = github.com/mohmdelsayed/streaming-drl branch 2024 @ 407dca7.
+# Tags: 'paper §X.Y' / 'Alg. N' / 'Figure N' / 'Appendix F.k' / 'official code' / 'ASSUMED (reason)'.
+paper:
+  arxiv: "2410.14606v2"
+  official_code_commit: "407dca7a8b584c1c20bc649053557f66e270b1e6"   # branch 2024 (master 9326fc3 is the 2026 revision, NOT used)
+
+common:                      # all stream-x agents
+  gamma:            {value: 0.99,   source: "Appendix F.1-F.4; Alg. 7-10"}
+  lambda:           {value: 0.8,    source: "Appendix F.1-F.4; §4.2 (Q(0.8), AC(0.8))"}
+  obgd_lr:          {value: 1.0,    source: "Appendix F.1-F.4"}
+  kappa_value:      {value: 2.0,    source: "Appendix F.1-F.4"}
+  kappa_policy:     {value: 3.0,    source: "Appendix F.4"}
+  entropy_coeff:    {value: 0.01,   source: "Alg. 7 (e.g. 0.01); official code default"}
+  delta_bar_floor:  {value: 1.0,    source: "Alg. 3 (max(|δ|,1))"}
+  trace_norm:       {value: "global L1 per network", source: "paper §3.2 (concatenated w); official code optim.ObGD z_sum"}
+  sparsity:         {value: 0.9,    source: "Appendix F.1-F.4"}
+  sparse_zeros_per_unit: {value: "ceil(s*fan_in)", source: "official code sparse_init.py"}
+  init_bound:       {value: "1/sqrt(fan_in)", source: "Alg. 1; official code sparse_init.py"}
+  conv_fan_in:      {value: "C_in*k_h*k_w", source: "official code sparse_init.py"}
+  bias_init:        {value: 0.0,    source: "Alg. 1; official code initialize_weights"}
+  layernorm_affine: {value: false,  source: "paper §3.3 (no scaling or bias parameters)"}
+  layernorm_eps:    {value: 1.0e-5, source: "official code (torch F.layer_norm default); paper §3.3 'small'"}
+  layernorm_axes:   {value: "all non-batch axes of the layer output (C,H,W for conv)", source: "official code F.layer_norm(x, x.size)"}
+  activation:       {value: "leaky_relu", source: "Appendix F.1-F.4"}
+  leaky_slope:      {value: 0.01,   source: "ASSUMED (torch default; paper silent)"}
+  obs_norm_eps:     {value: 1.0e-8, source: "official code normalization_wrappers.py"}
+  reward_scale_eps: {value: 1.0e-8, source: "official code normalization_wrappers.py"}
+  welford_first_sample: {value: "mu=x, p=0, n=1; var=1 while n<2", source: "Alg. 4; official code SampleMeanStd"}
+  reward_scale_stat: {value: "centered Welford variance of discounted-return trace", source: "official code ScaleReward (Alg. 5 literal differs)"}
+  reward_trace_reset: {value: "u <- gamma*(1-done)*u + r, done = terminated or truncated", source: "Alg. 5; official code ScaleReward"}
+  stats_dtype:      {value: "float32 + Kahan compensation", source: "ASSUMED (official float64; toy-check test: uncompensated float32 var off by up to 3.1 % at 5e6 samples, compensated <= 1e-7)"}
+  dtype:            {value: float32, source: "ASSUMED (default JAX; no mixed precision)"}
+
+minatar_stream_q:            # E3 (Figure 4), E9 (Figure 13)
+  envs:             {value: [Breakout, SpaceInvaders, Asterix, Seaquest], source: "Figure 4 (priority order ASSUMED)"}
+  env_impl:         {value: "gymnax 1.0.0 <Game>-MinAtar + sticky wrapper", source: "ASSUMED (PROXY; JAX env)"}
+  sticky_action_prob: {value: 0.1,  source: "official code (MinAtar 1.0.15 default, MinAtar/<Game>-v1)"}
+  difficulty_ramping: {value: true, source: "official code (MinAtar default)"}
+  minimal_action_set: {value: true, source: "official code (MinAtar/<Game>-v1 registration)"}
+  max_steps_in_episode: {value: 100000000, source: "ASSUMED (MinAtar v1 has no time limit; gymnax default 1000 lifted)"}
+  total_steps:      {value: 5000000, source: "Appendix F.2; official code (subject to declared throughput rule)"}
+  conv:             {value: "16 filters 3x3 stride 1 VALID", source: "Appendix F.2; official code"}
+  hidden_fc:        {value: 128,    source: "official code (flatten 1024 -> FC 128; paper text )"}
+  epsilon_start:    {value: 1.0,    source: "Appendix F.2"}
+  epsilon_end:      {value: 0.01,   source: "Appendix F.2"}
+  exploration_fraction: {value: 0.2, source: "official code commit 407dca7 ('HPs used to produce the figures'); paper F.2 says 0.05 (sensitivity arm)"}
+  watkins_cut:      {value: "official (after update)", source: "official code stream_q_minatar.py (paper Alg. 8 differs). Recheck: the initial public release 40bd4a6 (2024-11-10) defaulted to NO cut (reset_for_random False); d8bf7d0 (2024-11-12) made the cut the default. No-cut probe (10 seeds, 2.5e5): stream Q unchanged, classic Q +0.02-0.03; not run to 1M"}
+  nongreedy_flag:   {value: "random action != argmax", source: "official code sample_action"}
+  seeds:            {value: "5 (small-scale, e3_minatar.yaml); 30 (full-scale stream_q/classic_q, full_e3_breakout.yaml); 10 (full-scale dqn1/stream_q_eps05); 3 (the review pass CPU arms, review_e3_cpu.yaml)", source: "Figure 4 caption (30 runs) for the full-scale primary arms; others ASSUMED (budget) -- Review pass: was a stale '10'"}
+  log_bin:          {value: 50000,  source: "official code plot.py stride (run chunking only)"}
+  fig4_compare_stride: {value: 125000, source: "Figure 4 vector grid: 40 bins over 5M (review pass); every Fig.-4 comparison re-bins at this stride and reads the paper at a grid point, never interpolated (tests/test_figure_strides.py)"}
+
+classic_q:                   # baseline in Figure 4
+  optimizer:        {value: adam,   source: "Appendix F.2"}
+  lr:               {value: 1.0e-5, source: "Appendix F.2"}
+  adam_betas:       {value: [0.9, 0.999], source: "Appendix F.2"}
+  adam_eps:         {value: 1.0e-4, source: "Appendix F.2 "}
+  layernorm:        {value: false,  source: "ASSUMED (B1)"}
+  init:             {value: "torch default dense", source: "ASSUMED (B1)"}
+  obs_reward_norm:  {value: false,  source: "ASSUMED (B1)"}
+  adam_direction:   {value: "-delta*z", source: "ASSUMED "}
+
+dqn1_optional:
+  settings:         {value: "CleanRL dqn defaults; buffer 1, batch 1, learning_starts 0, train_freq 1", source: "Appendix F.2 + ASSUMED (B7)"}
+  adam_eps:         {value: 1.0e-8, source: "Appendix F.2 ('CleanRL ... same hyperparameter set'); CleanRL dqn.py optim.Adam(lr=2.5e-4) with torch default eps 1e-8 (review pass). full-scale ran 1e-4 (the classic-arm value) -- recorded as such"}
+  lr:               {value: 2.5e-4, source: "CleanRL dqn.py default. recheck (labeled side-evidence only, a DIFFERENT paper revision): the authors' 2026 branch paper lists DQN1 lr 1e-4, eps_Adam 1e-8, target update 1000, beta1 in {0, 0.9}; not used for the 2024 Fig. 4"}
+  dqn_at_5M_external: {value: {Asterix: 17.3, Breakout: 10.0, Seaquest: 20.0, SpaceInvaders: 43.5}, source: "Figure 4 dashed line (read off ±0.5/±2; originally Young & Tian 2019 Fig. 3)"}
+
+stream_ac_proxy:             # E6/E7 (Figures 7, 8), E2 (Figure 3) partial
+  env:              {value: "Brax hopper (fallback halfcheetah)", source: "ASSUMED (PROXY)"}
+  brax_backend:     {value: positional, source: "ASSUMED (generalized 137 vs positional 696 env-steps/s/lane on GPU; declared before any learning run). Recheck: positional FAILS the passive-policy proxy gate (zero torque stands 1000/1000 steps vs Hopper-v4 155); every positional row is struck; generalized passes (125 / 19 vs 155 / 23)"}
+  time_feature_all_arms: {value: true, source: "ASSUMED (AddTimeInfo is env-side; kept in every arm incl. classic AC so arms differ only in the ablated component)"}
+  episode_limit:    {value: 1000,   source: "official code time_wrapper (MuJoCo v4 max_episode_steps)"}
+  time_feature:     {value: "elapsed, starts -0.5, +1/T per step, un-normalized, appended after obs norm", source: "Appendix F.4; official code time_wrapper.py"}
+  truncation_as_terminal: {value: true, source: "official code stream_ac_continuous.py (done = terminated or truncated)"}
+  hidden:           {value: [128, 128], source: "Appendix F.4"}
+  separate_actor_critic: {value: true, source: "Appendix F.4"}
+  std_param:        {value: "softplus (linear above 20)", source: "Appendix F.4"}
+  action_clip:      {value: [-1.0, 1.0], source: "Appendix F.4; official code ClipAction (log-prob of unclipped sample)"}
+  total_steps:      {value: 500000, source: "Declared AMENDMENT (probe-driven, before any learning result): 5e5. The '1M floor' declared here originally is REMOVED by that amendment (review pass); Figure 7/8 run 2M, compared at 0.5M"}
+  seeds:            {value: 5,      source: "ASSUMED (paper 30)"}
+  arms:             {value: [full, no_obgd_adam, no_obs_reward_norm, no_layernorm, no_sparseinit, classic_ac_0.8, stream_ac_0, classic_ac_0], source: "Figure 7, Figure 8"}
+  classic_ac_lr:    {value: 1.0e-7, source: "Appendix F.4"}
+  no_obgd_adam_lr:  {value: "SELECT-seed sweep {1e-4,3e-5,1e-5,1e-6}; recheck paper-text reading 1e-7", source: "Recheck: App. F.4 gives Adam 1e-7 (eps 1e-4) 'in the ablation study in Figure 7 and Figure 8' (halving from 3e-4 until no divergence; none found for Hopper even at 1e-11), and the paper calls classic AC at that lr 'classic AC with well-tuned Adam' -- so the paper's 'well-tuned Adam' no-ObGD arm is read as lr 1e-7 (run on real Hopper-v4, README ). Previously: ASSUMED (B3, 'well-tuned Adam'); the paper's protocol (App. F.4: start at 3e-4, reduce until no divergence) was NOT in the full-scale grid -- 3e-4 and 1e-4 were tested on REAL Hopper-v4 in the review pass ; the Brax grid was not re-run (GPU budget spent)"}
+  no_sparseinit_init: {value: "dense U(±1/sqrt(fan_in)), b=0", source: "ASSUMED. Recheck: this is NOT the paper's 'LeCun initialization' (LeCun-uniform U(±sqrt(3/fan_in)) or the official sparse_init.py 'normal' N(0, 1/fan_in) both have 3x the variance); the arm ran only on the struck positional proxy"}
+
+classic_sensitivity:         # Review pass: the B1 alternative (not paper arms)
+  classic_q_keepnorm:  {value: "stream Q with ObGD -> Adam 1e-5, eps 1e-4 (LN, SparseInit, obs/reward norm kept)", source: "ASSUMED (B1 alternative; App. F.2 lr/eps)"}
+  classic_td_keepnorm: {value: "stream TD with ObGD -> Adam 3e-4, eps 1e-4 (LN, SparseInit, obs/reward norm kept)", source: "ASSUMED (B1 alternative; App. F.1 lr/eps)"}
+  classic_ac_keepnorm: {value: "= the no-ObGD arm (Adam on -delta*z, everything else kept), lr grid 1e-4..1e-6 + 3e-4/1e-4 on real Hopper", source: "ASSUMED (B1 alternative = B3 construction)"}
+
+stream_sarsa:                # E9 (Figure 13)
+  status:           {value: "NOT IMPLEMENTED", source: "the review pass (scope; no agent in src/)"}
+
+ppo_reference:
+  impl:             {value: "iteration-8 PPO from papers/ppo_implementation_details (not shipped here)", source: "Appendix F.4 (CleanRL PPO defaults)"}
+
+ett_stream_td:               # E8 (Figure 10)
+  dataset:          {value: "ETTm2.csv (ETDataset ETT-small)", source: "paper §4.5; official code stream_td.py URL"}
+  total_steps:      {value: 68000,  source: "official code (paper F.1 '6700' typo)"}
+  hidden:           {value: [128, 128], source: "Appendix F.1"}
+  gamma:            {value: 0.99,   source: "paper §4.5; Appendix F.1"}
+  lambda:           {value: 0.8,    source: "Appendix F.1"}
+  memory_trace_beta: {value: 0.999, source: "paper §4.5"}
+  memory_trace_bias_correction: {value: true, source: "official code Trace.update (paper §4.5 omits)"}
+  cumulant:         {value: "min-max normalized OT at t+1", source: "official code ETTEnvironment"}
+  seeds:            {value: 30,     source: "Figure 10 caption"}
+  classic_td_adam_lr: {value: 3.0e-4, source: "Appendix F.1"}
+  classic_td_adam_eps: {value: 1.0e-4, source: "Appendix F.1"}
+  metric_alignment: {value: "pred[:-1] = v(S_{j+1}) vs G[1:] (primary since the review pass); pred[j] vs G[j] kept as *_official", source: "the review pass (official plotting is one step off; correctness)"}
+  observation_timing: {value: "7 columns of row k incl. current OT_k", source: "official code ETTEnvironment (paper §4.5 says previous-step OT; )"}
+
+run:                         # driver settings (no effect on the algorithm)
+  chunk_steps:      {value: 50000, source: "official code plot.py stride (one 50k bin per scan chunk)"}
+  overshoot_diag:   {value: true,  source: "official code --overshooting_info semantics (sign flip of delta on the same transition), recorded as a rate"}
+  scan_unroll:      {value: 1,     source: "ASSUMED (throughput knob; full-scale may use 4, measured 1.4x)"}
+  master_seed:      {value: 0,     source: "ASSUMED"}
+  dqn1_target_update: {value: "hard copy when (t+1) % 500 == 0", source: "ASSUMED (B7; CleanRL target_network_frequency 500, tau 1)"}
+
+full_driver:                 # full-scale driver settings; none changes the algorithm
+  schedule_steps:   {value: 5000000, source: "Appendix F.2 / Figure 4 run length; eps decays over eps_frac of THIS (official exploration_fraction * total_steps); runs stop at total_steps = a truncated view of the paper's run"}
+  total_steps_e3:   {value: "set by the declared throughput rule", source: "ASSUMED (budget)"}
+  total_steps_e6:   {value: "set by the declared throughput rule", source: "ASSUMED (budget)"}
+  seeds_e3:         {value: "30 (stream_q, classic_q); 10 (dqn1, stream_q_eps05)", source: "Figure 4 caption (30 runs); secondary arms ASSUMED (budget)"}
+  seeds_e6:         {value: "5 reported + 3 SELECT (10001-10003, no-ObGD lr grid only)", source: "ASSUMED (B3; paper 30 unaffordable)"}
+  nan_policy:       {value: mark, source: "ASSUMED (a diverged lane is recorded and isolated). Review pass: scoring is ARM-level (Figure 2: an algorithm with any diverged run is shown as diverged; Fig. 4/7 curves stop) -- the report forms no mean and runs no paired test for an arm with a diverged lane; full-scale had none"}
+  scan_unroll_e3:   {value: 4, source: "ASSUMED (throughput)"}
+  paper_values:     {value: "vector-digitized Figures 4/7/8 (src/configs/paper_digitized.json), axes calibrated on the tick MARKS", source: "Figure 4, Figure 7, Figure 8 (PDF drawing paths). Recheck: the original file calibrated on tick-LABEL bbox centers (0.690 / 0.648 pt below the marks), biasing every y value upward (Breakout +0.156, Hopper +25.6); kept as runs/full/paper_digitized_labelcalib.json"}
+
+stats:
+  primary_test:     {value: "paired t + bootstrap 95% CI (10k resamples), Holm across the primary family", source: "ASSUMED; rl_jax_bench.stats"}
+  band:             {value: "mean ± s.e.; 90% CI also reported", source: "official code plot.py (s.e.); paper captions (90% CI). Recheck: both official branches shade avg ± 1 s.e. (np.std ddof 0); the digitized 'band90' is whichever the figures used -- no MATCH may rest on the band alone"}

@@ -1,0 +1,13 @@
+# E3 (Figure 4): MinAtar stream Q(0.8) vs classic Q(0.8) [+ DQN1]. Sources: sources.yaml minatar_stream_q / classic_q.
+kind: q
+exp: e3
+env: Breakout                 # Figure 4 (gymnax PROXY)
+total_steps: 5000000          # Appendix F.2 (subject to the declared throughput rule)
+chunk_steps: 50000            # = official plot.py stride, one bin per chunk
+bin_stride: 50000             # official plot.py
+gamma: 0.99                   # Appendix F.2
+arms: [stream_q, classic_q]   # Figure 4
+seeds: [1, 2, 3, 4, 5]        # ASSUMED
+master_seed: 0
+overshoot_diag: true          # official --overshooting_info semantics, recorded as a rate
+ckpt_every_chunks: 10

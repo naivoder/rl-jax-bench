@@ -1,0 +1,16 @@
+# E6/E7 (Figures 7, 8): stream AC(0.8) component + trace ablations on the Brax hopper PROXY .
+kind: ac
+exp: e6
+env: hopper                   # ASSUMED (PROXY); Figure 7/8 use Hopper-v4
+brax_backend: positional      # generalized is 5x slower
+allow_failed_proxy_gate: true  # positional FAILS the passive-policy proxy gate; kept only to reproduce the original runs (struck from the results, see README)
+episode_limit: 1000           # gym-v4 max_episode_steps; official AddTimeInfo time_limit
+total_steps: 2000000          # Figure 7/8 x-axis (subject to the declared throughput rule)
+chunk_steps: 50000            # = official plot.py stride
+bin_stride: 50000
+gamma: 0.99                   # Appendix F.4
+arms: [stream_ac, no_obgd, no_norm, no_ln, no_sparse, classic_ac, stream_ac0, classic_ac0]   # Figures 7, 8
+seeds: [1, 2, 3, 4, 5]        # ASSUMED
+master_seed: 0
+overshoot_diag: true
+ckpt_every_chunks: 4

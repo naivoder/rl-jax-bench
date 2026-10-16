@@ -1,0 +1,10 @@
+# E8 (Figure 10): stream TD(0.8) vs classic TD(0.8) on ETTm2. Sources: sources.yaml ett_stream_td.
+kind: td
+exp: e8
+env: ETTm2
+total_steps: 68000            # official stream_td.py (paper F.1 '6700' typo)
+gamma: 0.99                   # paper §4.5, Appendix F.1
+memory_beta: 0.999            # paper §4.5; bias-corrected as official Trace
+arms: [stream_td, classic_td] # Figure 10 + Appendix F.1 classic TD (Adam 3e-4)
+seeds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]  # Figure 10 caption (30 runs)
+master_seed: 0

@@ -1,0 +1,22 @@
+# Review pass: three Breakout arms the GPU budget (0.07 GPU-h left) cannot carry, on CPU.
+# Same truncated view of the paper's 5M run as full_e3_breakout.yaml (eps schedule on 5M, stop at 1M), 3 seeds each.
+#  dqn1                   : CleanRL Adam eps 1e-8 (full-scale ran 1e-4)
+#  stream_q_watkins_paper : paper Alg. 8 trace cut BEFORE accumulating (official code cuts after the update)
+#  classic_q_keepnorm     : classic Q keeping LN + SparseInit + obs/reward norm, only ObGD -> Adam 1e-5 (B1)
+# Compared with the full-scale GPU record of stream_q / classic_q (seeds 1-30) and dqn1 eps 1e-4 (seeds 1-6) on the
+# Figure-4 125k grid . Different device => per-seed values are not CRN-paired ; comparisons are Welch.
+kind: q
+exp: review_e3
+env: Breakout                 # Figure 4 (gymnax; parity gate  PASS)
+schedule_steps: 5000000       # Appendix F.2 / Figure 4 run length (eps over 20 % of it, official code)
+total_steps: 1000000          # = full-scale T_q
+chunk_steps: 125000           # one Figure-4 bin per chunk
+bin_stride: 125000            # Figure 4 grid stride = 5M / 40
+gamma: 0.99                   # Appendix F.2
+arms: [dqn1, stream_q_watkins_paper, classic_q_keepnorm]
+seeds: [1, 2, 3]              # ASSUMED (CPU budget under shared-machine load; full-scale secondary arms used 10)
+master_seed: 0                # key tree in src/train.py
+overshoot_diag: false         # throughput only (diagnostic forwards do not touch learning)
+nan_policy: mark              #
+scan_unroll: 1                # CPU compile time
+ckpt_every_chunks: 1          # resumable; a capped run reports its last checkpoint

@@ -1,0 +1,12 @@
+# Review pass: sensitivity of the E8 classic-TD baseline to assumption B1. classic_td_keepnorm keeps
+# LayerNorm, SparseInit, obs normalization and reward scaling and swaps ONLY ObGD -> Adam (3e-4, eps 1e-4, App. F.1).
+# Not a paper arm. Same data, seeds and key tree as e8_ett.yaml; run as its own program (lane layout).
+kind: td
+exp: e8
+env: ETTm2
+total_steps: 68000            # official stream_td.py (paper F.1 '6700' typo)
+gamma: 0.99                   # paper §4.5, Appendix F.1
+memory_beta: 0.999            # paper §4.5
+arms: [classic_td_keepnorm]   #  sensitivity (ASSUMED B1 alternative)
+seeds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]  # Figure 10 caption (30 runs)
+master_seed: 0

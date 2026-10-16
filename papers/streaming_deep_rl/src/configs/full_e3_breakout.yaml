@@ -1,0 +1,20 @@
+# Full-scale E3 (Figure 4): MinAtar Breakout, stream Q(0.8) vs classic Q(0.8) [+ DQN1, + paper-text eps arm].
+# Declared before the run. Sources: sources.yaml minatar_stream_q / classic_q / dqn1.
+kind: q
+exp: full_e3
+env: Breakout                 # Figure 4 (gymnax; parity gate  PASS for Breakout)
+schedule_steps: 5000000       # Appendix F.2 / Figure 4 run length: eps decays over 20 % of THIS (official code)
+total_steps: 1000000          #  (probe + amendment): truncated view of the 5M run; compared to Fig. 4 at 1M
+chunk_steps: 50000            # = official plot.py stride, one bin per chunk
+bin_stride: 50000             # official plot.py
+gamma: 0.99                   # Appendix F.2
+arms: [stream_q, classic_q, dqn1, stream_q_eps05]   # Figure 4 arms + paper-text eps sensitivity (secondary)
+seeds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]  # Figure 4 caption: 30 runs
+arm_seeds:                    # secondary arms: 10 seeds (budget)
+  dqn1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  stream_q_eps05: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+master_seed: 0                # key tree in src/train.py
+overshoot_diag: true          # official --overshooting_info semantics, recorded as a rate
+nan_policy: mark              # A diverging lane is recorded (end-point := 0, Fig. 2 convention), not fatal
+scan_unroll: 4                # throughput only (1.31e3 vs 0.95e3 steps/s/lane at 60 lanes)
+ckpt_every_chunks: 4          # orbax resume
