@@ -1,0 +1,128 @@
+# sources.yaml: one entry per planned config key: value + source tag.
+# Tags: 'paper §x.y' / 'Fig n' / 'Fig A.n' / 'Eq n' / 'Table 1' / 'Appendix A.n';
+#       'official code (rliable@3ccd9f4 <file> | Colab cell <n>)'; 'ASSUMED (<reason>; the README)'.
+paper:
+  title: "Deep Reinforcement Learning at the Edge of the Statistical Precipice"
+  venue: "NeurIPS 2021 (arXiv 2108.13264v1)"
+  pdf_sha256: befa469688556ddca45762f92aba2c570c9b724edabe88dd1ef56caf1b8415c6
+official_code:
+  rliable: {repo: https://github.com/google-research/rliable, commit: 3ccd9f4dea577a04d3d2b557f259aac08badbd81, archived: 2025-10-15,
+            sha256: {metrics.py: caf0c74e6238a12d2f59d6bcd47115e56167ea73c3b851c3f7981de17e5230cc,
+                     library.py: 0af084e4040fad3ae02a612b16fbcc59d9a141ac8259ad47dc1932bcc168ac14,
+                     deep_rl_precipice_colab.ipynb: a514c3fa8de302d6b17f00c651332cbc0217da987164cbb44dd2ef776983a349}}
+  venv: {path: $OFFICIAL_ROOT/.venv, python: "3.11", arch: 7.0.0, numpy: 1.26.4, scipy: 1.13.1, pandas: 2.2.2,
+         note: "arch 7.2.0 + pandas 3.0.6 fails to import; pinned to the library's era"}
+  released_data: {url: "gs://rl-benchmark-data/{atari_100k,ALE,procgen,dm_control}", status: "HTTP 404 bucket does not exist (2026-10-16)", source: "paper §6 fn 10, Appendix A.1"}
+  partial_mirror: {url: "https://github.com/google/dopamine/tree/master/baselines/atari/data", content: "5 runs x 199 iterations per agent: DQN, DQN (Adam + MSE in JAX), C51, IQN, Quantile (JAX), Rainbow", source: "paper Appendix A.1 (Dopamine baselines)"}
+  final_iteration: {value: 198, frames_M: 199, source: "ASSUMED (update): the mirror holds iterations 0..198 (1M frames each), so 'final' = index 198 = after 199M frames, NOT the 200M of Fig 9 (paper p.8); ~~iterations 195-198 give the same Fig 9 statistics to the reported digits~~ (WRONG for Rainbow, recheck: Rainbow IQM 1.6963 / 1.7040 / 1.6935 / 1.6926 over iterations 195-198). The paper's 200M point is index 199 of the 200-iteration atari_200_iters_scores.npy (Colab cells 62 / 68), which Dopamine never published: Fig 10 right equals our curve at 1-175M to <= 3e-4 but not at 200M (Rainbow 1.712 vs 1.693)"}
+  dopamine_history: {value: "identical DQN / C51 / IQN values in commits 420b147 (2018-08), 29661e3, 32d23e1 (2018-11), 3d8cb24 (2020-10), 7ec9c15 (2021-04) and the pinned file (max rel diff 4.9e-12)", source: "recheck pass (comparison of the Dopamine file history; script not shipped)"}
+  dqn_alternative_sources: {value: "gs://download-dopamine-rl/preprocessed-benchmarks (200-iteration pickles) HTTP 403; gs://atari-replay-datasets HTTP 403/401 and stores clipped rewards; REM paper has no per-game raw-score table", source: "recheck (2026-10-16)"}
+  agent_mapping: {value: {DQN: "DQN (Nature)", "DQN (Adam + MSE in JAX)": "DQN (Adam)", C51: C51, IQN: IQN, Rainbow: Rainbow}, source: "ASSUMED; paper A.1 names Dopamine; for the two DQN agents the mirror is DATA DIVERGENT from the paper's input (4 / 7 point statistics of each outside the paper's own 95 % CI; runs/full/data_provenance.json)"}
+  fig9_iqm_mode_note: {value: "K = 5 x 55 = 275 -> floor(275/4) = 68 per end (24.7 % trim)", source: "official code R1"}
+
+estimators:
+  iqm_trim: {value: 0.25, source: "paper §4.3; official code (metrics.aggregate_iqm: scipy trim_mean proportiontocut=0.25, axis=None)"}
+  iqm_mode: {value: a, options: [a, b, c], source: "official code R1 (scipy integer cut); ASSUMED alternatives b/c for sensitivity the README. E6 (M = 2): mode a trims 1/6 at N = 3 and 2/10 at N = 5 (K = 2N), so mode c is reported beside every N-dependent E6 IQM result (F2, runs/full/e6_sens.json)"}
+  median_of: {value: task_means, source: "paper §2; official code (metrics.aggregate_median)"}
+  median_even_rule: {value: midpoint, source: "official code (np.median); the README"}
+  og_gamma: {value: 1.0, source: "paper §4.3, A.7; official code Colab cell 10"}
+  og_gamma_curve: {value: "geomspace(0.25, 4.0, ...)", source: "Fig A.24 axis range; grid density ASSUMED"}
+  poi_tie_value: {value: 0.5, source: "paper Eq A.2; official code (scipy mannwhitneyu)"}
+  poi_normalise: {value: "U / (n_x * n_y)", source: "official code (metrics.probability_of_improvement); paper Eq A.2 omits it"}
+  profile_inequality: {value: strict_greater, source: "paper §2 tail function, Eq 1; official code (run_score_deviation: scores > tau)"}
+  dp_fraction: {value: [0.25, 0.5], source: "paper A.7 (DP-25), Fig A.28 (DP-50); official code Colab cell 70"}
+  superhuman_threshold: {value: 1.0, source: "paper A.7; official code Colab cell 70 (strict >)"}
+  dtype: {value: float64, source: "ASSUMED (exact match to the oracle)"}
+
+bootstrap:
+  ci_level: {value: 0.95, source: "paper §2, every caption"}
+  method_default: {value: percentile, source: "paper §4.1, Fig 6; official code get_interval_estimates default"}
+  methods_validated: {value: [basic, percentile, bc, bca], source: "paper A.5, Fig 6"}
+  stratified_over: {value: runs_within_task, source: "paper §4.1; official code StratifiedBootstrap"}
+  task_bootstrap_ale: {value: true, source: "paper A.5, Fig A.20; official code Colab cell 67"}
+  two_sample: {value: independent, source: "paper Fig A.26 caption; official code StratifiedIndependentBootstrap"}
+  reps_aggregate: {value: 50000, source: "paper A.5; official code default"}
+  reps_profile: {value: 2000, source: "paper A.5; official code create_performance_profile default"}
+  reps_poi: {value: 2000, source: "paper A.5, Fig A.26/A.27 captions (Colab uses 1000 for Atari/ALE: logged variant, R10)"}
+  reps_rank: {value: 200000, source: "paper Fig 11 caption, A.31; official code Colab cell 49"}
+  reps_dmc_profile_official: {value: 5000, source: "official code Colab cell 44 (paper says 2000: logged variant)"}
+  quantile_rule: {value: linear, source: "official code (arch conf_int -> np.percentile default); "}
+  bc_z0_count: {value: strict_less, source: "official code (arch _bca_bias); "}
+  bca_jackknife_unit: {value: run_row_all_tasks, source: "official code (arch _loo_jackknife over axis 0); "}
+  rng: {value: jax_prng_key_tree, source: "ASSUMED (JAX mandate; official uses global np.random and ignores random_state, R7)"}
+  rank_unit: {value: one_run_per_method_per_task, ties: random, source: "official code (get_rank_matrix, Colab cell 47); "}
+
+case_study:
+  pool_runs: {value: 100, source: "paper §3"}
+  coverage_pool_runs: {value: 200, fallback: 100, source: "paper Fig 6 caption; fallback ASSUMED"}
+  n_grid: {value: [3, 5, 10, 25, 50, 100], source: "paper Fig 2-4, A.15, A.17 axes"}
+  n_grid_coverage: {value: [3, 5, 10, 20, 50, 100], source: "paper Fig 6, A.19 axes"}
+  fig6_values: {value: "runs/full/paper_readoff.json['fig6']", source: "paper Fig 6 vector paths (recheck ; supersedes the eyeballed the README table)"}
+  a17_values: {value: "runs/full/paper_a17.json", source: "paper Fig A.17 raster bars in vector axes, 1200 dpi (recheck )"}
+  fig10_right_values: {value: "runs/full/paper_fig10.json", source: "paper Fig 10 right vector paths (recheck )"}
+  coverage_reference: {value: "FPC target P(|Z| < z sqrt(R/(R-K))) beside the nominal 0.95", source: "correctness: finite-population variance of sampling K of R without replacement (recheck)"}
+  n_grid_pergame_coverage: {value: [3, 5, 10, 20, 30, 50, 100], source: "paper Fig A.18 axis"}
+  publication_runs: {value: {DER: 5, OTR: 5, DrQ: 5, SPR: 10, CURL: 20}, source: "paper Fig 2 caption"}
+  subsample_reps: {value: 100000, source: "paper Fig 2, 3, A.17 captions; Fig 4/A.15 ASSUMED same"}
+  subsample_reps_mse: {value: 20000, n: 10, source: "paper Fig A.16 caption"}
+  subsample_mode: {value: per_task_with_replacement, variants: [rows_with_replacement, rows_without_replacement], source: "paper §3; official Colab helpers (R17); "}
+  coverage_sets: {value: 10000, source: "paper Fig 6, A.18, A.19 captions"}
+  coverage_inner_reps: {value: 2000, source: "ASSUMED (not stated)"}
+  lift_levels: {value: [0.0, 0.10, 0.25], source: "paper Fig 4 legend"}
+  lift_algorithm: {value: SPR, source: "paper §3, Fig 4 caption"}
+  diff_pairs: {value: [[DER, CURL], ["DrQ(eps)", DER], [SPR, "DrQ(eps)"]], source: "paper Fig A.15 legend (A.2 text says SPR vs DrQ: both run, Q9)"}
+  trim_grid: {value: [0.0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45], source: "ASSUMED (Fig A.16 axis 0-50 %)"}
+  curl_protocol_evals: {value: 10, source: "paper A.4; official code Colab cell 17-18 (num_evals=10)"}
+  sunrise_protocol: {value: {configs: 8, runs_per_config: 3}, source: "paper A.4; simulation rule ASSUMED"}
+
+atari100k:
+  games: {value: [Alien, Amidar, Assault, Asterix, BankHeist, BattleZone, Boxing, Breakout, ChopperCommand, CrazyClimber, DemonAttack, Freeway, Frostbite, Gopher, Hero, Jamesbond, Kangaroo, Krull, KungFuMaster, MsPacman, Pong, PrivateEye, Qbert, RoadRunner, Seaquest, UpNDown], source: "official code (Colab cell 13); paper Fig A.13/A.14"}
+  e2_runs: {value: 10, which: first_10_rows, source: "paper Fig A.29 caption; official code Colab cell 19 (val[:10])"}
+  simple_runs: {value: 5, source: "paper Fig 7, A.29 captions"}
+  tau_grid: {value: "linspace(0.0, 2.0, 201)", source: "official code Colab cell 24"}
+  eval_episodes_per_run: {value: 100, source: "paper §3"}
+ale:
+  n_games: {value: 55, source: "paper Fig 9 caption; official code Colab cell 59"}
+  sticky_actions: {value: true, source: "paper Fig 9 caption"}
+  runs: {value: {"DQN (Nature)": 5, "DQN (Adam)": 5, C51: 5, REM: 5, IQN: 5, Rainbow: 5, M-IQN: 3, DreamerV2: 11, MuZero: 1, Muesli: 2}, source: "paper Fig 9, A.20 captions"}
+  tau_grid: {value: "linspace(0.0, 8.0, 81)", source: "official code Colab cell 63"}
+  frames_for_curve_millions: {value: [1, 10, 25, 50, 75, 100, 125, 150, 175, 200], source: "official code Colab cell 68"}
+dmc:
+  tasks: {value: [ball_in_cup_catch, cartpole_swingup, cheetah_run, finger_spin, reacher_easy, walker_walk], source: "paper Fig A.31; official code Colab cell 42"}
+  normaliser: {value: 1000, source: "paper Fig 11 caption"}
+  round_decimals: {value: 1, source: "official code Colab cell 42"}
+  steps: {value: [100k, 500k], source: "paper §5.2"}
+  tau_grid: {value: "linspace(0.0, 1.0, 21)", source: "official code Colab cell 44"}
+  studentized_n: {value: {CURL: 10, CURL-D2RL: 10, SUNRISE: 5}, source: "official code Colab cell 54"}
+  studentized_form: {value: official_pooled_sd_over_sqrt_n, also_report: derivation_D6, source: "official code Colab cell 54; the README"}
+procgen:
+  games: {value: [bigfish, bossfight, caveflyer, chaser, climber, coinrun, dodgeball, fruitbot, heist, jumper, leaper, maze, miner, ninja, plunder, starpilot], source: "paper §5.3 (16 tasks); official code Colab cell 32"}
+  mode: {value: easy, source: "paper §5.3, Fig 12 caption"}
+  runs: {value: 10, source: "paper Fig 12 caption"}
+  tau_grid_minmax: {value: "linspace(-0.1, 1.1, 101)", source: "official code Colab cell 34"}
+  tau_grid_ppo: {value: "linspace(0.5, 3.6, 101)", source: "official code Colab cell 35"}
+  poi_pairs: {value: [[IDAAC, PPG], [IDAAC, UCB-DrAC], [IDAAC, PPO], [PPG, PPO], [UCB-DrAC, PLR], [PLR, MixReg], [UCB-DrAC, MixReg], [MixReg, PPO]], source: "paper Fig 12; official code Colab cell 38"}
+normalisation:
+  atari100k_random: {value: {Alien: 227.8, Amidar: 5.8, Assault: 222.4, Asterix: 210.0, BankHeist: 14.2, BattleZone: 2360.0, Boxing: 0.1, Breakout: 1.7, ChopperCommand: 811.0, CrazyClimber: 10780.5, DemonAttack: 152.1, Freeway: 0.0, Frostbite: 65.2, Gopher: 257.6, Hero: 1027.0, Jamesbond: 29.0, Kangaroo: 52.0, Krull: 1598.0, KungFuMaster: 258.5, MsPacman: 307.3, Pong: -20.7, PrivateEye: 24.9, Qbert: 163.9, RoadRunner: 11.5, Seaquest: 68.4, UpNDown: 533.4}, source: 'official code (Colab cell 15)'}
+  atari100k_human: {value: {Alien: 7127.7, Amidar: 1719.5, Assault: 742.0, Asterix: 8503.3, BankHeist: 753.1, BattleZone: 37187.5, Boxing: 12.1, Breakout: 30.5, ChopperCommand: 7387.8, CrazyClimber: 35829.4, DemonAttack: 1971.0, Freeway: 29.6, Frostbite: 4334.7, Gopher: 2412.5, Hero: 30826.4, Jamesbond: 302.8, Kangaroo: 3035.0, Krull: 2665.5, KungFuMaster: 22736.3, MsPacman: 6951.6, Pong: 14.6, PrivateEye: 69571.3, Qbert: 13455.0, RoadRunner: 7845.0, Seaquest: 42054.7, UpNDown: 11693.2}, source: 'official code (Colab cell 15)'}
+  ale_human: {value: {Alien: 7127.7, Amidar: 1719.5, Assault: 742.0, Asterix: 8503.3, Asteroids: 47388.7, Atlantis: 29028.1, BankHeist: 753.1, BattleZone: 37187.5, BeamRider: 16926.5, Berzerk: 2630.4, Bowling: 160.7, Boxing: 12.1, Breakout: 30.5, Centipede: 12017.0, ChopperCommand: 7387.8, CrazyClimber: 35829.4, DemonAttack: 1971.0, DoubleDunk: -16.4, Enduro: 860.5, FishingDerby: -38.7, Freeway: 29.6, Frostbite: 4334.7, Gopher: 2412.5, Gravitar: 3351.4, Hero: 30826.4, IceHockey: 0.9, Jamesbond: 302.8, Kangaroo: 3035.0, Krull: 2665.5, KungFuMaster: 22736.3, MontezumaRevenge: 4753.3, MsPacman: 6951.6, NameThisGame: 8049.0, Phoenix: 7242.6, Pitfall: 6463.7, Pong: 14.6, PrivateEye: 69571.3, Qbert: 13455.0, Riverraid: 17118.0, RoadRunner: 7845.0, Robotank: 11.9, Seaquest: 42054.7, Skiing: -4336.9, Solaris: 12326.7, SpaceInvaders: 1668.7, StarGunner: 10250.0, Tennis: -8.3, TimePilot: 5229.2, Tutankham: 167.6, UpNDown: 11693.2, Venture: 1187.5, VideoPinball: 17667.9, WizardOfWor: 4756.5, YarsRevenge: 54576.9, Zaxxon: 9173.3}, source: 'official code (Colab cell 59, MuZero table; Surround and Defender removed -> 55 games)'}
+  ale_random: {value: {Alien: 227.8, Amidar: 5.8, Assault: 222.4, Asterix: 210.0, Asteroids: 719.1, Atlantis: 12850.0, BankHeist: 14.2, BattleZone: 2360.0, BeamRider: 363.9, Berzerk: 123.7, Bowling: 23.1, Boxing: 0.1, Breakout: 1.7, Centipede: 2090.9, ChopperCommand: 811.0, CrazyClimber: 10780.5, Defender: 2874.5, DemonAttack: 152.1, DoubleDunk: -18.6, Enduro: 0.0, FishingDerby: -91.7, Freeway: 0.0, Frostbite: 65.2, Gopher: 257.6, Gravitar: 173.0, Hero: 1027.0, IceHockey: -11.2, Jamesbond: 29.0, Kangaroo: 52.0, Krull: 1598.0, KungFuMaster: 258.5, MontezumaRevenge: 0.0, MsPacman: 307.3, NameThisGame: 2292.3, Phoenix: 761.4, Pitfall: -229.4, Pong: -20.7, PrivateEye: 24.9, Qbert: 163.9, Riverraid: 1338.5, RoadRunner: 11.5, Robotank: 2.2, Seaquest: 68.4, Skiing: -17098.1, Solaris: 1236.3, SpaceInvaders: 148.0, StarGunner: 664.0, Surround: -10.0, Tennis: -23.8, TimePilot: 3568.0, Tutankham: 11.4, UpNDown: 533.4, Venture: 0.0, VideoPinball: 0.0, WizardOfWor: 563.5, YarsRevenge: 3092.9, Zaxxon: 32.5}, source: 'official code (Colab cell 59)'}
+  ale_record: {value: {Alien: 251916.0, Amidar: 104159.0, Assault: 8647.0, Asterix: 1000000.0, Asteroids: 10506650.0, Atlantis: 10604840.0, BankHeist: 82058.0, BattleZone: 801000.0, BeamRider: 999999.0, Berzerk: 1057940.0, Bowling: 300.0, Boxing: 100.0, Breakout: 864.0, Centipede: 1301709.0, ChopperCommand: 999999.0, CrazyClimber: 219900.0, DemonAttack: 1556345.0, DoubleDunk: 22.0, Enduro: 9500.0, FishingDerby: 71.0, Freeway: 38.0, Frostbite: 454830.0, Gopher: 355040.0, Gravitar: 162850.0, Hero: 1000000.0, IceHockey: 36.0, Jamesbond: 45550.0, Kangaroo: 1424600.0, Krull: 104100.0, KungFuMaster: 1000000.0, MontezumaRevenge: 1219200.0, MsPacman: 290090.0, NameThisGame: 25220.0, Phoenix: 4014440.0, Pitfall: 114000.0, Pong: 21.0, PrivateEye: 101800.0, Qbert: 2400000.0, Riverraid: 1000000.0, RoadRunner: 2038100.0, Robotank: 76.0, Seaquest: 999999.0, Skiing: -3272.0, Solaris: 111420.0, SpaceInvaders: 621535.0, StarGunner: 77400.0, Tennis: 21.0, TimePilot: 65300.0, Tutankham: 5384.0, UpNDown: 82840.0, Venture: 38900.0, VideoPinball: 89218328.0, WizardOfWor: 395300.0, YarsRevenge: 15000105.0, Zaxxon: 83700.0, AirRaid: 23050.0, Carnival: 2541440.0, ElevatorAction: 156550.0, JourneyEscape: -4317804.0, Pooyan: 13025.0}, source: 'official code (Colab cell 60); Fig A.25'}
+  procgen_easy_min_max: {value: {coinrun: [5, 10], starpilot: [2.5, 64], caveflyer: [3.5, 12], dodgeball: [1.5, 19], fruitbot: [-1.5, 32.4], chaser: [0.5, 13], miner: [1.5, 13], jumper: [1, 10], leaper: [1.5, 10], maze: [5, 10], bigfish: [1, 40], heist: [3.5, 10], climber: [2, 12.6], plunder: [4.5, 30], ninja: [3.5, 10], bossfight: [0.5, 13]}, source: 'official code (Colab cell 32); paper §5.3 cites Cobbe et al. 2020'}
+  dmc_reported_env_order: {value: ['finger_spin', 'cartpole_swingup', 'reacher_easy', 'cheetah_run', 'walker_walk', 'ball_in_cup_catch'], source: 'official code (Colab cell 53)'}
+  dmc_reported_means_100k: {value: {CURL: [767, 582, 538, 299, 403, 769], SUNRISE: [905, 591, 722, 413, 667, 663], CURL-D2RL: [837, 836, 754, 253, 540, 880]}, source: 'official code (Colab cell 53; CURL arXiv 2004.04136, SUNRISE, CURL-D2RL papers)'}
+  dmc_reported_means_500k: {value: {CURL: [926, 841, 929, 518, 902, 959], SUNRISE: [983, 876, 982, 678, 953, 969], CURL-D2RL: [970, 859, 929, 386, 931, 955]}, source: 'official code (Colab cell 53; CURL arXiv 2004.04136, SUNRISE, CURL-D2RL papers)'}
+  dmc_reported_stds_100k: {value: {CURL: [56, 146, 233, 48, 24, 43], SUNRISE: [57, 55, 50, 35, 147, 241], CURL-D2RL: [18, 34, 168, 57, 153, 48]}, source: 'official code (Colab cell 53; CURL arXiv 2004.04136, SUNRISE, CURL-D2RL papers)'}
+  dmc_reported_stds_500k: {value: {CURL: [45, 45, 44, 28, 43, 27], SUNRISE: [1, 4, 3, 46, 13, 5], CURL-D2RL: [14, 8, 62, 115, 24, 15]}, source: 'official code (Colab cell 53; CURL arXiv 2004.04136, SUNRISE, CURL-D2RL papers)'}
+e6:
+  ppo_source: {value: papers/ppo_implementation_details (commit 19d3c41 of its original repository), files: vendored in src/ppo8, source: "study design (the ppo_implementation_details reproduction's differential-tested PPO)"}
+  ppo_config: {value: classic_control.yaml (the ppo_implementation_details reproduction, unchanged), source: "the ppo_implementation_details reproduction sources.yaml (official code CleanRL ppo.py values)"}
+  tasks: {value: [CartPole-v1, Acrobot-v1], env_impl: gymnax, source: "ASSUMED"}
+  total_timesteps: {value: 500000, source: "the ppo_implementation_details reproduction E1 (37-details post figures)"}
+  arms: {value: [separate, shared, advnorm_batch], source: "ASSUMED; arms exist in the ppo_implementation_details reproduction train.py"}
+  seeds_per_arm: {value: 100, list: "1..100", source: "ASSUMED (paper §3 pool size)"}
+  eval_episodes: {value: 100, policy: sampled, variant: greedy, source: "paper §3; policy ASSUMED"}
+  normalise: {value: {CartPole-v1: [0.0, 500.0], Acrobot-v1: [-500.0, 0.0]}, source: "ASSUMED (env return bounds)"}
+  n_subsample: {value: [3, 5, 10, 20, 50], source: "study design (3 vs 5 vs 10) + paper Fig 6 grid"}
+  gpu_hard_line_hours: {value: 0.6, source: "compute budget 0.75 GPU-h; final line declared before the full run"}
+  master_seed: {value: 0, source: "ASSUMED (key tree root, see the README)"}

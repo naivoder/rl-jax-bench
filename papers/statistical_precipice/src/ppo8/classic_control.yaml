@@ -1,0 +1,42 @@
+# E1 classic control: the post's ppo.py (separate) / ppo_shared.py (shared). Every value's source is in sources.yaml
+# (key core.<name>); short tags inline.
+env_id: CartPole-v1            # Figure CartPole-v1 (Acrobot-v1 / MountainCar-v0 via --set env_id=...)
+env_impl: gymnax               # ASSUMED (JAX-only stack; A-)
+mask_velocity: false           # A- is the LSTM proxy only
+total_timesteps: 500000        # official code (scripts/ours/classic_control*.sh); Figure x-axis
+num_envs: 4                    # official code (ppo.py --num-envs 4)
+num_steps: 128                 # official code (ppo.py --num-steps 128)
+num_minibatches: 4             # official code (ppo.py --num-minibatches 4)
+update_epochs: 4               # official code (ppo.py --update-epochs 4)
+learning_rate: 2.5e-4          # official code (ppo.py --learning-rate)
+anneal_lr: true                # paper C4; official code per-update frac
+gamma: 0.99                    # official code (ppo.py --gamma)
+gae_lambda: 0.95               # official code (ppo.py --gae-lambda)
+clip_coef: 0.2                 # official code (ppo.py --clip-coef); constant (D3)
+clip_vloss: true               # paper C9; official code --clip-vloss
+ent_coef: 0.01                 # official code (ppo.py --ent-coef)
+vf_coef: 0.5                   # official code (ppo.py --vf-coef)
+max_grad_norm: 0.5             # paper C11
+adam_eps: 1.0e-5               # paper C3
+adam_eps_mode: torch           # official code (torch/optax eps on the bias-corrected sqrt(v), as CleanRL); tf1 = baselines (D16)
+norm_adv: true                 # paper C7
+norm_adv_level: minibatch      # paper C7; 'batch' = OUR EXTENSION ablation
+adv_norm_ddof: 1               # official code (torch .std); D1, 
+architecture: separate         # paper C13 + ppo.py; 'shared' = ppo_shared.py arm
+hidden: 64                     # paper C13 pseudocode (2x64)
+action_type: discrete
+obs_norm: false                # classic control: no wrappers (official code ppo.py make_env)
+reward_scaling: false          # idem
+reward_scaling_mode: baselines # unused here
+obs_clip: 10.0                 # unused here
+reward_clip: 10.0              # unused here
+norm_eps: 1.0e-8               # official code (vec_normalize.py)
+bootstrap_truncation: false    # paper C5 note (official = no bootstrap); 
+target_kl: null                # paper X3 (off)
+recurrent: false
+lstm_hidden: 128               # unused here
+lstm_reset: true               # unused here
+lstm_train_from_zero: false    # unused here (W12 broken variant)
+seeds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]   # ASSUMED
+master_seed: 0                 # root of the key tree the README
+chunk_updates: 100             # updates per jitted chunk / checkpoint (engineering, no effect on results)

@@ -1,0 +1,10 @@
+# E6 own-compute pool the README, the README). PPO base = src/ppo8/classic_control.yaml (the ppo_implementation_details reproduction, unchanged;
+# its every key is tagged there). Keys here: sources.yaml `e6.*`.
+tasks: [CartPole-v1, Acrobot-v1]              # e6.tasks: ASSUMED
+arms: [separate, shared, advnorm_batch]       # e6.arms: ASSUMED; defs in ppo8.train.ARMS
+eval_episodes: 100                            # e6.eval_episodes: paper §3 (100 eval episodes after training)
+eval_policy: sampled                          # e6.eval_episodes.policy: ASSUMED; greedy also logged
+ppo_overrides:
+  total_timesteps: 500000                     # e6.total_timesteps: the ppo_implementation_details reproduction E1
+  seeds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]  # small-scale run = 20 of the 100
+  master_seed: 0                              # e6.master_seed (ASSUMED, key tree root)

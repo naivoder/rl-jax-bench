@@ -1,0 +1,389 @@
+{
+ "oracle_file": "external/data/e0/oracle.npz",
+ "oracle_sha256": "665a92a411cd8674d43008fa84d17ab12a820416ba8181fa3db2e2f6caec0d22",
+ "inputs_sha256": "f792d71a42e4c08dddfdd9b61bc93604435b4468472c74e6daae65d058e766c0",
+ "reps": 50000,
+ "points_max_abs_diff": {
+  "aggregates": 4.440892098500626e-16,
+  "trimmed_means": 4.440892098500626e-16,
+  "score_profile": 1.1102230246251565e-16,
+  "avg_score_profile": 1.1102230246251565e-16,
+  "poi": 2.220446049250313e-16,
+  "toy": 1.1102230246251565e-16
+ },
+ "points_pass": true,
+ "replay_max_abs_diff": {
+  "stratified": 8.881784197001252e-16,
+  "task": 8.881784197001252e-16,
+  "poi_independent": 3.3306690738754696e-16,
+  "subsample_with_replacement": 0.0
+ },
+ "replay_pass": true,
+ "ks_min_holm_p": 0.4190785894266389,
+ "ks_min_raw_p": 0.004190785894266389,
+ "bootstrap_mean_max_abs_z": 2.5183423989272713,
+ "endpoint_checks": 800,
+ "endpoint_failures": [],
+ "endpoint_abs_z_quantiles": {
+  "q50": 0.4239942655999343,
+  "q95": 1.4307065461013904,
+  "max": 2.723229995456016
+ },
+ "endpoint_nan_pattern_mismatch": 0,
+ "indist_pass": true,
+ "bca_single": [
+  {
+   "input": 0,
+   "end": 0,
+   "diff": -0.0030337564623204027,
+   "se": 0.003982220553686633,
+   "ok": true
+  },
+  {
+   "input": 0,
+   "end": 1,
+   "diff": 0.0007663433199565084,
+   "se": 0.004972462432527636,
+   "ok": true
+  },
+  {
+   "input": 17,
+   "end": 0,
+   "diff": -0.009685159304983815,
+   "se": 0.008582959711049082,
+   "ok": true
+  },
+  {
+   "input": 17,
+   "end": 1,
+   "diff": -0.008016046270879817,
+   "se": 0.011053232975807958,
+   "ok": true
+  },
+  {
+   "input": 34,
+   "end": 0,
+   "diff": -1.1102230246251565e-16,
+   "se": 0.0025000000000000022,
+   "ok": true
+  },
+  {
+   "input": 34,
+   "end": 1,
+   "diff": 0.0,
+   "se": 0.004777624327270968,
+   "ok": true
+  },
+  {
+   "input": 51,
+   "end": 0,
+   "diff": 0.00016590702648344724,
+   "se": 0.0008602052225434031,
+   "ok": true
+  },
+  {
+   "input": 51,
+   "end": 1,
+   "diff": -0.0002771858852279596,
+   "se": 0.0009239346819475691,
+   "ok": true
+  },
+  {
+   "input": 68,
+   "end": 0,
+   "diff": -0.0037174862389071084,
+   "se": 0.005354880222821934,
+   "ok": true
+  },
+  {
+   "input": 68,
+   "end": 1,
+   "diff": 0.0032612140135752643,
+   "se": 0.008351411377581386,
+   "ok": true
+  },
+  {
+   "input": 85,
+   "end": 0,
+   "diff": 0.00022938562028329557,
+   "se": 0.0016106876763127553,
+   "ok": true
+  },
+  {
+   "input": 85,
+   "end": 1,
+   "diff": 0.0010552685891307423,
+   "se": 0.0030375253777301103,
+   "ok": true
+  },
+  {
+   "input": 102,
+   "end": 0,
+   "diff": 0.0004614451337314751,
+   "se": 0.002570046006091342,
+   "ok": true
+  },
+  {
+   "input": 102,
+   "end": 1,
+   "diff": -0.00359686241762458,
+   "se": 0.005501469772727918,
+   "ok": true
+  },
+  {
+   "input": 119,
+   "end": 0,
+   "diff": -0.00024999999999986144,
+   "se": 0.0005625000000000213,
+   "ok": true
+  },
+  {
+   "input": 119,
+   "end": 1,
+   "diff": -0.0004999999999999449,
+   "se": 0.0005625000000000491,
+   "ok": true
+  }
+ ],
+ "bca_single_pass": true,
+ "task_bootstrap": {
+  "fails": [],
+  "n": 48,
+  "min_ks_p": 0.03856021841543855
+ },
+ "task_pass": true,
+ "poi_profile": [
+  {
+   "kind": "poi",
+   "input": 0,
+   "point_diff": -1.1102230246251565e-16,
+   "diffs": [
+    0.0,
+    0.0
+   ],
+   "se": [
+    0.018518518518518517,
+    0.0092592592592593
+   ],
+   "ok": true
+  },
+  {
+   "kind": "profile",
+   "input": 0,
+   "point_max_diff": 1.1102230246251565e-16,
+   "endpoint_fails": 0,
+   "ok": true
+  },
+  {
+   "kind": "poi",
+   "input": 17,
+   "point_diff": 0.0,
+   "diffs": [
+    -0.013333333333333364,
+    -1.1102230246251565e-16
+   ],
+   "se": [
+    0.010000000000000009,
+    0.013333333333333364
+   ],
+   "ok": true
+  },
+  {
+   "kind": "profile",
+   "input": 17,
+   "point_max_diff": 1.1102230246251565e-16,
+   "endpoint_fails": 0,
+   "ok": true
+  },
+  {
+   "kind": "poi",
+   "input": 34,
+   "point_diff": 0.0,
+   "diffs": [
+    0.0016666666666666496,
+    0.008333333333333304
+   ],
+   "se": [
+    0.004974381603122524,
+    0.00666666666666671
+   ],
+   "ok": true
+  },
+  {
+   "kind": "profile",
+   "input": 34,
+   "point_max_diff": 0.0,
+   "endpoint_fails": 0,
+   "ok": true
+  },
+  {
+   "kind": "poi",
+   "input": 51,
+   "point_diff": 0.0,
+   "diffs": [
+    -3.839869281041519e-05,
+    2.287581699345065e-05
+   ],
+   "se": [
+    0.0029522390799834874,
+    0.0023632199900322504
+   ],
+   "ok": true
+  },
+  {
+   "kind": "profile",
+   "input": 51,
+   "point_max_diff": 1.1102230246251565e-16,
+   "endpoint_fails": 0,
+   "ok": true
+  },
+  {
+   "kind": "poi",
+   "input": 68,
+   "point_diff": -1.1102230246251565e-16,
+   "diffs": [
+    0.0,
+    0.0
+   ],
+   "se": [
+    0.010416666666666685,
+    0.00694444444444442
+   ],
+   "ok": true
+  },
+  {
+   "kind": "profile",
+   "input": 68,
+   "point_max_diff": 1.1102230246251565e-16,
+   "endpoint_fails": 0,
+   "ok": true
+  },
+  {
+   "kind": "poi",
+   "input": 85,
+   "point_diff": 1.1102230246251565e-16,
+   "diffs": [
+    0.0025000000000000022,
+    -1.1102230246251565e-16
+   ],
+   "se": [
+    0.0050000000000000044,
+    0.006250000000000033
+   ],
+   "ok": true
+  },
+  {
+   "kind": "profile",
+   "input": 85,
+   "point_max_diff": 1.1102230246251565e-16,
+   "endpoint_fails": 0,
+   "ok": true
+  },
+  {
+   "kind": "poi",
+   "input": 102,
+   "point_diff": 0.0,
+   "diffs": [
+    0.0031250000000000444,
+    -0.005234374999999791
+   ],
+   "se": [
+    0.0078125,
+    0.00986381033723649
+   ],
+   "ok": true
+  },
+  {
+   "kind": "profile",
+   "input": 102,
+   "point_max_diff": 1.1102230246251565e-16,
+   "endpoint_fails": 0,
+   "ok": true
+  },
+  {
+   "kind": "poi",
+   "input": 119,
+   "point_diff": 0.0,
+   "diffs": [
+    -5.7812499999476685e-06,
+    0.0006534374999997983
+   ],
+   "se": [
+    0.001605444591898153,
+    0.00115457459017565
+   ],
+   "ok": true
+  },
+  {
+   "kind": "profile",
+   "input": 119,
+   "point_max_diff": 1.1102230246251565e-16,
+   "endpoint_fails": 0,
+   "ok": true
+  },
+  {
+   "kind": "poi",
+   "input": 136,
+   "point_diff": -5.551115123125783e-17,
+   "diffs": [
+    -0.004273504273504258,
+    0.0
+   ],
+   "se": [
+    0.004273504273504314,
+    0.008547008547008517
+   ],
+   "ok": true
+  },
+  {
+   "kind": "profile",
+   "input": 136,
+   "point_max_diff": 1.1102230246251565e-16,
+   "endpoint_fails": 0,
+   "ok": true
+  },
+  {
+   "kind": "poi",
+   "input": 153,
+   "point_diff": 5.551115123125783e-17,
+   "diffs": [
+    -0.0025641025641023885,
+    0.007692307692307554
+   ],
+   "se": [
+    0.006410256410256415,
+    0.006331430573710328
+   ],
+   "ok": true
+  },
+  {
+   "kind": "profile",
+   "input": 153,
+   "point_max_diff": 1.1102230246251565e-16,
+   "endpoint_fails": 0,
+   "ok": true
+  }
+ ],
+ "poi_profile_pass": true,
+ "rank": {
+  "max_abs_diff": 0.0037449999999999983,
+  "max_z": 2.565924352615575,
+  "shape": [
+   6,
+   3,
+   3
+  ]
+ },
+ "rank_pass": true,
+ "studentized_max_abs_diff": {
+  "100k_CURL": 2.084776795641119e-12,
+  "100k_SUNRISE": 2.220446049250313e-16,
+  "100k_CURL-D2RL": 1.7479351299698465e-12,
+  "500k_CURL": 6.978861932793734e-13,
+  "500k_SUNRISE": 1.1102230246251565e-16,
+  "500k_CURL-D2RL": 9.717782134543995e-13
+ },
+ "studentized_pass": true,
+ "all_pass": true,
+ "seconds": 90.53292102494743
+}
