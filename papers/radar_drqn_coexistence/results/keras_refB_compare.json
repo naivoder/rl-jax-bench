@@ -1,0 +1,170 @@
+{
+ "dqn_kerasadam": {
+  "keras_J_conv": [
+   0.7107,
+   0.7078,
+   0.7068
+  ],
+  "ours_J_conv": [
+   0.7094,
+   0.707,
+   0.7071
+  ],
+  "keras_mean": 0.7084453900655111,
+  "ours_mean": 0.7078045891655816,
+  "diff_mean": 0.0006408008999294242,
+  "diff_se": 0.0004599551232117618,
+  "diff_t95": [
+   -0.0013383859952507868,
+   0.0026199877951096355
+  ],
+  "p_two_sided": 0.2982103575115137,
+  "keras_sigma_within": [
+   0.0108,
+   0.0138,
+   0.012
+  ],
+  "ours_sigma_within": [
+   0.0114,
+   0.013,
+   0.0123
+  ],
+  "keras_adapt_pct": [
+   1.3,
+   3.0,
+   1.5
+  ],
+  "rule_PARITY_abs_le_0p02": true,
+  "rule_our_pipeline_suspect": false
+ },
+ "dqn_optaxadam": {
+  "keras_J_conv": [
+   0.7096,
+   0.7075,
+   0.7071
+  ],
+  "ours_J_conv": [
+   0.7094,
+   0.707,
+   0.7071
+  ],
+  "keras_mean": 0.7080273230870565,
+  "ours_mean": 0.7078045891655816,
+  "diff_mean": 0.00022273392147483437,
+  "diff_se": 0.00015063007284236307,
+  "diff_t95": [
+   -0.0004254272819658539,
+   0.0008708951249155227
+  ],
+  "p_two_sided": 0.2773147968790148,
+  "keras_sigma_within": [
+   0.0116,
+   0.0131,
+   0.0123
+  ],
+  "ours_sigma_within": [
+   0.0114,
+   0.013,
+   0.0123
+  ],
+  "keras_adapt_pct": [
+   3.3,
+   3.5,
+   0.7
+  ],
+  "rule_PARITY_abs_le_0p02": true,
+  "rule_our_pipeline_suspect": false
+ },
+ "ddrqn_kerasadam": {
+  "keras_J_conv": [
+   0.5919,
+   0.5988,
+   0.59
+  ],
+  "ours_J_conv": [
+   0.5931,
+   0.6092,
+   0.586
+  ],
+  "keras_mean": 0.5935655832290649,
+  "ours_mean": 0.596101320054796,
+  "diff_mean": -0.002535736825731013,
+  "diff_se": 0.0041931724246092395,
+  "diff_t95": [
+   -0.02057895776882457,
+   0.015507484117362543
+  ],
+  "p_two_sided": 0.606828725799676,
+  "keras_sigma_within": [
+   0.0163,
+   0.0184,
+   0.0188
+  ],
+  "ours_sigma_within": [
+   0.0191,
+   0.0174,
+   0.0199
+  ],
+  "keras_adapt_pct": [
+   58.9,
+   60.5,
+   59.1
+  ],
+  "rule_PARITY_abs_le_0p02": true,
+  "rule_our_pipeline_suspect": false
+ },
+ "ddrqn_optaxadam": {
+  "keras_J_conv": [
+   0.5832,
+   0.591,
+   0.6023
+  ],
+  "ours_J_conv": [
+   0.5931,
+   0.6092,
+   0.586
+  ],
+  "keras_mean": 0.5921532909075419,
+  "ours_mean": 0.596101320054796,
+  "diff_mean": -0.003948029147254044,
+  "diff_se": 0.010392862344188089,
+  "diff_t95": [
+   -0.048668515814295384,
+   0.0407724575197873
+  ],
+  "p_two_sided": 0.7405811114671645,
+  "keras_sigma_within": [
+   0.0194,
+   0.0174,
+   0.0204
+  ],
+  "ours_sigma_within": [
+   0.0191,
+   0.0174,
+   0.0199
+  ],
+  "keras_adapt_pct": [
+   61.7,
+   64.7,
+   59.0
+  ],
+  "rule_PARITY_abs_le_0p02": true,
+  "rule_our_pipeline_suspect": false
+ },
+ "dqn_kerasadam_minus_optaxadam_within_keras": {
+  "diff": [
+   0.0011,
+   0.0003,
+   -0.0003
+  ],
+  "mean": 0.0003666666666666633
+ },
+ "ddrqn_kerasadam_minus_optaxadam_within_keras": {
+  "diff": [
+   0.0087,
+   0.0078,
+   -0.0123
+  ],
+  "mean": 0.001399999999999994
+ }
+}

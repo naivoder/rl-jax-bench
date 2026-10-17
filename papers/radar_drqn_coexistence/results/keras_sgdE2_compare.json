@@ -1,0 +1,74 @@
+{
+ "dqn": {
+  "keras_J_conv": [
+   0.842,
+   0.8413,
+   0.8432
+  ],
+  "ours_J_conv": [
+   0.842,
+   0.8413,
+   0.8432
+  ],
+  "keras_adapt": [
+   20.1,
+   20.2,
+   19.9
+  ],
+  "ours_adapt": [
+   20.1,
+   20.2,
+   19.9
+  ],
+  "pistar": [
+   0.842,
+   0.8413,
+   0.8432
+  ],
+  "diff_mean": 9.266143375078842e-06,
+  "diff_t95": [
+   -3.055730866076659e-05,
+   4.908959541092427e-05
+  ],
+  "PARITY": true,
+  "keras_valid": true,
+  "ours_valid": true,
+  "implementation_suspect": false
+ },
+ "ddrqn": {
+  "keras_J_conv": [
+   0.8417,
+   0.8411,
+   0.8417
+  ],
+  "ours_J_conv": [
+   0.8417,
+   0.8411,
+   0.8417
+  ],
+  "keras_adapt": [
+   20.0,
+   20.1,
+   20.0
+  ],
+  "ours_adapt": [
+   20.0,
+   20.1,
+   20.0
+  ],
+  "pistar": [
+   0.842,
+   0.8413,
+   0.8432
+  ],
+  "diff_mean": -1.1762799156970575e-05,
+  "diff_t95": [
+   -6.488070286965751e-05,
+   4.135510455571636e-05
+  ],
+  "PARITY": true,
+  "keras_valid": true,
+  "ours_valid": true,
+  "implementation_suspect": false
+ }
+}

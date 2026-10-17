@@ -1,0 +1,26 @@
+# review E23 (the README review): DQN + DDRQN at the paper 500 training CPIs on E2 and E3; baselines from review PI500.
+seed_root: 20261016          # ASSUMED: one top-level seed per launch (the README key tree)
+experiments: [mc_p02, mc_sched]   # E2, E3 (the paper training length)
+readings: [eq3, lin]         # eq3 PRIMARY, lin SECONDARY
+arms: [dqn, ddrqn]           # T-C: the P6 contrast at the paper training length
+seeds: 10                    # (10 training seeds; the seed is the unit)
+train_cpis: 500              # paper §IV-B
+eval_cpis: 70                # paper §IV-B, Figures 3/4 (J over 1..70, J_conv over 11..70)
+cpi_pulses: 1000             # Table I
+chunk_cpis: 10               # ASSUMED: CPIs per jitted chunk (logging / checkpoint granularity; no effect on results)
+ckpt_minutes: 5              # ASSUMED: orbax checkpoint cadence
+hidden_sizes: [256, 128, 84] # Table I
+lstm_size: 84                # Table I
+gamma: 0.9                   # Table I
+lr: 0.001                    # Table I
+adam_b1: 0.9                 # (Keras default)
+adam_b2: 0.999               # (Keras default)
+adam_eps: 1.0e-7             # (Keras default)
+batch_size: 32               # Table I (transitions for DQN, traces for DDRQN)
+buffer_transitions: 2000     # Table I (DDRQN: 200 traces of 10)
+target_update_steps: 250     # Table I (gradient steps)
+trace_len: 10                # Table I "Episode Length (DDRQN)"
+burn_in: 0
+eval_online_updates: true    # paper §III-C
+frozen_eval: false            # T-C: online evaluation only (cost; frozen variant is descriptive)
+pi_static_target_sensitivity: false   # descriptive

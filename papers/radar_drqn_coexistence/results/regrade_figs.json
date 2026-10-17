@@ -1,0 +1,714 @@
+[
+ {
+  "row": "Fig 3L DDRQN R_lin @100",
+  "J": {
+   "ours": 0.7852,
+   "paper": 0.8238,
+   "rel_pct": -4.68,
+   "label": "MATCH",
+   "seeds_below_paper": "10/10",
+   "pred_int95": [
+    0.7725,
+    0.798
+   ],
+   "paper_inside_pred_int": false
+  },
+  "J_conv": {
+   "ours": 0.7962,
+   "paper": 0.8341,
+   "rel_pct": -4.55,
+   "label": "MATCH",
+   "seeds_below_paper": "10/10",
+   "pred_int95": [
+    0.783,
+    0.8093
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "MATCH"
+ },
+ {
+  "row": "Fig 3L DDRQN R_lin @500",
+  "J": {
+   "ours": 0.8113,
+   "paper": 0.8238,
+   "rel_pct": -1.52,
+   "label": "MATCH",
+   "seeds_below_paper": "10/10",
+   "pred_int95": [
+    0.7917,
+    0.8309
+   ],
+   "paper_inside_pred_int": true
+  },
+  "J_conv": {
+   "ours": 0.8216,
+   "paper": 0.8341,
+   "rel_pct": -1.5,
+   "label": "MATCH",
+   "seeds_below_paper": "10/10",
+   "pred_int95": [
+    0.8031,
+    0.8401
+   ],
+   "paper_inside_pred_int": true
+  },
+  "judgment": "MATCH"
+ },
+ {
+  "row": "Fig 3L DQN R_lin @100",
+  "J": {
+   "ours": 0.8331,
+   "paper": 0.7606,
+   "rel_pct": 9.53,
+   "label": "CLOSE",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.8313,
+    0.8349
+   ],
+   "paper_inside_pred_int": false
+  },
+  "J_conv": {
+   "ours": 0.8335,
+   "paper": 0.7873,
+   "rel_pct": 5.87,
+   "label": "CLOSE",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.8317,
+    0.8353
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "CLOSE"
+ },
+ {
+  "row": "Fig 3L DQN R_lin @500",
+  "J": {
+   "ours": 0.8334,
+   "paper": 0.7606,
+   "rel_pct": 9.56,
+   "label": "CLOSE",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.8317,
+    0.8351
+   ],
+   "paper_inside_pred_int": false
+  },
+  "J_conv": {
+   "ours": 0.8335,
+   "paper": 0.7873,
+   "rel_pct": 5.87,
+   "label": "CLOSE",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.8316,
+    0.8353
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "CLOSE"
+ },
+ {
+  "row": "Fig 3L PI R_lin @100",
+  "J": {
+   "ours": 0.7598,
+   "paper": 0.7087,
+   "rel_pct": 7.22,
+   "label": "CLOSE",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.7477,
+    0.772
+   ],
+   "paper_inside_pred_int": false
+  },
+  "J_conv": {
+   "ours": 0.7599,
+   "paper": 0.7074,
+   "rel_pct": 7.41,
+   "label": "CLOSE",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.749,
+    0.7708
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "CLOSE"
+ },
+ {
+  "row": "Fig 3L PI R_eq3 @100 (the curve is pi* under Eq. 3)",
+  "J": {
+   "ours": 0.6222,
+   "paper": 0.7087,
+   "rel_pct": -12.2,
+   "label": "CLOSE",
+   "seeds_below_paper": "10/10",
+   "pred_int95": [
+    0.612,
+    0.6324
+   ],
+   "paper_inside_pred_int": false
+  },
+  "J_conv": {
+   "ours": 0.6221,
+   "paper": 0.7074,
+   "rel_pct": -12.06,
+   "label": "CLOSE",
+   "seeds_below_paper": "10/10",
+   "pred_int95": [
+    0.613,
+    0.6313
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "CLOSE"
+ },
+ {
+  "row": "Fig 3L PI R_lin @500",
+  "J": {
+   "ours": 0.8313,
+   "paper": 0.7087,
+   "rel_pct": 17.31,
+   "label": "CLOSE",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.8292,
+    0.8335
+   ],
+   "paper_inside_pred_int": false
+  },
+  "J_conv": {
+   "ours": 0.8314,
+   "paper": 0.7074,
+   "rel_pct": 17.53,
+   "label": "CLOSE",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.8293,
+    0.8336
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "CLOSE"
+ },
+ {
+  "row": "Fig 3L PI R_eq3 @500 (the curve is pi* under Eq. 3)",
+  "J": {
+   "ours": 0.6911,
+   "paper": 0.7087,
+   "rel_pct": -2.48,
+   "label": "MATCH",
+   "seeds_below_paper": "10/10",
+   "pred_int95": [
+    0.6868,
+    0.6955
+   ],
+   "paper_inside_pred_int": false
+  },
+  "J_conv": {
+   "ours": 0.6908,
+   "paper": 0.7074,
+   "rel_pct": -2.35,
+   "label": "MATCH",
+   "seeds_below_paper": "10/10",
+   "pred_int95": [
+    0.6858,
+    0.6958
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "MATCH"
+ },
+ {
+  "row": "Fig 3R DDRQN R_lin @100",
+  "J": {
+   "ours": 0.8087,
+   "paper": 0.8369,
+   "rel_pct": -3.38,
+   "label": "MATCH",
+   "seeds_below_paper": "10/10",
+   "pred_int95": [
+    0.7901,
+    0.8272
+   ],
+   "paper_inside_pred_int": false
+  },
+  "J_conv": {
+   "ours": 0.8137,
+   "paper": 0.8592,
+   "rel_pct": -5.3,
+   "label": "CLOSE",
+   "seeds_below_paper": "10/10",
+   "pred_int95": [
+    0.7941,
+    0.8333
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "CLOSE"
+ },
+ {
+  "row": "Fig 3R DDRQN R_lin @500",
+  "J": {
+   "ours": 0.8139,
+   "paper": 0.8369,
+   "rel_pct": -2.75,
+   "label": "MATCH",
+   "seeds_below_paper": "10/10",
+   "pred_int95": [
+    0.7968,
+    0.831
+   ],
+   "paper_inside_pred_int": false
+  },
+  "J_conv": {
+   "ours": 0.8192,
+   "paper": 0.8592,
+   "rel_pct": -4.65,
+   "label": "MATCH",
+   "seeds_below_paper": "10/10",
+   "pred_int95": [
+    0.8033,
+    0.8351
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "MATCH"
+ },
+ {
+  "row": "Fig 3R DQN R_lin @100",
+  "J": {
+   "ours": 0.8634,
+   "paper": 0.8209,
+   "rel_pct": 5.18,
+   "label": "CLOSE",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.8597,
+    0.8671
+   ],
+   "paper_inside_pred_int": false
+  },
+  "J_conv": {
+   "ours": 0.8635,
+   "paper": 0.8271,
+   "rel_pct": 4.41,
+   "label": "MATCH",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.8597,
+    0.8674
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "CLOSE"
+ },
+ {
+  "row": "Fig 3R DQN R_lin @500",
+  "J": {
+   "ours": 0.8643,
+   "paper": 0.8209,
+   "rel_pct": 5.29,
+   "label": "CLOSE",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.8607,
+    0.8679
+   ],
+   "paper_inside_pred_int": false
+  },
+  "J_conv": {
+   "ours": 0.8643,
+   "paper": 0.8271,
+   "rel_pct": 4.5,
+   "label": "MATCH",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.8603,
+    0.8683
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "CLOSE"
+ },
+ {
+  "row": "Fig 3R PI R_lin @100",
+  "J": {
+   "ours": 0.8197,
+   "paper": 0.8013,
+   "rel_pct": 2.31,
+   "label": "MATCH",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.8105,
+    0.829
+   ],
+   "paper_inside_pred_int": false
+  },
+  "J_conv": {
+   "ours": 0.8196,
+   "paper": 0.8014,
+   "rel_pct": 2.28,
+   "label": "MATCH",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.8107,
+    0.8286
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "MATCH"
+ },
+ {
+  "row": "Fig 3R PI R_lin @500",
+  "J": {
+   "ours": 0.8606,
+   "paper": 0.8013,
+   "rel_pct": 7.41,
+   "label": "CLOSE",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.8572,
+    0.864
+   ],
+   "paper_inside_pred_int": false
+  },
+  "J_conv": {
+   "ours": 0.8604,
+   "paper": 0.8014,
+   "rel_pct": 7.36,
+   "label": "CLOSE",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.8568,
+    0.864
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "CLOSE"
+ },
+ {
+  "row": "Fig 4 DDRQN R_lin seg1 @100",
+  "J_seg": {
+   "ours": 0.8743,
+   "paper": 0.9308,
+   "rel_pct": -6.08,
+   "label": "CLOSE",
+   "seeds_below_paper": "10/10",
+   "pred_int95": [
+    0.8493,
+    0.8992
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "CLOSE"
+ },
+ {
+  "row": "Fig 4 DDRQN R_lin seg2 @100",
+  "J_seg": {
+   "ours": 0.8271,
+   "paper": 0.8604,
+   "rel_pct": -3.86,
+   "label": "MATCH",
+   "seeds_below_paper": "10/10",
+   "pred_int95": [
+    0.8117,
+    0.8426
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "MATCH"
+ },
+ {
+  "row": "Fig 4 DDRQN R_lin seg3 @100",
+  "J_seg": {
+   "ours": 0.7904,
+   "paper": 0.8315,
+   "rel_pct": -4.95,
+   "label": "MATCH",
+   "seeds_below_paper": "10/10",
+   "pred_int95": [
+    0.7702,
+    0.8106
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "MATCH"
+ },
+ {
+  "row": "Fig 4 DDRQN R_lin seg4 @100",
+  "J_seg": {
+   "ours": 0.8171,
+   "paper": 0.8309,
+   "rel_pct": -1.67,
+   "label": "MATCH",
+   "seeds_below_paper": "10/10",
+   "pred_int95": [
+    0.8023,
+    0.8319
+   ],
+   "paper_inside_pred_int": true
+  },
+  "judgment": "MATCH"
+ },
+ {
+  "row": "Fig 4 DDRQN R_lin seg5 @100",
+  "J_seg": {
+   "ours": 0.8283,
+   "paper": 0.8365,
+   "rel_pct": -0.98,
+   "label": "MATCH",
+   "seeds_below_paper": "10/10",
+   "pred_int95": [
+    0.8217,
+    0.8349
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "MATCH"
+ },
+ {
+  "row": "Fig 4 DDRQN R_lin seg1 @500",
+  "J_seg": {
+   "ours": 0.8838,
+   "paper": 0.9308,
+   "rel_pct": -5.05,
+   "label": "CLOSE",
+   "seeds_below_paper": "10/10",
+   "pred_int95": [
+    0.8706,
+    0.897
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "CLOSE"
+ },
+ {
+  "row": "Fig 4 DDRQN R_lin seg2 @500",
+  "J_seg": {
+   "ours": 0.8354,
+   "paper": 0.8604,
+   "rel_pct": -2.9,
+   "label": "MATCH",
+   "seeds_below_paper": "10/10",
+   "pred_int95": [
+    0.822,
+    0.8489
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "MATCH"
+ },
+ {
+  "row": "Fig 4 DDRQN R_lin seg3 @500",
+  "J_seg": {
+   "ours": 0.8013,
+   "paper": 0.8315,
+   "rel_pct": -3.64,
+   "label": "MATCH",
+   "seeds_below_paper": "10/10",
+   "pred_int95": [
+    0.7878,
+    0.8147
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "MATCH"
+ },
+ {
+  "row": "Fig 4 DDRQN R_lin seg4 @500",
+  "J_seg": {
+   "ours": 0.8227,
+   "paper": 0.8309,
+   "rel_pct": -1.0,
+   "label": "MATCH",
+   "seeds_below_paper": "10/10",
+   "pred_int95": [
+    0.8144,
+    0.8309
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "MATCH"
+ },
+ {
+  "row": "Fig 4 DDRQN R_lin seg5 @500",
+  "J_seg": {
+   "ours": 0.8288,
+   "paper": 0.8365,
+   "rel_pct": -0.93,
+   "label": "MATCH",
+   "seeds_below_paper": "10/10",
+   "pred_int95": [
+    0.8231,
+    0.8345
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "MATCH"
+ },
+ {
+  "row": "Fig 4 DQN R_lin seg1 @100",
+  "J_seg": {
+   "ours": 0.9333,
+   "paper": 0.8943,
+   "rel_pct": 4.35,
+   "label": "MATCH",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.9288,
+    0.9377
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "MATCH"
+ },
+ {
+  "row": "Fig 4 DQN R_lin seg2 @100",
+  "J_seg": {
+   "ours": 0.8646,
+   "paper": 0.866,
+   "rel_pct": -0.16,
+   "label": "MATCH",
+   "seeds_below_paper": "8/10",
+   "pred_int95": [
+    0.8579,
+    0.8713
+   ],
+   "paper_inside_pred_int": true
+  },
+  "judgment": "MATCH"
+ },
+ {
+  "row": "Fig 4 DQN R_lin seg3 @100",
+  "J_seg": {
+   "ours": 0.8294,
+   "paper": 0.7197,
+   "rel_pct": 15.25,
+   "label": "CLOSE",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.8226,
+    0.8362
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "CLOSE"
+ },
+ {
+  "row": "Fig 4 DQN R_lin seg4 @100",
+  "J_seg": {
+   "ours": 0.8332,
+   "paper": 0.7844,
+   "rel_pct": 6.22,
+   "label": "CLOSE",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.8313,
+    0.8351
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "CLOSE"
+ },
+ {
+  "row": "Fig 4 DQN R_lin seg5 @100",
+  "J_seg": {
+   "ours": 0.8333,
+   "paper": 0.8268,
+   "rel_pct": 0.78,
+   "label": "MATCH",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.8318,
+    0.8347
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "MATCH"
+ },
+ {
+  "row": "Fig 4 DQN R_lin seg1 @500",
+  "J_seg": {
+   "ours": 0.9333,
+   "paper": 0.8943,
+   "rel_pct": 4.36,
+   "label": "MATCH",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.9283,
+    0.9384
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "MATCH"
+ },
+ {
+  "row": "Fig 4 DQN R_lin seg2 @500",
+  "J_seg": {
+   "ours": 0.8652,
+   "paper": 0.866,
+   "rel_pct": -0.1,
+   "label": "MATCH",
+   "seeds_below_paper": "7/10",
+   "pred_int95": [
+    0.8591,
+    0.8712
+   ],
+   "paper_inside_pred_int": true
+  },
+  "judgment": "MATCH"
+ },
+ {
+  "row": "Fig 4 DQN R_lin seg3 @500",
+  "J_seg": {
+   "ours": 0.8179,
+   "paper": 0.7197,
+   "rel_pct": 13.65,
+   "label": "CLOSE",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.7806,
+    0.8551
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "CLOSE"
+ },
+ {
+  "row": "Fig 4 DQN R_lin seg4 @500",
+  "J_seg": {
+   "ours": 0.8332,
+   "paper": 0.7844,
+   "rel_pct": 6.21,
+   "label": "CLOSE",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.8312,
+    0.8352
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "CLOSE"
+ },
+ {
+  "row": "Fig 4 DQN R_lin seg5 @500",
+  "J_seg": {
+   "ours": 0.8333,
+   "paper": 0.8268,
+   "rel_pct": 0.78,
+   "label": "MATCH",
+   "seeds_below_paper": "0/10",
+   "pred_int95": [
+    0.8318,
+    0.8347
+   ],
+   "paper_inside_pred_int": false
+  },
+  "judgment": "MATCH"
+ }
+]

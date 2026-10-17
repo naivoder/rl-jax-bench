@@ -1,0 +1,29 @@
+{
+ "run": "ddrqn_sgd, mc_p04 eq3 seed 0, seed_root 20261018, single lane on GPU (RTX 3090), code head ab762bf",
+ "compared_with": "runs/recheck/arm_ddrqn_sgd.npz lane 0 (20-lane vmapped run)",
+ "J_conv_recheck": 0.7063694081624349,
+ "J_conv_rerun": 0.7063694081624349,
+ "bit_identical_per_column": {
+  "reward": true,
+  "coll": true,
+  "miss": true,
+  "size": true,
+  "adapt": true,
+  "loss": false,
+  "maxq": false,
+  "do_learn": true
+ },
+ "max_abs_diff_per_column": {
+  "reward": 0.0,
+  "coll": 0.0,
+  "miss": 0.0,
+  "size": 0.0,
+  "adapt": 0.0,
+  "loss": 0.0512542724609375,
+  "maxq": 1.47998046875,
+  "do_learn": 0.0
+ },
+ "fps_identical": true,
+ "probe_agree_identical": true,
+ "probe_err_max_abs_diff": 0.0007424354553222656
+}

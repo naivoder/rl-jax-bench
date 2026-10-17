@@ -1,0 +1,101 @@
+{
+ "tf": "2.2.0",
+ "lstm": {
+  "activation": "tanh",
+  "recurrent_activation": "sigmoid",
+  "unit_forget_bias": true,
+  "kernel_initializer": "GlorotUniform",
+  "recurrent_initializer": "Orthogonal",
+  "bias_initializer": "Zeros",
+  "implementation": 2
+ },
+ "dense": {
+  "kernel_initializer": "GlorotUniform",
+  "bias_initializer": "Zeros"
+ },
+ "adam": {
+  "lr": 0.0010000000474974513,
+  "beta_1": 0.8999999761581421,
+  "beta_2": 0.9990000128746033,
+  "epsilon": 1e-07,
+  "amsgrad": false
+ },
+ "hard_sigmoid": [
+  0.0,
+  0.30000001192092896,
+  0.5,
+  0.699999988079071,
+  1.0
+ ],
+ "adam_src_lr_t": [
+  "coefficients['lr_t'],",
+  "coefficients['epsilon'],",
+  "coefficients['lr_t'],",
+  "coefficients['epsilon'],",
+  "lr = (apply_state[(var_device, var_dtype)]['lr_t'] *",
+  "epsilon=ops.convert_to_tensor_v2(self.epsilon, var_dtype),"
+ ],
+ "init_compare": {
+  "keras_kernel": {
+   "shape": [
+    84,
+    336
+   ],
+   "std": 0.06912139803171158,
+   "maxabs": 0.11952069401741028
+  },
+  "ours_kernel": {
+   "shape": [
+    84,
+    336
+   ],
+   "std": 0.06930776685476303,
+   "maxabs": 0.11951380223035812
+  },
+  "keras_rec": {
+   "shape": [
+    84,
+    336
+   ],
+   "std": 0.05454924702644348,
+   "maxabs": 0.2320755422115326
+  },
+  "ours_rec": {
+   "shape": [
+    84,
+    336
+   ],
+   "std": 0.054553065448999405,
+   "maxabs": 0.2391834706068039
+  },
+  "keras_rec_rows_orthonormal": 7.152557373046875e-07,
+  "ours_rec_rows_orthonormal": 3.5762786865234375e-07,
+  "keras_bias_forget_slice": [
+   1.0,
+   1.0
+  ],
+  "ours_bias_forget_slice": [
+   1.0,
+   1.0
+  ],
+  "keras_bias_other_maxabs": 0.0,
+  "ours_bias_other_maxabs": 0.0,
+  "glorot_limit_expected": 0.11952286093343936,
+  "keras_fc0": {
+   "shape": [
+    7,
+    256
+   ],
+   "std": 0.08733689039945602,
+   "maxabs": 0.15084317326545715
+  },
+  "ours_fc0": {
+   "shape": [
+    7,
+    256
+   ],
+   "std": 0.0856132060289383,
+   "maxabs": 0.15101011097431183
+  }
+ }
+}

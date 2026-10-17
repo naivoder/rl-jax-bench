@@ -1,0 +1,50 @@
+{
+ "dqn": {
+  "params": 47055,
+  "flops_update": 24568176.0,
+  "flops_act": 94095.0,
+  "flops_per_seed_run": 4192586070000.0,
+  "env_steps": 170000,
+  "grad_steps": 170000
+ },
+ "ddqn": {
+  "params": 47055,
+  "flops_update": 24573264.0,
+  "flops_act": 94095.0,
+  "flops_per_seed_run": 4193451030000.0,
+  "env_steps": 170000,
+  "grad_steps": 170000
+ },
+ "ddqn_tr10": {
+  "params": 47055,
+  "flops_update": 131999272.0,
+  "flops_act": 94095.0,
+  "flops_per_seed_run": 22455872390000.0,
+  "env_steps": 170000,
+  "grad_steps": 170000
+ },
+ "ddrqn": {
+  "params": 103839,
+  "flops_update": 310032864.0,
+  "flops_act": 208755.0,
+  "flops_per_seed_run": 52741075230000.0,
+  "env_steps": 170000,
+  "grad_steps": 170000
+ },
+ "ddrqn_win": {
+  "params": 103839,
+  "flops_update": 342460800.0,
+  "flops_act": 2151810.0,
+  "flops_per_seed_run": 58584143700000.0,
+  "env_steps": 170000,
+  "grad_steps": 170000
+ },
+ "ddrqn_hs": {
+  "params": 103839,
+  "flops_update": 323252576.0,
+  "flops_act": 208755.0,
+  "flops_per_seed_run": 54988426270000.0,
+  "env_steps": 170000,
+  "grad_steps": 170000
+ }
+}

@@ -1,0 +1,18 @@
+{
+ "dqn": {
+  "agreement": 1.0,
+  "n": 1000,
+  "min_top2_gap_at_disagreement": null,
+  "max_top2_gap_at_disagreement": null,
+  "rewards_match": true,
+  "ours_learned_steps": 0.0
+ },
+ "ddrqn": {
+  "agreement": 1.0,
+  "n": 1000,
+  "min_top2_gap_at_disagreement": null,
+  "max_top2_gap_at_disagreement": null,
+  "rewards_match": true,
+  "ours_learned_steps": 0.0
+ }
+}

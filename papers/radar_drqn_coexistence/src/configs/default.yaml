@@ -1,0 +1,26 @@
+# Paper-scale config (500 + 70 CPIs, all experiments and arms). full-scale itself ran full.yaml (100-CPI fallback). Values traced in sources.yaml.
+seed_root: 20261016          # ASSUMED: one top-level seed per launch (the README key tree)
+experiments: [mc_p04, mc_p02, mc_sched, fh]   # the README (E1, E2, E3, E4; E5 = E1 under eq3)
+readings: [eq3, lin]         # eq3 PRIMARY, lin SECONDARY
+arms: [dqn, ddqn, ddqn_tr10, ddrqn]   # §III-C (DQN), ablations, §III-D (DDRQN)
+seeds: 10
+train_cpis: 500              # paper §IV-B
+eval_cpis: 70                # paper §IV-B, Figures 3/4
+cpi_pulses: 1000             # Table I
+chunk_cpis: 10               # ASSUMED: CPIs per jitted chunk (logging / checkpoint granularity; no effect on results)
+ckpt_minutes: 5              # ASSUMED: orbax checkpoint cadence
+hidden_sizes: [256, 128, 84] # Table I
+lstm_size: 84                # Table I
+gamma: 0.9                   # Table I
+lr: 0.001                    # Table I
+adam_b1: 0.9                 # (Keras default)
+adam_b2: 0.999               # (Keras default)
+adam_eps: 1.0e-7             # (Keras default)
+batch_size: 32               # Table I (transitions for DQN, traces for DDRQN)
+buffer_transitions: 2000     # Table I (DDRQN: 200 traces of 10)
+target_update_steps: 250     # Table I (gradient steps)
+trace_len: 10                # Table I "Episode Length (DDRQN)"
+burn_in: 0
+eval_online_updates: true    # paper §III-C
+frozen_eval: true            # descriptive frozen-network variant
+pi_static_target_sensitivity: true   # descriptive

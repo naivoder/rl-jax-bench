@@ -1,0 +1,77 @@
+{
+ "dqn": {
+  "n_updates": 2969,
+  "loss_rel_max_first500": 0.21760164201259613,
+  "loss_rel_median_all": 0.024259479716420174,
+  "loss_rel_max_all": 0.41111165285110474,
+  "first_update_rel_gt_1e3": 5,
+  "ours_rewards_equal_R_table": true,
+  "eval_action_agreement": 0.941,
+  "rewards_equal_where_actions_equal": true,
+  "final_param_rel_maxabs": {
+   "params/fc0/bias": 1.0614159107208252,
+   "params/fc0/kernel": 0.6952962279319763,
+   "params/fc1/bias": 0.6862991452217102,
+   "params/fc1/kernel": 0.8369976282119751,
+   "params/fc2/bias": 0.2034454196691513,
+   "params/fc2/kernel": 1.0757142305374146,
+   "params/q/bias": 0.06278073042631149,
+   "params/q/kernel": 0.6126850247383118
+  },
+  "loss_first5_ours": [
+   0.1913011372089386,
+   0.19475577771663666,
+   0.14100255072116852,
+   0.18255341053009033,
+   0.19203492999076843
+  ],
+  "loss_first5_keras": [
+   0.1913011223077774,
+   0.19478687644004822,
+   0.14101576805114746,
+   0.18263179063796997,
+   0.1922265887260437
+  ],
+  "J_eval_ours": 0.6774444580078125,
+  "J_eval_keras": 0.6751388907432556
+ },
+ "ddrqn": {
+  "n_updates": 2681,
+  "loss_rel_max_first500": 0.20183180272579193,
+  "loss_rel_median_all": 0.07332418859004974,
+  "loss_rel_max_all": 1.0099012851715088,
+  "first_update_rel_gt_1e3": 2,
+  "ours_rewards_equal_R_table": true,
+  "eval_action_agreement": 0.439,
+  "rewards_equal_where_actions_equal": true,
+  "final_param_rel_maxabs": {
+   "params/fc0/bias": 0.6268907785415649,
+   "params/fc0/kernel": 0.8207941055297852,
+   "params/fc1/bias": 1.0863600969314575,
+   "params/fc1/kernel": 1.1183922290802002,
+   "params/fc2/bias": 0.9815893173217773,
+   "params/fc2/kernel": 0.6730604767799377,
+   "params/lstm/kernel/bias": 0.13233548402786255,
+   "params/lstm/kernel/kernel": 0.946174681186676,
+   "params/lstm/recurrent/kernel": 1.2974117994308472,
+   "params/q/bias": 0.0773601308465004,
+   "params/q/kernel": 0.8119917511940002
+  },
+  "loss_first5_ours": [
+   0.23449507355690002,
+   0.24459555745124817,
+   0.21640220284461975,
+   0.19955603778362274,
+   0.1719677895307541
+  ],
+  "loss_first5_keras": [
+   0.23449507355690002,
+   0.24477533996105194,
+   0.2167215794324875,
+   0.20007476210594177,
+   0.17264994978904724
+  ],
+  "J_eval_ours": 0.5969305634498596,
+  "J_eval_keras": 0.5904027819633484
+ }
+}

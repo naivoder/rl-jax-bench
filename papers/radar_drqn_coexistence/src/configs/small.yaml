@@ -1,0 +1,26 @@
+# small-scale config: the 10x-smaller proxy (50 + 10 CPIs, 5 seeds) of the paper-scale default.yaml. Values traced in sources.yaml.
+seed_root: 20261016          # ASSUMED: one top-level seed per launch (the README key tree)
+experiments: [mc_p04, mc_p02, mc_sched, fh]   # small-scale: E1, E2, E3, E4 at the 10x-smaller proxy
+readings: [eq3, lin]         # eq3 PRIMARY, lin SECONDARY
+arms: [dqn, ddqn, ddqn_tr10, ddrqn]   # §III-C (DQN), ablations, §III-D (DDRQN)
+seeds: 5                     # small-scale: direction only
+train_cpis: 50               # small-scale 10x-smaller proxy (training)
+eval_cpis: 10                # small-scale proxy (evaluation; J over all 10)
+cpi_pulses: 1000             # Table I
+chunk_cpis: 10               # ASSUMED: CPIs per jitted chunk (logging / checkpoint granularity; no effect on results)
+ckpt_minutes: 5              # ASSUMED: orbax checkpoint cadence
+hidden_sizes: [256, 128, 84] # Table I
+lstm_size: 84                # Table I
+gamma: 0.9                   # Table I
+lr: 0.001                    # Table I
+adam_b1: 0.9                 # (Keras default)
+adam_b2: 0.999               # (Keras default)
+adam_eps: 1.0e-7             # (Keras default)
+batch_size: 32               # Table I (transitions for DQN, traces for DDRQN)
+buffer_transitions: 2000     # Table I (DDRQN: 200 traces of 10)
+target_update_steps: 250     # Table I (gradient steps)
+trace_len: 10                # Table I "Episode Length (DDRQN)"
+burn_in: 0
+eval_online_updates: true    # paper §III-C
+frozen_eval: true            # descriptive frozen-network variant
+pi_static_target_sensitivity: true   # descriptive

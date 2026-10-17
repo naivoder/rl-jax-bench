@@ -1,0 +1,154 @@
+# sources.yaml -- radar_drqn_coexistence (Thornton et al., IEEE TCCN 2020, arXiv 2006.13173v3)
+# Tags: 'paper §X' / 'Table N' / 'Figure N' / 'Eq. N' / 'ASSUMED (reason)' (see the README) / 'derived'.
+paper:
+  arxiv: "2006.13173v3"
+  official_code: "none released"
+
+env:
+  n_subbands:            {value: 5,        source: "Table I (100 MHz / 20 MHz); paper §III-A example N=5"}
+  channel_bw_mhz:        {value: 100,      source: "Table I"}
+  subband_bw_mhz:        {value: 20,       source: "Table I"}
+  n_actions:             {value: 15,       source: "paper §III-A, fn. 2: N(N+1)/2 contiguous runs"}
+  action_order:          {value: "lexicographic (start,end)", source: "ASSUMED (fixed order for tie-breaks; index 4 = full band, 11 = 00111)"}
+  n_positions:           {value: 50,       source: "Table I (P)"}
+  n_velocities:          {value: 10,       source: "Table I (V)"}
+  n_states:              {value: 16000,    source: "derived: P*V*2^N, paper §III-A"}
+  reward_timing:         {value: "one-step-ahead: r_{t+1}=R(a_t, theta_{t+1})", source: "ASSUMED supported by Eq. 10, R(s,a,s'), Table II FH-SAA row"}
+  collision_count:       {value: "sum_i a_i*theta_i", source: "Def. 1 (overlap reading)"}
+  missed_opp_count:      {value: "|a*| - sum_i a*_i*a_i", source: "Def. 2 (overlap reading)"}
+  astar_tie_break:       {value: "lowest index", source: "ASSUMED (paper silent; reproduces FH-SAA 64.0 MHz)"}
+  beta1:                 {value: 5,        source: "Table I; paper §IV-A"}
+  beta2:                 {value: 6,        source: "Table I; paper §IV-A"}
+  reward_reading_primary:   {value: "eq3: beta1/(beta2*N_mo)", source: "Eq. 3 as printed"}
+  reward_reading_secondary: {value: "lin: 1 - N_mo*(beta2-beta1)/beta2", source: "ASSUMED (identified from Figure 3/4 learner-free levels)"}
+  cpi_pulses:            {value: 1000,     source: "Table I; Figure 4 text '15 CPIs, or 15,000 time steps'"}
+  pri_ms:                {value: 0.41,     source: "Table I (not used by the reward)"}
+  target_rcs_{value: 0.1,      source: "Table I (SINR only; not used)"}
+  target_model:          {value: "per-CPI x0~U{0..49}, v~U{0..9}; move 1 cell w.p. 0.1 per pulse in sgn(v-4.5); reflect", source: "ASSUMED (paper says only 'randomly defined trajectory')"}
+  state_encoding:        {value: "[x/49, v/9, theta_obs(5)] float32", source: "ASSUMED"}
+  continuing_task:       {value: true,     source: "ASSUMED (no absorbing state; time limits are not terminals)"}
+
+interference:
+  markov_on_pattern:     {value: [1,1,0,0,0], source: "paper §IV-B"}
+  markov_start_state:    {value: "off",    source: "paper §IV-B 'begins in the inactive state'"}
+  markov_symmetric_flip: {value: true,     source: "paper §IV-B 'changes state with probability p at each time step'; §IV-C p.10 'on average, the interference is stationary for 1.5 time steps' at p = 0.4 = (1-p)/p of a flip-p chain (recheck)"}
+  p_fig3_left:           {value: 0.4,      source: "Figure 3 (left)"}
+  p_fig3_right:          {value: 0.2,      source: "Figure 3 (right)"}
+  p_fig4_schedule:       {value: [0.1, 0.2, 0.4, 0.6, 0.8], source: "paper §IV-B (Figure 4)"}
+  fig4_segment_cpis:     {value: [15, 15, 15, 15, 10], source: "paper §IV-B 'every 15 CPIs'"}
+  fig4_train_p:          {value: 0.1,      source: "ASSUMED"}
+  fh_sweep:              {value: "e1->e2->e3->e4->e5->e1", source: "paper §IV-C"}
+  fh_start:              {value: "e1",     source: "ASSUMED"}
+  p_table2_mc:           {value: 0.4,      source: "paper §IV-C"}
+  train_eval_independent: {value: true,    source: "paper §IV-C 'drawn independently'"}
+
+schedule:
+  train_cpis:            {value: 500,      source: "paper §IV-B"}
+  eval_cpis:             {value: 70,       source: "paper §IV-B; Figures 3, 4"}
+  train_behaviour:       {value: "uniform random actions", source: "paper §III-C"}
+  eval_behaviour:        {value: "greedy argmax", source: "paper §III-C"}
+  eval_online_updates:   {value: true,     source: "paper §III-C"}
+  updates_per_env_step:  {value: 1,        source: "paper §III-C 'updated every time step'"}
+  learning_starts:       {value: "32 transitions (DQN) / 32 traces (DDRQN)", source: "ASSUMED"}
+  fallback_train_cpis:   {value: 100,      source: "ASSUMED (the README pre-declared minimal-viable fallback if >0.6 GPU-h)"}
+
+dqn:
+  hidden_sizes:          {value: [256, 128, 84], source: "Table I"}
+  activation:            {value: relu,     source: "paper §III-C"}
+  output:                {value: linear,   source: "paper §III-D"}
+  buffer_size:           {value: 2000,     source: "Table I"}
+  batch_size:            {value: 32,       source: "Table I"}
+  lr:                    {value: 0.001,    source: "Table I"}
+  optimizer:             {value: adam,     source: "ASSUMED"}
+  adam_b1:               {value: 0.9,      source: "ASSUMED (Keras default)"}
+  adam_b2:               {value: 0.999,    source: "ASSUMED (Keras default)"}
+  adam_eps:              {value: 1.0e-7,   source: "ASSUMED (Keras default)"}
+  gamma:                 {value: 0.9,      source: "Table I"}
+  target_update_steps:   {value: 250,      source: "Table I"}
+  target_rule:           {value: "max_a' Q(s',a';w')", source: "Eq. 11"}
+  loss:                  {value: "mse mean", source: "Eq. 12"}
+  grad_clip:             {value: null,     source: "ASSUMED"}
+  init_dense:            {value: "glorot_uniform / zeros", source: "ASSUMED (Keras default)"}
+  kernel_init:           {value: glorot_uniform, source: "ASSUMED (Keras default); QConfig.kernel_init, option lecun_normal (flax/CleanRL default) added official-code check -- sensitivity measured on CartPole, the README Official-code verification"}
+
+ddrqn:
+  hidden_sizes:          {value: [256, 128, 84], source: "Table I; paper §III-D"}
+  lstm_size:             {value: 84,       source: "Table I"}
+  lstm_position:         {value: "after last FC, before linear output", source: "paper §III-D"}
+  trace_len:             {value: 10,       source: "Table I 'Episode Length (DDRQN)'"}
+  init_state:            {value: zeros,    source: "ASSUMED (Hausknecht & Stone bootstrapped random updates, cited [32])"}
+  burn_in:               {value: 0,        source: "ASSUMED (the core supports b > 0)"}
+  act_reset_every:       {value: 10,       source: "ASSUMED"}
+  loss_steps:            {value: "all 10", source: "ASSUMED"}
+  target_rule:           {value: "double: Q(s', argmax_a' Q(s',a';w); w')", source: "Eq. 14"}
+  buffer_size_transitions: {value: 2000,   source: "Table I"}
+  batch_traces:          {value: 32,       source: "Table I"}
+  lr:                    {value: 0.001,    source: "Table I"}
+  gamma:                 {value: 0.9,      source: "Table I"}
+  target_update_steps:   {value: 250,      source: "Table I"}
+  init_lstm:             {value: "glorot_uniform kernel, orthogonal recurrent, forget bias 1", source: "ASSUMED (Keras default)"}
+
+policy_iteration:
+  state_space:           {value: "full (x,v,theta_obs), 16000", source: "paper §III-B, [15]"}
+  model:                 {value: "count-based T_hat, mean R_hat", source: "paper §III-B 'estimation of T(s,a,s') through repeated experience'"}
+  unseen_sa:             {value: "R_hat=0, self-loop", source: "ASSUMED"}
+  default_action:        {value: "full band (index 4)", source: "ASSUMED (paper §I mentions a default action, value unstated)"}
+  eval_tol:              {value: 1.0e-6,   source: "ASSUMED"}
+  gamma:                 {value: 0.9,      source: "Table I"}
+  frozen_at_eval:        {value: true,     source: "paper §III-B 'performance is fixed unless the algorithm is run again'"}
+
+baselines:
+  saa:                   {value: "a*(theta_obs)", source: "paper §IV-A, §IV-C"}
+  random:                {value: "uniform over 15", source: "paper §IV-B"}
+  pi_star:               {value: "exact value iteration on the true chain", source: "paper §IV-B ('stationary pi*'); the README"}
+
+eval:
+  seeds:                 {value: 10,       source: "ASSUMED (seed = unit)"}
+  primary_metric:        {value: "mean per-step reward over 70 eval CPIs (J) and CPIs 11-70 (J_conv)", source: "Figure 3/4 y-axis; the README"}
+  variability_metric:    {value: "within-seed SD of per-CPI mean reward, CPIs 11-70", source: "paper §IV-B 'stability'; the README"}
+  gap_fraction_min_gap:  {value: 0.02,     source: "ASSUMED (undefined where SAA is optimal)"}
+  table2_metrics:        {value: [coll_pct, missed_pct, bw_mhz, adapt_pct], source: "Table II; Def. 3"}
+  dtype_train:           {value: float32,  source: "ASSUMED"}
+
+# --- run settings (2026-10-16) ---
+run:
+  seed_root:             {value: 20261016, source: "ASSUMED (one top-level seed per launch)"}
+  chunk_cpis:            {value: 10,       source: "ASSUMED (jit chunk / log / checkpoint granularity; results do not depend on it)"}
+  ckpt_minutes:          {value: 5,        source: "ASSUMED (orbax checkpoint cadence)"}
+  small_train_cpis:      {value: 50,       source: "ASSUMED (small-scale 10x-smaller proxy of paper §IV-B 500)"}
+  small_eval_cpis:       {value: 10,       source: "ASSUMED (small-scale proxy; J over all eval CPIs)"}
+  small_seeds:           {value: 5,        source: "ASSUMED (small-scale: direction only)"}
+  pi_static_target_sensitivity: {value: true, source: "ASSUMED (descriptive: p_move = 0, one (x,v) cell per CPI)"}
+  fuse_target_unroll:    {value: false,    source: "ASSUMED (implementation detail; the fused variant measured slower, same maths)"}
+metrics:
+  missed_pct:            {value: "fraction of pulses with N_c = 0 and N_mo > 0", source: "ASSUMED (reproduces Table II FH-SAA 40.0 %)"}
+  adapt_pct:             {value: "a_t != a_{t-1} over consecutive eval pulses (first eval pulse excluded)", source: "Def. 3"}
+toys:
+  tabular_step:          {value: "n(s,a)^-0.6, Polyak average over the 2nd half of 2M steps", source: "ASSUMED (the README amendment 2026-10-16; Even-Dar & Mansour 2003)"}
+  core_toy_control:      {value: "lr 1e-4, 20k-transition buffer, 200k steps", source: "ASSUMED (toy-check convergence control, not a run config)"}
+full:
+  config:                {value: "src/configs/full.yaml", source: "ASSUMED (default.yaml with train_cpis = fallback_train_cpis; the README full-scale pre-declaration)"}
+  train_cpis:            {value: 100,      source: "ASSUMED (pre-declared fallback, the README; full plan projected 1.29 GPU-h > 0.6)"}
+  eval_cpis:             {value: 70,       source: "paper §IV-B; Figures 3, 4"}
+  seeds:                 {value: 10,       source: "ASSUMED (seed = unit)"}
+audit_arms:
+  ddrqn_win:             {value: "LSTM 84 over a sliding 10-observation window; Q and loss at the last step; buffer 2000 windows; no act reset", source: "ASSUMED (T-A: Keras sliding-window reading of Table I 'Episode Length (DDRQN) 10'; the README full-scale pre-declaration)"}
+  ddrqn_hs:              {value: "recurrent_activation hard_sigmoid = clip(0.2 x + 0.5, 0, 1)", source: "ASSUMED (T-B: pre-TF2 Keras LSTM default; paper says 'Keras API' only)"}
+  t_c_train_cpis:        {value: 500,      source: "paper §IV-B (T-C conditional audit of the fallback)"}
+# --- review additions (2026-10-16, review resolution) ---
+review:
+  review_pi500_train_cpis:  {value: 500,      source: "paper §IV-B (policy iteration at the paper's data budget)"}
+  review_e23_train_cpis:    {value: 500,      source: "paper §IV-B (E2/E3 learners at the paper's training length)"}
+  review_lr_seed_root:      {value: 20261017, source: "ASSUMED (fresh seed pool for the confirmatory launch)"}
+  dqn_lr1e4_lr:          {value: 1.0e-4,   source: "ASSUMED (sensitivity; the toy-check convergence-control step size; Table I prints 1e-3)"}
+  ddrqn_lr1e4_lr:        {value: 1.0e-4,   source: "ASSUMED (sensitivity; as dqn_lr1e4, equal tuning budget)"}
+  ddrqn_noreset_act_reset_period: {value: 1000, source: "ASSUMED (actor LSTM carry reset once per CPI instead of every 10 pulses)"}
+  constant_b_action:     {value: 11,       source: "the README / Table D1 (00111 = pi*(p=0.4); descriptive baseline)"}
+# --- Recheck additions (2026-10-16) ---
+recheck:
+  recheck_seed_root:         {value: 20261018, source: "ASSUMED (fresh seed pool for the recheck confirmatory launch)"}
+  sgd_optimizer:         {value: "optax.sgd(lr), no momentum", source: "paper Eq. 9 / §III-C 'SGD updates ... gradient of (12)' (sensitivity arms dqn_sgd, ddrqn_sgd; headline stays Adam)"}
+  keras_loss_scale:      {value: 0.0666667, source: "Keras mean_squared_error = mean over the 15 outputs (arms *_sgd_k15)"}
+  ddrqn_upd10_update_every: {value: 10,    source: "ASSUMED (sample-matched control: one gradient step per stored 10-step trace; target sync stays 250 gradient steps)"}
+  dqn_orelu_output_relu: {value: true,     source: "paper §III-C 'ReLU ... at the output of each layer' (literal reading; declared, not run in recheck)"}
+  pi_strict_improvement: {value: false,    source: "correctness option; default off = shipped; small-scale recheck in runs/recheck/fix/env8_compare.json"}
