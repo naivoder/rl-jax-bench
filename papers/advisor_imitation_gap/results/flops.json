@@ -1,0 +1,152 @@
+{
+ "pd": {
+  "ppo": {
+   "flops_per_update": 22242220.0,
+   "bytes_per_update": 37117252.0,
+   "env_steps_per_update": 2000,
+   "updates": 150,
+   "flops_per_env_step": 11121.11,
+   "flops_per_run": 3336333000.0
+  },
+  "bc": {
+   "flops_per_update": 22242220.0,
+   "bytes_per_update": 37117252.0,
+   "env_steps_per_update": 2000,
+   "updates": 150,
+   "flops_per_env_step": 11121.11,
+   "flops_per_run": 3336333000.0
+  },
+  "bc_tf1": {
+   "flops_per_update": 22242220.0,
+   "bytes_per_update": 37117252.0,
+   "env_steps_per_update": 2000,
+   "updates": 150,
+   "flops_per_env_step": 11121.11,
+   "flops_per_run": 3336333000.0
+  },
+  "bc_ppo": {
+   "flops_per_update": 22242220.0,
+   "bytes_per_update": 37117252.0,
+   "env_steps_per_update": 2000,
+   "updates": 150,
+   "flops_per_env_step": 11121.11,
+   "flops_per_run": 3336333000.0
+  },
+  "bc_then_ppo": {
+   "flops_per_update": 22242220.0,
+   "bytes_per_update": 37117252.0,
+   "env_steps_per_update": 2000,
+   "updates": 150,
+   "flops_per_env_step": 11121.11,
+   "flops_per_run": 3336333000.0
+  },
+  "advisor": {
+   "flops_per_update": 22242220.0,
+   "bytes_per_update": 37117252.0,
+   "env_steps_per_update": 2000,
+   "updates": 150,
+   "flops_per_env_step": 11121.11,
+   "flops_per_run": 3336333000.0
+  }
+ },
+ "lh": {
+  "ppo": {
+   "flops_per_update": 1596480.0,
+   "bytes_per_update": 9926502.0,
+   "env_steps_per_update": 2000,
+   "updates": 150,
+   "flops_per_env_step": 798.24,
+   "flops_per_run": 239472000.0
+  },
+  "bc": {
+   "flops_per_update": 1596480.0,
+   "bytes_per_update": 9926502.0,
+   "env_steps_per_update": 2000,
+   "updates": 150,
+   "flops_per_env_step": 798.24,
+   "flops_per_run": 239472000.0
+  },
+  "bc_tf1": {
+   "flops_per_update": 1596480.0,
+   "bytes_per_update": 9926502.0,
+   "env_steps_per_update": 2000,
+   "updates": 150,
+   "flops_per_env_step": 798.24,
+   "flops_per_run": 239472000.0
+  },
+  "bc_ppo": {
+   "flops_per_update": 1596480.0,
+   "bytes_per_update": 9926502.0,
+   "env_steps_per_update": 2000,
+   "updates": 150,
+   "flops_per_env_step": 798.24,
+   "flops_per_run": 239472000.0
+  },
+  "bc_then_ppo": {
+   "flops_per_update": 1596480.0,
+   "bytes_per_update": 9926502.0,
+   "env_steps_per_update": 2000,
+   "updates": 150,
+   "flops_per_env_step": 798.24,
+   "flops_per_run": 239472000.0
+  },
+  "advisor": {
+   "flops_per_update": 1596480.0,
+   "bytes_per_update": 9926502.0,
+   "env_steps_per_update": 2000,
+   "updates": 150,
+   "flops_per_env_step": 798.24,
+   "flops_per_run": 239472000.0
+  }
+ },
+ "mg": {
+  "ppo": {
+   "flops_per_update": 112249264.0,
+   "bytes_per_update": 129394312.0,
+   "env_steps_per_update": 2000,
+   "updates": 500,
+   "flops_per_env_step": 56124.632,
+   "flops_per_run": 56124632000.0
+  },
+  "bc": {
+   "flops_per_update": 112249264.0,
+   "bytes_per_update": 129394312.0,
+   "env_steps_per_update": 2000,
+   "updates": 500,
+   "flops_per_env_step": 56124.632,
+   "flops_per_run": 56124632000.0
+  },
+  "bc_tf1": {
+   "flops_per_update": 112249264.0,
+   "bytes_per_update": 129394312.0,
+   "env_steps_per_update": 2000,
+   "updates": 500,
+   "flops_per_env_step": 56124.632,
+   "flops_per_run": 56124632000.0
+  },
+  "bc_ppo": {
+   "flops_per_update": 112249264.0,
+   "bytes_per_update": 129394312.0,
+   "env_steps_per_update": 2000,
+   "updates": 500,
+   "flops_per_env_step": 56124.632,
+   "flops_per_run": 56124632000.0
+  },
+  "bc_then_ppo": {
+   "flops_per_update": 112249264.0,
+   "bytes_per_update": 129394312.0,
+   "env_steps_per_update": 2000,
+   "updates": 500,
+   "flops_per_env_step": 56124.632,
+   "flops_per_run": 56124632000.0
+  },
+  "advisor": {
+   "flops_per_update": 112249264.0,
+   "bytes_per_update": 129394312.0,
+   "env_steps_per_update": 2000,
+   "updates": 500,
+   "flops_per_env_step": 56124.632,
+   "flops_per_run": 56124632000.0
+  }
+ }
+}

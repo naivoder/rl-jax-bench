@@ -1,0 +1,158 @@
+{
+ "platform": "cpu",
+ "n_ep": 200,
+ "rows": {
+  "policy/ppo/seed0": {
+   "dark_steps": 786.0,
+   "dark_label_diff": 0.003816793905571103,
+   "dark_tie": 0.2697201073169708,
+   "lit_steps": 8263.0,
+   "lit_label_diff": 0.038847874850034714,
+   "lit_tie": 0.3510831296443939
+  },
+  "policy/ppo/seed1": {
+   "dark_steps": 651.0,
+   "dark_label_diff": 0.006144393235445023,
+   "dark_tie": 0.2304147481918335,
+   "lit_steps": 2853.0,
+   "lit_label_diff": 0.03645285591483116,
+   "lit_tie": 0.33859094977378845
+  },
+  "policy/ppo/seed2": {
+   "dark_steps": 697.0,
+   "dark_label_diff": 0.02152080275118351,
+   "dark_tie": 0.23672883212566376,
+   "lit_steps": 2772.0,
+   "lit_label_diff": 0.03715728595852852,
+   "lit_tie": 0.31385281682014465
+  },
+  "policy/ppo/seed3": {
+   "dark_steps": 531.0,
+   "dark_label_diff": 0.013182674534618855,
+   "dark_tie": 0.22787193953990936,
+   "lit_steps": 6389.0,
+   "lit_label_diff": 0.03756456449627876,
+   "lit_tie": 0.3460635542869568
+  },
+  "policy/ppo/seed4": {
+   "dark_steps": 795.0,
+   "dark_label_diff": 0.028930816799402237,
+   "dark_tie": 0.2553459107875824,
+   "lit_steps": 2141.0,
+   "lit_label_diff": 0.042970575392246246,
+   "lit_tie": 0.34843531250953674
+  },
+  "policy/bc/seed0": {
+   "dark_steps": 4057.0,
+   "dark_label_diff": 0.040670447051525116,
+   "dark_tie": 0.3046586215496063,
+   "lit_steps": 0.0,
+   "lit_label_diff": 0.0,
+   "lit_tie": 0.0
+  },
+  "policy/bc/seed1": {
+   "dark_steps": 4121.0,
+   "dark_label_diff": 0.04319339990615845,
+   "dark_tie": 0.3084203004837036,
+   "lit_steps": 0.0,
+   "lit_label_diff": 0.0,
+   "lit_tie": 0.0
+  },
+  "policy/bc/seed2": {
+   "dark_steps": 3977.0,
+   "dark_label_diff": 0.04148855805397034,
+   "dark_tie": 0.30324363708496094,
+   "lit_steps": 0.0,
+   "lit_label_diff": 0.0,
+   "lit_tie": 0.0
+  },
+  "policy/bc/seed3": {
+   "dark_steps": 4012.0,
+   "dark_label_diff": 0.03888335078954697,
+   "dark_tie": 0.2953639030456543,
+   "lit_steps": 0.0,
+   "lit_label_diff": 0.0,
+   "lit_tie": 0.0
+  },
+  "policy/bc/seed4": {
+   "dark_steps": 4123.0,
+   "dark_label_diff": 0.035168565809726715,
+   "dark_tie": 0.2990540862083435,
+   "lit_steps": 0.0,
+   "lit_label_diff": 0.0,
+   "lit_tie": 0.0
+  },
+  "policy/advisor/seed0": {
+   "dark_steps": 343.0,
+   "dark_label_diff": 0.0,
+   "dark_tie": 0.07580175250768661,
+   "lit_steps": 18939.0,
+   "lit_label_diff": 0.019008396193385124,
+   "lit_tie": 0.24547231197357178
+  },
+  "policy/advisor/seed1": {
+   "dark_steps": 455.0,
+   "dark_label_diff": 0.002197802299633622,
+   "dark_tie": 0.11868131905794144,
+   "lit_steps": 34206.0,
+   "lit_label_diff": 0.014997368678450584,
+   "lit_tie": 0.2910015881061554
+  },
+  "policy/advisor/seed2": {
+   "dark_steps": 221.0,
+   "dark_label_diff": 0.0,
+   "dark_tie": 0.04977375641465187,
+   "lit_steps": 14956.0,
+   "lit_label_diff": 0.01698315143585205,
+   "lit_tie": 0.20854505896568298
+  },
+  "policy/advisor/seed3": {
+   "dark_steps": 299.0,
+   "dark_label_diff": 0.0,
+   "dark_tie": 0.06688962876796722,
+   "lit_steps": 33573.0,
+   "lit_label_diff": 0.020909659564495087,
+   "lit_tie": 0.28225061297416687
+  },
+  "policy/advisor/seed4": {
+   "dark_steps": 456.0,
+   "dark_label_diff": 0.0021929824724793434,
+   "dark_tie": 0.15131579339504242,
+   "lit_steps": 39034.0,
+   "lit_label_diff": 0.013757237233221531,
+   "lit_tie": 0.2875441908836365
+  },
+  "policy/advisor/seed3/draw3": {
+   "dark_steps": 387.0,
+   "dark_label_diff": 0.002583979396149516,
+   "dark_tie": 0.15762273967266083,
+   "lit_steps": 64475.0,
+   "lit_label_diff": 0.015696005895733833,
+   "lit_tie": 0.284652978181839
+  },
+  "policy/advisor/seed7/draw7": {
+   "dark_steps": 348.0,
+   "dark_label_diff": 0.0,
+   "dark_tie": 0.0833333358168602,
+   "lit_steps": 22089.0,
+   "lit_label_diff": 0.01860654540359974,
+   "lit_tie": 0.25886186957359314
+  },
+  "policy/advisor/seed48/draw48": {
+   "dark_steps": 540.0,
+   "dark_label_diff": 0.0,
+   "dark_tie": 0.0962962955236435,
+   "lit_steps": 21092.0,
+   "lit_label_diff": 0.019059358164668083,
+   "lit_tie": 0.25009483098983765
+  },
+  "teacher/ppo/seed0": {
+   "dark_steps": 6472.0,
+   "dark_label_diff": 0.0,
+   "dark_tie": 0.010970333591103554,
+   "lit_steps": 0.0,
+   "lit_label_diff": 0.0,
+   "lit_tie": 0.0
+  }
+ }
+}

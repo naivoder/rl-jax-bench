@@ -1,0 +1,95 @@
+{
+ "source": "runs/prelim_pd/report.json",
+ "family_E1": {
+  "ppo": {
+   "diff_raw_mean": 0.999,
+   "diff_oriented_mean": 0.999,
+   "diff_se": 0.00044721359549995833,
+   "boot95_oriented": [
+    0.9982000000000001,
+    0.9998000000000001
+   ],
+   "p_one_sided": 1.2048104144100754e-13,
+   "wins": 5,
+   "ties": 0,
+   "n": 5,
+   "p_holm": 7.228862486460453e-13,
+   "claim": true
+  },
+  "bc": {
+   "diff_raw_mean": 1.659,
+   "diff_oriented_mean": 1.659,
+   "diff_se": 0.02824535360019413,
+   "boot95_oriented": [
+    1.6074000000000002,
+    1.7056
+   ],
+   "p_one_sided": 2.5158513945170275e-07,
+   "wins": 5,
+   "ties": 0,
+   "n": 5,
+   "p_holm": 1.2579256972585138e-06,
+   "claim": true
+  },
+  "dagger": {
+   "diff_raw_mean": 1.659,
+   "diff_oriented_mean": 1.659,
+   "diff_se": 0.02824535360019413,
+   "boot95_oriented": [
+    1.6074000000000002,
+    1.7056
+   ],
+   "p_one_sided": 2.5158513945170275e-07,
+   "wins": 5,
+   "ties": 0,
+   "n": 5,
+   "p_holm": 1.2579256972585138e-06,
+   "claim": true
+  },
+  "bc_tf1": {
+   "diff_raw_mean": 1.659,
+   "diff_oriented_mean": 1.659,
+   "diff_se": 0.02824535360019413,
+   "boot95_oriented": [
+    1.6074000000000002,
+    1.7056
+   ],
+   "p_one_sided": 2.5158513945170275e-07,
+   "wins": 5,
+   "ties": 0,
+   "n": 5,
+   "p_holm": 1.2579256972585138e-06,
+   "claim": true
+  },
+  "bc_ppo": {
+   "diff_raw_mean": 1.659,
+   "diff_oriented_mean": 1.659,
+   "diff_se": 0.030136356780473644,
+   "boot95_oriented": [
+    1.6034000000000002,
+    1.7088
+   ],
+   "p_one_sided": 3.259446951002118e-07,
+   "wins": 5,
+   "ties": 0,
+   "n": 5,
+   "p_holm": 1.2579256972585138e-06,
+   "claim": true
+  },
+  "bc_then_ppo": {
+   "diff_raw_mean": 1.6322000000000003,
+   "diff_oriented_mean": 1.6322000000000003,
+   "diff_se": 0.03070895634827078,
+   "boot95_oriented": [
+    1.5742,
+    1.6824000000000001
+   ],
+   "p_one_sided": 3.7502808793031004e-07,
+   "wins": 5,
+   "ties": 0,
+   "n": 5,
+   "p_holm": 1.2579256972585138e-06,
+   "claim": true
+  }
+ }
+}

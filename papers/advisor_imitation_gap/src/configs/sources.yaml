@@ -1,0 +1,136 @@
+# sources.yaml: one entry per planned config key -> value + source tag.
+# Tags: 'paper §X' / 'Table N' / 'Figure N' / 'Appendix A.x' / 'official code' (allenai/advisor @ 6849755 + AllenAct main @ f00445e4, 2021-12-16; the first implementation pass read v0.5.0 @ 4c5341d, identical on every piece we port) / 'ASSUMED (reason)'.
+meta:
+  paper: "Weihs et al., Bridging the Imitation Gap by Adaptive Insubordination, NeurIPS 2021, arXiv:2007.12173v3"
+  official_repo: {url: "https://github.com/allenai/advisor", commit: "6849755042c6dab1488f64cf21bde2322add3cc1"}
+  framework: {url: "https://github.com/allenai/allenact", commit: "f00445e4ae8724ccc001b3300af5c56a7f882614", note: "last AllenAct main commit before the advisor commit (2022-01-01); v0.5.0 (4c5341dc) cannot load the advisor MiniGrid/PD configs (create_minigrid_offpolicy_data_iterator removed in d1d53535). All parity fixtures regenerate bit-identically under f00445e4."}
+
+advisor:
+  distance: {value: "KL(pi_teach||pi_aux) = -log pi_aux(a*)", source: "paper §3.2 (KL) + official code advisor_losses.py:AdvisorWeightedStage (label log-prob)"}
+  weight_fn: {value: "w = exp(-alpha*d) = pi_aux(a*)^alpha", source: "paper Eq. 3 + official code"}
+  w_stop_gradient: {value: true, source: "official code (.detach())"}
+  bound_beta: {value: 0.0, source: "official code (fixed_bound=0 for PD/MiniGrid/2D-LH); paper App. A.9 uses beta without definition"}
+  rl_weight_applies_to: {value: [ppo_surrogate, entropy], source: "official code"}
+  value_loss_weighted: {value: false, source: "official code; paper Figure 3"}
+  aux_head: {value: "separate linear head on shared trunk, independent init, CE weight 1", source: "paper §3.3, Figure 3 + official code (SAME_INIT_VALS_FOR_ADVISOR_HEAD=False)"}
+  main_ce_reduction: {value: "mean over all rollout steps", source: "official code"}
+  aux_ce_reduction: {value: "masked mean over steps with a valid expert label", source: "official code"}
+  alpha_search_set: {value: [4, 8, 16, 32], source: "Appendix A.7.1 + official code random_hp_search.py (np seed 3)"}
+  alpha_fixed_pd: {value: 8, source: "ASSUMED (fixed-hp seed runs; a reduced sweep over the paper's set is declared)"}
+  alpha_fixed_minigrid: {value: 8, source: "ASSUMED (as above)"}
+  alpha_lighthouse: {value: 20, source: "official code lighthouse_experiments/advisor_ppo.py"}
+
+ppo:
+  clip: {value: 0.1, source: "Table A.3"}
+  clip_decay: {value: "linear 1 -> 0 over the PPO stage", source: "Table A.3 + official code LinearDecay(steps)"}
+  clipped_value_loss: {value: true, source: "official code (AllenAct PPO use_clipped_value_loss=True)"}
+  value_loss_coef: {value: 0.5, source: "Table A.3"}
+  entropy_coef: {value: 0.01, source: "official code (AllenAct PPOConfig)"}
+  gamma: {value: 0.99, source: "Table A.3"}
+  gae_lambda: {value: 1.0, source: "Table A.3"}
+  advantage_normalisation: {value: "whole rollout, (A-mean)/(std+1e-5)", source: "official code (RolloutStorage)"}
+  rollout_len: {value: 100, source: "Table A.3"}
+  n_envs: {value: 20, source: "Table A.3 (# processes sampling rollouts)"}
+  num_minibatches: {value: 2, source: "official code rl_loss_default (= 'rollouts per batch 10', Table A.3)"}
+  epochs: {value: 4, source: "Table A.3"}
+  optimizer: {value: "adam b1=0.9 b2=0.999 eps=1e-8", source: "Table A.3 (betas) + official code (torch default eps)"}
+  lr_schedule: {value: "linear decay to 0 over total training steps", source: "official code (LambdaLR LinearDecay); not in paper"}
+  grad_clip_norm: {value: 0.5, source: "Table A.3"}
+  grad_clip_rule: {value: "g * min(1, 0.5 / (||g|| + 1e-6))", source: "official code (torch.nn.utils.clip_grad_norm_ in AllenAct engine.backprop_step); official-code comparison fix (optax clip_by_global_norm has no 1e-6)"}
+  lstm_biases: {value: "two bias vectors b_ih, b_hh (zero init), as torch.nn.LSTM", source: "official code (torch LSTM via RNNStateEncoder); official-code comparison fix: a single bias halved the effective bias step under Adam"}
+  lr_grid_pd_minigrid: {value: [3.0e-4, 1.0e-3, 3.0e-3], source: "ASSUMED (budget; equal-effort tuning on seeds 100-101; paper samples log-uniform [1e-4, 0.5), Appendix A.7.1)"}
+  lr_lighthouse: {value: 0.0242, source: "official code lighthouse_experiments/base.py (paper App. A.9 procedure)"}
+  stage_split: {value: 0.5, source: "ASSUMED (centre of U[0.1,0.9), Appendix A.7.1); official code for 2D-LH BC->PPO"}
+
+imitation:
+  bc_teacher_forcing: {value: 0.0, source: "paper §4.2 + official code bc.py"}
+  dagger_tf_schedule: {value: "linear 1 -> 0 over stage_split*steps, then 0", source: "official code dagger.py"}
+  bc_tf1: {value: 1.0, source: "paper §4.2 + official code bc_teacher_forcing.py"}
+  bc_plus_ppo_weights: {value: [1.0, 1.0], source: "Appendix A.5.7 ('simple sum') + official code bc_with_ppo.py"}
+
+poisoned_doors:
+  num_doors: {value: 4, source: "Appendix A.5.1"}
+  combination_length: {value: 10, source: "Appendix A.5.1"}
+  digits: {value: 3, source: "Appendix A.5.1 ({0,1,2})"}
+  combination: {value: "python random.seed(10); [random.randint(0,2) for _ in range(10)]", source: "official code poisoneddoors_tasks.get_combination"}
+  action_order: {value: [c0, c1, c2, d_locked, d1, d2, d3], source: "official code"}
+  digit_at_door_state: {value: "no-op, reward 0", source: "official code"}
+  wrong_or_door_action_in_code_state: {value: "episode ends, reward 0", source: "official code; Appendix A.5.1"}
+  rewards: {value: {locked_open: 1.0, good_door: 2.0, bad_door: -2.0, wrong_code: 0.0}, source: "paper Ex. 1, Appendix A.5.1"}
+  good_door: {value: "uniform over {1,2,3} (1 + seed % 3)", source: "official code; paper Ex. 1"}
+  max_steps: {value: 100, source: "official code PD_MAX_STEPS"}
+  obs: {value: "state enum {0,1,2,3}", source: "Appendix A.5.10 + official code"}
+  embed_dim: {value: 128, source: "Appendix A.8"}
+  lstm_hidden: {value: 128, source: "Appendix A.8"}
+  n_actions: {value: 7, source: "Appendix A.8 (128x7 head) + official code"}
+  train_steps: {value: 300000, source: "Table A.3; official code PD_TOTAL_TRAIN_STEPS"}
+  eval_episodes: {value: 1000, source: "official code NUM_TEST_TASKS"}
+  eval_checkpoints: {value: [76000, 152000, 228000, 302000], source: "official code (CKPTS_TO_SAVE=4; TSV train_steps)"}
+
+lighthouse_2d:
+  world_radius_N: {value: 15, source: "official code WORLD_RADIUS (paper Figure 6 grey lines consistent)"}
+  start: {value: [0, 0], source: "official code (random_reset)"}
+  goal: {value: "uniform corner", source: "Appendix A.5.2 + official code"}
+  n_actions: {value: 4, source: "Appendix A.8"}
+  max_steps: {value: 1000, source: "Appendix A.10"}
+  rewards: {value: {step: -0.01, goal_total: 0.99, timeout_last_step: -1.0}, source: "Appendix A.10 + official code"}
+  obs: {value: "6400-d patsy full-rank factorial coding (NOT one-hot; 1-13 active columns) of (4 corner codes in {empty,goal,wrong,wall} with seen-corner memory, border code 0-4, last action 0-4); subterms in src/configs/lighthouse_patsy_subterms.json; sha256 of the 6400x6400 matrix 24abe0a6...51d1 equals patsy", source: "Appendix A.5.10 (6400) + official code FactorialDesignCornerSensor (DEGREE=-1); an earlier one-hot reading was corrected"}
+  eval_goals: {value: "official test-goal list: test episode k uses the goal the official test sampler draws for seed 2^31-1+k (src/configs/lh_official_test_goals.json; corner counts 50/51/57/42)", source: "official code (fix found in the full-scale runs; replaced an ASSUMED balanced k % 4)"}
+  early_stop_check_every_updates: {value: 5, source: "official code (metric_accumulate_interval = 10 * MAX_STEPS = 10000 steps)"}
+  model: {value: "single Linear(6400 -> 2*4+1): main logits, aux logits, value; orthogonal init, zero bias", source: "Appendix A.8 + official code LinearAdvisorActorCritic"}
+  teacher: {value: "hand-coded deterministic rule on the f_j corner obs", source: "official code FindGoalLightHouseTask.query_expert"}
+  optimal_len: {value: "5N - 3i", source: "official code optimal_ave_ep_length"}
+  early_stop: {value: "official StopIfNearOptimal ported literally (memory starts at 50, GROWS to the episode count of an interval that exceeds it; partial-write branch never advances current_pos unless it overflows, then pos + count % n); stop iff filled and memory mean < 1.05*optimal", source: "official code allenact_plugins/lighthouse_plugin/lighthouse_util.py; official-code comparison replaced the 50-slot circular approximation; decision-for-decision parity on 60 x 40 streams (tests/test_official_parity.py)"}
+  train_steps: {value: 300000, source: "Table A.3"}
+  bc_then_ppo_split: {value: 0.5, source: "official code lighthouse_experiments/bc_then_ppo.py"}
+  cells_ij: {value: [[1,1],[1,15],[3,3],[3,15],[5,5],[5,9],[5,15]], source: "ASSUMED (subset of Figure 6 grid incl. no-gap controls i=j)"}
+  seeds_per_cell: {value: 25, source: "official TSV (25 runs per cell; full-scale runs/plans/full_lh.json); preliminary runs used 5)"}
+  eval_episodes: {value: 200, source: "§4.4 + official code NUM_TEST_TASKS"}
+
+minigrid_lc_once_switch:
+  grid: {value: {S: 15, N: 7, obstacle: lava}, source: "Appendix A.5.5 + official code AskForHelpLavaCrossingOnce"}
+  actions: {value: [left, right, forward, toggle], source: "official code AskForHelpSimpleCrossingTask"}
+  toggle_permanent: {value: true, source: "Appendix A.5.5 + official code"}
+  dark_obs: {value: "all-zero 7x7x3 (same as 'unseen')", source: "official code (paper App. A.8 says unique tokens: recorded discrepancy)"}
+  view: {value: "7x7x3 egocentric", source: "Appendix A.5.10"}
+  max_steps: {value: "4*S^2 = 900", source: "Appendix A.10 + gym-minigrid CrossingEnv"}
+  reward: {value: "1 - 0.9*steps/max_steps at goal else 0", source: "official code (gym-minigrid); paper App. A.10 prints 1 - len/max"}
+  repeat_failed_layout_min_steps: {value: 1000, source: "official code"}
+  teacher: {value: "BFS shortest path on (x,y,dir) graph, never toggles; ties -> lowest action index (left,right,forward) EXCEPT a left/right tie while facing dir 0 -> right", source: "Appendix A.5.3 + official code MiniGridTask.query_expert (networkx adjacency order); tie-break measured exhaustively on 17 432 states of 100 official layouts (tests/fixtures/official_mg_expert_all.npz). The first preliminary and full-scale MG runs used the pre-fix 'always lowest index' rule (2.9 % of states differ; crossing.OFFICIAL_TIEBREAK=False reproduces it)"}
+  reset_pool_per_update: {value: 4, source: "ASSUMED (implementation: fresh layouts per env per 100-step rollout). pool_overflow is computed per update but NOT persisted; overflow is impossible by an analytic bound (<= 4 fresh layouts consumed per 100-step rollout: a success needs >= 25 steps, a layout expiry at most one per rollout)"}
+  eval_layouts: {value: "fold_in(PRNGKey(2^31-1), k), k < 1000", source: "ASSUMED"}
+  embedding_init: {value: "N(0,1) (torch nn.Embedding default), applied as one-hot @ table", source: "official code (MiniGridSimpleConvBase)"}
+  embed: {value: "type/colour/state embeddings dim 8 -> 7x7x24 flatten", source: "Appendix A.8 + Table A.3"}
+  lstm_hidden: {value: 128, source: "Table A.3"}
+  train_steps: {value: 1000000, source: "Table A.3"}
+  seeds: {value: 5, source: "ASSUMED (budget; >= 5)"}
+  eval_episodes: {value: 1000, source: "official code"}
+
+public_teacher_extension:   # not in the paper; option kept in src/envs/pd.py and scripts/run_grid.py --teacher public
+  public_teacher_pd: {value: "d_locked then code with the last n_wrong digits wrong (return 0); n_wrong = 1, 2, 3", source: "ASSUMED"}
+  pd_eval_doors: {value: "good door of eval task k = 1 + (2^31 - 1 + k) % 3, host-built int64 table", source: "official code (test sampler seed 2^31-1+k); an earlier int32 overflow was fixed"}
+
+
+full:
+  early_stopping_stages: {value: "StopIfNearOptimal only on stages with teacher forcing tf0 = 0 (2D-LH)", source: "official code (lighthouse_experiments/dagger.py, bc_teacher_forcing*.py, dagger_then_ppo.py); fixed after the first full-scale runs"}
+  n_eval_mid: {value: 200, source: "ASSUMED (budget; curve checkpoints only; final checkpoint keeps 1000 PD/MG episodes)"}
+  mg_lr_all_arms: {value: 0.001, source: "ASSUMED (inside the authors' best lr band; one lr for every arm, no arm tuned)"}
+  mg_alpha: {value: 8, source: "ASSUMED"}
+  mg_seeds: {value: [0, 1, 2, 3, 4], source: "ASSUMED (budget; >= 5)"}
+  mg_official_draws: {value: [3, 7, 48], source: "official code (random_hp_search draws; the reference-run draws)"}
+  lh_seeds: {value: "0-24 (25 = the authors' runs per cell)", source: "Section 4.4 / official TSV (25 runs per cell)"}
+  lh_cells: {value: "(1,1) (1,3)..(1,15) (3,3) (3,15) (5,5) (5,9) (5,15)", source: "Figure 6 / Table A.1 subset (budget)"}
+  lh_ablation_alpha: {value: 0, source: "ASSUMED (ablation: w = 1 everywhere)"}
+  pd_draws: {value: "0-15 of the authors' 50 (lr, alpha, stage-split; seed = draw)", source: "Appendix A.7.1 + official code TSV (16 of 50: CPU budget)"}
+  pd_alpha_sweep: {value: [0, 1, 2, 4, 8], source: "ASSUMED (T-alpha test of the exact-flow toy, scripts/toys.py; lr 3e-3 = preliminary tuned ADV lr)"}
+  pd_device: {value: cpu, source: "ASSUMED (GPU hard ceiling; CPU runs are labelled platform=cpu)"}
+  lh_test_goals: {value: "official test-sampler goals for seeds 2^31-1+k, k < 200 (counts 50/51/57/42)", source: "official code (lighthouse_experiments/base.py test_task_sampler_args; allenact FindGoalLightHouseTaskSampler); src/configs/lh_official_test_goals.json"}
+  x_then_adv_warmup: {value: "main CE + aux CE (masked means)", source: "official code (advisor_losses.AdvisorImitationStage)"}
+
+recheck:
+  lh_tsv_test_seed: {value: "12345 for every run (all TSV 2D-LH test values are one shared draw)", source: "official code allenact/algorithms/onpolicy_sync/runner.py:577 (start_test); reproduced bit-exactly on 30/30 authors'-code weights"}
+  lh_tail_statistic: {value: "Table A.1 analogue = expectation over >= 40 independent eval keys per run, beside the single draw", source: "correctness"}
+  fig5c_checkpoints: {value: "0.25 / 0.5 / 0.75 / 1.0 M steps; RR@10 0.390 / 0.604 / 0.776 / 0.805", source: "Figure 5c (300 dpi) + official TSV train_steps"}
+  mg_curve_comparator: {value: "authors' 4 runs at alpha 8, lr in [3e-4, 3e-3] (draws 12, 8, 7, 48)", source: "official TSV"}
+  rr10_16draw_spread: {value: "5-95 % of RR@10 over 2000 random 16-of-50 subsets of the authors' TSV", source: "official expected_max_of_subset_statistic"}
+  talpha_toy_slope: {value: 1.218, source: "exact-flow toy, least-squares slope of ln(3^a - 1) over a in {1, 2, 4}"}

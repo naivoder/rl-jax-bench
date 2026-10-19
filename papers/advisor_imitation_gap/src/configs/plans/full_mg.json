@@ -1,0 +1,2 @@
+[{"arms": ["ppo", "bc", "bc_tf1", "bc_ppo", "bc_then_ppo", "advisor"], "seeds": [0, 1, 2, 3, 4], "lrs": [0.001], "alphas": [8.0]},
+ {"arms": ["advisor"], "draws": [3, 7, 48]}]

@@ -1,0 +1,74 @@
+{
+ "n_eval": 1000,
+ "platform": "cpu",
+ "rows": [
+  {
+   "name": "mg_advisor_s1",
+   "exp": "advisor",
+   "seed": 1,
+   "official_reward": 0.19890500000000005,
+   "official_success": 0.277,
+   "ours_harness_reward": [
+    0.19572298228740692,
+    0.1958090215921402,
+    0.18475604057312012
+   ],
+   "ours_harness_success": [
+    0.2630000114440918,
+    0.26900002360343933,
+    0.24800001084804535
+   ]
+  },
+  {
+   "name": "mg_advisor_s2",
+   "exp": "advisor",
+   "seed": 2,
+   "official_reward": 0.02737700000000001,
+   "official_success": 0.042,
+   "ours_harness_reward": [
+    0.033282000571489334,
+    0.023459000512957573,
+    0.027643997222185135
+   ],
+   "ours_harness_success": [
+    0.046000003814697266,
+    0.032999999821186066,
+    0.0430000014603138
+   ]
+  },
+  {
+   "name": "mg_bc_s0",
+   "exp": "bc",
+   "seed": 0,
+   "official_reward": 0.0,
+   "official_success": 0.0,
+   "ours_harness_reward": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "ours_harness_success": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "mg_ppo_s0",
+   "exp": "ppo",
+   "seed": 0,
+   "official_reward": 0.0,
+   "official_success": 0.0,
+   "ours_harness_reward": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "ours_harness_success": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  }
+ ]
+}
