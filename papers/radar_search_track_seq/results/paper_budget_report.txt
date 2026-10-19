@@ -1,0 +1,123 @@
+
+=== mode stoch ===
+| arm | M_cov | Σd | Σmissed | SR | tracks | init | track-bearing eps |
+| static | 971.2 ± 1.2e+02 | 1.226e+07 ± 1.2e+04 | 1.493e+11 ± 2.9e+08 | -0.9461 ± 0 | 0.0295 ± 0.014 | 0.062 ± 0.035 | [4, 0, 1, 2, 0] |
+| random | 2067 ± 4.4 | 1.186e+07 ± 4.5e+03 | 1.415e+11 ± 1e+08 | -0.003463 ± 6.8e-06 | 0.1701 ± 0.002 | 10.37 ± 0.098 | [100, 100, 100, 100, 100] |
+| coverage | 2272 ± 0 | 1.187e+07 ± 0 | 1.42e+11 ± 0 | -0.0002002 ± 1.4e-20 | 0.1597 ± 0 | 9.99 ± 0 | [100, 100, 100, 100, 100] |
+| coverage_boustro | 2244 ± 0 | 1.187e+07 ± 0 | 1.419e+11 ± 0 | -0.000232 ± 1.4e-20 | 0.162 ± 0 | 9.36 ± 0 | [100, 100, 100, 100, 100] |
+| hand | 1164 ± 0 | 8.307e+06 ± 0 | 3.326e+10 ± 0 | -0.1693 ± 0 | 3.419 ± 0 | 7.87 ± 0 | [100, 100, 100, 100, 100] |
+| ceiling | 1405 ± 0 | 1.076e+07 ± 0 | 1.795e+08 ± 0 | -0.3937 ± 0 | 5.577 ± 0 | 15.3 ± 0 | [100, 100, 100, 100, 100] |
+| flat | 1644 ± 41 | 1.086e+07 ± 8.9e+04 | 1.2e+11 ± 1.8e+09 | -0.02421 ± 0.0051 | 0.612 ± 0.037 | 15.73 ± 0.56 | [100, 100, 100, 100, 100] |
+| bigru | 1505 ± 1.8e+02 | 1.12e+07 ± 6.1e+04 | 1.27e+11 ± 1.1e+09 | -0.03481 ± 0.014 | 0.4676 ± 0.022 | 10.73 ± 2.6 | [63, 100, 100, 56, 100] |
+| mhsa | 1673 ± 1.3e+02 | 1.138e+07 ± 1.5e+05 | 1.306e+11 ± 3.2e+09 | -0.02391 ± 0.0086 | 0.3985 ± 0.067 | 9.32 ± 1.8 | [100, 100, 68, 97, 100] |
+ratios:
+  m_cov:static: 0.47 ± 0.056 band (2.505, 3.044) grade UNDEFINED (too few track-bearing episodes) (Random itself DIVERGENT) Δ% -83.1
+  m_cov:coverage: 1.099 ± 0.0023 band (0.532, 0.68) grade DIVERGENT (Random itself DIVERGENT) Δ% 81.7
+  sr:coverage: 0.0578 ± 0.00011 band (0.366, 0.395) grade DIVERGENT (Random itself DIVERGENT) Δ% -84.8
+  m_cov:hand: 0.5631 ± 0.0012 band None grade None (Random itself None) Δ% nan
+  sr:hand: 48.89 ± 0.097 band None grade None (Random itself None) Δ% nan
+  gospa_d:hand: 0.7005 ± 0.00027 band None grade None (Random itself None) Δ% nan
+  gospa_miss:hand: 0.235 ± 0.00017 band None grade None (Random itself None) Δ% nan
+  gospa_d_med:hand: 0.7207 ± 0.00049 band None grade None (Random itself None) Δ% nan
+  gospa_miss_med:hand: 0.2015 ± 0.00024 band None grade None (Random itself None) Δ% nan
+  m_cov:flat: 0.7955 ± 0.019 band (0.652, 0.955) grade MATCH (Random itself CLOSE) Δ% 3.71
+  sr:flat: 6.984 ± 1.5 band (0.927007299270073, 1.078740157480315) grade DIVERGENT (Random itself MATCH) Δ% 547
+  gospa_d:flat: 0.916 ± 0.0075 band None grade None (Random itself None) Δ% nan
+  gospa_miss:flat: 0.8481 ± 0.012 band None grade None (Random itself None) Δ% nan
+  gospa_d_med:flat: 0.9457 ± 0.0076 band None grade None (Random itself None) Δ% nan
+  gospa_miss_med:flat: 0.8977 ± 0.013 band None grade None (Random itself None) Δ% nan
+  m_cov:bigru: 0.7278 ± 0.088 band (0.662, 0.92) grade MATCH (Random itself DIVERGENT) Δ% -5.6
+  sr:bigru: 10.05 ± 4.2 band (0.927007299270073, 1.078740157480315) grade DIVERGENT (Random itself MATCH) Δ% 832
+  gospa_d:bigru: 0.9445 ± 0.0048 band None grade None (Random itself None) Δ% nan
+  gospa_miss:bigru: 0.8977 ± 0.0072 band None grade None (Random itself None) Δ% nan
+  gospa_d_med:bigru: 0.9895 ± 0.016 band None grade None (Random itself None) Δ% nan
+  gospa_miss_med:bigru: 0.9811 ± 0.03 band None grade None (Random itself None) Δ% nan
+  m_cov:mhsa: 0.8088 ± 0.064 band (0.351, 0.564) grade DIVERGENT (Random itself DIVERGENT) Δ% 66.1
+  sr:mhsa: 6.896 ± 2.5 band (0.927007299270073, 1.078740157480315) grade DIVERGENT (Random itself MATCH) Δ% 539
+  gospa_d:mhsa: 0.9599 ± 0.012 band None grade None (Random itself None) Δ% nan
+  gospa_miss:mhsa: 0.9231 ± 0.022 band None grade None (Random itself None) Δ% nan
+  gospa_d_med:mhsa: 0.9905 ± 0.012 band (0.9492271962841354, 0.9545491046334217) grade MATCH (Random itself CLOSE) Δ% 4.06
+  gospa_miss_med:mhsa: 0.9826 ± 0.022 band (0.8376068376068377, 0.8443627450980392) grade CLOSE (Random itself CLOSE) Δ% 16.8
+primary:
+  H1 m_cov mhsa<flat: 1673 vs 1644, Δ 28.09 ± 1.2e+02, boot ['-216', '239'], p1 0.584, holm 1, p2 0.833, wins 1/5 -> not supported / DIVERGENT*; pairings {'n': 120, 'frac_one_sided_p_lt_05': 0.0, 'frac_reversed': 0.0, 'welch_one_sided_p': 0.5750469732163215}
+  H2 m_cov mhsa<bigru: 1673 vs 1505, Δ 168 ± 2.5e+02, boot ['-253', '606'], p1 0.732, holm 1, p2 0.536, wins 2/5 -> not supported / DIVERGENT*; pairings {'n': 120, 'frac_one_sided_p_lt_05': 0.0, 'frac_reversed': 0.0, 'welch_one_sided_p': 0.75961844098632}
+  H3 m_cov mhsa<coverage: 1673 vs 2272, Δ -599.3 ± 1.3e+02, boot ['-853', '-389'], p1 0.0056, holm 0.0336, p2 0.0112, wins 5/5 -> supported / MATCH; pairings {'n': 1, 'frac_one_sided_p_lt_05': 1.0, 'frac_reversed': 0.0, 'welch_one_sided_p': None}
+  H4 gospa_d mhsa<random: 1.138e+07 vs 1.186e+07, Δ -4.759e+05 ± 1.4e+05, boot ['-7.26e+05', '-2.26e+05'], p1 0.015, holm 0.0752, p2 0.0301, wins 5/5 -> not supported / CLOSE; pairings {'n': 120, 'frac_one_sided_p_lt_05': 1.0, 'frac_reversed': 0.0, 'welch_one_sided_p': 0.016327677823835148}
+  H5 gospa_miss mhsa<flat: 1.306e+11 vs 1.2e+11, Δ 1.062e+10 ± 2.8e+09, boot ['5.7e+09', '1.52e+10'], p1 0.991, holm 1, p2 0.0183, wins 0/5 -> reversed / DIVERGENT; pairings {'n': 120, 'frac_one_sided_p_lt_05': 0.0, 'frac_reversed': 0.5, 'welch_one_sided_p': 0.9862752389043982}
+  H6 gospa_miss mhsa<bigru: 1.306e+11 vs 1.27e+11, Δ 3.607e+09 ± 2.9e+09, boot ['-1.27e+09', '8.92e+09'], p1 0.862, holm 1, p2 0.276, wins 1/5 -> not supported / DIVERGENT*; pairings {'n': 120, 'frac_one_sided_p_lt_05': 0.0, 'frac_reversed': 0.0, 'welch_one_sided_p': 0.8293020517142633}
+hand: {"flat": {"m_cov": {"diff": 480.5153433456261, "p": 0.00029260858967247234, "lr": 0.7954682839573097, "hr": 0.563079336922132}, "gospa_d": {"diff": 2555407.143281617, "p": 8.694130193628022e-06, "lr": 0.9159753589821555, "hr": 0.7004867425293355}, "gospa_miss": {"diff": 86754200000.0, "p": 1.0716032721132899e-06, "lr": 0.848123663810072, "hr": 0.23503112721608804}}, "bigru": {"m_cov": {"diff": 340.62195168006144, "p": 0.13439524958947247, "lr": 0.7278113305192131, "hr": 0.563079336922132}, "gospa_d": {"diff": 2894298.3152819113, "p": 1.1896725640306014e-06, "lr": 0.9445475205546747, "hr": 0.7004867425293355}, "gospa_miss": {"diff": 93769800000.0, "p": 1.0719797558050169e-07, "lr": 0.8976963434363785, "hr": 0.23503112721608804}}, "mhsa": {"m_cov": {"diff": 508.6028501025148, "p": 0.01942769282378964, "lr": 0.8088205769126079, "hr": 0.563079336922132}, "gospa_d": {"diff": 3075905.7296230476, "p": 3.2022809822283206e-05, "lr": 0.9598520995111774, "hr": 0.7004867425293355}, "gospa_miss": {"diff": 97376800000.0, "p": 7.364575792386641e-06, "lr": 0.9231436788750955, "hr": 0.23503112721608804}}}
+secondary: {"S1": {"coverage": -0.0002001579179903243, "random": -0.003463061497194259, "holds": true}, "S2": {"sr": {"static": -0.9460655985115348, "random": -0.003463061497194259, "coverage": -0.0002001579179903243, "coverage_boustro": -0.00023200947316939481, "hand": -0.16931470653641553, "ceiling": -0.3936940433919741, "flat": -0.02421221018221579, "bigru": -0.03480944592710306, "mhsa": -0.02390786749424412}, "holds": true}, "S3": {"flat": {"ratio": 6.984217417383111, "holds": false}, "bigru": {"ratio": 10.052888365376255, "holds": false}, "mhsa": {"ratio": 6.896275401690842, "holds": false}}, "F~B": {"rel_diff": -0.06767271769019274, "p_two_sided": 0.5427559677792254, "ci90": [-0.28480078095751576, 0.1494553455771303], "consistent": true, "established": false}}
+gap: {"m_cov": {"defined": false, "gap": -240.6029445155084, "f": {"flat": 1.9971299366814435, "bigru": 1.4157015092477647, "mhsa": 2.1138679375959675}}, "gospa_d": {"defined": false, "gap": -2452554.373183882, "f": {"flat": 1.0419369989192995, "bigru": 1.180115860805386, "mhsa": 1.2541641332216162}}, "gospa_miss": {"defined": true, "gap": 33077500000.0, "f": {"flat": -2.6227556496107627, "bigru": -2.8348514851485147, "mhsa": -2.9438984203763887}}}
+readings: {"static": {"t2t": 0.02066666666666667, "coast": 0.4929299660947076, "med": 0.4832420414884237}, "random": {"t2t": 3.457333333333333, "coast": 1.0491936187354038, "med": 1.0}, "coverage": {"t2t": 3.3299999999999996, "coast": 1.153094887155322, "med": 1.0607010265891792}, "coverage_boustro": {"t2t": 3.1199999999999997, "coast": 1.1389745003127605, "med": 1.0444275210573473}, "hand": {"t2t": 2.6233333333333335, "coast": 0.5907687668285397, "med": 0.48715170840522354}, "ceiling": {"t2t": 5.1000000000000005, "coast": 0.7128848867376091, "med": 0.6717169455335561}, "flat": {"t2t": 5.242666666666667, "coast": 0.8346505256503229, "med": 0.9429375213480643}, "bigru": {"t2t": 3.5760000000000005, "coast": 0.7636487420872902, "med": 0.7625691988149046}, "mhsa": {"t2t": 3.106666666666667, "coast": 0.848906117367946, "med": 0.8735741334836954}}
+
+=== mode det ===
+| arm | M_cov | Σd | Σmissed | SR | tracks | init | track-bearing eps |
+| static | 971.2 ± 1.2e+02 | 1.226e+07 ± 1.2e+04 | 1.493e+11 ± 2.9e+08 | -0.9461 ± 0 | 0.0295 ± 0.014 | 0.062 ± 0.035 | [4, 0, 1, 2, 0] |
+| random | 2067 ± 4.4 | 1.186e+07 ± 4.5e+03 | 1.415e+11 ± 1e+08 | -0.003463 ± 6.8e-06 | 0.1701 ± 0.002 | 10.37 ± 0.098 | [100, 100, 100, 100, 100] |
+| coverage | 2272 ± 0 | 1.187e+07 ± 0 | 1.42e+11 ± 0 | -0.0002002 ± 1.4e-20 | 0.1597 ± 0 | 9.99 ± 0 | [100, 100, 100, 100, 100] |
+| coverage_boustro | 2244 ± 0 | 1.187e+07 ± 0 | 1.419e+11 ± 0 | -0.000232 ± 1.4e-20 | 0.162 ± 0 | 9.36 ± 0 | [100, 100, 100, 100, 100] |
+| hand | 1164 ± 0 | 8.307e+06 ± 0 | 3.326e+10 ± 0 | -0.1693 ± 0 | 3.419 ± 0 | 7.87 ± 0 | [100, 100, 100, 100, 100] |
+| ceiling | 1405 ± 0 | 1.076e+07 ± 0 | 1.795e+08 ± 0 | -0.3937 ± 0 | 5.577 ± 0 | 15.3 ± 0 | [100, 100, 100, 100, 100] |
+| flat | 1126 ± 1.5e+02 | 1.215e+07 ± 5.5e+04 | 1.435e+11 ± 1.3e+09 | -0.6366 ± 0.11 | 0.1913 ± 0.043 | 2.222 ± 0.86 | [18, 40, 2, 17, 14] |
+| bigru | 1179 ± 2e+02 | 1.209e+07 ± 3.4e+04 | 1.452e+11 ± 1e+09 | -0.5525 ± 0.095 | 0.1152 ± 0.023 | 0.93 ± 0.22 | [16, 11, 33, 21, 19] |
+| mhsa | 1025 ± 1.2e+02 | 1.218e+07 ± 2.6e+04 | 1.455e+11 ± 1.4e+09 | -0.6296 ± 0.12 | 0.1346 ± 0.044 | 0.614 ± 0.2 | [8, 16, 30, 6, 4] |
+ratios:
+  m_cov:static: 0.47 ± 0.056 band (2.505, 3.044) grade UNDEFINED (too few track-bearing episodes) (Random itself DIVERGENT) Δ% -83.1
+  m_cov:coverage: 1.099 ± 0.0023 band (0.532, 0.68) grade DIVERGENT (Random itself DIVERGENT) Δ% 81.7
+  sr:coverage: 0.0578 ± 0.00011 band (0.366, 0.395) grade DIVERGENT (Random itself DIVERGENT) Δ% -84.8
+  m_cov:hand: 0.5631 ± 0.0012 band None grade None (Random itself None) Δ% nan
+  sr:hand: 48.89 ± 0.097 band None grade None (Random itself None) Δ% nan
+  gospa_d:hand: 0.7005 ± 0.00027 band None grade None (Random itself None) Δ% nan
+  gospa_miss:hand: 0.235 ± 0.00017 band None grade None (Random itself None) Δ% nan
+  gospa_d_med:hand: 0.7207 ± 0.00049 band None grade None (Random itself None) Δ% nan
+  gospa_miss_med:hand: 0.2015 ± 0.00024 band None grade None (Random itself None) Δ% nan
+  m_cov:flat: 0.5441 ± 0.071 band (0.652, 0.955) grade UNDEFINED (too few track-bearing episodes) (Random itself CLOSE) Δ% -29.1
+  sr:flat: 183.8 ± 31 band (0.927007299270073, 1.078740157480315) grade DIVERGENT (Random itself MATCH) Δ% 1.69e+04
+  gospa_d:flat: 1.024 ± 0.0048 band None grade None (Random itself None) Δ% nan
+  gospa_miss:flat: 1.014 ± 0.0093 band None grade None (Random itself None) Δ% nan
+  gospa_d_med:flat: 1.032 ± 0.0007 band None grade None (Random itself None) Δ% nan
+  gospa_miss_med:flat: 1.059 ± 0.0012 band None grade None (Random itself None) Δ% nan
+  m_cov:bigru: 0.5702 ± 0.096 band (0.662, 0.92) grade UNDEFINED (too few track-bearing episodes) (Random itself DIVERGENT) Δ% -26
+  sr:bigru: 159.6 ± 27 band (0.927007299270073, 1.078740157480315) grade DIVERGENT (Random itself MATCH) Δ% 1.47e+04
+  gospa_d:bigru: 1.02 ± 0.003 band None grade None (Random itself None) Δ% nan
+  gospa_miss:bigru: 1.026 ± 0.0072 band None grade None (Random itself None) Δ% nan
+  gospa_d_med:bigru: 1.032 ± 0.0007 band None grade None (Random itself None) Δ% nan
+  gospa_miss_med:bigru: 1.059 ± 0.0012 band None grade None (Random itself None) Δ% nan
+  m_cov:mhsa: 0.4958 ± 0.056 band (0.351, 0.564) grade UNDEFINED (too few track-bearing episodes) (Random itself DIVERGENT) Δ% 1.81
+  sr:mhsa: 181.8 ± 35 band (0.927007299270073, 1.078740157480315) grade DIVERGENT (Random itself MATCH) Δ% 1.68e+04
+  gospa_d:mhsa: 1.027 ± 0.0023 band None grade None (Random itself None) Δ% nan
+  gospa_miss:mhsa: 1.029 ± 0.0098 band None grade None (Random itself None) Δ% nan
+  gospa_d_med:mhsa: 1.032 ± 0.0007 band (0.9492271962841354, 0.9545491046334217) grade CLOSE (Random itself CLOSE) Δ% 8.39
+  gospa_miss_med:mhsa: 1.059 ± 0.0012 band (0.8376068376068377, 0.8443627450980392) grade DIVERGENT (Random itself CLOSE) Δ% 25.9
+primary:
+  H1 m_cov mhsa<flat: 1025 vs 1126, Δ -100.8 ± 2.5e+02, boot ['-523', '332'], p1 0.352, holm 1, p2 0.705, wins 3/5 -> not supported / CLOSE; pairings {'n': 120, 'frac_one_sided_p_lt_05': 0.0, 'frac_reversed': 0.0, 'welch_one_sided_p': 0.3034908955274831}
+  H2 m_cov mhsa<bigru: 1025 vs 1179, Δ -153.8 ± 2.5e+02, boot ['-620', '229'], p1 0.289, holm 1, p2 0.578, wins 3/5 -> not supported / CLOSE; pairings {'n': 120, 'frac_one_sided_p_lt_05': 0.0, 'frac_reversed': 0.0, 'welch_one_sided_p': 0.2616981513688978}
+  H3 m_cov mhsa<coverage: 1025 vs 2272, Δ -1247 ± 1.2e+02, boot ['-1.44e+03', '-1.04e+03'], p1 0.000205, holm 0.00123, p2 0.00041, wins 5/5 -> supported / MATCH; pairings {'n': 1, 'frac_one_sided_p_lt_05': 1.0, 'frac_reversed': 0.0, 'welch_one_sided_p': None}
+  H4 gospa_d mhsa<random: 1.218e+07 vs 1.186e+07, Δ 3.175e+05 ± 2.7e+04, boot ['2.69e+05', '3.65e+05'], p1 1, holm 1, p2 0.000313, wins 0/5 -> reversed / DIVERGENT; pairings {'n': 120, 'frac_one_sided_p_lt_05': 0.0, 'frac_reversed': 1.0, 'welch_one_sided_p': 0.9999082561957445}
+  H5 gospa_miss mhsa<flat: 1.455e+11 vs 1.435e+11, Δ 2.073e+09 ± 2.1e+09, boot ['-1.9e+09', '5.18e+09'], p1 0.808, holm 1, p2 0.383, wins 1/5 -> not supported / DIVERGENT*; pairings {'n': 120, 'frac_one_sided_p_lt_05': 0.0, 'frac_reversed': 0.0, 'welch_one_sided_p': 0.849981581047787}
+  H6 gospa_miss mhsa<bigru: 1.455e+11 vs 1.452e+11, Δ 3.736e+08 ± 1.8e+09, boot ['-2.76e+09', '3.51e+09'], p1 0.577, holm 1, p2 0.846, wins 3/5 -> not supported / DIVERGENT*; pairings {'n': 120, 'frac_one_sided_p_lt_05': 0.0, 'frac_reversed': 0.0, 'welch_one_sided_p': 0.5843317472118508}
+hand: {"flat": {"m_cov": {"diff": -38.38435080943352, "p": 0.8088793928075263, "lr": 0.5441275017921243, "hr": 0.563079336922132}, "gospa_d": {"diff": 3841489.1195839094, "p": 2.510917123266092e-07, "lr": 1.0244314503902687, "hr": 0.7004867425293355}, "gospa_miss": {"diff": 110209500000.0, "p": 1.0864462342397628e-07, "lr": 1.013902579791108, "hr": 0.23503112721608804}}, "bigru": {"m_cov": {"diff": 14.604605140567447, "p": 0.9444342177042487, "lr": 0.5701857422531216, "hr": 0.563079336922132}, "gospa_d": {"diff": 3784825.272683043, "p": 4.024123976591795e-08, "lr": 1.019651291837475, "hr": 0.7004867425293355}, "gospa_miss": {"diff": 111908700000.0, "p": 3.8484311528489696e-08, "lr": 1.025905324772548, "hr": 0.23503112721608804}}, "mhsa": {"m_cov": {"diff": -139.21885369748617, "p": 0.2927387934890781, "lr": 0.4958039563735692, "hr": 0.563079336922132}, "gospa_d": {"diff": 3869281.250902253, "p": 1.1613016019168584e-08, "lr": 1.0267728059741077, "hr": 0.7004867425293355}, "gospa_miss": {"diff": 112282300000.0, "p": 1.3077584285766227e-07, "lr": 1.028550080835961, "hr": 0.23503112721608804}}}
+secondary: {"S1": {"coverage": -0.0002001579179903243, "random": -0.003463061497194259, "holds": true}, "S2": {"sr": {"static": -0.9460655985115348, "random": -0.003463061497194259, "coverage": -0.0002001579179903243, "coverage_boustro": -0.00023200947316939481, "hand": -0.16931470653641553, "ceiling": -0.3936940433919741, "flat": -0.6365697618359784, "bigru": -0.5524919096596352, "mhsa": -0.6295923989169676}, "holds": true}, "S3": {"flat": {"ratio": 183.7705502174812, "holds": false}, "bigru": {"ratio": 159.64759183156644, "holds": false}, "mhsa": {"ratio": 181.79759573232542, "holds": false}}, "F~B": {"rel_diff": 0.025633138306311858, "p_two_sided": 0.8439262409899012, "ci90": [-0.23457835450534642, 0.28584463111797015], "consistent": true, "established": false}}
+gap: {"m_cov": {"defined": false, "gap": -240.6029445155084, "f": {"flat": -0.15953400273935306, "bigru": 0.060700026635069196, "mhsa": -0.5786248957917997}}, "gospa_d": {"defined": false, "gap": -2452554.373183882, "f": {"flat": 1.566321693654003, "bigru": 1.543217681151599, "mhsa": 1.5776536060561184}}, "gospa_miss": {"defined": true, "gap": 33077500000.0, "f": {"flat": -3.331857002494142, "bigru": -3.3832272692918144, "mhsa": -3.394521956012396}}}
+readings: {"static": {"t2t": 0.02066666666666667, "coast": 0.4929299660947076, "med": 0.4832420414884237}, "random": {"t2t": 3.457333333333333, "coast": 1.0491936187354038, "med": 1.0}, "coverage": {"t2t": 3.3299999999999996, "coast": 1.153094887155322, "med": 1.0607010265891792}, "coverage_boustro": {"t2t": 3.1199999999999997, "coast": 1.1389745003127605, "med": 1.0444275210573473}, "hand": {"t2t": 2.6233333333333335, "coast": 0.5907687668285397, "med": 0.48715170840522354}, "ceiling": {"t2t": 5.1000000000000005, "coast": 0.7128848867376091, "med": 0.6717169455335561}, "flat": {"t2t": 0.7406666666666666, "coast": 0.571287093420447, "med": 0.6299565036902035}, "bigru": {"t2t": 0.31, "coast": 0.5981812185595915, "med": 0.6020791094663356}, "mhsa": {"t2t": 0.20466666666666664, "coast": 0.5201093396716556, "med": 0.4802038689085693}}
+
+=== training ===
+flat: steps 2949120, best_step [1277952.0, 688128.0, 1179648.0, 393216.0, 1867776.0], cap-limited 0/5, ent_last 1.783 (uniform 5.889), ev_last 0.5801, d_curve_m_cov -543.3 ± 1e+02, d_curve_ret 2435
+   s0: best 1277952 stalled False ent 5.885->0.8227 (at best 3.873) ev 0.7939 kl 0.00229 clip 0.0168 cnn teacher 0 valid start/final/best ['0', '0.133', '0.406']
+   s1: best 688128 stalled False ent 5.886->2.07 (at best 4.92) ev 0.6514 kl 0.00168 clip 0.0117 cnn teacher 0 valid start/final/best ['0', '0.32', '0.969']
+   s2: best 1179648 stalled False ent 5.887->0.973 (at best 4.488) ev 0.7004 kl 0.001 clip 0.00536 cnn teacher 0 valid start/final/best ['0', '0.141', '0.406']
+   s3: best 393216 stalled True ent 5.884->2.193 (at best 5.089) ev 0.5091 kl 0.00259 clip 0.0138 cnn teacher 0 valid start/final/best ['0', '0.172', '0.688']
+   s4: best 1867776 stalled False ent 5.882->2.857 (at best 4.434) ev 0.2455 kl 0.00321 clip 0.0237 cnn teacher 0 valid start/final/best ['0', '0.188', '0.203']
+bigru: steps 2949120, best_step [2555904.0, 2949120.0, 2457600.0, 2555904.0, 491520.0], cap-limited 4/5, ent_last 4.102 (uniform 5.889), ev_last 0.453, d_curve_m_cov -713.4 ± 2.1e+02, d_curve_ret 4962
+   s0: best 2555904 stalled False ent 5.882->3.878 (at best 3.567) ev 0.7108 kl 0.0104 clip 0.102 cnn teacher 0 valid start/final/best ['0', '0.633', '0.742']
+   s1: best 2949120 stalled False ent 5.885->5.309 (at best 5.309) ev 0.1962 kl 0.00838 clip 0.116 cnn teacher 0 valid start/final/best ['0', '0.812', '0.812']
+   s2: best 2457600 stalled False ent 5.883->4.539 (at best 4.844) ev 0.1797 kl 0.0104 clip 0.145 cnn teacher 0 valid start/final/best ['0', '0.375', '0.445']
+   s3: best 2555904 stalled False ent 5.88->2.871 (at best 2.799) ev 0.714 kl 0.00426 clip 0.0262 cnn teacher 0 valid start/final/best ['0', '0.711', '0.656']
+   s4: best 491520 stalled False ent 5.883->3.911 (at best 5.354) ev 0.4644 kl 0.00786 clip 0.09 cnn teacher 0 valid start/final/best ['0', '0.539', '0.969']
+mhsa: steps 2949120, best_step [1572864.0, 983040.0, 2949120.0, 884736.0, 2654208.0], cap-limited 2/5, ent_last 3.156 (uniform 5.889), ev_last 0.5518, d_curve_m_cov -596.5 ± 91, d_curve_ret 3201
+   s0: best 1572864 stalled False ent 5.883->3.148 (at best 5.037) ev 0.5714 kl 0.00428 clip 0.0357 cnn teacher 0 valid start/final/best ['0', '0.289', '0.656']
+   s1: best 983040 stalled False ent 5.881->3.073 (at best 5.546) ev 0.5848 kl 0.00403 clip 0.0327 cnn teacher 0 valid start/final/best ['0', '0.234', '0.789']
+   s2: best 2949120 stalled False ent 5.879->3.368 (at best 3.368) ev 0.4486 kl 0.0064 clip 0.0743 cnn teacher 0 valid start/final/best ['0', '0.602', '0.602']
+   s3: best 884736 stalled False ent 5.878->1.715 (at best 5.057) ev 0.7969 kl 0.00353 clip 0.036 cnn teacher 0 valid start/final/best ['0', '0.312', '0.609']
+   s4: best 2654208 stalled False ent 5.881->4.474 (at best 4.681) ev 0.3569 kl 0.00874 clip 0.116 cnn teacher 0 valid start/final/best ['0', '0.586', '0.617']
+P-MIS: {"rho": 0.6936515097805421, "p": 1.4632435340345466e-23, "n_points": 155, "checkpoints_per_seed": 31, "verdict": "GO (aligned)"}

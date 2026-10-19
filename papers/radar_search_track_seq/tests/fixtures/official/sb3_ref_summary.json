@@ -1,0 +1,181 @@
+{
+ "versions": {
+  "torch": "2.3.1+cu121",
+  "sb3": "2.4.0a8",
+  "gymnasium": "0.29.1",
+  "numpy": "1.26.4",
+  "imitation": "0.1.dev1403241835"
+ },
+ "ppo": {
+  "n_opt_steps": 3,
+  "norms": [
+   8.556231498718262,
+   5.605413436889648,
+   4.922751426696777
+  ],
+  "logs": {
+   "train/entropy_loss": -5.803172588348389,
+   "train/policy_gradient_loss": -0.11335477150148776,
+   "train/value_loss": 20.139787991841633,
+   "train/approx_kl": 1.3549355268478394,
+   "train/clip_fraction": 0.625,
+   "train/loss": 7.587843418121338
+  },
+  "n_trunc": 6
+ },
+ "bc": {
+  "single": {
+   "loss": 5.881842613220215,
+   "neglogp": 5.887731552124023,
+   "entropy": 5.88885498046875,
+   "prob_true_act": 0.0027732993476092815
+  },
+  "n_batches": 3,
+  "adam": [
+   0.001,
+   1e-08
+  ]
+ },
+ "mha": {
+  "ln_eps": 1e-05
+ },
+ "gru": {},
+ "cnn": {},
+ "init_semantics": {
+  "embed.weight": {
+   "shape": [
+    64,
+    12
+   ],
+   "orthogonal": true,
+   "gain": 1.4142135623730951
+  },
+  "embed.bias": {
+   "shape": [
+    64
+   ],
+   "all_zero": true,
+   "all_one": false
+  },
+  "mha.in_proj_weight": {
+   "shape": [
+    192,
+    64
+   ],
+   "orthogonal": false,
+   "gain": 1.2359629689906764
+  },
+  "mha.in_proj_bias": {
+   "shape": [
+    192
+   ],
+   "all_zero": true,
+   "all_one": false
+  },
+  "mha.out_proj.weight": {
+   "shape": [
+    64,
+    64
+   ],
+   "orthogonal": true,
+   "gain": 1.4142135623730951
+  },
+  "mha.out_proj.bias": {
+   "shape": [
+    64
+   ],
+   "all_zero": true,
+   "all_one": false
+  },
+  "ln.weight": {
+   "shape": [
+    64
+   ],
+   "all_zero": false,
+   "all_one": true
+  },
+  "ln.bias": {
+   "shape": [
+    64
+   ],
+   "all_zero": true,
+   "all_one": false
+  },
+  "gru.weight_ih_l0": {
+   "shape": [
+    96,
+    64
+   ],
+   "orthogonal": false,
+   "gain": 1.006086127638435
+  },
+  "gru.weight_hh_l0": {
+   "shape": [
+    96,
+    32
+   ],
+   "orthogonal": false,
+   "gain": 0.9954018377575686
+  },
+  "gru.bias_ih_l0": {
+   "shape": [
+    96
+   ],
+   "all_zero": false,
+   "all_one": false
+  },
+  "gru.bias_hh_l0": {
+   "shape": [
+    96
+   ],
+   "all_zero": false,
+   "all_one": false
+  },
+  "gru.weight_ih_l0_reverse": {
+   "shape": [
+    96,
+    64
+   ],
+   "orthogonal": false,
+   "gain": 1.0050401629303618
+  },
+  "gru.weight_hh_l0_reverse": {
+   "shape": [
+    96,
+    32
+   ],
+   "orthogonal": false,
+   "gain": 0.9988752835105902
+  },
+  "gru.bias_ih_l0_reverse": {
+   "shape": [
+    96
+   ],
+   "all_zero": false,
+   "all_one": false
+  },
+  "gru.bias_hh_l0_reverse": {
+   "shape": [
+    96
+   ],
+   "all_zero": false,
+   "all_one": false
+  },
+  "out.weight": {
+   "shape": [
+    64,
+    64
+   ],
+   "orthogonal": true,
+   "gain": 1.4142135623730951
+  },
+  "out.bias": {
+   "shape": [
+    64
+   ],
+   "all_zero": true,
+   "all_one": false
+  },
+  "out_proj_is_linear_subclass": true
+ }
+}

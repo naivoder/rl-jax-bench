@@ -1,0 +1,20 @@
+steps 2949120
+stoch: M_cov 1580.7, ratio 0.765 ± 0.018 [0.764, 0.704, 0.814, 0.774, 0.768] grade DIVERGENT tb [86, 100, 98, 100, 100] SR 22.36 Σd 0.927 Σmiss 0.856 tracks 0.623
+   H1: Δ -63.75 ± 45.9 boot [-138.6, 22.8] p1 0.118 holm 0.474 p2 0.237 wins 4/5 not supported / CLOSE
+   H2: Δ 76.15 ± 193 boot [-247.4, 433.9] p1 0.643 holm 1 p2 0.713 wins 3/5 not supported / DIVERGENT*
+   H3: Δ -691.2 ± 35.3 boot [-756.2, -629.7] p1 2.01e-05 holm 0.00012 p2 4.02e-05 wins 5/5 supported / MATCH
+   H4: Δ -8.646e+05 ± 2.54e+05 boot [-1322154.2, -438429.6] p1 0.0136 holm 0.0679 p2 0.0272 wins 5/5 not supported / CLOSE
+   H5: Δ 1.055e+09 ± 5.17e+09 boot [-8602300000.0, 9555800000.0] p1 0.576 holm 1 p2 0.848 wins 2/5 not supported / DIVERGENT*
+   H6: Δ -5.961e+09 ± 4.49e+09 boot [-13794400000.0, 1872600000.0] p1 0.127 holm 0.474 p2 0.255 wins 3/5 not supported / CLOSE
+   vs MHSA@3e-4 (CRN): {"diff": -91.83326816190015, "se": 163.6503363275018, "boot95": [-338.45395392711316, 225.22048343532316], "p_two_sided": 0.6046389390419309, "lower": 4}
+det: M_cov 1388.8, ratio 0.672 ± 0.065 [0.698, 0.719, 0.426, 0.698, 0.819] grade UNDEFINED (too few track-bearing episodes) tb [24, 39, 22, 12, 63] SR 171.82 Σd 1.020 Σmiss 1.008 tracks 0.207
+   H1: Δ 263.2 ± 112 boot [75.0, 465.0] p1 0.961 holm 1 p2 0.0777 wins 1/5 not supported / DIVERGENT*
+   H2: Δ 210.2 ± 249 boot [-227.3, 625.6] p1 0.777 holm 1 p2 0.446 wins 2/5 not supported / DIVERGENT*
+   H3: Δ -883.1 ± 135 boot [-1158.4, -682.3] p1 0.00141 holm 0.00848 p2 0.00283 wins 5/5 supported / MATCH
+   H4: Δ 2.335e+05 ± 5.86e+04 boot [144659.0, 345441.6] p1 0.992 holm 1 p2 0.0164 wins 0/5 reversed / DIVERGENT
+   H5: Δ -8.973e+08 ± 1.44e+09 boot [-3377900000.0, 1583300000.0] p1 0.283 holm 1 p2 0.566 wins 3/5 not supported / CLOSE
+   H6: Δ -2.596e+09 ± 1.79e+09 boot [-5767700000.0, 574700000.0] p1 0.11 holm 0.55 p2 0.22 wins 3/5 not supported / CLOSE
+   vs MHSA@3e-4 (CRN): {"diff": 364.0431748907728, "se": 244.74537314049752, "boot95": [-100.47727556171381, 760.6556010258103], "p_two_sided": 0.21111100612598793, "lower": 1}
+final_stoch: M_cov 1315.3, ratio 0.636 ± 0.037 [0.678, 0.746, 0.528, 0.593, 0.637] grade DIVERGENT tb [59, 68, 58, 99, 94] SR 74.47 Σd 0.931 Σmiss 0.855 tracks 0.660
+rule: {"ratio": 0.7647398180333227, "in_band": false, "divergent": true, "vs_flat": {"diff": -63.74576140501149, "p_one_sided": 0.11849283712369386, "boot95": [-138.60956256668197, 22.788429033283684], "beats": false}, "verdict": "KILL", "h1_substituted_p_one_sided": 0.11849283712369386}
+training: {"best_step": [1376256, 1572864, 786432, 1376256, 1474560], "ent_last": [1.382926344871521, 0.9045895934104919, 2.4684879779815674, 4.154885768890381, 3.1027963161468506], "ev_last": [0.5152725577354431, 0.7528500556945801, 0.6356450915336609, 0.32998621463775635, 0.4841887354850769], "cnn_alive_final": [0.953125, 0.6796875, 0.671875, 0.0, 0.8046875], "cnn_alive_best": [0.9296875, 0.65625, 0.734375, 0.0, 0.859375], "stalled": [false, false, false, false, false], "cap_limited_k": 0}

@@ -1,0 +1,18 @@
+{
+ "flat": {
+  "params": 206279,
+  "flops_forward_b1": 2578999.0,
+  "flops_grad_b64": 405139552.0
+ },
+ "bigru": {
+  "params": 228231,
+  "flops_forward_b1": 2567287.0,
+  "flops_grad_b64": 500015200.0
+ },
+ "mhsa": {
+  "params": 228167,
+  "flops_forward_b1": 2550839.0,
+  "flops_grad_b64": 630119360.0
+ },
+ "env_step": 80836.0
+}

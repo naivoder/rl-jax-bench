@@ -1,0 +1,157 @@
+# sources.yaml -- radar_search_track_seq (Ewers et al. 2025, arXiv 2502.13584)
+# One entry per planned config key: value + source tag.
+# Tags:
+#   'paper §X'   = this paper
+#   'companion'  = arXiv 2503.01293, same authors and environment (README)
+#   'library'    = Stone Soup 1.9.1 / SB3 / imitation default
+#   'INFERRED'   = derived from reported numbers (README)
+#   'ASSUMED (reason)'
+# Assumption ids refer to README. Frozen in original (2026-10-17); later changes need a dated amendment in README.
+
+env:
+  dt_s:                {value: 0.05,   source: "paper §2.1 ('simulation time step of 50ms'); companion Table IV says 0.005 -> pre-declared conditional switch"}
+  episode_steps:       {value: 1000,   source: "INFERRED (Fig. 1a/1d Static: T = 998.9, README)"}
+  ifov_deg:            {value: 9.0,    source: "paper §2.1; companion §III"}
+  for_half_deg:        {value: 60.0,   source: "companion eq. (2) ([-pi/3, pi/3])"}
+  n_actions_per_axis:  {value: 19,     source: "companion eq. (1): ceil(2*60/(9/sqrt2)) = 19"}
+  action_centres:      {value: "linspace(-60, 60, 19) deg", source: "companion eq. (2)"}
+  action_factorised:   {value: true,   source: "ASSUMED (U(0,N_a)^{1x2} paper §2.6.1; a_k in Z^2 companion eq. 1)"}
+  n_targets:           {value: 3,      source: "INFERRED (c^2 N = 3.0e8 -> N=3 with c=10 km)"}
+  target_range_m:      {value: [10000, 30000], source: "ASSUMED (airborne scale consistent with c = 10 km and the deleter bound)"}
+  target_az_deg:       {value: [-50, 50], source: "ASSUMED (start inside the FoR)"}
+  target_el_deg:       {value: [-20, 20], source: "ASSUMED"}
+  target_speed_mps:    {value: [100, 250], source: "ASSUMED (airborne targets)"}
+  target_vz_mps:       {value: 0.0,    source: "ASSUMED"}
+  truth_vel:           {value: "prior (horizontal v ~ N(0, 30^2) per axis, vz = 0)", source: "AMENDED 2026-10-17, (filter-consistency fix; old reading 'uniform_speed' =)"}
+  q_truth:             {value: 0.1,    source: "ASSUMED (near-CV truth)"}
+  pd:                  {value: 0.9,    source: "ASSUMED (not given); LIBRARY value would be 1.0 (Stone Soup sensors have no P_D); measured: no graded ratio moves > 1 %, (recheck)"}
+  beam_radius_deg:     {value: 4.5,    source: "paper §2.1 (9 deg FoV) -> radius"}
+  clutter_rate:        {value: 0.0,    source: "ASSUMED (only mentioned as motivation; Static GOSPA false ~0)"}
+  sigma_angle_deg:     {value: 0.05,   source: "ASSUMED (monopulse fraction of 9 deg beam)"}
+  sigma_range_m:       {value: 10.0,   source: "ASSUMED"}
+  scan_sigma0_deg:     {value: 1.83843, source: "paper §2.2 (95% mass inside FoV) + README radial reading; per-axis reading 2.29596 (sigma0_mode='axis') swept, (review)"}
+  scan_ssv_age0:       {value: false,  source: "ASSUMED: SSV evaluated before the look is pushed (ages 1..N_SV); after-push reading (ages 0..N_SV-1) swept, (review)"}
+  scan_gamma:          {value: 0.01,   source: "ASSUMED (not given; frozen before any run, not tuned)"}
+  scan_n_sv:           {value: 100,    source: "ASSUMED (not given)"}
+  ssv_norm:            {value: "fifo", source: "ASSUMED: p_max,T with T = N_SV-1 (T undefined in the paper); 'single' (T = 0, p_max = phi_0(0)) is a declared sensitivity reading that also scales the raster, (recheck)"}
+  ssv_eval_before_push: {value: true,  source: "ASSUMED (timing undefined)"}
+  ssv_raster_hw:       {value: [48, 48], source: "companion eq. (5)"}
+  reward_rtl_sign:     {value: "flipped (reduction rewarded)", source: "ASSUMED (paper §2.5 prose vs printed eq.; literal sign = descriptive arm)"}
+  reward_rtl_set:      {value: "D_t union D_{t-1}", source: "paper §2.5; companion eq. (6)"}
+  reward_rtl_norm:     {value: "Frobenius", source: "paper §2.5; companion §III-E (SumOfCovarianceNorms)"}
+  reward_rtl_init_term: {value: 0.0,   source: "ASSUMED (undefined for a new track)"}
+  rtl_scale:           {value: 1.0,    source: "paper §2.5 (unweighted sum)"}
+
+tracker:
+  predictor:           {value: "linear Kalman, CV", source: "companion Table II (KalmanPredictor); paper §2.1 (CV)"}
+  q_filter:            {value: 1.0,    source: "ASSUMED"}
+  updater:             {value: "UKF", source: "paper §2.1; companion Table II (UnscentedKalmanUpdater)"}
+  ukf_alpha:           {value: 0.5,    source: "library (Stone Soup 1.9.1 default)"}
+  ukf_beta:            {value: 2.0,    source: "library (Stone Soup 1.9.1 default)"}
+  ukf_kappa:           {value: -3.0,   source: "library (Stone Soup: 3 - ndim_state)"}
+  measurement:         {value: "(el, az, range) polar", source: "paper §2.4 (polar track list) + companion §III-A (bearing/elevation sensor)"}
+  init_jacobian:       {value: "fd (stonesoup.functions.jacobian, reproduced incl. its 1e-8 floor)", source: "library, (2026-10-17)"}
+  associator:          {value: "greedy NearestNeighbour", source: "companion Table II; paper §2.1 says 2D Munkres (option)"}
+  hypothesiser_measure: {value: "Mahalanobis", source: "paper §2.1; companion Table III"}
+  missed_distance:     {value: 3.0,    source: "ASSUMED (Stone Soup tutorial convention)"}
+  gate_threshold:      {value: 3.0,    source: "ASSUMED"}
+  initiator:           {value: "SimpleMeasurementInitiator (one track per unassociated detection)", source: "companion Table II"}
+  init_vel_sigma_mps:  {value: 30.0,   source: "ASSUMED (bounded by the trace-5000 deleter, README); 5 ms co-scene sigma_v = 18 by the declared coast-life rule"}
+  truth_vel_sigma_mps: {value: null,   source: "recheck: null = tied to init_vel_sigma; a number decouples the truth from the filter prior"}
+  deleter_stat:        {value: "trace", source: "library (Stone Soup CovarianceBasedDeleter); paper §2.1 text says Frobenius -> co-primary scene del_stat='frob' for the fixed policies since review (review)/"}
+  deleter_threshold:   {value: 5000.0, source: "companion Table IV, published with Ts = 5 ms; UNKNOWN at this paper's 50 ms (dt and threshold are one configuration, review)"}
+  clutter:             {value: {n_fa_slots: 0, clutter_rate: 0.0}, source: "ASSUMED none (primary); sensitivity scenes 0.1 and 0.5 false alarms per look, ASSUMED rates (paper §2.1 motivates clutter but gives no rate)"}
+  associator_scene_gnn: {value: "gnn", source: "paper §2.1 text (2D Munkres), fixed-policy sensitivity scene (review)"}
+  n_track_max:         {value: 17,     source: "ASSUMED (7*17=119 nearest Flat's 1x120, paper §3)"}
+  track_order:         {value: "creation order, valid rows first", source: "ASSUMED"}
+  track_mask:          {value: true,   source: "companion §III-D ('masked upon input')"}
+
+obs_scaling:
+  range_m:             {value: 30000.0, source: "ASSUMED (normalised inputs, companion §III-A)"}
+  angle_deg:           {value: 60.0,   source: "companion eq. (2) FoR half-width"}
+  velocity_mps:        {value: 300.0,  source: "ASSUMED"}
+  covnorm:             {value: 5000.0, source: "ASSUMED (deleter threshold scale)"}
+
+network:
+  cnn:                 {value: "NatureCNN 32@8/4, 64@4/2, 64@3/1 -> Dense 128", source: "paper §2.6 + §3 (128); library SB3 NatureCNN"}
+  cnn_out:             {value: 128,    source: "paper §3"}
+  mlp:                 {value: [128, 128], source: "paper §3 ('2 x 128')"}
+  mlp_separate_pi_vf:  {value: true,   source: "library (SB3 net_arch semantics)"}
+  activation:          {value: tanh,   source: "library (SB3 ActorCriticPolicy default)"}
+  ortho_init_gains:    {value: {hidden: 1.4142, pi: 0.01, vf: 1.0}, source: "library (SB3)"}
+  flat_out:            {value: 119,    source: "paper §3 reports 120; 17x7 = 119 "}
+  bigru_hidden:        {value: 64,     source: "paper §3; companion Table V"}
+  bigru_out:           {value: 64,     source: "paper §3 (Dense 128->64 ASSUMED)"}
+  mhsa_bigru_hidden:   {value: 32,     source: "paper §3; companion Table V"}
+  mhsa_order:          {value: "embed -> MHSA -> BiGRU(32)", source: "companion §III-F ('BiGRU with prior MHSA')"}
+  mhsa_heads:          {value: 4,      source: "ASSUMED"}
+  mhsa_d_model:        {value: 64,     source: "ASSUMED"}
+  mhsa_layers:         {value: 1,      source: "ASSUMED"}
+  init_style:          {value: torch,  source: "official toolchain (SB3 fork 2.4.0a8 @ e46a6d5 re-init semantics + torch 2.3.1 GRU/MHA/LayerNorm defaults; fixture P8), (2026-10-17, official-code check); toy-check/2 ran 'flax'"}
+  layernorm_eps:       {value: 1.0e-5, source: "library (torch nn.LayerNorm default; fixture P5)"}
+
+pretrain:
+  ae_enabled_arms:     {value: [bigru, mhsa], source: "ASSUMED (Flat has no extractor)"}
+  ae_input:            {value: "U(-1,1)^{17x7}", source: "paper §2.6.2"}
+  ae_loss:             {value: mse,    source: "paper §2.6.2"}
+  ae_decoder:          {value: "Dense 64->256 ReLU -> 119", source: "ASSUMED"}
+  ae_steps:            {value: 20000,  source: "ASSUMED"}
+  ae_lr:               {value: 1.0e-3, source: "ASSUMED"}
+  ae_batch:            {value: 256,    source: "ASSUMED"}
+  bc_enabled_arms:     {value: [flat, bigru, mhsa], source: "ASSUMED"}
+  bc_loss:             {value: "cross-entropy (NLL) - 1e-3 entropy", source: "ASSUMED (printed MSE contradicts aim, README) + library (imitation BC)/"}
+  bc_teacher:          {value: "uniform random U(0,19)^2", source: "paper §2.6.1"}
+  bc_dataset_episodes: {value: 50,     source: "ASSUMED"}
+  bc_epochs:           {value: 5,      source: "ASSUMED"}
+  bc_batch:            {value: 32,     source: "library (imitation BC default)"}
+  bc_lr:               {value: 1.0e-3, source: "library (imitation BC Adam default)"}
+  bc_freeze_track_extractor: {value: true, source: "paper §2.6.2 ('feature extractor is left untrained' by BC); the imitation-fork default trains every parameter (config pre.bc_train_extractor,)"}
+
+ppo:
+  algorithm:           {value: PPO,    source: "paper §2.6 (arm names); companion (SB3)"}
+  lr:                  {value: 3.0e-4, source: "library (SB3 default)"}
+  gamma:               {value: 0.99,   source: "library (SB3 default)"}
+  gae_lambda:          {value: 0.95,   source: "library (SB3 default)"}
+  clip_range:          {value: 0.2,    source: "library (SB3 default)"}
+  n_epochs:            {value: 10,     source: "library (SB3 default)"}
+  minibatch:           {value: 64,     source: "library (SB3 default)"}
+  n_steps_per_env:     {value: 2048,   source: "library (SB3 default)"}
+  n_envs:              {value: 8,      source: "ASSUMED (8-core i7-9700, paper §3)"}
+  ent_coef:            {value: 0.0,    source: "library (SB3 default)"}
+  vf_coef:             {value: 0.5,    source: "library (SB3 default)"}
+  max_grad_norm:       {value: 0.5,    source: "library (SB3 default)"}
+  adam_eps:            {value: 1.0e-5, source: "library (SB3 default)"}
+  normalize_advantage: {value: true,   source: "library (SB3 default)"}
+  bootstrap_on_truncation: {value: true, source: "library (SB3 timeout handling) + correctness"}
+  total_env_steps:     {value: 2000000, source: "ASSUMED cap (paper <= 1e7 with early stop); fallback 1e6. WHAT RAN: 114688 per lane (GPU ceiling) -> learner rows NOT TESTED (review)/"}
+  early_stop:          {value: false,  source: "ASSUMED for small/full-scale (fixed budget); paper §3: 'early termination if no improvement ... after 25x10^5 steps' -> implemented as train.py --select-best-patience (per-lane best-model selection), for the requested paper-budget run"}
+  lane_keys_shared_across_arms: {value: false, source: "small/full-scale key tree (arm id in the lane key = independent lanes, review); true = common random numbers across ablation arms for future runs"}
+
+baselines:
+  static:              {value: "uniform initial action, held", source: "paper §3"}
+  random:              {value: "uniform action each step", source: "paper §3"}
+  coverage:            {value: "row-major raster, period 361", source: "paper §3 ('scans each line sequentially'); order ASSUMED"}
+  hand_rule_k_rev:     {value: [2, 4, 8, 12], source: "ASSUMED (tuned on training scenarios only)"}
+  hand_rule_p_rev:     {value: [3000, 4000, 4500], source: "ASSUMED"}
+  ceiling:             {value: "truth-cued, largest trace first", source: "ASSUMED (not in the paper)"}
+  ceiling_match_m:     {value: 1000.0, source: "ASSUMED, (2026-10-17)"}
+  hand_rule_objective: {value: "min mean episode-sum GOSPA distance, tie -> M_cov", source: "ASSUMED, (2026-10-17, declared before tuning)"}
+  drqn_arm:            {value: "gamma 0.99, Adam 1e-4, Huber 1, batch 32, buffer 5e4, target 1000, eps 1->0.05 over 50%, start 5000", source: "ASSUMED (descriptive extra arm, not in the paper), src/drqn_arm.py"}
+
+eval:
+  n_scenarios:         {value: 100,    source: "paper §3 (100 full simulations)"}
+  n_seeds:             {value: 5,      source: "ASSUMED (loop protocol; paper 2)"}
+  policy_sampling:     {value: stochastic, source: "ASSUMED (SB3 predict default deterministic=False); declared primary before evaluation. SB3 evaluate_policy / EvalCallback default deterministic=True, so both modes are reported side by side (review)"}
+  gospa_p:             {value: 2,      source: "INFERRED (README)"}
+  gospa_c_m:           {value: 10000.0, source: "INFERRED (c^2 N = 3e8, N=3)"}
+  gospa_alpha:         {value: 2,      source: "library (Stone Soup GOSPAMetric fixes alpha=2)"}
+  gospa_measure:       {value: "Euclidean full state", source: "library (GOSPAMetric default measure)"}
+  gospa_aggregate:     {value: "sum over T steps per episode", source: "Figure 1 axis labels ('Sum Gospa')"}
+  cov_metric:          {value: "mean over track-bearing steps of sum_j ||P_j||_F", source: "companion (SumofCovarianceNorms) + library"}
+  cov_metric_lib:      {value: "CO-PRIMARY since review (review): same, with deleted tracks' last state at the deletion step (Stone Soup MultiManager on accumulated tracks; fixture P9)", source: "library/"}
+  gospa_lib:           {value: "CO-PRIMARY since review: GOSPA on live tracks plus the tracks deleted at that step (last state), = Stone Soup MultiManager + GOSPAMetric to 1e-6 (test_F5)", source: "library, (review)"}
+  cov_metric_readings: {value: "zero (no-track steps count 0), pen (no-track steps count 5000)", source: "ASSUMED (constructed readings, review); n_episodes_no_track reported next to every M_cov"}
+  search_metric:       {value: "per-step mean of r_SV", source: "ASSUMED"}
+
+seeds:
+  seed_root:           {value: 15,     source: "ASSUMED (loop iteration number; key tree README)"}
