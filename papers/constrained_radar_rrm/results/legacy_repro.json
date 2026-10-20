@@ -1,0 +1,14 @@
+{
+ "base_ea": {
+  "max_rel": 1.7288752676180392e-16
+ },
+ "base_oa": {
+  "max_rel": 1.790711992948517e-16
+ },
+ "dql_case1_lanes": {
+  "max_rel": 0.0,
+  "n_bitwise": 600,
+  "n": 600,
+  "max_rel_seedmean": 0.0
+ }
+}

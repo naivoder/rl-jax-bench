@@ -1,0 +1,182 @@
+{
+ "case1|A04": {
+  "tau5": 0.19999999999999998,
+  "tau_baselines": 1.0,
+  "ours_rank": [
+   "oa",
+   "da",
+   "ea",
+   "dql",
+   "ddpg"
+  ],
+  "paper_rank": [
+   "oa",
+   "ddpg",
+   "da",
+   "dql",
+   "ea"
+  ]
+ },
+ "case1|A04a": {
+  "tau5": 0.39999999999999997,
+  "tau_baselines": 1.0,
+  "ours_rank": [
+   "oa",
+   "da",
+   "dql",
+   "ea",
+   "ddpg"
+  ],
+  "paper_rank": [
+   "oa",
+   "ddpg",
+   "da",
+   "dql",
+   "ea"
+  ]
+ },
+ "case2|A04": {
+  "tau5": -0.10540925533894598,
+  "tau_baselines": 1.0,
+  "ours_rank": [
+   "oa",
+   "da",
+   "dql",
+   "ea",
+   "ddpg"
+  ],
+  "paper_rank": [
+   "ddpg",
+   "oa",
+   "dql",
+   "da",
+   "ea"
+  ]
+ },
+ "case2|A04a": {
+  "tau5": 0.31622776601683794,
+  "tau_baselines": 1.0,
+  "ours_rank": [
+   "oa",
+   "dql",
+   "da",
+   "ddpg",
+   "ea"
+  ],
+  "paper_rank": [
+   "ddpg",
+   "oa",
+   "dql",
+   "da",
+   "ea"
+  ]
+ },
+ "case3f|A04": {
+  "tau5": 0.19999999999999998,
+  "tau_baselines": 1.0,
+  "ours_rank": [
+   "oa",
+   "da",
+   "ea",
+   "ddpg",
+   "dql"
+  ],
+  "paper_rank": [
+   "oa",
+   "dql",
+   "da",
+   "ddpg",
+   "ea"
+  ]
+ },
+ "case3f|A04a": {
+  "tau5": 0.39999999999999997,
+  "tau_baselines": 1.0,
+  "ours_rank": [
+   "oa",
+   "da",
+   "ea",
+   "dql",
+   "ddpg"
+  ],
+  "paper_rank": [
+   "oa",
+   "dql",
+   "da",
+   "ddpg",
+   "ea"
+  ]
+ },
+ "case3s|A04": {
+  "tau5": 0.39999999999999997,
+  "tau_baselines": 1.0,
+  "ours_rank": [
+   "oa",
+   "da",
+   "ea",
+   "dql",
+   "ddpg"
+  ],
+  "paper_rank": [
+   "oa",
+   "dql",
+   "da",
+   "ddpg",
+   "ea"
+  ]
+ },
+ "case3s|A04a": {
+  "tau5": 0.39999999999999997,
+  "tau_baselines": 1.0,
+  "ours_rank": [
+   "oa",
+   "da",
+   "ea",
+   "dql",
+   "ddpg"
+  ],
+  "paper_rank": [
+   "oa",
+   "dql",
+   "da",
+   "ddpg",
+   "ea"
+  ]
+ },
+ "case4|A04": {
+  "tau5": 0.0,
+  "tau_baselines": 0.33333333333333337,
+  "ours_rank": [
+   "oa",
+   "da",
+   "ea",
+   "dql",
+   "ddpg"
+  ],
+  "paper_rank": [
+   "oa",
+   "dql",
+   "ddpg",
+   "ea",
+   "da"
+  ]
+ },
+ "case4|A04a": {
+  "tau5": -0.19999999999999998,
+  "tau_baselines": 0.33333333333333337,
+  "ours_rank": [
+   "oa",
+   "da",
+   "ea",
+   "ddpg",
+   "dql"
+  ],
+  "paper_rank": [
+   "oa",
+   "dql",
+   "ddpg",
+   "ea",
+   "da"
+  ]
+ }
+}

@@ -1,0 +1,67 @@
+# constrained_radar_rrm default config. Every value is tagged; full provenance in sources.yaml (same keys).
+env:
+  T0: 2.5                     # Table III (revisit interval = slot length, s); kinematics use 2.5 s/slot (A-35)
+  K: 5                        # paper §VII-A2 N = 5 track slots = K confirmed tracks (A-46)
+  M: 12                       # ASSUMED: target-table capacity per scenario (spawn arrivals ~Poisson(3) in 1e4 slots; overflow logged)
+  sigma_r0_sq: 16.0           # Table III (m^2)
+  sigma_th0_sq: 1.0e-6        # Table III (rad^2)
+  sigma_w_sq: 16.0            # Table III (filter Q only; truth noise-free, A-03)
+  r0: 3000.0                  # Table III (m)
+  tau0: 1.0                   # Table III (s)
+  snr0: null                  # INFERRED A-02 -> frozen in calibration.json (before any learner training)
+  s_ref: null                 # INFERRED A-04: scan SNR at tau_s = 0.25 s, r = 10 km -> calibration.json
+  P0_diag: [1.0e4, 1.0e4, 100.0, 100.0]   # eq. 14
+  pfa: 1.0e-3                 # paper §III-D
+  gate_Td: 500.0              # ASSUMED A-44 (m)
+  area_radius: 20000.0        # paper §VII-A2 (m)
+  lifetime: 3000              # paper §VII-A2 (slots)
+  spawn_every: 100            # paper §VII-A2
+  spawn_prob: 0.03            # paper §VII-A2
+  spawn_range: [5000.0, 15000.0]  # paper §VII-B1; uniform A-16
+  spawn_speed: [0.5, 2.0]     # paper §VII-B1; uniform A-16
+  r_min_snr: 100.0            # ASSUMED A-52: range floor in SNR models (replica target passes through the origin)
+  snr_floor_noise: 1.0e-3     # ASSUMED A-52: SNR floor for scan-measurement noise only (P_d still from the LUT)
+objective:
+  beta: 3.0e4                 # Table III
+  theta_max: 0.9              # Table III
+  lambda0: 5000.0             # Table III
+  alpha: 5000.0               # Table III; eq. 33 with '+' (A-08)
+  asset_xy: [2500.0, -10000.0]  # paper §VII-B2
+  lbm_i: 2                    # paper §VII-B3 eq. 37
+ddpg:
+  actor_hidden: [256, 128]    # paper §VII-A1
+  critic_hidden: [100, 100]   # paper §VII-A1
+  actor_lr: 2.0e-4            # Table V
+  critic_lr: 2.0e-4           # Table V
+  gamma: 0.9                  # Table V
+  batch: 128                  # Table V
+  buffer: 1000000             # Table V (capped at the run length: FIFO never evicts below it)
+  tau_soft: 0.01              # Table V
+  expl_std: 0.1               # ASSUMED A-22 (fraction of T0)
+  learning_starts: 10000      # ASSUMED A-25
+dql:
+  hidden: [64, 64]            # paper §VII-A1
+  lr: 1.0e-4                  # Table IV
+  gamma: 0.9                  # Table IV
+  batch: 32                   # Table IV
+  buffer: 1000000             # Table IV (capped at run length x K)
+  eps_final: 0.1              # Table IV
+  eps_frac: 0.1               # ASSUMED A-28 (linear 1 -> 0.1 over first 10 % of slots)
+  n_levels: 11                # companion [23] A-27
+  target_period: 1000         # ASSUMED A-29 (grad steps)
+  learning_starts: 10000      # ASSUMED A-25
+training:
+  slots: 300000               # ASSUMED A-18
+  episode_slots: 3000         # ASSUMED A-17
+  n0_max: 3                   # ASSUMED A-17 (n0 ~ U{1,2,3})
+  seeds: 5                    # loop brief / A-19
+  obs_cost_scale: 1.0e-4      # ASSUMED A-23
+  obs_lambda_scale: 1.0e-4    # ASSUMED A-23
+  reward_scale: 1.0e-4        # ASSUMED A-23
+baselines:
+  delta: 0.9                  # paper §VII-B1 (tracking share = Theta_max)
+evaluation:
+  test_slots: 10000           # paper §VII-B1
+  replica_draws: 20           # ASSUMED A-41
+  spawn_test_episodes: 50     # ASSUMED A-41
+  sat_tol: 0.01               # ASSUMED (sources.yaml budget_violation_tol)

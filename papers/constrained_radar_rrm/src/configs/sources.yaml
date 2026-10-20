@@ -1,0 +1,144 @@
+# sources.yaml -- constrained_radar_rrm (Lu, Gursoy, Mohan, Varshney 2026, arXiv 2606.05526)
+# One entry per planned config key: value + source tag.
+# Tags: 'paper §X' / 'Table N' / 'Figure N' / 'eq. N' = this paper; 'companion [id]' = same authors;
+#       'INFERRED (rule)' = from the paper's own figures by a declared rule; 'ASSUMED (reason)'; A-nn = assumption label (see the README).
+# Frozen 2026-10-19 before implementation; later changes are dated amendments.
+
+env:
+  T0_s:                 {value: 2.5,     source: "Table III (revisit interval = slot length)"}
+  slot_seconds:         {value: 2.5,     source: "INFERRED (Fig. 4 range slopes; A-35)"}
+  n_track_slots_N:      {value: 5,       source: "paper §VII-A2 ('maximum of N = 5 targets')"}
+  max_confirmed_K:      {value: 5,       source: "paper §III-C (K) = N, A-46"}
+  max_tentative:        {value: 16,      source: "ASSUMED (never binding), A-46"}
+  sigma_r0_sq_m2:       {value: 16.0,    source: "Table III"}
+  sigma_th0_sq_rad2:    {value: 1.0e-6,  source: "Table III"}
+  sigma_w_sq:           {value: 16.0,    source: "Table III (filter Q only, A-03)"}
+  r0_m:                 {value: 3000.0,  source: "Table III"}
+  tau0_s:               {value: 1.0,     source: "Table III"}
+  snr0:                 {value: null,    source: "INFERRED (anchor rule on Fig. 8 EA single-target segment), A-02; frozen before training"}
+  variance_rule:        {value: "sigma0^2 / SNR", source: "eq. 6 read as division (typo), A-01; companion 2507.04195"}
+  P0_diag:              {value: [1.0e4, 1.0e4, 100.0, 100.0], source: "eq. 14"}
+  truth_process_noise:  {value: 0.0,     source: "INFERRED (Figs. 3-4 straight trajectories), A-03"}
+  pfa:                  {value: 1.0e-3,  source: "paper §III-D"}
+  pd_lut_grid:          {value: "0.01:0.01:0.99", source: "paper §III-B"}
+  pd_lut_lookup:        {value: "nearest in dB, clamp [0.01, 0.99]", source: "paper §III-B (nearest neighbour); dB metric ASSUMED, A-05"}
+  shnidman_pulses:      {value: 1,       source: "ASSUMED (MATLAB shnidman default), A-05"}
+  shnidman_swerling:    {value: 0,       source: "ASSUMED (MATLAB shnidman default), A-05"}
+  scan_K_s:             {value: null,    source: "INFERRED (least squares on log T_init vs Fig. 9c pooled EA/DA/OA), A-04; frozen before training"}
+  scan_phi_deg:         {value: 1.0,     source: "ASSUMED (irrelevant once K_s is fixed; logging only), A-04"}
+  scan_noise_rule:      {value: "sigma0^2 / SNR_scan", source: "paper §III-B ('similar to that in (6)'), A-07"}
+  m_of_n:               {value: [3, 4],  source: "paper §III-C"}
+  init_patterns:        {value: "confirm VVV|VVXV|VXVV; reset VXX|VVXX; VXVX->VX", source: "paper §III-C"}
+  gnn_gate_Td_m:        {value: 500.0,   source: "ASSUMED (displacement <= 5 m/slot; noise O(10-100 m)), A-44"}
+  false_alarm_model:    {value: "one per slot w.p. pfa, uniform by area in disc", source: "paper §III-B; uniform-by-area ASSUMED, A-09"}
+  area_radius_m:        {value: 20000.0, source: "paper §VII-A2"}
+  target_lifetime_slots: {value: 3000,   source: "paper §VII-A2"}
+  spawn_check_every:    {value: 100,     source: "paper §VII-A2"}
+  spawn_prob:           {value: 0.03,    source: "paper §VII-A2 (companion 2507.04195 uses 0.05; not adopted)"}
+  spawn_range_m:        {value: [5000.0, 15000.0], source: "paper §VII-B1; uniform ASSUMED, A-16"}
+  spawn_speed_mps:      {value: [0.5, 2.0], source: "paper §VII-B1; uniform ASSUMED, A-16"}
+  spawn_bearing_heading: {value: "U(0, 2pi) each", source: "ASSUMED, A-16"}
+  dwell_overflow_rule:  {value: "scale to sum = T0, scan 0", source: "ASSUMED (Figs. 5/6 total <= 1.0), A-13"}
+  empty_slot_action:    {value: 0.0,     source: "ASSUMED, A-12"}
+  track_measure_prob:   {value: 1.0,     source: "ASSUMED, A-14"}
+  track_deletion:       {value: "oracle with target removal", source: "ASSUMED, A-15"}
+  nmiss_rule:           {value: "present - confirmed true tracks, floor 0", source: "paper §III-D; floor ASSUMED, A-11"}
+  dtype_env:            {value: float64, source: "ASSUMED (covariances 1e-6..1e8), A-42"}
+
+objective:
+  beta:                 {value: 3.0e4,   source: "Table III (companion 2507.04195: 2e4, not adopted)"}
+  theta_max:            {value: 0.9,     source: "Table III"}
+  lambda0:              {value: 5000.0,  source: "Table III"}
+  alpha_dual:           {value: 5000.0,  source: "Table III"}
+  dual_update:          {value: "lambda <- max(0, lambda + alpha (sum tau/T0 - theta_max)) every slot", source: "eq. 33 (Alg. 1/2 sign typo), A-08"}
+  lambda_at_test:       {value: "init lambda0, keep updating", source: "ASSUMED, A-26"}
+  weights_case1:        {value: 1.0,     source: "paper §VII-B1"}
+  weights_case2:        {value: "min(10, 4 + 1e4/d) if d <= 1e4 else 1", source: "eq. 35"}
+  asset_xy_m:           {value: [2500.0, -10000.0], source: "paper §VII-B2"}
+  beam_loss_exponent_i: {value: 2,       source: "paper §VII-B3 (eq. 37)"}
+  case4_region1:        {value: {x: [0, 10000], y: [-10000, 0], factor: 7}, source: "paper §VII-B4"}
+  case4_region2:        {value: {x: [-5000, 0], y: [0, 10000], factor: 10}, source: "paper §VII-B4"}
+  case4_factor_applies_to: {value: "sigma_r^2 and sigma_th^2, tracking only, true position", source: "ASSUMED, A-38"}
+
+ddpg:
+  actor_hidden:         {value: [256, 128], source: "paper §VII-A1"}
+  critic_hidden:        {value: [100, 100], source: "paper §VII-A1"}
+  activation:           {value: relu,    source: "paper §VII-A1"}
+  actor_output:         {value: "sigmoid * T0", source: "ASSUMED, A-20"}
+  critic_action_input:  {value: "concat at layer 1", source: "ASSUMED, A-21"}
+  actor_lr:             {value: 2.0e-4,  source: "Table V"}
+  critic_lr:            {value: 2.0e-4,  source: "Table V"}
+  optimizer:            {value: adam,    source: "ASSUMED (companion 2506.20853 states Adam), A-25"}
+  gamma:                {value: 0.9,     source: "Table V"}
+  batch_size:           {value: 128,     source: "Table V"}
+  buffer_size:          {value: 1000000, source: "Table V"}
+  soft_update_tau:      {value: 0.01,    source: "Table V"}
+  exploration_noise:    {value: "N(0, (0.1 T0)^2), clip [0, T0]", source: "ASSUMED (CleanRL default), A-22"}
+  learning_starts:      {value: 10000,   source: "ASSUMED, A-25"}
+  obs_dim:              {value: 11,      source: "eq. 34 (2N+1)"}
+  act_dim:              {value: 5,       source: "paper §VI-C2"}
+
+dql:
+  hidden:               {value: [64, 64], source: "paper §VII-A1"}
+  activation:           {value: relu,    source: "paper §VII-A1"}
+  lr:                   {value: 1.0e-4,  source: "Table IV"}
+  optimizer:            {value: adam,    source: "ASSUMED, A-25"}
+  gamma:                {value: 0.9,     source: "Table IV"}
+  batch_size:           {value: 32,      source: "Table IV"}
+  buffer_size:          {value: 1000000, source: "Table IV"}
+  eps_final:            {value: 0.1,     source: "Table IV"}
+  eps_schedule:         {value: "linear 1.0 -> 0.1 over first 10% of slots", source: "ASSUMED ('gradually reduced', §V-A), A-28"}
+  eps_schedule_alt_eps01: {value: "linear 0.1 -> 0.0 over the whole run (the re-evaluation arm 'eps01', train.py eps0/eps1)", source: "Table IV 'Exploration rate 0.1' + §V-A 'gradually reduced' (the more literal reading, review)"}
+  n_levels_L:           {value: 11,      source: "companion [23] §IV-B (tau/T0 in {0,0.1,...,1}), A-27"}
+  target_update:        {value: "hard copy every 1000 grad steps", source: "ASSUMED, A-29"}
+  double_q:             {value: false,   source: "ASSUMED (paper: plain DQL), A-29"}
+  updates_per_slot:     {value: "one per occupied agent", source: "Alg. 1 line 10, A-30"}
+  obs_dim:              {value: 12,      source: "eq. 28 (2N+2)"}
+  learning_starts:      {value: 10000,   source: "ASSUMED, A-25"}
+  core:                 {value: "rl_jax_bench.drqn QConfig(lstm=0, trace_len=1, double=False, hidden=(64,64))", source: "shared DQN core (rl_jax_bench.drqn)"}
+
+training:
+  slots_per_run:        {value: 300000,  source: "ASSUMED (not given; one declared extension to 6e5), A-18"}
+  episode_slots:        {value: 3000,    source: "ASSUMED (= target lifetime), A-17"}
+  n0_targets:           {value: "U{1,2,3}", source: "ASSUMED, A-17"}
+  seeds_per_arm:        {value: 5,       source: "study protocol (>= 5; seed = unit), A-19"}
+  obs_scale:            {value: {cost: 1.0e-4, dwell: "1/T0", lambda: 1.0e-4}, source: "ASSUMED, A-23"}
+  reward_scale:         {value: 1.0e-4,  source: "ASSUMED, A-23"}
+  truncation_bootstrap: {value: true,    source: "ASSUMED, A-24"}
+  configs:              {value: [case1, case2, case3], source: "paper §VII-B (case4 zero-shot from case1, A-39)"}
+
+baselines:
+  delta_tracking_share: {value: 0.9,     source: "paper §VII-B1 (delta = Theta_max)"}
+  delta_sweep_scan_share: {value: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9], source: "Figure 9 (x = scan share, A-33)"}
+  da_range_source:      {value: "prior estimate", source: "ASSUMED, A-31"}
+  oa_cost:              {value: "steady-state posterior trace, Kalata closed form", source: "paper §VII-B1, A-32"}
+  oa_solver:            {value: "bisection on mu, tol 1e-9 (subgradient in toy tests only)", source: "ASSUMED, A-32"}
+  oa_case4:             {value: "informed (primary), blind (secondary)", source: "ASSUMED, A-39"}
+  oa_myopic:            {value: "reproduction addition", source: "A-48"}
+  oa_adapt:             {value: "reproduction addition", source: "A-48"}
+
+evaluation:
+  test_slots:           {value: 10000,   source: "paper §VII-B1"}
+  replica_noise_draws:  {value: 20,      source: "ASSUMED, A-41"}
+  spawn_test_episodes:  {value: 50,      source: "ASSUMED, A-41"}
+  utility_stat:         {value: "time mean of U_t", source: "INFERRED, A-34"}
+  tinit_unit:           {value: slots,   source: "INFERRED (Table VI k/6), A-35"}
+  budget_violation_tol: {value: 0.01,    source: "ASSUMED (per-slot sum tau/T0 <= theta_max + 0.01 counts as satisfied)"}
+  latency:              {value: "median of 1000 single jitted decisions, CPU", source: "ASSUMED, A-43"}
+  case3_arc:            {value: {radius_m: 4300, deg: [55, 125], reflect: true}, source: "INFERRED (Figs. 13-14), A-37"}
+  case3_omegas_rad_s:   {value: [0.005, 0.5], source: "paper §VII-B3"}
+  case3_targets:        {value: {t3: {t: 2000, xy: [8000, 5000], v: [1.0, -0.2]}, t5: {t: 7000, xy: [-6000, -4000], v: [0.8, 0.0]}}, source: "paper §VII-B3"}
+
+# ---------------------------------------------------------------------------------------------------- the re-evaluation (2026-10-19)
+recheck:
+  replica_schedule:     {value: "src/configs/scenario_case1.json (windows re-digitised; T1b ends at the radar)", source: "Figure 4 at 400 dpi in pixels; A-40b"}
+  replica_schedule_full: {value: "src/configs/scenario_case1_v1.json", source: "first reading (Figs. 3-4 by eye, +-150 slots); behind every full-run number"}
+  replica_schedule_overflight: {value: "src/configs/scenario_case1_v2_overflight.json", source: "Figure 3 (~450 m overshoot past the radar) + Figure 4 tail; labelled sensitivity, A-40b"}
+  g_req:                {value: "0 declared (A-13, executed) | 1 arm 'req'/'lit'", source: "eq. 30, eq. 33, Alg. 2 line 8"}
+  obs_lit:              {value: "0 declared (A-51) | 1 arm 'lit': lambda_{t-1}, chosen tau_{t-1}", source: "eq. 28, eq. 34"}
+  n0_training:          {value: "U{1,2,3} declared (A-17) | 0 arm 'n0zero'", source: "paper §VII-A2 states only the arrival process"}
+  case3_training_omega: {value: "per-episode draw from {0.005, 0.5} declared (A-37) | one agent per omega, arms 'w_fast'/'w_slow'", source: "paper §VII-B3 'learned in these two scenarios'"}
+  oa_knowledge:         {value: "informed = Case IV region factor + Case III expected L_bm at the estimated state; blind = neither", source: "paper §VII-B1 / §VII-B4 'full knowledge of the environment parameters'; A-39b"}
+  interf_scan:          {value: "none declared (A-38) | noise | snr", source: "ASSUMED sensitivity; A-38b"}
+  eval_slot_key:        {value: "fold_in(fold_in(sk, 1), t) (v2); legacy fold_in(sk, t)", source: "correctness"}
+  catastrophic_seed_threshold: {value: -1.0e6, source: "ASSUMED reporting threshold: seed mean U below it is reported as a count, not a level"}

@@ -1,0 +1,8 @@
+{
+ "source": "paper §VII-B3 (targets 3, 5 as printed, lifetime 3000); Target 4 arc INFERRED from Figs. 13-14 (A-37): radius 4300 m, 55-125 deg, reflecting, present slots [0, 10000)",
+ "linear": [
+  {"label": "Target 3", "born": 2000, "removed": 5000, "start": [8000.0, 5000.0], "v": [1.0, -0.2]},
+  {"label": "Target 5", "born": 7000, "removed": 10000, "start": [-6000.0, -4000.0], "v": [0.8, 0.0]}
+ ],
+ "circle": {"label": "Target 4", "born": 0, "removed": 10000, "radius": 4300.0, "deg": [55.0, 125.0], "omegas": [0.005, 0.5]}
+}
