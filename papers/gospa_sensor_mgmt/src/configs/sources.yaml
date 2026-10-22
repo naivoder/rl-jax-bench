@@ -1,0 +1,110 @@
+# sources.yaml — one entry per planned config key: value + source tag.
+# Tags: 'paper §X' / 'Table N' / 'Figure N' / 'Appendix A' / 'official code (D#, file)' / 'ASSUMED (reason)'.
+# Official code = github.com/sggjon5/GOSPA-Driven-Non-Myopic-Multi-Sensor-Management-with-Multi-Bernoulli-Filtering @ b5959f6
+# Where CFG-P (paper-as-written) and CFG-O (official behavior) differ, both values are listed.
+paper:
+  arxiv: "2511.01045v2 (text identical to v1)"
+  official_commit: b5959f6a696a0e566e0925ec2376be361982e773
+
+scenario:
+  n_steps:            {value: 200, source: "paper §V-A; official code Parameters.py"}
+  region:             {value: [[-250, 250], [-250, 250]], source: "paper §V-A (500x500) + Figure 4 + official code Parameters.surveillance_area"}
+  obstacle_bl_tr:     {value: [[-30, 60], [30, 90]], source: "Figure 4 (pixel-measured) + official code Parameters.coordD3/coordB3"}
+  obstacle_test:      {value: "endpoint strictly inside => infeasible", source: "official code D18 (obstacles.obstacle_three, utils.check_for_obstacles_list)"}
+  truth_array:        {value: "oracle/truth_seed123546.npy sha256 4e59bc8c9403341f091402e8b43d457316b41a0061fbdb2347f7f7e68b6dae36", source: "official code groundtruth.py + main.py seed 123546; reproduces Figure 3 exactly"}
+  truth_n_targets:    {value: 9, source: "official code input in EVERY configuration incl. CFG-P/CFG-P2 (paper Fig. 3 caption says 8 targets; the array was generated with Poisson(0.05) births while CFG-P filters with r_b = 0.03; Figure 3 count profile identical)"}
+  sensor_init:        {value: [[5, 150], [-5, 150]], source: "official code main.py D26; Figure 4 stuck positions consistent"}
+
+motion:
+  tau:                {value: 1.0, source: "paper §V-A eq. 47"}
+  q:                  {value: 0.8, source: "paper §V-A eq. 47; official code sigma_v"}
+  F:                  {value: "I2 kron [[1,tau],[0,1]] (state [px,vx,py,vy])", source: "paper eq. 47"}
+  Q:                  {value: "q * I2 kron [[tau^3/3, tau^2/2],[tau^2/2, tau]]", source: "paper eq. 47"}
+  p_S:                {value: 0.99, source: "paper §V-A"}
+  birth_mean:         {value: [0, 0.1, 0, 0.1], source: "paper §V-A"}
+  birth_cov:          {value: "diag(6,6,6,6)", source: "paper §V-A; official code 0.2*diag(30,...)"}
+  r_b:                {CFG_P: 0.03, CFG_O: 0.05, source: "paper §V-A (0.03) vs official code Parameters.prob_birth D1 (0.05; Figure 3 truth requires 0.05)"}
+
+sensors:
+  n_sensors:          {value: 2, source: "paper §V-A"}
+  n_move_actions:     {value: 6, source: "paper §V-A, Figure 2"}
+  include_stay:       {value: true, source: "paper §V-A"}
+  step_length:        {value: 15, source: "paper §V-A"}
+  action_angles_deg:  {value: [0, 60, 120, 180, 240, 300], source: "official code (np.arange(0, 2pi, 2pi/6)); Figure 2"}
+  action_order:       {value: "[0,60,120,180,240,300,stay]; joint = product(s1, s2)", source: "official code MCTS*.get_legal_actions"}
+  fov_radius:         {value: 40, source: "paper §V-A"}
+  pD_max:             {value: 0.999, source: "paper eq. 48"}
+  pD_planner:         {value: "0.999*exp(-0.5*(d/40)^2) at predicted mean", source: "paper eq. 48 + official code"}
+  pD_filter:          {CFG_P: "eq. 48 at predicted mean", CFG_O: "0.999 if |mean-sensor|<40 else 0", source: "paper §V-A vs official code update.py D4"}
+  pD_truth:           {CFG_P: "eq. 48 at true position, no truncation", CFG_O: "0.999, measurement dropped if >40 m", source: "paper eq. 48 vs official code sensor.py D3"}
+  H:                  {value: [[1, 0, 0, 0], [0, 0, 1, 0]], source: "paper eq. 49"}
+  R:                  {CFG_P: "2*I2", CFG_O: "3*I2 (sensitivity 2*I2)", source: "paper eq. 49 vs official code Parameters.R D2"}
+  bias:               {value: 0, source: "paper eq. 49"}
+  clutter_rates:      {value: [0.1, 1.0, 2.0], source: "Table III"}
+  clutter_generation: {CFG_P: "uniform in 40 m disc", CFG_O: "uniform in 80x80 square, cropped to disc", source: "paper §V-A vs official code D6"}
+  clutter_density_filter: {value: "lambda_C/(pi*40^2)", source: "official code Parameters.clutter_density D7"}
+
+filter:
+  type:               {value: "Gaussian MB (PMB with empty Poisson), MB birth", source: "paper §II-B; official code README"}
+  update_order:       {value: [1, 2], source: "official code main.py D20"}
+  lbp_mode:           {CFG_P: converged, CFG_O: one_sweep, source: "official code lbp.py: `mu_old = mu` aliasing makes the convergence loop run exactly ONE sweep (D30, found while implementing, tests/test_filter_parity.py); CFG-P = paper's LBP run to convergence (ASSUMED)"}
+  lbp_tol:            {CFG_P: 1.0e-9, CFG_O: 1.0e-4, source: "official code lbp.py (1e-4, never effective: D30); ASSUMED tighter for CFG-P"}
+  lbp_max_iter:       {value: 1000, source: "ASSUMED (official code loops to convergence, no cap)"}
+  tomb_r_prune:       {value: 1.0e-4, source: "official code tomb.py"}
+  merge_maha:         {value: 1.0, source: "paper §V-C; official code utils.merge_gaussians (P_i of lower index, full state)"}
+  merge_r_rule:       {value: "sum", source: "official code D21"}
+  merge_r_cap:        {CFG_P: "min(1, sum) always", CFG_O: "cap only in myopic runs", source: "official code main.py D21; ASSUMED for CFG-P"}
+  merge_each:         {value: "false: one merge after both sensor updates (official main.py); sensitivity true: merge after EACH sensor update", source: "paper §V-C p.10 'after each update' (ambiguous with S sequential updates); sensitivity merge_each=true"}
+  est_rule:           {value: "half: report r > 0.5 (all configurations); sensitivity gamma: r > Gamma*_d(tr P) = 1/(2 - min(2 tr P/c^2, 1))", source: "0.5 = official code Parameters.existence_threshold D23, ASSUMED for CFG-P (paper eq. 20 / eq. 30 give the optimal-MSGOSPA threshold, value of the filter output unstated); sensitivity est_rule=gamma"}
+  prune_r:            {value: 1.0e-4, source: "official code Parameters.pruning_threshold"}
+  region_prune:       {value: true, source: "official code main.py D22"}
+  estimate_threshold: {value: 0.5, source: "official code Parameters.existence_threshold D23"}
+  max_bernoullis:     {value: 64, source: "ASSUMED (fixed JAX shape; overflow counter must read 0)"}
+  max_meas_per_sensor: {value: 32, source: "ASSUMED (fixed JAX shape; P(Poisson(2)+4 > 32) negligible; counter must read 0)"}
+  dtype:              {value: float64, source: "ASSUMED (parity with NumPy reference)"}
+  k_truth:            {value: 5, source: "ASSUMED (compacted alive-truth slots for the exact GOSPA DP; max alive in the authors' truth is 4)"}
+  e_max:              {value: 16, source: "ASSUMED (extracted estimates fed to GOSPA; est_overflow counter)"}
+  n_clutter_slots:    {value: 16, source: "ASSUMED (clutter points per sensor per step; meas_overflow counter; P(Poisson(2) > 16) ~ 1e-10)"}
+  dummy_init:         {CFG_O: true, CFG_P: false, source: "official code main.py D27 (one dummy r=0 Bernoulli at k=0); CFG-P: ASSUMED empty prior"}
+
+planner:
+  objective_GD:       {value: "sum_i sum_h p(h) C(r^h, P^h), C = min(r c^2/2, (1-r)c^2/2 + r min(trP_pos, c^2))", source: "paper eqs. 39, 43; the Lemma-1 derivation"}
+  objective_KLD:      {CFG_P: "-sum_i KL_Bernoulli(pred || node-merged) [26 eq.59]", CFG_O: "-sum_h p(h) r/2 [tr(P_h^-1 P) - ln|P|/|P_h| - 2]; joint scaled by sum_j r_j", source: "paper §V-C + [26] App. C vs official code D12; ASSUMED form for CFG-P"}
+  c_planner:          {value: 80, source: "paper §V-C (c = 2r); official code Parameters.c"}
+  state_space:        {value: "position marginal", source: "official code D9"}
+  plan_trace:         {CFG_O: "position trace (2-D planner state)", CFG_P: "position trace of the 4-D covariance (v1, archived; superseded)", CFG_P2: "full 4-D tr(P), as printed in eqs. 29/39, consistent with the 4-D GOSPA metric", source: "paper eqs. 29, 39 (full tr(P)) for CFG-P2; official code D9 for CFG-O; CFG-P v1 mixed a position trace with a 4-D metric"}
+  prediction:         {CFG_P: "full NCV then position marginal", CFG_O: "position random walk F=I2, Q=(q/3)I2", source: "paper eqs. 4-5 vs official code D8"}
+  root_double_predict: {CFG_P: false, CFG_O: true, source: "official code D10"}
+  p_h:                {CFG_P: "eq. 38 product", CFG_O: "sequential (exact joint)", source: "paper eq. 38 vs official code D11"}
+  births_in_tree:     {value: "one birth Bernoulli per depth", source: "paper §IV-B; official code"}
+  discount_lambda:    {value: 0.9, source: "paper §V-C; official code"}
+  uct_eps:            {value: 0.05, source: "official code Parameters.best_child_c_param D13 (CFG-O); ASSUMED-from-official-code for CFG-P/CFG-P2 (paper eq. 44 gives no eps); sensitivity uct_eps=300 ~ c^2 scale"}
+  uct_form:           {value: "argmax -Cbar + eps*sqrt(ln n / n_j)", source: "official code D13 (paper eq. 44 sign ambiguous)"}
+  delta_form:         {value: "sum_{d=1..T} lambda^(d-1) C_d over tree first-costs + rollout", source: "official code D14; [26] §IV-C"}
+  budget_semantics:   {CFG_O: iterations, CFG_P: "iterations (v1; ASSUMED, contradicts paper)", CFG_P2: "nodes added to the tree, iteration cap 2 B (cap ASSUMED)", source: "official code D15 (iterations); paper §IV-C.2 p.8 (nodes added) for CFG-P2"}
+  expansion_order:    {CFG_P: random, CFG_O: "pop last (deterministic)", source: "paper §IV-C.2 vs official code D16"}
+  delta_selected_node: {CFG_P: "stored first cost", CFG_O: "running C-bar of the selected node", source: "official code MCTS*.rollout (costs.append(self.cost)); only differs on terminal-node revisits (D14b)"}
+  kld_mode:           {CFG_P: bernoulli, CFG_P2: bernoulli, CFG_O: official, source: "official code D12 (CFG-O); the paper only says 'sum of the KLDs between the predicted densities and the posterior Bernoulli densities' (§V-C), so the CFG-P/CFG-P2 form KL(pred || node-merged Bernoulli) is ASSUMED; sensitivities: official_nosum (CFG-O), info_gain = E_h[KL(post_h || pred)] (CFG-P2)"}
+  planner_capacity:   {value: "NP = 16 + T Bernoulli slots; N = budget + 1 nodes", source: "ASSUMED (fixed jit shapes; root_overflow / plan_overflow counters must read 0)"}
+  rollout_policy:     {value: "uniform over feasible (joint) actions", source: "official code D17; [26] §V"}
+  psi_joint:          {value: 120, source: "paper §V-B (3r); official code proximity_distance"}
+  independent_mode:   {value: "per-sensor single-sensor tree, sensor 1 then 2, other ignored", source: "official code D19"}
+  variants:           # name: [budget_joint, budget_individual, lookahead]
+    Myopic: {value: [49, 7, 1],   source: "Table II; official code main.py"}
+    MCTS1:  {value: [49, 7, 5],   source: "Table II; official code main.py"}
+    MCTS2:  {value: [49, 7, 10],  source: "Table II; official code main.py"}
+    MCTS3:  {value: [200, 40, 5], source: "Table II; official code main.py"}
+    MCTS4:  {value: [200, 40, 10], source: "Table II; official code main.py"}
+  controls:           {value: [RANDOM, HOLD], source: "ASSUMED (descriptive controls; not in the paper)"}
+
+eval:
+  gospa_c:            {value: 80, source: "paper §V-C"}
+  gospa_p:            {value: 2, source: "paper §II-C, §V-C"}
+  gospa_alpha:        {value: 2, source: "paper §II-C"}
+  gospa_space:        {value: "full 4-D state (primary); position (secondary)", source: "official code gospa.py usage in main.py D24; ASSUMED secondary"}
+  table_statistic:    {value: "mean_k sqrt(mean_m d^2_{k,m})", source: "official code utils.calculate_average_algorithm_GOSPA_error D25; Figure 5 digitization"}
+  secondary_statistic: {value: "sqrt(mean_{k,m} d^2)", source: "[26] eq. 48"}
+  n_mc_runs:          {value: 50, source: "paper §V-C, Table III"}
+  per_run_unit:       {value: "mean_k d_{k,m} per run m", source: "ASSUMED (paired tests need a per-run scalar)"}
+  configs:            {value: [CFG_O, CFG_P, CFG_P2], source: "ASSUMED (pre-declared before any run; CFG-P2 added later = CFG-P with plan_trace=full and budget_mode=nodes; CFG-P kept as the superseded v1)"}
+  seed:               {value: 0, source: "ASSUMED (single top-level JAX seed; key tree in src/algorithm.py)"}
