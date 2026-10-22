@@ -1,0 +1,152 @@
+# sources.yaml — one entry per planned config key: value + source tag.
+# Paper = Naparstek & Cohen, arXiv 1704.02613v3 (= IEEE TWC 2019). v1/v2 = earlier arXiv versions.
+# ASSUMED entries are this reproduction's own choices where the paper is silent (see the README).
+paper: {arxiv: "1704.02613v3", venue: "IEEE TWC 18(1) 2019", url: "https://arxiv.org/abs/1704.02613"}
+
+network:
+  input_dim:            {value: "2*K'+2", source: "paper §IV-A.1"}
+  input_layout:         {value: "[onehot(a(t-1)) over 0..K' | capacities K' | ACK(t-1)]", source: "paper §IV-A.1"}
+  lstm_units:           {value: 100, source: "paper §VI; Fig. 2"}
+  advantage_hidden:     {value: 10, source: "paper §VI; Fig. 2"}
+  value_hidden:         {value: 10, source: "paper §VI; Fig. 2"}
+  dueling_hidden_act:   {value: relu, source: "ASSUMED "}
+  dueling_aggregation:  {value: "V + A - mean(A)", source: "paper §IV-A.3, Eq. 10"}
+  output_dim:           {value: "K'+1 (index 0 = silent)", source: "paper §IV-A.4"}
+  lstm_init:            {value: "glorot input, orthogonal recurrent, unit forget bias", source: "ASSUMED (Matlab toolbox defaults)"}
+  dense_init:           {value: "glorot_uniform, zero bias", source: "ASSUMED "}
+  gate_activation:      {value: sigmoid, source: "ASSUMED "}
+
+training:
+  iterations_R:         {value: 10000, source: "paper §VI ('trained the network over 10,000 iterations')"}
+  episodes_per_iter_M:  {value: 16, source: "paper §VI ('minibatch size was set to 16 episodes')"}
+  train_episode_len_T:  {value: 50, source: "paper §VI ('of 50 time steps each')"}
+  gamma:                {value: 0.95, source: "paper §VI"}
+  gamma_in_target:      {value: true, source: "ASSUMED (box step 10 omits it)"}
+  bootstrap_at_T:       {value: true, source: "ASSUMED (literal box)"}
+  double_q:             {value: true, source: "paper §IV-A.5, box step 10"}
+  target_sync_every_l:  {value: 5, unit: iterations, source: "paper §IV-B"}
+  replay:               {value: none, source: "paper §IV-B (fresh M episodes per iteration)"}
+  common_training:      {value: "one shared network for all users", source: "paper §IV-B, Def. 5"}
+  optimizer:            {value: adam, source: "ASSUMED "}
+  learning_rate:        {value: 3.0e-4, sweep: [1.0e-4, 3.0e-4, 1.0e-3], source: "ASSUMED (selection on seeds 100-104)"}
+  grad_steps_per_iter:  {value: 1, source: "ASSUMED "}
+  loss:                 {value: "MSE on taken action (scalar TD loss)", source: "ASSUMED (paper 'train with inputs xs and outputs Qs')"}
+  max_grad_norm:        {value: null, source: "ASSUMED "}
+  initial_lstm_state:   {value: zeros per episode, source: "ASSUMED "}
+
+exploration:
+  alpha_start:          {value: 0.05, source: "paper §VI"}
+  alpha_end:            {value: 0.0, source: "paper §VI ('decreased it slowly to 0')"}
+  beta_start:           {value: 1.0, source: "paper §VI"}
+  beta_end:             {value: 20.0, source: "paper §VI"}
+  schedule_shape:       {value: "linear over R iterations", source: "ASSUMED "}
+  policy_form:          {value: "Eq. 11 (1-alpha) softmax(beta Q) + alpha/(K'+1)", source: "paper §IV-C Eq. 11"}
+  test_alpha:           {value: 0.0, source: "ASSUMED "}
+  test_beta:            {value: 20.0, source: "ASSUMED "}
+  test_sampling:        {value: sampled, source: "ASSUMED "}
+  reward_normalisation: {value: none, source: "ASSUMED "}
+
+rewards:
+  competitive:          {value: "r_n(t+1) = 1_n(t)", source: "paper Eq. 13"}
+  sum_rate:             {value: "r(t+1) = sum_n' 1_n'(t), common", source: "paper §V-C"}
+  prop_fair:            {value: "r(t+1) = sum_n' 1_n'(t)/M_n'(t), M incl. t", source: "paper Eq. 23-24"}
+  coop_sum_domain:      {value: "clique (E1, E6-E8 whole net) / whole network (E2, E3)", source: "ASSUMED "}
+
+env_common:
+  collision_rule:       {value: "success iff exactly one transmitter on the channel", source: "paper §III"}
+  ack:                  {value: "1 iff success; 0 for failure or silence", source: "paper §III, §IV-A.1"}
+  backlogged:           {value: true, source: "paper §III"}
+
+E1_cliques:
+  users_per_clique:     {value: "Uniform{3..11}", source: "paper §VI-B"}
+  channels_per_clique:  {value: 1, source: "ASSUMED (inferred from §VI-B text + Aloha formula); CONTRADICTED by paper §VI p.10 'K varies between 2 and 50' / 'a set of two channels' (review) -> sensitivity arm E1K2 (K'=2, Aloha p=min(1,K/n))"}
+  n_j_known_to_dqsa:    {value: false, source: "paper §VI-B"}
+  capacity_input:       {value: 1.0, source: "paper v1 p.9 / v2 (archived: docs/dqsa_spectrum_access/papers/dqsa_arxiv_v1.pdf p.9 'equal channels (i.e., we set 1 at all K entries)'); v3 silent"}
+  cliques_per_episode:  {value: 1, source: "ASSUMED "}
+  test_experiments:     {value: 1000, source: "paper §VI"}
+  test_slots:           {value: 200, source: "paper Fig. 3 axis; §VI '100-200 time slots'"}
+  objectives:           {value: [competitive, sum_rate, prop_fair], source: "paper §VI-B"}
+  aloha_p:              {value: "1/n_j", source: "paper §VI-B"}
+
+E2_large:
+  N:                    {value: 100, source: "paper §VI-C"}
+  K:                    {value: 50, source: "paper §VI-C"}
+  channels_per_user:    {value: 2, source: "paper §VI ('each user selected a channel from a set of two channels')"}
+  subset_draw:          {value: "uniform distinct pair per user per episode", source: "ASSUMED ; coverage of every channel only 41 % (N=100,K=50) -> Pareto relative to the feasible matching (review); fixed-allocation arm subset: fixed "}
+  snr_db:               {value: 35, source: "paper §VI"}
+  bandwidth_hz:         {value: 2.0e7, source: "paper §VI"}
+  fading:               {value: Rayleigh, source: "paper §VI"}
+  max_doppler_hz:       {value: 100, source: "paper §VI-C (Fig. 4)"}
+  slot_duration_s:      {value: 1.0e-3, source: "ASSUMED "}
+  fading_model:         {value: "complex AR(1), rho = J0(2 pi f_D T_s) = 0.903713", source: "ASSUMED "}
+  capacity_input:       {value: "constant 1 (static; equal bandwidths)", source: "paper §IV-A.1 p.5 'proportional to the channel bandwidth' (review; REVERSES the earlier ASSUMED primary). Ablation E2csi/E3csi: instantaneous rate / 215.957 Mbps (CSI)"}
+  reward_basis:         {value: "packets AND rate-weighted (rate_comp, rate_sum, rate_pf)", source: "paper §III p.4 'a function of the achievable data rate' (review); packets = ASSUMED "}
+  test_experiments:     {value: 1000, source: "paper §VI"}
+  test_slots:           {value: 100, source: "paper Figs. 4-6 axes"}
+  proxy_N:              {value: 20, source: "ASSUMED (CPU proxy, same N/K)"}
+  proxy_K:              {value: 10, source: "ASSUMED "}
+
+E3_primary_users:
+  n_primary:            {value: 50, source: "paper §VI-C (one per channel)"}
+  pu_stationary_free:   {value: 0.5, source: "paper §VI-C"}
+  pu_p_stay:            {value: 0.9, sweep: [0.5, 0.9, 0.98], source: "ASSUMED "}
+  su_on_busy_channel:   {value: fails, source: "ASSUMED "}
+  doppler_hz:           {value: 100, source: "ASSUMED "}
+
+E6_E8_small:
+  E6:                   {value: {N: 4, K: 2, reward: sum_rate}, source: "paper v1 p.13 / v2 p.24 ('4 users and 2 channels'; archived papers/dqsa_arxiv_v{1,2}.pdf; NOT in v3)"}
+  E7:                   {value: {N: 3, K: 2, reward: competitive}, source: "paper v1 p.14 / v2 p.25 ('3 users and 2 channels'; NOT in v3)"}
+  E8:                   {value: {N: 4, K: 2, reward: prop_fair}, source: "paper v2 p.26 ('4 users and 2 channels', '> 95 %'; NOT in v3)"}
+  capacity_input:       {value: 1.0, source: "paper v1/v2 §II-B.1"}
+  test_slots:           {value: 200, source: "ASSUMED (between v2 Fig. 4's 50 and Fig. 5's 400 slots)"}
+
+baselines:
+  oca:                  {value: "argmax rate x 1{PU idle} over all K, p = 1/(1 + #others announced on that channel LAST slot)", source: "ASSUMED (amended, RECONSTRUCTED from §VI + refs [36],[57]; review). oca_sameslot = pre-review oracle"}
+  dp:                   {value: "joint Gibbs over (channel, p in P_GRID) with previous-slot announcements, tau ASSUMED (tuned on tuning worlds; literal tau 0.1/0.5/1.0 reported)", source: "ASSUMED (RECONSTRUCTED from §VI + ref [58]; review). dp_sameslot = pre-review version"}
+  genie:                {value: "TDMA GENIE REFERENCE: utilization 1; (K/N)*215.957 Mbps; NOT an upper bound under fading / subsets / PUs", source: "paper Thm 2/3 + README; relabelled (review). Feasible bound: max matching (data.max_feasible)"}
+
+eval:
+  report_seeds:         {value: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], source: "protocol rule (>= 10 seeds, seed = unit)"}
+  selection_seeds:      {value: [100, 101, 102, 103, 104], source: "ASSUMED "}
+  plateau_window_E1:    {value: [60, 200], source: "ASSUMED (Fig. 3 read)"}
+  plateau_window_E2:    {value: [60, 100], source: "ASSUMED (Figs. 4/6 read)"}
+  log_rate_floor:       {value: -4.60517, source: "paper Fig. 5 (rendered p.11: curves sit at ~ -4.6 = ln 0.01, above the -5 axis line; review); definition ASSUMED. Was -5.0."}
+  monitor_world_offset: {value: 100000, source: "ASSUMED (monitor / DP tuning worlds disjoint from the reporting worlds 0..999)"}
+  pareto_window:        {value: 50, source: "ASSUMED "}
+  bootstrap_resamples:  {value: 10000, source: "ASSUMED "}
+  dtype:                {value: float32, source: "ASSUMED "}
+
+# ---- added in first stage (implementation) ----
+implementation:
+  grad_epochs_D6:       {value: 1, ablation: "E>1 epochs of the full-vector regression full-vector regression on frozen targets (src/algorithm.py d6_epochs)", source: "ASSUMED ; ablation only"}
+  schedule_ramp_iters:  {value: 10000, source: "ASSUMED ; `sched_iters` lets training continue past R at the final alpha=0, beta=20 (under-training check)"}
+  network_unroll:       {value: "lax.scan, unroll=4", source: "ASSUMED (engineering; numerically identical to the loop)"}
+  eval_root_seed:       {value: 20261020, source: "ASSUMED (engineering; constant across arms and seeds, README)"}
+  eval_chunk:           {value: "100 experiments per jit call (50 for N=100)", source: "ASSUMED (memory)"}
+  pareto_pattern_E6:    {value: "strict Pareto and exactly K users with tx fraction >= 0.99 and N-K with <= 0.01 over the last 50 slots", source: "ASSUMED "}
+  pareto_pattern_E7:    {value: "strict Pareto and sorted success fractions (>=0.99, [0.4,0.6], [0.4,0.6]) over the last 50 slots", source: "ASSUMED "}
+  pareto_pattern_E8:    {value: "Jain index of per-user successes over the whole test episode >= 0.9", source: "ASSUMED "}
+  lograte_units:        {value: "ln of cumulative Mbit (Mbps x 1 ms slot), floor ln(0.01) = -4.605 (was -5)", source: "ASSUMED ; ordinal only"}
+  cpu_pinning:          {value: "taskset -c <core>, nice 19, ionice -c3, OMP/BLAS threads 1", source: " 2026-10-20"}
+
+# ---- added in review stage (review + review resolution, 2026-10-20) ----
+review_fixes:
+  provenance_at_launch: {value: "git sha + dirty flag + env/algo/eval/train source hashes + vmapped seed group written to <run>/launch.json at LAUNCH and copied into metrics.json", source: "review (engineering)"}
+  full_group_repro_check: {value: "scripts/diff_runs.py: re-fly the report group (same seeds, same order, same S) and diff params bit for bit", source: "review (engineering)"}
+  pareto_feasible:      {value: "successes == max matching of active users to PU-free channels they may use, last 50 slots (strict) / >= 0.95 (tol)", source: "review (definition ASSUMED)"}
+  rate_rewards:         {value: "rate_comp = x/C; rate_sum = sum x / C; rate_pf = sum x_n(t)/X_n(t) (X cumulative delivered rate)", source: "paper §III p.4 + Eq. 23-24 harmonic shaping applied to rate; ASSUMED (review)"}
+  dp_p_grid:            {value: [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0], source: "ASSUMED "}
+  dp_tuning_grid:       {value: "p_update {1, .5, .2, .1, .05, .02} x tau {.02, .05, .1, .2, .5, 1.0}, 200 tuning worlds x 2 replicates", source: "ASSUMED (review)"}
+  fixed_subset_arm:     {value: "subset: fixed, subset_seed 0 (first channel perm[i mod K], second random)", source: "ASSUMED (review)"}
+
+# --- recheck 2026-10-20 additions (default-off arms; every key is an ablation, none changes a primary) ---
+recheck:
+  fresh_opt:            {value: false, ablation: "--fresh-opt: Adam moments re-initialised at every iteration (Matlab trainNetwork restarts its solver)", source: "ASSUMED ; Matlab default quoted from memory, unverified"}
+  l2:                   {value: 0.0, ablation: "--l2 1e-4: Matlab L2Regularization default, weights only", source: "ASSUMED "}
+  epochs_matlab_reading: {value: 30, ablation: "--epochs 30 --fresh-opt --l2 1e-4 --lr 1e-3 (arm A3)", source: "ASSUMED (Matlab trainingOptions('adam') defaults)"}
+  reward_episodic:      {value: false, ablation: "--reward sum_rate_episodic | pf_episodic, terminal at T", source: "paper v2 Eq. 19-21 + Remark 1; v1 p.7 Remark 1 "}
+  reward_scale:         {value: 1.0, ablation: "--reward-scale c [--rescale-beta]; --reward-scale-by-n", source: "ASSUMED "}
+  lograte_variants:     {value: "ln/log2/dB x Mbit/bit/sum-Mbps (eval.LR_VARIANTS)", source: "correctness : ordinal grade must be unit-invariant; paper Fig. 5 slope 4.2-4.5 per ln t ~ 10/ln10 "}
+  slot_duration_sweep_s: {value: [1.0e-4, 1.0e-3, 3.0e-3, 1.0e-2], source: "ASSUMED sweep ; primary stays 1e-3"}
+  fig3_E1_plateau:      {value: 0.7695, source: "paper v3 Fig. 3 / v1 Fig. 2 exact vector read, mean over t in [61,200] "}
+  fig3_aloha_line:      {value: 0.36787, source: "paper v3 Fig. 3 exact vector read = e^-1 "}

@@ -1,0 +1,87 @@
+{
+ "checks": [
+  {
+   "name": "T-PATTERN E6 scripted pattern frequency (1)",
+   "ours": 1.0,
+   "truth": 1.0,
+   "tol": 0.0,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T-PATTERN E6 scripted utilization (1)",
+   "ours": 1.0,
+   "truth": 1.0,
+   "tol": 1e-09,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T-PATTERN E6 scripted strict Pareto (1)",
+   "ours": 1.0,
+   "truth": 1.0,
+   "tol": 0.0,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T-PATTERN E6 random Aloha pattern frequency (0)",
+   "ours": 0.0,
+   "truth": 0.0,
+   "tol": 0.0,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T-PATTERN E7 scripted pattern frequency (1)",
+   "ours": 1.0,
+   "truth": 1.0,
+   "tol": 0.0,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T-PATTERN E7 scripted utilization (1)",
+   "ours": 1.0,
+   "truth": 1.0,
+   "tol": 1e-09,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T-PATTERN E7 scripted strict Pareto (1)",
+   "ours": 1.0,
+   "truth": 1.0,
+   "tol": 0.0,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T-PATTERN E7 random Aloha pattern frequency (0)",
+   "ours": 0.0,
+   "truth": 0.0,
+   "tol": 0.0,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T-PATTERN Jain index of genie TDMA (1)",
+   "ours": 1.0,
+   "truth": 1.0,
+   "tol": 0.001,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T-PATTERN Jain index with 2 of 4 users served (0.5)",
+   "ours": 0.5,
+   "truth": 0.5,
+   "tol": 1e-06,
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "n": 10,
+ "n_pass": 10,
+ "all_pass": true
+}

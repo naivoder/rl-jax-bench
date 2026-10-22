@@ -1,0 +1,63 @@
+{
+ "checks": [
+  {
+   "name": "T1 Q(tx) at t=2 (20)",
+   "ours": 20.004928588867188,
+   "truth": 20.0,
+   "tol": 0.5,
+   "ok": true,
+   "note": "lr 0.001, 6000 its"
+  },
+  {
+   "name": "T1 Q(idle) at t=2 (19)",
+   "ours": 19.21241569519043,
+   "truth": 19.0,
+   "tol": 0.5,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T1 Q(tx) at t=26 (20)",
+   "ours": 19.99594497680664,
+   "truth": 20.0,
+   "tol": 0.5,
+   "ok": true,
+   "note": "lr 0.001, 6000 its"
+  },
+  {
+   "name": "T1 Q(idle) at t=26 (19)",
+   "ours": 18.991302490234375,
+   "truth": 19.0,
+   "tol": 0.5,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T1 Q(tx) at t=50 (20)",
+   "ours": 19.995941162109375,
+   "truth": 20.0,
+   "tol": 0.5,
+   "ok": true,
+   "note": "lr 0.001, 6000 its"
+  },
+  {
+   "name": "T1 Q(idle) at t=50 (19)",
+   "ours": 18.991310119628906,
+   "truth": 19.0,
+   "tol": 0.5,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T1 gap Q(tx)-Q(idle) at t=50 (1)",
+   "ours": 1.0046310424804688,
+   "truth": 1.0,
+   "tol": 0.25,
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "n": 7,
+ "n_pass": 7,
+ "all_pass": true
+}

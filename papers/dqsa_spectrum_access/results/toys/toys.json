@@ -1,0 +1,431 @@
+{
+ "checks": [
+  {
+   "name": "T-ALOHA n=3",
+   "ours": 0.44492998719215393,
+   "truth": 0.44444444444444453,
+   "tol": 0.003324012039229274,
+   "ok": true,
+   "note": "2e5 slots, SE 0.00111"
+  },
+  {
+   "name": "T-ALOHA n=4",
+   "ours": 0.4219549894332886,
+   "truth": 0.421875,
+   "tol": 0.0033324817195534706,
+   "ok": true,
+   "note": "2e5 slots, SE 0.00111"
+  },
+  {
+   "name": "T-ALOHA n=5",
+   "ours": 0.40910500288009644,
+   "truth": 0.4096000000000001,
+   "tol": 0.003290066961199045,
+   "ok": true,
+   "note": "2e5 slots, SE 0.00110"
+  },
+  {
+   "name": "T-ALOHA n=6",
+   "ours": 0.40204501152038574,
+   "truth": 0.401877572016461,
+   "tol": 0.0034040159080177546,
+   "ok": true,
+   "note": "2e5 slots, SE 0.00113"
+  },
+  {
+   "name": "T-ALOHA n=7",
+   "ours": 0.39745500683784485,
+   "truth": 0.3965694566039662,
+   "tol": 0.003266190644353628,
+   "ok": true,
+   "note": "2e5 slots, SE 0.00109"
+  },
+  {
+   "name": "T-ALOHA n=8",
+   "ours": 0.3935900032520294,
+   "truth": 0.39269590377807617,
+   "tol": 0.0031672054901719093,
+   "ok": true,
+   "note": "2e5 slots, SE 0.00106"
+  },
+  {
+   "name": "T-ALOHA n=9",
+   "ours": 0.39061999320983887,
+   "truth": 0.3897443431289457,
+   "tol": 0.0032873160671442747,
+   "ok": true,
+   "note": "2e5 slots, SE 0.00110"
+  },
+  {
+   "name": "T-ALOHA n=10",
+   "ours": 0.3894500136375427,
+   "truth": 0.3874204890000001,
+   "tol": 0.003365293610841036,
+   "ok": true,
+   "note": "2e5 slots, SE 0.00112"
+  },
+  {
+   "name": "T-ALOHA n=11",
+   "ours": 0.3871999979019165,
+   "truth": 0.38554328942953164,
+   "tol": 0.003342950250953436,
+   "ok": true,
+   "note": "2e5 slots, SE 0.00111"
+  },
+  {
+   "name": "T-ALOHA mean over U{3..11}",
+   "ours": 0.4037512540817261,
+   "truth": 0.4033078331557139,
+   "tol": 0.0018968830117955804,
+   "ok": true,
+   "note": "4000 experiments x 200 slots"
+  },
+  {
+   "name": "T-ALOHA multichannel N=20 K=10",
+   "ours": 0.3785549998283386,
+   "truth": 0.37735360253530725,
+   "tol": 0.0029959799721837044,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T-ALOHA multichannel N=100 K=50",
+   "ours": 0.37006500363349915,
+   "truth": 0.36972963764972644,
+   "tol": 0.0014683337649330497,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T-GENIE utilization n=7 K=1 (Thm 2: collision+idle free)",
+   "ours": 1.0,
+   "truth": 1.0,
+   "tol": 1e-09,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T-GENIE collisions n=7 K=1",
+   "ours": 0.0,
+   "truth": 0.0,
+   "tol": 1e-09,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T-GENIE max share spread n=7 K=1",
+   "ours": 1.0,
+   "truth": 0.0,
+   "tol": 1.0,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T-GENIE utilization n=4 K=2 (Thm 2: collision+idle free)",
+   "ours": 1.0,
+   "truth": 1.0,
+   "tol": 1e-09,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T-GENIE collisions n=4 K=2",
+   "ours": 0.0,
+   "truth": 0.0,
+   "tol": 1e-09,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T-GENIE max share spread n=4 K=2",
+   "ours": 0.0,
+   "truth": 0.0,
+   "tol": 1.0,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T-GENIE utilization n=20 K=10 (Thm 2: collision+idle free)",
+   "ours": 1.0,
+   "truth": 1.0,
+   "tol": 1e-09,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T-GENIE collisions n=20 K=10",
+   "ours": 0.0,
+   "truth": 0.0,
+   "tol": 1e-09,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T-GENIE max share spread n=20 K=10",
+   "ours": 0.0,
+   "truth": 0.0,
+   "tol": 1.0,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T2 E[u(1)] = 1-2^-1",
+   "ours": 0.5006999969482422,
+   "truth": 0.5,
+   "tol": 0.004743417490252569,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T2 E[u(2)] = 1-2^-2",
+   "ours": 0.7500399947166443,
+   "truth": 0.75,
+   "tol": 0.004107920181288746,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T2 E[u(3)] = 1-2^-3",
+   "ours": 0.8757799863815308,
+   "truth": 0.875,
+   "tol": 0.003137476099502783,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T2 E[u(4)] = 1-2^-4",
+   "ours": 0.937279999256134,
+   "truth": 0.9375,
+   "tol": 0.002296397633859229,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T2 E[u(5)] = 1-2^-5",
+   "ours": 0.9686300158500671,
+   "truth": 0.96875,
+   "tol": 0.001650640080780532,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T2 E[u(6)] = 1-2^-6",
+   "ours": 0.9837300181388855,
+   "truth": 0.984375,
+   "tol": 0.0011765541623135437,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T2 E[u(7)] = 1-2^-7",
+   "ours": 0.9918500185012817,
+   "truth": 0.9921875,
+   "tol": 0.000835244578806506,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T2 E[u(8)] = 1-2^-8",
+   "ours": 0.9959800243377686,
+   "truth": 0.99609375,
+   "tol": 0.000591768867482153,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T2 E[u(9)] = 1-2^-9",
+   "ours": 0.9980700016021729,
+   "truth": 0.998046875,
+   "tol": 0.00041885410939050433,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T2 E[u(10)] = 1-2^-10",
+   "ours": 0.9989799857139587,
+   "truth": 0.9990234375,
+   "tol": 0.000296319737698991,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T2 discounted per-user return (19.047619)",
+   "ours": 19.047181268402138,
+   "truth": 19.04761904761903,
+   "tol": 0.012227521075593642,
+   "ok": true,
+   "note": "exact sum over t=1..1999"
+  },
+  {
+   "name": "T2 exact value",
+   "ours": 19.04761904761903,
+   "truth": 19.047619047619047,
+   "tol": 1e-09,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T3 N=2 K=1 p=0.2: 2p(1-p)",
+   "ours": 0.3208250105381012,
+   "truth": 0.32000000000000006,
+   "tol": 0.003129217154497272,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T3 N=2 K=1 p=0.5: 2p(1-p)",
+   "ours": 0.4988600015640259,
+   "truth": 0.5,
+   "tol": 0.003354101966249685,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T3 N=2 K=1 p=0.8: 2p(1-p)",
+   "ours": 0.31900501251220703,
+   "truth": 0.31999999999999995,
+   "tol": 0.003129217154497272,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T4 double-Q target (1.95)",
+   "ours": 1.9500000476837158,
+   "truth": 1.95,
+   "tol": 1e-06,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T4 max target (4.8)",
+   "ours": 4.800000190734863,
+   "truth": 4.8,
+   "tol": 1e-06,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T4 dueling identity max|mean_a Q - V|",
+   "ours": 2.384185791015625e-07,
+   "truth": 0.0,
+   "tol": 1e-05,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T5 PF shaped reward sum (3.333333 = H_3 + H_2)",
+   "ours": 3.333333343267441,
+   "truth": 3.333333333333333,
+   "tol": 1e-06,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T5 log-approximation gap inside the [56] bound",
+   "ours": 0.3871425442393859,
+   "truth": NaN,
+   "tol": 0,
+   "ok": true,
+   "note": "bound (0.2917, 0.4167)"
+  },
+  {
+   "name": "reward competitive vec[0]",
+   "ours": 1.0,
+   "truth": 1.0,
+   "tol": 0.0,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "reward sum_rate (both succeed -> 2)",
+   "ours": 2.0,
+   "truth": 2.0,
+   "tol": 0.0,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "Eq.11 pi(tx) with Q=(19,20), alpha .05, beta 1 (0.719506)",
+   "ours": 0.7195056080818176,
+   "truth": 0.7195056496985046,
+   "tol": 1e-06,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "Eq.11 sums to 1",
+   "ours": 1.0,
+   "truth": 1.0,
+   "tol": 1e-06,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T1-PE: discounted return under fixed pi_tx=q equals q/(1-gamma)",
+   "ours": 14.389321499131826,
+   "truth": 14.390112161636353,
+   "tol": 0.03158945710020605,
+   "ok": true,
+   "note": "env + discount + Eq. 11 prob"
+  },
+  {
+   "name": "T-RATE Rayleigh mean rate (215.957 Mbps)",
+   "ours": 215.94003295898438,
+   "truth": 215.957,
+   "tol": 0.07788629829883575,
+   "ok": true,
+   "note": "2000000 draws, SE 0.026"
+  },
+  {
+   "name": "T-RATE best-of-2 mean rate (235.893 Mbps)",
+   "ours": 235.83517456054688,
+   "truth": 235.893,
+   "tol": 0.0715542882680893,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T-RATE AR(1) lag-1 correlation J0(2pi*0.1)=0.903713",
+   "ours": 0.9036174416542053,
+   "truth": 0.9037126420924663,
+   "tol": 0.0028122635558247566,
+   "ok": true,
+   "note": "SE 0.00060"
+  },
+  {
+   "name": "T-RATE stationary E|h|^2 after 50 steps (=1)",
+   "ours": 1.0027925968170166,
+   "truth": 1.0,
+   "tol": 0.013447053730487823,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T-RATE rho = scipy J0",
+   "ours": 0.9037126420924663,
+   "truth": 0.903713,
+   "tol": 1e-05,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "name": "T-SHK success vectors identical on 1e4 random joint actions (mismatching draws)",
+   "ours": 0.0,
+   "truth": 0.0,
+   "tol": 0.0,
+   "ok": true,
+   "note": "third-party env, ATTEMPT_PROB=1"
+  },
+  {
+   "name": "T-GRAD check_grads (float64, order 2) + D6==D7 + by-hand loss",
+   "ours": 1.0,
+   "truth": 1.0,
+   "tol": 0,
+   "ok": true,
+   "note": "4 passed in 31.56s"
+  }
+ ],
+ "n": 53,
+ "n_pass": 53,
+ "all_pass": true
+}

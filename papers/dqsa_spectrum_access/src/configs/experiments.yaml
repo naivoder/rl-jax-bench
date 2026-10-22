@@ -1,0 +1,50 @@
+# Experiment specs (EnvSpec kwargs + eval protocol).  Every value is tagged in sources.yaml (paper section or ASSUMED).
+E1:        # Fig. 3 cliques, paper §VI-B.  n_j ~ U{3..11} (paper), one channel per clique , capacity input 1 (v1/v2 §II-B.1)
+  env: {name: E1, n_min: 3, n_max: 11, n_channels: 1, k_local: 1, subset: all, capacity: const}
+  reward: competitive            # Fig. 3 plots the competitive objective; sum_rate and prop_fair also trained (§VI-B)
+  test: {n_exp: 1000, T: 200, window: [60, 200], kind: null}      # paper §VI + Fig. 3 axis
+E0:        # sanity toy (NOT a paper experiment): N=2, K=2, competitive -- optimum = orthogonal channels, utilization 1 (README T2)
+  env: {name: E0, n_min: 2, n_max: 2, n_channels: 2, k_local: 2, subset: all, capacity: const}
+  reward: competitive
+  test: {n_exp: 1000, T: 200, window: [60, 200], kind: null}
+E6:        # v1/v2 Fig. 3: N=4, K=2, sum rate
+  env: {name: E6, n_min: 4, n_max: 4, n_channels: 2, k_local: 2, subset: all, capacity: const}
+  reward: sum_rate
+  test: {n_exp: 1000, T: 200, window: [60, 200], kind: E6}        # T_test ASSUMED (sources.yaml E6_E8_small.test_slots)
+E7:        # v1/v2 Fig. 4: N=3, K=2, competitive
+  env: {name: E7, n_min: 3, n_max: 3, n_channels: 2, k_local: 2, subset: all, capacity: const}
+  reward: competitive
+  test: {n_exp: 1000, T: 200, window: [60, 200], kind: E7}
+E8:        # v2 Fig. 5: N=4, K=2, proportional fairness
+  env: {name: E8, n_min: 4, n_max: 4, n_channels: 2, k_local: 2, subset: all, capacity: const}
+  reward: prop_fair
+  test: {n_exp: 1000, T: 200, window: [60, 200], kind: E8}
+E2proxy:   # CPU proxy of Figs. 4-5 (N=20, K=10, same N/K, same 2-channel restriction) -- NEVER graded on Mbps levels
+  env: {name: E2proxy, n_min: 20, n_max: 20, n_channels: 10, k_local: 2, subset: random, capacity: const, fading: true, pu: false}
+  reward: prop_fair
+  test: {n_exp: 200, T: 100, window: [60, 100], kind: null}
+E3proxy:   # CPU proxy of Fig. 6 (adds one ON/OFF primary user per channel)
+  env: {name: E3proxy, n_min: 20, n_max: 20, n_channels: 10, k_local: 2, subset: random, capacity: const, fading: true, pu: true, pu_stay: 0.9}
+  reward: prop_fair
+  test: {n_exp: 200, T: 100, window: [60, 100], kind: null}
+E2:        # Figs. 4-5 at paper scale (N=100, K=50): GPU, deferred while the is open
+  env: {name: E2, n_min: 100, n_max: 100, n_channels: 50, k_local: 2, subset: random, capacity: const, fading: true, pu: false}
+  reward: prop_fair
+  test: {n_exp: 1000, T: 100, window: [60, 100], kind: null}
+E3:        # Fig. 6 at paper scale (N=100, K=50, 50 PUs): GPU, deferred
+  env: {name: E3, n_min: 100, n_max: 100, n_channels: 50, k_local: 2, subset: random, capacity: const, fading: true, pu: true, pu_stay: 0.9}
+  reward: prop_fair
+  test: {n_exp: 1000, T: 100, window: [60, 100], kind: null}
+
+# ---- review-driven arms (review 2026-10-20).  PRIMARY E2/E3 above now feed a STATIC capacity input (constant 1 = equal bandwidths, paper
+# §IV-A.1 "proportional to the channel bandwidth").  The previous primary, the slot's instantaneous rate (CSI), is the labelled ablation *csi.
+E2proxycsi: {env: {name: E2proxycsi, n_min: 20, n_max: 20, n_channels: 10, k_local: 2, subset: random, capacity: rate, fading: true, pu: false}, reward: prop_fair, test: {n_exp: 200, T: 100, window: [60, 100], kind: null}}
+E3proxycsi: {env: {name: E3proxycsi, n_min: 20, n_max: 20, n_channels: 10, k_local: 2, subset: random, capacity: rate, fading: true, pu: true, pu_stay: 0.9}, reward: prop_fair, test: {n_exp: 200, T: 100, window: [60, 100], kind: null}}
+E2csi: {env: {name: E2csi, n_min: 100, n_max: 100, n_channels: 50, k_local: 2, subset: random, capacity: rate, fading: true, pu: false}, reward: prop_fair, test: {n_exp: 1000, T: 100, window: [60, 100], kind: null}}
+E3csi: {env: {name: E3csi, n_min: 100, n_max: 100, n_channels: 50, k_local: 2, subset: random, capacity: rate, fading: true, pu: true, pu_stay: 0.9}, reward: prop_fair, test: {n_exp: 1000, T: 100, window: [60, 100], kind: null}}
+# sensitivity arms: ONE fixed 2-channel allocation (subset_seed 0) that covers every channel, shared by all episodes (static capacity as the primary)
+E2proxyfixed: {env: {name: E2proxyfixed, n_min: 20, n_max: 20, n_channels: 10, k_local: 2, subset: fixed, subset_seed: 0, capacity: const, fading: true, pu: false}, reward: prop_fair, test: {n_exp: 200, T: 100, window: [60, 100], kind: null}}
+E2fixed: {env: {name: E2fixed, n_min: 100, n_max: 100, n_channels: 50, k_local: 2, subset: fixed, subset_seed: 0, capacity: const, fading: true, pu: false}, reward: prop_fair, test: {n_exp: 1000, T: 100, window: [60, 100], kind: null}}
+E3fixed: {env: {name: E3fixed, n_min: 100, n_max: 100, n_channels: 50, k_local: 2, subset: fixed, subset_seed: 0, capacity: const, fading: true, pu: true, pu_stay: 0.9}, reward: prop_fair, test: {n_exp: 1000, T: 100, window: [60, 100], kind: null}}
+# sensitivity arm: cliques with K' = 2 channels per clique (paper §VI "K varies between 2 and 50", "a set of two channels"); Aloha p = min(1, K/n) on a random channel
+E1K2: {env: {name: E1K2, n_min: 3, n_max: 11, n_channels: 2, k_local: 2, subset: all, capacity: const}, reward: competitive, test: {n_exp: 1000, T: 200, window: [60, 200], kind: null}}
