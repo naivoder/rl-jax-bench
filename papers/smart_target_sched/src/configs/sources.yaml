@@ -1,0 +1,130 @@
+# sources.yaml — one entry per planned config key: value + source tag.
+# Paper: arXiv:2312.07858v1 (Hao et al., 2023). ASSUMED marks a choice the paper does not state.
+common:
+  beta:            {value: 0.9,   source: "paper §IV-A, §IV-B, §IV-C; §IV-D ASSUMED"}
+  tau:             {value: 100,   source: "paper §IV-A, §IV-B, §IV-C, §III-G; §IV-D ASSUMED"}
+  T:               {value: 100,   source: "paper §IV-B, §IV-D ('T = 100 s'); slots ASSUMED"}
+  t_start:         {value: 0,     source: "paper eq (10); ASSUMED"}
+  n_modes_M:       {value: 2,     source: "paper §IV-A (CV, CT)"}
+  h:               {value: 0.0,   source: "paper §IV-A ('no measurement costs'), §IV-D"}
+  n_mc:            {value: 100,   source: "paper §IV-B, §IV-C, §IV-D (Nmc = 100)"}
+  dtype:           {value: float64, source: "ASSUMED"}
+  tie_break:       {value: uniform_random, source: "paper Algorithm 1 line 6; mechanism ASSUMED"}
+  negative_index_rule: {value: fill_K, variant: skip_negative, source: "paper Algorithm 1 (primary), §III-C (variant); ASSUMED"}
+  threshold_strict: {value: true, source: "paper §III-D B(z) = {P > z}, §III-E tr(P)/L > z"}
+  top_seed:        {value: 20231213, source: "ASSUMED (arbitrary; arXiv date)"}
+target_types:
+  reckless: {u0: [0.90, 0.10], u1: [0.20, 0.80], source: "paper eq (35)"}
+  cautious: {u0: [0.95, 0.05], u1: [0.60, 0.40], source: "paper eq (35)"}
+scalar:
+  F_CV:  {value: 1.1, source: "paper §IV-A"}
+  F_CT:  {value: 1.3, source: "paper §IV-A"}
+  Q_CV:  {value: 1.0, source: "paper §IV-A"}
+  H:     {value: 1.0, source: "paper §IV-A"}
+  R:     {value: 2.0, source: "paper §IV-A"}
+  d:     {value: 1.0, source: "paper §IV-A (single-target experiments)"}
+  P0_dist: {value: "U(0,2)", source: "paper §IV-B, §IV-C (Fig 6); iid ASSUMED"}
+experiments:
+  E1_fig2_fig3:
+    z:      {value: [4, 10], source: "paper Fig 2/3 captions"}
+    Q_CT:   {value: [4, 10], source: "paper Fig 2/3 captions"}
+    P_grid: {value: "0:0.01:15 (1501 points, starts at P=0)", source: "paper §IV-A (1e-2 grid), Fig 2/3 x-axis; the authors' plotted grid starts at P=0 (vector fixture tests/fixtures/paper_fig_curves.npz; the tests substitute 1e-12 for P=0) -- corrected from the earlier 'P=0 excluded'"}
+  E2_fig4:
+    P_fixed:   {value: [1, 10], source: "paper Fig 4(a),(b)"}
+    Q_CT_grid: {value: "2:1:40 (39 integers)", source: "paper Fig 4(a,b) x-axis; the authors' plotted grid is the 39 integers 2..40 (vector fixture; tests/test_official_parity.py) -- corrected from the earlier 2.0:0.1:40.0; the finer 0.1 sweep is used only by our PCLI1/PCLI2 check (theory_checks)"}
+    Q_CT_fixed: {value: [4, 10], source: "paper Fig 4(c),(d)"}
+    P_grid:    {value: "0:0.01:15 (1501 points, starts at P=0)", source: "paper Fig 4(c),(d) x-axis; the authors' grid (vector fixture)"}
+  E3_table1:
+    N: {value: 8, source: "paper §IV-B"}
+    K: {value: [1, 2, 3], source: "paper Table I"}
+    types: {value: "8 x reckless", source: "paper Table I"}
+    Q_CT_sets: {value: [[2,2,2,2,2,2,2,2],[2,3,4,5,6,7,8,9]], source: "paper §IV-B, Table I"}
+    d: {value: [5,1,1,1,1,1,1,1], source: "paper §IV-B; n=1 mapping ASSUMED"}
+  E4_table2:
+    same_as: E3_table1
+    types: {value: "8 x cautious", source: "paper Table II"}
+  E5_table3:
+    N: {value: 8, source: "paper §IV-B"}
+    K: {value: [1, 2, 3], source: "paper Table III"}
+    types: {value: "4 reckless then 4 cautious", source: "paper §IV-B; order ASSUMED"}
+    Q_CT_sets: {value: [[2,2,2,2,2,2,2,2],[2,3,4,5,2,3,4,5]], source: "paper §IV-B, Table III"}
+    d: {value: [5,5,5,5,1,1,1,1], source: "paper §IV-B (d=5 reckless, 1 cautious)"}
+  E6_fig5:
+    ratio_K_over_N: {value: 0.25, source: "paper §IV-C"}
+    K_grid: {value: [2,10,18,26,34,42,50,58,66,74,82,90,98], source: "paper Fig 5 x-axis; points ASSUMED"}
+    d: {value: 1.0, source: "paper §IV-C"}
+    P0: {value: 0.01, source: "paper §IV-C"}
+    Q_CT: {value: {reckless: "2..N+1", cautious: "2..N+1", mixed: "2..N/2+1 twice"}, source: "paper §IV-C"}
+    lb_grid: {value: "0.01 uniform to 20, geometric x1.002 to 1e6", source: "ASSUMED"}
+    lb_vi_tol: {value: 1.0e-9, source: "ASSUMED"}
+    lb_lambda_tol: {value: 1.0e-8, source: "ASSUMED"}
+    lb_oracle_tau: {value: 400, source: "ASSUMED"}
+    gap_definition: {value: "(J - LB)/LB", source: "ASSUMED"}
+  E7_fig6:
+    ratio_K_over_N: {value: 0.25, source: "paper §IV-C"}
+    K_grid: {value: [2,6,10,14,18,22,26,30,34,38,42,46], source: "paper Fig 6 x-axis; ASSUMED"}
+    types: {value: "50% reckless d=5, 50% cautious d=1", source: "paper §IV-C"}
+    Q_CT: {value: 4, source: "paper §IV-C"}
+    P0_dist: {value: "U(0,2)", source: "paper §IV-C"}
+matrix:
+  L: {value: 4, source: "paper §IV-D"}
+  Ts: {value: 1.0, source: "paper §IV-D"}
+  omega_rad: {value: 0.05235987755982988, source: "paper §IV-D (3 deg); radians ASSUMED"}
+  F_CV: {value: "kron(I2, [[1,Ts],[0,1]])", source: "paper eq (36)"}
+  F_CT: {value: "eq (37) as printed", variant: "standard CT", source: "paper eq (37); variant ASSUMED"}
+  Q_shape: {value: "kron(I2, [[Ts^3/3, Ts^2/2],[Ts^2/2, Ts]])", source: "paper eq (38)"}
+  q_CV: {value: 1.0, source: "paper §IV-D"}
+  H: {value: [[1,0,0,0],[0,0,1,0]], source: "paper eq (39)"}
+  R: {value: "2*I2", source: "paper §IV-D"}
+  P0_dist: {value: "R0' R0, R0_ij ~ U(0,1)", source: "paper §IV-D; independence ASSUMED"}
+  threshold_statistic: {value: "tr(P)/L", source: "paper §III-E eq (29)-(32)"}
+  E8_table4:
+    N: {value: 8, source: "paper §IV-D"}
+    K: {value: [1, 2, 3], source: "paper Table IV"}
+    q_CT: {value: {reckless: [2,3,4,5,6,7,8,9], cautious: [2,3,4,5,6,7,8,9], mixed: [2,3,4,5,2,3,4,5]}, source: "paper §IV-D"}
+    d: {value: {single_type: [5,1,1,1,1,1,1,1], mixed: [5,5,5,5,1,1,1,1]}, source: "paper §IV-D; n=1 / order ASSUMED"}
+  E9_fig7:
+    ratio_K_over_N: {value: 0.25, source: "ASSUMED"}
+    K_grid: {value: [2,10,18,26,34,42], source: "authors' vector Fig 7 (Bound_performance_rec_cau.pdf: 6 plotted points; supersedes an earlier plot reading [2,6,...,42])"}
+    q_CT: {value: "2..N/2+1 per type", source: "paper §IV-D, Fig 7 caption"}
+    d: {value: 1.0, source: "paper §IV-D, Fig 7 caption"}
+  E10_fig8:
+    ratio_K_over_N: {value: 0.25, source: "ASSUMED"}
+    K_grid: {value: [2,6,10,14,18,22,26,30], source: "paper Fig 8 x-axis; ASSUMED"}
+    q_CT: {value: 4, source: "paper §IV-D, Fig 8 caption"}
+    d: {value: {reckless: 5, cautious: 1}, source: "paper §IV-D, Fig 8 caption"}
+extensions:
+  X1_pcli3: {value: "exact Stieltjes sum over trajectory jump points", source: "ASSUMED (extension)"}
+  X2_passive_cont: {value: "F(P,<0,inf>) - F(P,<1,inf>), tau=100", source: "ASSUMED"}
+  X2_rollout1: {value: "1-step joint lookahead + myopic base, 30 slots", source: "ASSUMED"}
+  X2_exact: {value: "N=2, K=1, T<=12 enumeration", source: "ASSUMED"}
+  X3_sampled_modes: {value: "m_t ~ u^{a_{t-1}}, per-mode KF", source: "paper §II-B wording; ASSUMED"}
+stats:
+  test: {value: "paired t + bootstrap CI (10000), Holm over 54 primary comparisons, alpha 0.05", source: "ASSUMED; loop rule"}
+  judgment: {value: "MATCH <=5% rel or within paper spread; CLOSE <=20%; DIVERGENT >20%", source: "loop rule"}
+implementation:    # implementation choices
+  pcli1_rule:        {value: "dominant (index +-1e30 by sign of f when g <= 1e-12); variant literal", source: "ASSUMED"}
+  g_eps:             {value: 1.0e-12, source: "ASSUMED"}
+  big_index:         {value: 1.0e30, source: "ASSUMED"}
+  passive_cont_revisit: {value: "horizon ceil(N/K)", source: "ASSUMED"}
+  passive_cont_short: {value: 10, source: "ASSUMED"}
+  rollout1_base_slots: {value: 30, source: "ASSUMED"}
+  lb_p_cap:          {value: 1.0e6, source: "ASSUMED"}
+  lb_grid_uniform:   {value: "step 0.01 on (0,20]", source: "paper §IV-A spacing 1e-2 (TeX l.647 is in the Figs 2-4 section; scope for the §IV-C bound NOT stated); extent ASSUMED"}
+  lb_grid_ratio:     {value: 1.002, source: "ASSUMED"}
+  lb_vi_tol:         {value: 1.0e-9, source: "ASSUMED"}
+  lb_vi_max_sweeps:  {value: 5000, source: "ASSUMED"}
+  lb_lambda_tol:     {value: 1.0e-8, source: "ASSUMED"}
+  lb_oracle_tau:     {value: 400, source: "ASSUMED"}
+  lb_oracle_z:       {value: "4000 log points 1e-3..1e4 plus {-1, 1e30}", source: "ASSUMED"}
+  small_scale_nmc:   {value: {tables: 20, figs: 10, variants: 20}, source: "ASSUMED; paper Nmc = 100 is used in the full-scale run"}
+  exp_ids:           {value: {E3: 3, E4: 4, E5: 5, E6: 6, E7: 7, E8: 8, E9: 9, E10: 10, X1: 11, X2: 12, X3: 13, G1: 20, G2: 21}, source: "ASSUMED"}
+full_scale:        # full-scale run additions
+  nmc_binding:       {value: 100, source: "paper §IV-B/C/D (Nmc = 100)"}
+  seeds_tables:      {value: {primary: 0, resample: 1}, source: "ASSUMED: --seed 0 = pre-declared binding set, --seed 1 = independent resample / tuning set"}
+  ablation_blind_index: {value: "whittle_blind0|1, myopic_blind0|1: index priced with both mode-probability rows = u^0 (resp. u^1); environment unchanged", source: "ASSUMED"}
+  sweep_tau:         {value: [2,3,5,10,20,50,100,200], source: "ASSUMED; paper fixes tau = 100"}
+  sweep_passive_h:   {value: [2,3,5,10,20,50,100], source: "ASSUMED; baseline-tuning parity"}
+  sweep_rollout1_base: {value: [1,2,3,5,10,30,100], source: "ASSUMED; baseline-tuning parity (default 30).  Extended from [5,10,30,100] after review: the selected base length sat on the lower edge (5) in 11/18 scalar cells.  4-D cells: only the lengths actually run are searched (see the README)"}
+  figs_nmc:          {value: 100, source: "paper §IV-C/D (Nmc = 100)"}
+  figs_k_grids:      {value: {fig5: "2:8:98", fig6: "2:4:46", fig7: "2:8:42", fig8: "2:4:30"}, source: "authors' vector figures (scripts/extract_fig_vectors.py); ratio K/N = 1/4 ASSUMED"}
