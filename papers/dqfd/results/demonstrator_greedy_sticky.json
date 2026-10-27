@@ -1,0 +1,26 @@
+{
+ "Breakout/expert/eps0.0": {
+  "mean": 46.40599822998047,
+  "se": 0.6775870863108471,
+  "n": 1000,
+  "recorded_true_mean_eps001": 38.46500015258789
+ },
+ "Breakout/expert/eps0.01": {
+  "mean": 39.11600112915039,
+  "se": 0.662516012417371,
+  "n": 1000,
+  "recorded_true_mean_eps001": 38.46500015258789
+ },
+ "Breakout/subopt/eps0.0": {
+  "mean": 19.27899932861328,
+  "se": 0.1990346050548553,
+  "n": 1000,
+  "recorded_true_mean_eps001": 18.104000091552734
+ },
+ "Breakout/subopt/eps0.01": {
+  "mean": 17.90399932861328,
+  "se": 0.22625201634430214,
+  "n": 1000,
+  "recorded_true_mean_eps001": 18.104000091552734
+ }
+}

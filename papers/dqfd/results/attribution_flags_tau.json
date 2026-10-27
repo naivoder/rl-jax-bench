@@ -1,0 +1,47 @@
+{
+ "DQfD+upd_every=4 (tau=2500 updates)": {
+  "n": 5,
+  "final_mean": 6.719612660346344,
+  "final_se": 0.016350483628702752,
+  "ref_final_mean": 6.768772959253492,
+  "diff": -0.04916029890714686,
+  "diff_se": 0.029936394080851005,
+  "wins": 1,
+  "unfreezes": false,
+  "p_one_sided": 0.9120491415249694,
+  "greedy_mean": 7.0,
+  "greedy_se": 0.0,
+  "greedy_minus_demonstrator": 0.26999998092651367,
+  "greedy_exceeds_3se": true
+ },
+ "flags upd_every=4 (tau=10000 updates)": {
+  "n": 5,
+  "final_mean": 6.773209021767637,
+  "final_se": 0.022194009873588716,
+  "ref_final_mean": 6.768772959253492,
+  "diff": 0.004436062514145611,
+  "diff_se": 0.03750434041539503,
+  "wins": 2,
+  "unfreezes": false,
+  "p_one_sided": 0.45577331784594216,
+  "greedy_mean": 7.0,
+  "greedy_se": 0.0,
+  "greedy_minus_demonstrator": 0.26999998092651367,
+  "greedy_exceeds_3se": true
+ },
+ "matched-tau minus flags upd_every=4": {
+  "n": 5,
+  "final_mean": 6.719612660346344,
+  "final_se": 0.016350483628702752,
+  "ref_final_mean": 6.773209021767637,
+  "diff": -0.05359636142129247,
+  "diff_se": 0.03363850340946338,
+  "wins": 1,
+  "unfreezes": false,
+  "p_one_sided": 0.9068434255906089,
+  "greedy_mean": 7.0,
+  "greedy_se": 0.0,
+  "greedy_minus_demonstrator": 0.26999998092651367,
+  "greedy_exceeds_3se": true
+ }
+}

@@ -1,0 +1,139 @@
+# sources.yaml -- DQfD (Hester et al. 2018, arXiv 1704.03732v4) reproduction, one entry per planned config key.
+# Tags: 'paper §X', 'Algorithm 1', 'Appendix' (= the
+# paper's Supplementary Material page), 'Table N', 'Figure N', 'official code' (none exists), 'third-party (<repo>)',
+# 'ASSUMED (reason)'.
+paper:
+  title: "Deep Q-learning from Demonstrations"
+  arxiv: "1704.03732v4"
+  venue: "AAAI 2018"
+  url: "https://arxiv.org/abs/1704.03732"
+official_code: {value: none, source: "searched paper, DeepMind/author GitHub, web 2026-10-26"}
+third_party_oracles:
+  di_engine: {repo: opendilab/DI-engine, commit: d0b21d065b2d80317cc16b28a95301be8871d950, role: "primary loss oracle (labelled second-best)"}
+  felix_kerkhoff: {repo: felix-kerkhoff/DQfD, commit: 2dc59602294ba46f86ce8afa66dd1f72f22bc81e, role: "secondary J_E check, Atari config reference"}
+  go2sea: {repo: go2sea/DQfD, commit: 951d2c2f5db312bec1390a624d7f6bb7d00b7806, role: "read only (has bugs in demo bonus and IS weighting)"}
+
+env:
+  suite: {value: "gymnax==1.0.0 MinAtar", source: "ASSUMED (reduced scale)"}
+  games: {value: [Breakout-MinAtar, SpaceInvaders-MinAtar, Asterix-MinAtar, Seaquest-MinAtar], source: "ASSUMED"}
+  spare_game: {value: Freeway-MinAtar, source: "ASSUMED"}
+  frame_stack: {value: 1, source: "ASSUMED (MinAtar standard; paper uses 4 on Atari pixels)"}
+  sticky_action_prob: {value: 0.0, source: "ASSUMED (gymnax MinAtar has none)"}
+  noop_starts: {value: 0, source: "ASSUMED (paper: up to 30 on ALE; MinAtar resets are random)"}
+  max_steps_in_episode: {value: "gymnax default (1000; Freeway 2500), treated as truncation", source: "ASSUMED"}
+  reward_transform: {value: "sign(r)*log(1+|r|)", source: "paper §Experimental Setup"}
+  gamma: {value: 0.99, source: "paper §Experimental Setup"}
+
+network:
+  torso: {value: "Conv(16,3x3,s1,SAME)+ReLU", source: "ASSUMED (MinAtar standard)"}
+  dueling: {value: true, source: "paper §Experimental Setup (Wang et al. 2016)"}
+  dueling_stream_hidden: {value: 64, source: "ASSUMED (64 per stream = MinAtar 128 hidden units)"}
+  conv_channels: {value: 16, source: "ASSUMED"}
+  dueling_aggregator: {value: mean, source: "ASSUMED (Wang et al. 2016)"}
+  init: {value: "flax default lecun_normal, zero bias", source: "ASSUMED"}
+  dtype: {value: float32, source: "ASSUMED"}
+
+optim:
+  optimizer: {value: adam, source: "ASSUMED"}
+  lr: {value: 1.0e-4, source: "ASSUMED (symmetric probe {3e-5,1e-4,3e-4})"}
+  adam_eps: {value: 1.5e-4, source: "ASSUMED"}
+  grad_clip_global_norm: {value: 10.0, source: "ASSUMED (Wang et al. 2016)"}
+  batch_size: {value: 32, source: "ASSUMED"}
+  td_loss: {value: squared, source: "paper §Background (J_DQ equation)"}
+  updates_per_env_step: {value: 1, source: "Algorithm 1"}
+  target_update_period: {value: 10000, source: "Appendix (tau = 10,000)"}
+  target_init: {value: copy, source: "ASSUMED"}
+
+dqfd:
+  pretrain_steps: {value: 750000, source: "Appendix (k = 750,000)"}
+  lambda1_nstep: {value: 1.0, source: "Appendix"}
+  lambda2_margin: {value: 1.0, source: "Appendix"}
+  lambda3_l2: {value: 1.0e-5, source: "Appendix"}
+  l2_form: {value: "lambda3*0.5*sum(theta^2), weights and biases, in-loss", source: "paper §DQfD ('weights and biases'); 0.5 scale ASSUMED"}
+  l2_after_pretrain: {value: true, source: "ASSUMED from paper §DQfD 'both phases'"}
+  margin: {value: 0.8, source: "Appendix"}
+  margin_on_agent_data: {value: false, source: "paper §DQfD (lambda2 = 0 on self-generated data)"}
+  n_step: {value: 10, source: "Appendix / paper §DQfD"}
+  nstep_bootstrap: {value: double_q, source: "paper §DQfD text + third-party (all three); max form = attribution variant"}
+  eps_greedy: {value: 0.01, source: "Appendix"}
+
+per:
+  alpha: {value: 0.4, source: "Appendix"}
+  beta0: {value: 0.6, source: "Appendix"}
+  beta_schedule: {value: "0.6 const in pretraining; linear to 1.0 over interaction budget", source: "ASSUMED"}
+  eps_agent: {value: 0.001, source: "Appendix"}
+  eps_demo: {value: 1.0, source: "Appendix"}
+  priority_signal: {value: "abs 1-step double-Q TD error", source: "ASSUMED (paper §Background 'last TD error')"}
+  initial_priority: {value: "demo |delta|:=1; agent = running max", source: "ASSUMED"}
+  is_normalisation: {value: batch_max, source: "ASSUMED (Schaul et al.)"}
+  is_weight_on_margin: {value: true, source: "ASSUMED"}
+  single_buffer: {value: true, source: "paper §DQfD / Algorithm 1"}
+  agent_capacity: {value: 100000, source: "ASSUMED (MinAtar standard)"}
+  sampler: {value: "exact proportional (two-level block cumsum)", source: "ASSUMED"}
+  block_size: {value: 256, source: "ASSUMED (implementation detail of the exact two-level sampler)"}
+
+pdd_dqn:
+  eps_end: {value: 0.01, source: "Appendix (eps = 0.01)"}
+  eps_decay_steps: {value: 100000, source: "ASSUMED"}
+  eps_schedule: {value: "linear 1.0 -> 0.01 over 100k steps", source: "ASSUMED"}
+  eps_const_probe: {value: 0.01, source: "Appendix literal reading; labelled fairness probe"}
+  learning_starts: {value: 5000, source: "ASSUMED"}
+  lambda1_nstep: {value: 1.0, source: "paper §Experimental Setup ('included n-step returns in PDD DQN')"}
+  l2: {value: 0.0, source: "paper §Experimental Setup"}
+
+imitation:
+  loss: {value: "cross-entropy on dueling Q outputs as logits + L2", source: "paper §Experimental Setup; logits choice ASSUMED"}
+  steps: {value: 750000, source: "ASSUMED (= k)"}
+  eval_eps: {value: 0.01, source: "ASSUMED"}
+
+comparators:
+  adet: {value: "DQfD with CE in place of J_E, with pretraining", source: "paper §Results ('essentially DQfD ... cross-entropy'); pretraining ASSUMED"}
+  rbs: {value: "PDD DQN with FIFO prefilled by demos", source: "paper §Results; details ASSUMED"}
+  her: {value: "PDD DQN + permanent demos, eps_d = eps_a", source: "paper §Results; details ASSUMED"}
+  ablation_no_margin: {value: "lambda2 = 0", source: "paper Figure 2"}
+  ablation_no_nstep: {value: "lambda1 = 0", source: "paper Figure 2"}
+
+demos:
+  expert_eps: {value: 0.01, source: "ASSUMED"}
+  suboptimal_eps_grid: {value: [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9], source: "ASSUMED"}
+  suboptimal_max_fraction: {value: 0.5, source: "ASSUMED"}
+  calibration_rollouts: {value: 200, source: "ASSUMED"}
+  expert: {value: "PPO (purejaxrl-style) argmax policy, eps 0.01", source: "ASSUMED"}
+  suboptimal: {value: "expert with eps-noise s.t. mean <= 50% expert", source: "ASSUMED"}
+  n_transitions_min: {value: 17500, source: "Table 2 median (17,550), ASSUMED as target size"}
+  label: {value: executed_action, source: "ASSUMED"}
+  demonstrator_eval_rollouts: {value: 1000, source: "ASSUMED"}
+
+run:
+  interaction_steps: {value: 5000000, source: "ASSUMED (MinAtar standard; runs use 300k-2M)"}
+  seeds: {value: 10, source: "ASSUMED"}
+  early_window_frac: {value: 0.02, source: "ASSUMED (min 100k steps)"}
+  best_window_frac: {value: 0.015, source: "ASSUMED (paper 3M/200M)"}
+  best_window_stride: {value: 25000, source: "ASSUMED"}
+  bin_width: {value: 25000, source: "ASSUMED (= best-window stride)"}
+  episode_log_cap: {value: 60000, source: "ASSUMED (bounded per-run episode log; bin sums are exact)"}
+  chunk_steps: {value: 10000, source: "ASSUMED (implementation: jitted scan length)"}
+  checkpoint_every: {value: 250000, source: "ASSUMED (orbax every 250k steps)"}
+  holm_family: {value: "H1_g, H2b_g for 4 games (8 tests)", source: "ASSUMED"}
+  bootstrap_resamples: {value: 10000, source: "ASSUMED"}
+  final_eval_episodes: {value: 30, source: "ASSUMED (selection-free greedy eps=0 return at the end of a run, descriptor only)"}
+
+ppo:
+  n_envs: {value: 64, source: "ASSUMED (PPO probe on its own Breakout training return)"}
+  n_steps: {value: 128, source: "ASSUMED (purejaxrl)"}
+  epochs: {value: 4, source: "ASSUMED (purejaxrl)"}
+  n_minibatch: {value: 8, source: "ASSUMED (PPO probe)"}
+  lr: {value: 1.0e-3, source: "ASSUMED (PPO probe)"}
+  anneal_lr: {value: true, source: "ASSUMED (purejaxrl)"}
+  gae_lambda: {value: 0.95, source: "ASSUMED (purejaxrl)"}
+  clip_eps: {value: 0.2, source: "ASSUMED (PPO paper)"}
+  ent_coef: {value: 0.02, source: "ASSUMED (PPO probe)"}
+  vf_coef: {value: 0.5, source: "ASSUMED (purejaxrl)"}
+  max_grad_norm: {value: 0.5, source: "ASSUMED (purejaxrl)"}
+  hidden: {value: 128, source: "ASSUMED"}
+  total_steps: {value: 10000000, source: "ASSUMED"}
+  snapshot_fractions: {value: [0.05,0.1,0.2,0.3,0.5], source: "ASSUMED (amended: weak demonstrator = early PPO snapshot)"}
+env_fidelity:
+  space_invaders_reset_alien_columns: {value: 6, source: "official code (kenjyoung/MinAtar 4241f246 space_invaders.py reset: alien_map[0:4,2:8]); gymnax 1.0.0 uses [0:4,2:9] -- repaired in src/envs.py"}
+  space_invaders_bullet_hit_position: {value: "post-move cannon position", source: "official code (space_invaders.py act: self.pos updated before the e_bullet_map[9,pos] test); gymnax tests the pre-move position -- repaired in src/envs.py"}
+  sticky_action_prob: {value: 0.0, source: "ASSUMED; the original MinAtar Environment wrapper default is 0.1 -- flown as a labelled variant in the torch reference run"}

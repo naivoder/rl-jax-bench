@@ -1,0 +1,98 @@
+{
+ "Breakout/expert/eps0.0": {
+  "mean": 22.856000900268555,
+  "se": 0.18977692031296384,
+  "n": 1000,
+  "recorded_true_mean_eps001": 20.483999252319336
+ },
+ "Breakout/expert/eps0.01": {
+  "mean": 19.87299919128418,
+  "se": 0.2427340092287921,
+  "n": 1000,
+  "recorded_true_mean_eps001": 20.483999252319336
+ },
+ "Breakout/subopt/eps0.0": {
+  "mean": 7.0,
+  "se": 0.0,
+  "n": 1000,
+  "recorded_true_mean_eps001": 6.730000019073486
+ },
+ "Breakout/subopt/eps0.01": {
+  "mean": 6.7829999923706055,
+  "se": 0.03027916423232084,
+  "n": 1000,
+  "recorded_true_mean_eps001": 6.730000019073486
+ },
+ "SpaceInvaders/expert/eps0.0": {
+  "mean": 1903.0,
+  "se": 0.0,
+  "n": 1000,
+  "recorded_true_mean_eps001": 927.1740112304688
+ },
+ "SpaceInvaders/expert/eps0.01": {
+  "mean": 893.1890258789062,
+  "se": 20.669172932423372,
+  "n": 1000,
+  "recorded_true_mean_eps001": 927.1740112304688
+ },
+ "SpaceInvaders/subopt/eps0.0": {
+  "mean": 287.0,
+  "se": 0.0,
+  "n": 1000,
+  "recorded_true_mean_eps001": 432.1189880371094
+ },
+ "SpaceInvaders/subopt/eps0.01": {
+  "mean": 444.35400390625,
+  "se": 11.022331674669424,
+  "n": 1000,
+  "recorded_true_mean_eps001": 432.1189880371094
+ },
+ "Asterix/expert/eps0.0": {
+  "mean": 68.18199920654297,
+  "se": 0.30628204546564025,
+  "n": 1000,
+  "recorded_true_mean_eps001": 63.8129997253418
+ },
+ "Asterix/expert/eps0.01": {
+  "mean": 63.10599899291992,
+  "se": 0.5198162787748981,
+  "n": 1000,
+  "recorded_true_mean_eps001": 63.8129997253418
+ },
+ "Asterix/subopt/eps0.0": {
+  "mean": 30.78499984741211,
+  "se": 0.5897665810280623,
+  "n": 1000,
+  "recorded_true_mean_eps001": 29.17799949645996
+ },
+ "Asterix/subopt/eps0.01": {
+  "mean": 29.047000885009766,
+  "se": 0.5678249503362278,
+  "n": 1000,
+  "recorded_true_mean_eps001": 29.17799949645996
+ },
+ "Seaquest/expert/eps0.0": {
+  "mean": 6.809000015258789,
+  "se": 0.04086794961391272,
+  "n": 1000,
+  "recorded_true_mean_eps001": 6.789999961853027
+ },
+ "Seaquest/expert/eps0.01": {
+  "mean": 6.660999774932861,
+  "se": 0.0422120953998913,
+  "n": 1000,
+  "recorded_true_mean_eps001": 6.789999961853027
+ },
+ "Seaquest/subopt/eps0.0": {
+  "mean": 5.13100004196167,
+  "se": 0.06678547173269832,
+  "n": 1000,
+  "recorded_true_mean_eps001": 5.007999897003174
+ },
+ "Seaquest/subopt/eps0.01": {
+  "mean": 5.091000080108643,
+  "se": 0.0657498443159007,
+  "n": 1000,
+  "recorded_true_mean_eps001": 5.007999897003174
+ }
+}

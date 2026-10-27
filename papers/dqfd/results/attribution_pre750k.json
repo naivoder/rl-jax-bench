@@ -1,0 +1,28 @@
+{
+ "DQfD_k750k_vs_k75k": {
+  "n": 5,
+  "final_mean": 14.042434211465695,
+  "final_se": 1.2490799034442976,
+  "ref_final_mean": 10.723238165863304,
+  "diff": 3.3191960456023906,
+  "diff_se": 0.9553978656894222,
+  "wins": 5,
+  "unfreezes": true,
+  "p_one_sided": 0.012743587007447826,
+  "greedy_mean": 11.059999999999999,
+  "greedy_se": 1.215108591397859,
+  "greedy_minus_demonstrator": -18.117999496459962,
+  "greedy_exceeds_3se": false
+ },
+ "H2b_prime_k750k": {
+  "diff_mean": -15.135565284994266,
+  "diff_se": 1.2490799034442972,
+  "wins": 0,
+  "p_one_sided": 0.9998669478634362
+ },
+ "IMIT_k750k": {
+  "mean": 8.708000087738037,
+  "se": 0.5472422057982717,
+  "k75k_mean": 7.85
+ }
+}
