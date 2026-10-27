@@ -1,0 +1,98 @@
+# sources.yaml — one entry per planned config key (pmbm_tracker)
+# tags: 'paper §X' / 'Table N' / 'Figure N' / 'Appendix X' / 'official code' / 'ASSUMED (reason)'
+# official code = github.com/Agarciafernandez/MTT @ cc5c6df0e9343dc1345d91ed6ab95f01db4d1821 ("PMBM filter/", "PHD filter/")
+# williams code = arXiv 1203.2995 ancillary files (anc/*.m)
+scenario:
+  region:            {value: [[0, 300], [0, 300]], source: "paper §VII"}
+  state_layout:      {value: [px, vx, py, vy], source: "paper §VII"}
+  T:                 {value: 1.0, source: "paper §VII"}
+  F:                 {value: "kron(I2, [[1,T],[0,1]])", source: "paper §VII"}
+  q:                 {value: 0.01, source: "paper §VII; MEASURED from Fig. 3 (q-hat 0.0111/0.0101); official code 0.02 is a 2022 change (87f5776) -> post-paper sensitivity row"}
+  Q:                 {value: "q*kron(I2, [[T^3/3, T^2/2],[T^2/2, T]])", source: "paper §VII"}
+  H:                 {value: "kron(I2, [1, 0])", source: "paper §VII"}
+  R:                 {value: "I2", source: "paper §VII"}
+  p_s:               {value: 0.99, source: "paper §VII"}
+  p_d_fig4:          {value: 0.9, source: "paper §VII / Figure 4"}
+  lambda_c_fig4:     {value: 10, source: "paper §VII text; MEASURED: Fig. 4 vector curves reproduce Table II row (0.9, 10)"}
+  p_d_grid:          {value: [0.95, 0.9, 0.8, 0.7, 0.6], source: "Table II"}
+  lambda_c_grid:     {value: [10, 15, 20], source: "Table II"}
+  clutter_density:   {value: "lambda_c / 90000 uniform on region", source: "paper §VII"}
+  birth_rate:        {value: 0.005, source: "paper §VII"}
+  birth_mean:        {value: [100, 0, 100, 0], source: "paper §VII"}
+  birth_cov:         {value: "diag([150^2, 1, 150^2, 1])", source: "paper §VII"}
+  initial_prior:     {value: "empty at k=0 (Poisson = birth only at k=1)", source: "paper §VII 'no targets at time 0' (official code lambda0=3 -> sensitivity row)"}
+  n_steps:           {value: 81, source: "paper §VII"}
+  n_targets:         {value: 4, source: "paper §VII / Figure 3"}
+  midpoint_step:     {value: 41, source: "paper §VII"}
+  midpoint_mean:     {value: [150, 0, 150, 0], source: "paper §VII"}
+  graded_truth:      {value: "data/fig3_truth.npz (the paper's own Fig. 3 trajectories read from the PDF vector paths)", source: "paper §VII 'the scenario in Figure 3' + Fig. 3 vector data; scripts/extract_paper_figures.py; synthetic draws = labelled spread rows"}
+  midpoint_cov:      {value: "0.1*I4", source: "paper §VII"}
+  birth_steps:       {value: [1, 1, 1, 1], source: "Figure 3 caption"}
+  death_steps:       {value: [41, 82, 82, 82], source: "official code TrajectoryWilliams15.m (alive while k < t_death; Figure 3 'dies at time step 40')"}
+  truth_backward:    {value: "x_{k-1} = F^{-1}(x_k + w)", source: "official code TrajectoryWilliams15.m"}
+  truth_shared:      {value: true, source: "official code PMBMtarget_filter.m (truth drawn once)"}
+  measurement_gen:   {value: "Bernoulli(p_d) detection, z=Hx+v, Poisson clutter uniform", source: "official code CreateMeasurement.m"}
+  n_mc:              {value: 100, source: "paper §VII"}
+pmbm:
+  N_h:                       {value: 200, source: "paper §VII"}
+  k_best_rule:               {value: "ceil(N_h * w_j)", source: "paper §V-C3"}
+  gate:                      {value: 20.0, source: "paper §VII (squared Mahalanobis, strict <, official code)"}
+  poisson_prune:             {value: 1.0e-5, source: "paper §VII"}
+  bernoulli_existence_prune: {value: 1.0e-5, source: "paper §VII"}
+  global_hyp_weight_prune:   {value: 0.0, source: "paper Alg. 1 + Sec. VII (no global-weight threshold; top N_h only); first official release 4950e45 has T_pruning=0. 1.0e-4 is the authors' HEAD value (7f2d1b8, 2019-05-08, post-paper) = labelled sensitivity row --prune-w 1e-4"}
+  merge_duplicate_hyps:      {value: true, source: "official code PoissonMBMtarget_pruning.m"}
+  new_track_moment_match:    {value: true, source: "paper §V-C1"}
+  new_track_gated_only:      {value: true, source: "official code PoissonMBMtarget_update.m"}
+  clutter_only_bernoulli:    {value: "r=0, weight c(z) when no Poisson comp gates z", source: "official code; paper (21)"}
+  estimator1_gamma:          {value: 0.4, source: "paper §VII"}
+  estimator3_threshold:      {value: 0.5, source: "paper §VI-C eq. (50), r >= 0.5"}
+  estimator2_cardinality:    {value: "MBM-only Poisson-binomial mixture", source: "paper §VI-B eq. (48); official code"}
+  association_solver:        {value: "Murty k-best over exact rectangular LAP", source: "paper §V-C3"}
+  dtype:                     {value: float64, source: "ASSUMED (log-weights ~1e-8 scale; oracle parity at 1e-9)"}
+phd:
+  prune:             {value: 1.0e-5, source: "official code GMPHD_filter.m"}
+  merge_maha:        {value: 0.1, source: "official code GMPHD_filter.m"}
+  max_components:    {value: 30, source: "official code GMPHD_filter.m"}
+  estimator:         {value: "round(sum w), greedy max with decrement 1", source: "official code GMPHD_estimation2.m"}
+cphd:
+  prune:             {value: 1.0e-5, source: "official code GMCPHD_filter.m"}
+  merge_maha:        {value: 0.1, source: "official code GMCPHD_filter.m"}
+  max_components:    {value: 30, source: "official code GMCPHD_filter.m"}
+  N_card_max:        {value: 10, source: "official code GMCPHD_filter.m"}
+  estimator:         {value: "MAP cardinality, top-n weights", source: "official code GMCPHD_estimation.m"}
+tomb_momb:
+  estimate_threshold: {value: 0.7, source: "paper §VII (williams code: 0.8 TOMB, MAP-card MOMB; not used)"}
+  lbp_tol:            {value: 1.0e-4, source: "williams code lbp.m"}
+  r_prune:            {value: 1.0e-4, source: "williams code tomb.m/momb.m"}
+  poisson_prune:      {value: 1.0e-4, source: "williams code predict.m/update.m"}
+  gating:             {value: none, source: "williams code (no gate)"}
+metric:
+  name:              {value: OSPA, source: "paper §VII"}
+  p:                 {value: 2, source: "paper §VII"}
+  c:                 {value: 10.0, source: "paper §VII"}
+  base_distance:     {value: "Euclidean on (px, py)", source: "ASSUMED, confirmed by official code ComputeGOSPAerror.m"}
+  per_step:          {value: "sqrt(mean_mc d^2)", source: "Figure 4 axis; official code"}
+  overall:           {value: "sqrt(sum_k sum_mc d^2 / (81*100))", source: "Table II; official code"}
+  extra_gospa_alpha: {value: 2, source: "official code (reported as labelled extra)"}
+sensitivity:
+  S1_lambda0:        {value: 3.0, source: "official code ScenarioWilliams15.m"}
+  S2_q:              {value: 0.02, source: "official code ScenarioWilliams15.m since 87f5776 (2022-07-27) = POST-PAPER; the first release has 0.01"}
+  S3_prune_w:        {value: 1.0e-4, source: "authors' HEAD PoissonMBMtarget_filter.m T_pruning since 7f2d1b8 (2019-05-08) = post-paper sensitivity row"}
+seeds:
+  top_seed:          {value: 18, source: "ASSUMED (logged)"}
+  unit:              {value: mc_run, source: "paper §VII"}
+paper_path_capacities:      # array sizes of the paper path: the paper has N_h = 200 and NO per-track cap; every overflow counter must read 0
+  T_track_slots:     {value: 256, source: "ASSUMED array size: the authors' code reaches 114 simultaneous tracks at (p_d, lambda_c) = (0.6, 20), T = 128 was clean, 256 leaves margin"}
+  H_per_track:       {value: 200, source: "= N_h: paper sets no per-track cap (paper §V-C3, Alg. 1), so the cap cannot bind"}
+  P_poisson_comps:   {value: 8, source: "ASSUMED array size (pois_evict counter must read 0)"}
+  M_meas_per_scan:   {value: 48, source: "ASSUMED array size: P(Poisson(20) + detections > 48) ~ 1e-7 per step (M = 40: 4.2e-4); a dropped measurement is an ERROR (zero-counter rule)"}
+  E_estimate_set:    {value: 16, source: "ASSUMED array size; est_over counter must read 0"}
+baselines_graded:           # declared before the Table II sweep by the source hierarchy (paper, then works it cites, then contemporaneous author code); supersedes an earlier declaration whose 'official code' source is post-paper
+  phd:               {value: "Vo-Ma [38] extraction (w>0.5 reported round(w) times), prune 1e-5, merge U=4, J_max=100", source: "paper Sec. VII cites [38] for the GM-PHD filter (tier 2); constants recalled from [38], NOT verified against the primary text (not checked)"}
+  cphd:              {value: "[39] settings: prune 1e-5, merge U=4, J_max=100, N_card_max 10", source: "paper Sec. VII cites [39] (tier 2); same caveat"}
+  tomb_momb:         {value: "Williams official code, untuned settings (no gate, r-prune 1e-4), estimate rule r > 0.7", source: "paper Sec. VII text for the rule (tier 1); Williams code for the rest; the ancillary main.m MOMB uses MAP cardinality (text/code conflict) -> MAP rows labelled"}
+  sensitivity_rows:  {value: "PHD/CPHD post-paper official defaults (GMPHD_estimation2, merge 0.1, cap 30, commit c68d5d7 2020-02-28); Vo-Ma at merge 0.1/cap 30; TOMB/MOMB MAP-cardinality rule; PMBM prune_w 1e-4; filter-only q 0.02 / lambda0 3", source: "labelled non-paper rows"}
+truth_draws:
+  fig4_spread_truth_seeds: {value: "1000..1009 with config_id 100..109 (truth root separate from the measurement root)", source: "ASSUMED, pre-declared; labelled spread rows; seed 18 / config_id 3 stays the small-scale set"}
+confirmatory:
+  set:               {value: "Fig. 3 truth, measurement root PRNGKey(4242), config_id 3, runs 0..99", source: "pre-declared (fresh randomness; earlier probes used root 18 / truth roots 1000-1009)"}

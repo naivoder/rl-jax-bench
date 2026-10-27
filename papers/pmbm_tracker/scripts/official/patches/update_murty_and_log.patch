@@ -1,0 +1,39 @@
+--- "a/PMBM filter/PoissonMBMtarget_update.m"
++++ "b/PMBM filter/PoissonMBMtarget_update.m"
+@@ -1,4 +1,6 @@
+ function filter_upd=PoissonMBMtarget_update(filter_pred,z,H,R,p_d,k,gating_threshold,intensity_clutter,Nhyp_max)
++global PMBM_ORACLE_MURTY %ORACLE-WORKCOPY EDIT 2: logging hook (cell array appended to when it is a cell); no effect on filter results
++
+ 
+ %Author: Angel F. Garcia-Fernandez
+ 
+@@ -275,9 +277,8 @@
+             %We run MURTY algorithm (making use of Hungarian algorithm to
+             %solve the assginment problem). We call the function by using transpose and negative value
+             %kBest2DAssign by David F. Crouse
+-            [opt_indices,~,nlcost]=kBest2DAssign(-cost_matrix_log_trimmed',kbest);
+-            opt_indices=opt_indices';
+-            nlcost=nlcost';    
++            %ORACLE-WORKCOPY EDIT 1: Option 1 (repo's murty.m) instead of Option 2 (kBest2DAssign needs TCL classes absent from repo)
++            [opt_indices,nlcost]=murty(-cost_matrix_log_trimmed',kbest);
+             
+             
+             %Optimal indices without removing Inf rows
+@@ -293,6 +294,17 @@
+             globWeightLog=[globWeightLog,-nlcost+sum(cost_misdetection)+cost_fixed+globWeightLog_pred];
+         end
+         
++        %ORACLE-WORKCOPY EDIT 2 (cont.): record Murty inputs/outputs for this parent hypothesis
++        if iscell(PMBM_ORACLE_MURTY)
++            nout=size(opt_indices_trans,1);
++            PMBM_ORACLE_MURTY{end+1}=struct('p',p,'kbest',ceil(Nhyp_max*filter_pred.globHypWeight(p)),...
++                'cost_trimmed',cost_matrix_log_trimmed,...
++                'indices_stay_row',indices_stay_row,'indices_stay_column',indices_stay_column,...
++                'fixed_row',fixed_indices_stay_row,'fixed_column',fixed_indices_stay_column,...
++                'cost_fixed',cost_fixed,'cost_misdetection_sum',sum(cost_misdetection),...
++                'globWeightLog_pred',globWeightLog_pred,'assign_meas_to_track',opt_indices_trans,...
++                'glob_weight_log_children',globWeightLog(end-nout+1:end));
++        end
+         %We write the corresponding global hypothesis
+         globHypProv=zeros(size(opt_indices_trans,1),Nprev_tracks+Nnew_tracks);
+         

@@ -1,0 +1,11 @@
+--- a/Assignment/murty.m
++++ b/Assignment/murty.m
+@@ -165,7 +165,7 @@
+             
+             %Calculation of the corresponding cost matrix
+             C_prov=C;
+-            C_prov(Excluded_rows_i++size(C,1)*(Excluded_columns_i-1))=Inf;
++            C_prov(Excluded_rows_i+size(C,1)*(Excluded_columns_i-1))=Inf;
+             ind_row=true(n,1);
+             
+             

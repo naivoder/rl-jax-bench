@@ -1,0 +1,99 @@
+{
+ "meas_seed": 3003,
+ "runs": 100,
+ "truth_file": "data/fig3_truth.npz",
+ "truth_file_sha256": "8409d4cbb18ce79014116888210428f7c0a7d7a0d89606b4562de150ceb92c5b",
+ "cells": {
+  "0.95_10": {
+   "config_id": 0,
+   "sha256_z_zvalid": "72de0705fef87456cd43235c434604f4dc92537f37d4f8dc64f414f8ec9efce8",
+   "max_meas_per_step": 29,
+   "n_dropped": 0
+  },
+  "0.95_15": {
+   "config_id": 1,
+   "sha256_z_zvalid": "75ac95c78dcde27c2d6f6d368c814be56d6731315a838817d8784811c84ed514",
+   "max_meas_per_step": 35,
+   "n_dropped": 0
+  },
+  "0.95_20": {
+   "config_id": 2,
+   "sha256_z_zvalid": "22f970593238ff051c7b25fa38753664fe356a47707adec505ee21aa6689dbf9",
+   "max_meas_per_step": 41,
+   "n_dropped": 0
+  },
+  "0.9_10": {
+   "config_id": 3,
+   "sha256_z_zvalid": "f2c6e6209d3fc93fc6bec5ba0c014e2c2003c34dbf43d4fa3bd7849b86d811ff",
+   "max_meas_per_step": 29,
+   "n_dropped": 0
+  },
+  "0.9_15": {
+   "config_id": 4,
+   "sha256_z_zvalid": "92cf4c9f177ed806f4ccb071b6b0275b7232c616ca978905f779b0710f2f0f55",
+   "max_meas_per_step": 36,
+   "n_dropped": 0
+  },
+  "0.9_20": {
+   "config_id": 5,
+   "sha256_z_zvalid": "127e1ea55314eba2e64b20099fcfb927a2a8b491d44d32aa0d1a61a2e590ba9c",
+   "max_meas_per_step": 42,
+   "n_dropped": 0
+  },
+  "0.8_10": {
+   "config_id": 6,
+   "sha256_z_zvalid": "983b8bd3910cb20cf39507851097313164ca2d7a21eb93d4b580f16d84a18db7",
+   "max_meas_per_step": 27,
+   "n_dropped": 0
+  },
+  "0.8_15": {
+   "config_id": 7,
+   "sha256_z_zvalid": "0d24393bd7d9707a0cdac4eda48458c9d9810d8e1d729ac5ac244518763acc85",
+   "max_meas_per_step": 33,
+   "n_dropped": 0
+  },
+  "0.8_20": {
+   "config_id": 8,
+   "sha256_z_zvalid": "215f75e3c003cf090a65ada2129f9787206762e0504487ec43ee0431daece923",
+   "max_meas_per_step": 42,
+   "n_dropped": 0
+  },
+  "0.7_10": {
+   "config_id": 9,
+   "sha256_z_zvalid": "eea733e96afe38d60b95f1607de9b976268a4620f6c5384c7a8b0d0ba26d8c2b",
+   "max_meas_per_step": 28,
+   "n_dropped": 0
+  },
+  "0.7_15": {
+   "config_id": 10,
+   "sha256_z_zvalid": "ed977c232638b87a17303d3e252ba6f08dde6bc0749c2b604c9b836cb4e26b0e",
+   "max_meas_per_step": 35,
+   "n_dropped": 0
+  },
+  "0.7_20": {
+   "config_id": 11,
+   "sha256_z_zvalid": "0e5e66786586ed3ac5f4120ee1ad5ff2861da7873265cb352c4832089bf929d8",
+   "max_meas_per_step": 39,
+   "n_dropped": 0
+  },
+  "0.6_10": {
+   "config_id": 12,
+   "sha256_z_zvalid": "d37b7c9cf1be46daf12e4cf25a48b7f1b01d585478518114657b2e833567fe32",
+   "max_meas_per_step": 25,
+   "n_dropped": 0
+  },
+  "0.6_15": {
+   "config_id": 13,
+   "sha256_z_zvalid": "a0330d6d0fccab9af87d37800413daea8f71876e6c34372e260ebac093d13b73",
+   "max_meas_per_step": 35,
+   "n_dropped": 0
+  },
+  "0.6_20": {
+   "config_id": 14,
+   "sha256_z_zvalid": "25d0ad7e1d70c8ce44613679b6d53a35c5e0c2b802781e05255c2174ecc9db75",
+   "max_meas_per_step": 41,
+   "n_dropped": 0
+  }
+ },
+ "truth_sha256_arrays": "6ca04d2347233c5ce76a88e983afdbb9b5a46751a49f5d1e56a9d1e4af6643e1"
+}
