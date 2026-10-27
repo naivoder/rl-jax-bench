@@ -1,0 +1,26 @@
+{
+ "game": "Breakout",
+ "per_call": {
+  "update": {
+   "flops": 120199920.0,
+   "bytes": 49511696.0
+  },
+  "pi_e_forward": {
+   "flops": 528783.0,
+   "bytes": 926068.0
+  },
+  "guide_forward": {
+   "flops": 514970.0,
+   "bytes": 857785.0
+  }
+ },
+ "total_flops_at_1M_steps": {
+  "PDD": 120127703400000.0,
+  "JSRL": 120777185606620.8,
+  "JSRL_Random": 120642673400000.0,
+  "DQfD": 129743697000000.0,
+  "BCinit_FT": 129142697400000.0,
+  "IMIT": 9014994000000.0
+ },
+ "note": "evaluation episodes (64 per point x 100 points, identical across arms) excluded from the per-method totals except JSRL's threshold evaluation which is the arm-specific part; the update program is the same for every arm (arms differ in traced hyper-parameters), so the update FLOPs per call are equal"
+}

@@ -1,0 +1,61 @@
+# LEARNER AMENDMENT (made during the recheck): identical to default.yaml except optim.lr and optim.target_update_period, set to the
+# MinAtar reference DQN's values (Young & Tian 2019) for ALL arms (learner parity).  default.yaml (the inherited DQfD-Atari values) reproduces
+# the original runs.  Use: python -m src.train --config src/configs/learner_minatar.yaml ...
+# Config for the JSRL reduced-scale (MinAtar) reproduction.
+# Tags: paper = from the JSRL paper; ASSUMED = our choice where the paper is silent; inherited = the value of the earlier DQfD reproduction this learner comes from.
+env:
+  gamma: 0.99                 # ASSUMED, inherited (DQfD paper); the JSRL paper gives no discount for a DQN
+network:
+  conv_channels: 16           # ASSUMED, inherited
+  dueling_stream_hidden: 64   # ASSUMED, inherited
+optim:
+  lr: 2.5e-4                  # AMENDED: MinAtar reference DQN (Young & Tian 2019); default.yaml has the inherited 1e-4
+  adam_eps: 1.5e-4            # ASSUMED, inherited
+  grad_clip_global_norm: 10.0 # ASSUMED, inherited
+  batch_size: 32              # ASSUMED, inherited
+  target_update_period: 1000  # AMENDED: MinAtar reference DQN; default.yaml has the inherited DQfD-Atari 10000
+dqfd:                         # comparator arm, the earlier DQfD reproduction unchanged
+  pretrain_steps: 75000       # ASSUMED, inherited primary grid
+  lambda1_nstep: 1.0
+  lambda2_margin: 1.0
+  lambda3_l2: 1.0e-5
+  margin: 0.8
+  n_step: 10
+  nstep_bootstrap: double_q
+  eps_greedy: 0.01
+per:
+  alpha: 0.4
+  beta0: 0.6
+  eps_agent: 0.001
+  eps_demo: 1.0
+  agent_capacity: 100000      # ASSUMED, inherited
+  block_size: 256
+pdd_dqn:
+  eps_end: 0.01
+  eps_decay_steps: 100000     # ASSUMED, inherited; counted in GLOBAL env steps incl. guide steps
+  learning_starts: 5000       # ASSUMED, inherited
+  l2: 0.0
+bcinit:
+  finetune_eps: 0.01
+  learning_starts: 5000
+imitation:
+  steps: 75000
+  eval_eps: 0.01
+ppo:                          # only the guide network shape (guide = the earlier DQfD reproduction's PPO snapshot)
+  hidden: 128
+jsrl:
+  n_stages: 10                # ASSUMED (Table 11: n = 10)
+  ma_horizon: 5               # paper App. A.2.1/A.4 (D4RL: 5)
+  tolerance: 0.05             # ASSUMED
+  ma_window_reset_per_stage: true   # ASSUMED (false = rolling window)
+  n_thr_episodes: 16          # ASSUMED
+  n_eval_alone: 32            # ASSUMED
+  n_eval_greedy: 16           # ASSUMED (descriptor)
+  eval_eps: 0.01              # ASSUMED
+  guide_eps: 0.01             # ASSUMED
+  guide_rollouts: 1000        # ASSUMED
+run:
+  interaction_steps: 1000000  # paper Sec. 5.1 (1M online steps); counted incl. guide steps
+  n_eval_points: 100          # ASSUMED (chunk = steps / 100)
+  seeds: 10                   # ASSUMED
+  checkpoint_every: 250000    # ASSUMED, inherited

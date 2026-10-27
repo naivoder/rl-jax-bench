@@ -1,0 +1,1 @@
+{"stock_DQN": {"n": 400, "frac_action_differs_from_greedy_at_eps1": 0.5525}, "jsrl_DQN": {"n": 400, "frac_action_differs_from_greedy_at_eps1": 0.0025}}

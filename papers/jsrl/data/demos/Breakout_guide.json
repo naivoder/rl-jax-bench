@@ -1,0 +1,33 @@
+{
+ "game": "Breakout",
+ "max_steps": 1000,
+ "asterix_spawn_repair": false,
+ "n_rollouts": 1000,
+ "true_mean": 6.783999919891357,
+ "true_se": 0.029260900186064247,
+ "true_sd": 0.9253109097480774,
+ "mean_len": 80.546,
+ "len_sd": 10.38796389066663,
+ "cap_fraction": 0.0,
+ "stage_list": [
+  81,
+  73,
+  65,
+  57,
+  49,
+  41,
+  32,
+  24,
+  16,
+  8,
+  0
+ ],
+ "key": "fold_in(fold_in(root,3),game_idx)",
+ "guide_sha256": "0a1dcb444f83c649ccb957319a06e531ad2c3d362ebbecc62a77c0bc9b81e6e5",
+ "iter22_true_mean": 6.730000019073486,
+ "iter22_true_se": 0.03423845942852793,
+ "secs": 10.077418565750122,
+ "demo_file": "Breakout_subopt.npz",
+ "demo_sha256": "5ebeb2e1f14560b42c8021b5c0e3c06325cf5ed1c44d1b45d06def7caf215935",
+ "demo_meta": null
+}

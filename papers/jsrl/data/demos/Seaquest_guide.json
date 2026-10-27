@@ -1,0 +1,33 @@
+{
+ "game": "Seaquest",
+ "max_steps": 1000,
+ "asterix_spawn_repair": false,
+ "n_rollouts": 1000,
+ "true_mean": 5.14300012588501,
+ "true_se": 0.06683575237452986,
+ "true_sd": 2.113532066345215,
+ "mean_len": 178.975,
+ "len_sd": 43.03054732399999,
+ "cap_fraction": 0.0,
+ "stage_list": [
+  179,
+  161,
+  143,
+  125,
+  107,
+  90,
+  72,
+  54,
+  36,
+  18,
+  0
+ ],
+ "key": "fold_in(fold_in(root,3),game_idx)",
+ "guide_sha256": "dbe0823f109651e8d4646fe61d4fdf20e58844ec030c46c6817ac35d93b2f34d",
+ "iter22_true_mean": 5.007999897003174,
+ "iter22_true_se": 0.06959007451496216,
+ "secs": 21.37147879600525,
+ "demo_file": "Seaquest_subopt.npz",
+ "demo_sha256": "1c2ee26dab392b7201cb97eefddc767070ebbab167ce0e753d189edfe1c15394",
+ "demo_meta": null
+}

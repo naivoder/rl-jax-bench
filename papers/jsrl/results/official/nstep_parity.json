@@ -1,0 +1,9 @@
+{
+ "n_compared": 2991,
+ "max_abs_G": 9.5367431640625e-07,
+ "max_abs_coef": 0.0,
+ "last_obs_mismatch": 0,
+ "n_term": 102,
+ "n_trunc": 56,
+ "n_tail_not_sampleable_in_ours": 9
+}

@@ -1,0 +1,40 @@
+{
+ "Small-1": {
+  "ok": true,
+  "arms_complete": true,
+  "finite": true,
+  "devices": "[CudaDevice(id=0)]",
+  "n_seeds": 10
+ },
+ "Small-2": {
+  "ok": true,
+  "imit_eq_bcinit": true,
+  "imit_R0": 6.634375,
+  "bcinit_R0": 6.634375,
+  "dqfd_R0": 6.640625,
+  "mu_g": 6.783999919891357
+ },
+ "Small-3": {
+  "ok": true,
+  "combined_stage0_thr_mean": 6.65625,
+  "first_chunk_guide_share": 0.9713,
+  "guide_share_run": {
+   "JSRL": 0.3326695,
+   "JSRL-Random": 0.4592005,
+   "PDD": 0.0
+  },
+  "seeds_advanced": 10
+ },
+ "Small-4": {
+  "ok": true,
+  "pdd_final_gt_R0_seeds": 10
+ },
+ "Small-5": {
+  "ok": true,
+  "steps_jsrl_to_half_mu": 58000,
+  "steps_pdd_to_half_mu": 18000,
+  "ratio": 3.2222222222222223,
+  "paper_ratio": 0.39
+ },
+ "ALL": true
+}

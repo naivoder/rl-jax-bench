@@ -1,0 +1,33 @@
+{
+ "game": "SpaceInvaders",
+ "max_steps": 10000,
+ "asterix_spawn_repair": false,
+ "n_rollouts": 1000,
+ "true_mean": 454.0669860839844,
+ "true_se": 10.678363530435563,
+ "true_sd": 337.67950439453125,
+ "mean_len": 2601.08,
+ "len_sd": 1893.5053747492252,
+ "cap_fraction": 0.008,
+ "stage_list": [
+  2601,
+  2341,
+  2081,
+  1821,
+  1561,
+  1301,
+  1040,
+  780,
+  520,
+  260,
+  0
+ ],
+ "key": "fold_in(fold_in(root,3),game_idx)",
+ "guide_sha256": "6bf68240415a57161e18fa528e381835f7a48c8a153351748680fde983f92126",
+ "iter22_true_mean": 432.1189880371094,
+ "iter22_true_se": 10.764906369098563,
+ "secs": 12.973405122756958,
+ "demo_file": "SpaceInvaders_subopt.npz",
+ "demo_sha256": "36b08aeb93d0b730f984162c27c8f93f7a643389f11d0f90b1c48a63c9b59394",
+ "demo_meta": null
+}

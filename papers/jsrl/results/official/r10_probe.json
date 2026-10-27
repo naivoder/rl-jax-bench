@@ -1,0 +1,81 @@
+{
+ "n_train_calls": 1400,
+ "n_user_eval_calls": 1219,
+ "train_training_flag_values": [
+  false
+ ],
+ "user_eval_training_flag_values": [
+  false
+ ],
+ "user_eval_jsrl_evaluation_values": [
+  true
+ ],
+ "user_eval_guide_used_fraction": 0.04675963904840033,
+ "user_eval_first_30_timesteps": [
+  49,
+  50,
+  51,
+  52,
+  53,
+  54,
+  55,
+  56,
+  57,
+  58,
+  59,
+  60,
+  61,
+  62,
+  63,
+  64,
+  65,
+  66,
+  67,
+  68,
+  69,
+  70,
+  71,
+  72,
+  73,
+  74,
+  75,
+  76,
+  77,
+  78
+ ],
+ "user_eval_first_30_guide_used": [
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false
+ ],
+ "horizon_during_eval": [
+  60
+ ]
+}

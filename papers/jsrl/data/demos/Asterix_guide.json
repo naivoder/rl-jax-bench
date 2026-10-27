@@ -1,0 +1,41 @@
+{
+ "game": "Asterix",
+ "max_steps": 1000,
+ "asterix_spawn_repair": true,
+ "n_rollouts": 1000,
+ "true_mean": 28.308000564575195,
+ "true_se": 0.5573597008500581,
+ "true_sd": 17.625261306762695,
+ "mean_len": 583.372,
+ "len_sd": 261.3083880966887,
+ "cap_fraction": 0.005,
+ "stage_list": [
+  583,
+  525,
+  466,
+  408,
+  350,
+  292,
+  233,
+  175,
+  117,
+  58,
+  0
+ ],
+ "key": "fold_in(fold_in(root,3),game_idx)",
+ "guide_sha256": "2f0205042fa03ac142408bdfa1bb89a8d0c40f5805882d1eb558c01ccbdecb6e",
+ "iter22_true_mean": 29.17799949645996,
+ "iter22_true_se": 0.566502650128253,
+ "secs": 151.95620441436768,
+ "demo_file": "Asterix_subopt_repaired.npz",
+ "demo_sha256": "7bdd7bf6a04a4ceb3920a2a01d0788ce6f17df661a4a7eb42332a1e739c46723",
+ "demo_meta": {
+  "n_transitions": 18155,
+  "n_episodes": 33,
+  "cap_fraction": 0.0,
+  "best": 66.0,
+  "worst": 1.0,
+  "mean": 25.696969696969695
+ },
+ "old_demo_sha256": "b9ed3fa24dcabe2a35f055c1b25b18253f3305e3d550803d2207a51be6abc9cc"
+}
